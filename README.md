@@ -29,8 +29,47 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## CI/CD Setup for Google Cloud Run
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This repository is configured with a GitHub Actions workflow to automatically build and deploy the Next.js application to Google Cloud Run.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Prerequisites
+
+1.  **Google Cloud Platform (GCP) Project**:
+    -   Ensure you have a GCP project.
+    -   Enable the **Cloud Run API**.
+
+2.  **Service Account**:
+    -   Create a Service Account in your GCP project.
+    -   Grant the following roles to the Service Account:
+        -   **Cloud Run Developer**: To deploy services.
+        -   **Service Account User**: To act as the service account.
+    -   Create and download a JSON key key for this Service Account.
+
+3.  **GitHub Packages (ghcr.io)**:
+    -   The workflow pushes the Docker image to GitHub Container Registry.
+    -   **Important**: Ensure your GitHub Package visibility is set to **Public** so that Cloud Run can pull the image without additional authentication configuration. Alternatively, you can configure Cloud Run with image pull secrets for private packages.
+
+### GitHub Secrets Configuration
+
+Go to your repository's **Settings** > **Secrets and variables** > **Actions** and add the following secrets:
+
+-   `GCP_PROJECT_ID`: Your Google Cloud Project ID (e.g., `Hashimoto620`).
+-   `GCP_SA_KEY`: The content of the JSON key file you downloaded for the Service Account.
+
+### Database Setup (Supabase / PostgreSQL)
+
+This setup assumes you are using a PostgreSQL-compatible database (e.g., Supabase Free Tier).
+
+1.  Obtain your `DATABASE_URL` from your provider (e.g., Supabase).
+2.  Add the `DATABASE_URL` environment variable to your Cloud Run service:
+    -   You can do this via the Google Cloud Console UI when editing the service.
+    -   Or add it to the `env_vars` section in `.github/workflows/deploy.yml` (not recommended for sensitive values).
+    -   **Best Practice**: Store `DATABASE_URL` in Google Secret Manager and reference it in Cloud Run.
+
+### Usage
+
+Every push to the `main` branch will trigger the workflow:
+1.  Build the Docker image.
+2.  Push the image to `ghcr.io/<your-username>/<repo-name>`.
+3.  Deploy the new image to Cloud Run service `ai-tool-navigator`.

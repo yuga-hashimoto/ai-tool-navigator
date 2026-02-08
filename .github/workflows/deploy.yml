@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  PROJECT_ID: project-ad4ba807-fc4c-4914-b2e
   SERVICE_NAME: ai-tool-navigator
   REGION: us-central1
   GAR_LOCATION: us-central1

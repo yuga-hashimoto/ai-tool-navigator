@@ -1,33 +1,41 @@
 ---
-title: "Llama 5 (Project Avocado)"
+title: "Meta Avocado (Llama 5 / 4.5?)"
 slug: "llama-5-avocado"
 category: "Upcoming LLM"
-description: "Meta's next-generation open-weights model, codenamed Avocado. Expected Q1 2026."
-rating: 4.5
+description: "Meta's next-generation model, codenamed Avocado. Text/Code specialist expected Q1 2026 alongside 'Mango'."
+rating: 4.7
 pros:
-  - "Open Weights (expected)"
-  - "400B+ Parameters for massive reasoning"
-  - "Expected to rival GPT-5 and Gemini 3 Ultra"
+  - "Rumored massive reasoning upgrade"
+  - "Specialized Text/Code architecture"
+  - "Companion 'Mango' model for Image/Video"
 cons:
-  - "Currently unreleased (Q1 2026)"
-  - "High VRAM requirements for local inference"
+  - "Release delayed to Q1 2026"
+  - "Rumors of potential closed-source pivot"
 affiliate_link: "https://llama.meta.com/"
 ---
 
-## What is Llama 5 (Project Avocado)?
+## What is Meta Avocado?
 
-Llama 5, internally codenamed **"Avocado"**, is Meta's highly anticipated successor to the Llama 3 series. With an expected release in **Q1 2026**, it promises to redefine the landscape of open-source AI.
+Meta's next flagship AI project, internally codenamed **"Avocado"**, is the highly anticipated successor to the Llama 3 series. Originally expected earlier, credible leaks and reports now point to a **Q1 2026 (Jan-March)** release.
 
-### Key Features (Expected)
+### Llama 5 or Something New?
 
-*   **Massive Scale:** Rumored to exceed 400B parameters, pushing the boundaries of what open models can achieve.
-*   **Multimodal Native:** Built from the ground up to understand text, images, and possibly video natively.
-*   **Enhanced Reasoning:** Significant improvements in math, coding, and complex logic, aiming to match or beat proprietary models like GPT-5.3 Codex.
+While often referred to as **Llama 5** or **Llama 4.5**, recent rumors suggest a potential branding shift. Some industry insiders speculate that Avocado might mark a departure from the purely open-weights tradition of the Llama series, potentially offering a closed-source frontier model to directly compete with GPT-5 and Gemini 3 Ultra.
 
-### Why the Hype?
+### The "Avocado" & "Mango" Duo
 
-As an open-weights model, Llama 5 (Avocado) represents the democratization of state-of-the-art AI. Developers and researchers worldwide are eagerly awaiting its release to build custom applications without relying on closed APIs.
+Unlike previous generalist models, Meta appears to be splitting capabilities:
+*   **Avocado:** A powerhouse specialized in **Text, Code, and Reasoning**.
+*   **Mango:** A companion model built for **High-Fidelity Image and Video Generation**.
 
-### Release Date
+### Key Features (Rumored)
 
-Meta has hinted at a **Q1 2026** launch window. Stay tuned for updates as we track the official announcement.
+*   **Reasoning First:** Avocado is reportedly designed to excel in complex logic, math, and coding tasks, addressing the "reasoning gap" in current open models.
+*   **Context Window:** Expected to feature a massive context window for processing entire codebases or books.
+*   **Architecture:** Likely a dense transformer or MoE (Mixture of Experts) optimized for inference efficiency.
+
+### Release Date & Availability
+
+Meta has faced delays due to internal restructuring and the sheer complexity of training next-gen models. The current consensus among analysts is a **Q1 2026** launch. Whether it will be released as open-weights (like Llama 3) or an API-first product remains the biggest question in the AI community.
+
+*Last Updated: February 8, 2026*

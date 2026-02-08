@@ -9,6 +9,8 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE_NAME: ai-tool-navigator
   REGION: us-central1
+  GAR_LOCATION: us-central1
+  GAR_REPO: app-repo
 
 jobs:
   deploy:
@@ -16,7 +18,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-      id-token: write # Required for authenticating with Google Cloud
+      id-token: write
 
     steps:
       - name: Checkout code
@@ -28,21 +30,26 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Downcase Repo Name
-        run: echo "REPO_LOWER=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+      - name: Google Auth
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: 'projects/68731789052/locations/global/workloadIdentityPools/gh-actions-pool/providers/gh-actions-provider'
+          service_account: 'github-actions-sa@project-ad4ba807-fc4c-4914-b2e.iam.gserviceaccount.com'
 
-      - name: Login to GitHub Container Registry
+      - name: Login to Artifact Registry
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: us-central1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ env.REPO_LOWER }}
+          images: us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO }}/${{ env.SERVICE_NAME }}
           tags: |
             type=sha
             type=ref,event=branch
@@ -58,19 +65,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Google Auth
-        id: auth
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: 'projects/68731789052/locations/global/workloadIdentityPools/gh-actions-pool/providers/gh-actions-provider'
-          service_account: 'github-actions-sa@project-ad4ba807-fc4c-4914-b2e.iam.gserviceaccount.com'
-
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: ${{ env.SERVICE_NAME }}
           region: ${{ env.REGION }}
-          image: ghcr.io/${{ env.REPO_LOWER }}:latest
+          image: us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO }}/${{ env.SERVICE_NAME }}:latest
           flags: '--allow-unauthenticated'
           env_vars: |
             NODE_ENV=production

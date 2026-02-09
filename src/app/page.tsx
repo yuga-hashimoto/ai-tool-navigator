@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function Home() {
   const tools = getAllTools();
-  const editorsChoiceSlugs = ['speechify', 'mixo'];
+  const editorsChoiceSlugs = ['speechify', 'mixo', 'copy-ai', 'basedlabs', 'homesage'];
   const editorsChoiceTools = tools.filter(tool => editorsChoiceSlugs.includes(tool.slug));
 
   return (

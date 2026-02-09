@@ -1,12 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { Link, usePathname } from "@/i18n/routing";
 import { useCompare } from "@/context/CompareContext";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export function CompareBar() {
   const { selectedSlugs, clearSelection } = useCompare();
   const pathname = usePathname();
+  const t = useTranslations('CompareBar');
 
   if (selectedSlugs.length === 0) {
     return null;
@@ -19,13 +20,13 @@ export function CompareBar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-8">
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-            {selectedSlugs.length} tool{selectedSlugs.length !== 1 ? "s" : ""} selected
+            {selectedSlugs.length} {selectedSlugs.length !== 1 ? t('tools') : t('tool')} {t('selected')}
           </span>
           <button
             onClick={clearSelection}
             className="text-sm text-zinc-500 hover:text-zinc-700 underline dark:text-zinc-400 dark:hover:text-zinc-300"
           >
-            Clear all
+            {t('clearAll')}
           </button>
         </div>
         <div className="flex items-center gap-4">
@@ -34,7 +35,7 @@ export function CompareBar() {
               href="/compare"
               className="rounded-full bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors"
             >
-              Compare Now
+              {t('compareNow')}
             </Link>
           )}
         </div>

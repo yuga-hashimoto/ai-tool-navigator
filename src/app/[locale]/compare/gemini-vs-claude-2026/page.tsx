@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import AffiliateSection from '../../../components/AffiliateSection';
+import AffiliateSection from '@/components/AffiliateSection';
 
 export const metadata: Metadata = {
   title: 'Gemini 3 Pro vs. Claude 3.7 Sonnet: The 2026 Coding Showdown | AI Tool Navigator',
@@ -164,19 +164,19 @@ export default function ComparePage() {
                 </div>
             </div>
         </div>
-      </div>
 
-      <AffiliateSection />
+        <AffiliateSection />
 
-      <div className="mt-12 text-center max-w-4xl mx-auto">
+        <div className="mt-12 text-center max-w-4xl mx-auto">
              <Link 
                 href="/tools" 
                 className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10 transition-all duration-200"
             >
                 Explore More AI Tools
             </Link>
-      </div>
+        </div>
 
+      </div>
     </div>
   );
 }

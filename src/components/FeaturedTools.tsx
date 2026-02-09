@@ -1,8 +1,9 @@
 "use client";
 
 import { ToolMetadata } from '@/lib/tools';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { Star, Sparkles, CheckCircle2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface FeaturedToolsProps {
   tools: ToolMetadata[];
@@ -10,6 +11,7 @@ interface FeaturedToolsProps {
 
 export function FeaturedTools({ tools }: FeaturedToolsProps) {
   const promotedTools = tools.filter((tool) => tool.promoted);
+  const t = useTranslations('FeaturedTools');
 
   if (promotedTools.length === 0) {
     return null;
@@ -20,7 +22,7 @@ export function FeaturedTools({ tools }: FeaturedToolsProps) {
       <div className="flex items-center gap-2 mb-6">
         <Sparkles className="h-6 w-6 text-amber-500 fill-amber-500" />
         <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
-          Featured Tools
+          {t('title')}
         </h2>
       </div>
 
@@ -37,7 +39,7 @@ export function FeaturedTools({ tools }: FeaturedToolsProps) {
               {/* Promoted Badge */}
               <div className="absolute top-6 right-6 z-10">
                 <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 uppercase tracking-wide">
-                  Promoted
+                  {t('promoted')}
                 </span>
               </div>
 
@@ -74,7 +76,7 @@ export function FeaturedTools({ tools }: FeaturedToolsProps) {
                     <span className="text-zinc-500 text-sm">/ 5.0</span>
                  </div>
                  <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                    Check it out &rarr;
+                    {t('checkItOut')} &rarr;
                  </span>
               </div>
             </div>

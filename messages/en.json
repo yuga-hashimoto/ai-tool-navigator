@@ -1,0 +1,56 @@
+{
+  "HomePage": {
+    "title": "Premium AI Tool Comparison",
+    "description": "Find the perfect AI tool for your needs. Unbiased reviews, pros & cons, and detailed comparisons.",
+    "featuredComparison": "Featured Comparison",
+    "editorsChoice": "Editor's Choice",
+    "noTools": "No tools found matching your criteria."
+  },
+  "Footer": {
+    "sponsorship": "Sponsorship",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "rights": "AI Tool Navigator. All rights reserved.",
+    "disclosure": "Affiliate Disclosure: We may earn a commission when you click on links and make a purchase. This helps support our independent reviews."
+  },
+  "ToolGrid": {
+      "searchPlaceholder": "Search tools...",
+      "all": "All"
+  },
+  "ToolCard": {
+      "compare": "Compare",
+      "selected": "Selected",
+      "readMore": "Read more",
+      "featured": "Featured"
+  },
+  "FeaturedTools": {
+      "title": "Featured Tools",
+      "promoted": "Promoted",
+      "checkItOut": "Check it out"
+  },
+  "ToolPage": {
+    "backToTools": "Back to Tools",
+    "lastUpdated": "Last updated",
+    "tryThisTool": "Try this Tool",
+    "pros": "Pros",
+    "cons": "Cons",
+    "relatedTools": "Related Tools",
+    "toolNotFound": "Tool Not Found"
+  },
+  "CompareBar": {
+      "selected": "selected",
+      "tools": "tools",
+      "tool": "tool",
+      "clearAll": "Clear all",
+      "compareNow": "Compare Now"
+  },
+  "NewsletterPopup": {
+      "title": "Get Weekly AI Tools",
+      "subtitle": "Join 10,000+ builders staying ahead.",
+      "placeholder": "Enter your email",
+      "button": "Subscribe Free",
+      "spam": "No spam. Unsubscribe anytime.",
+      "successTitle": "You're Subscribed!",
+      "successSubtitle": "Thanks for joining. Watch your inbox for AI updates."
+  }
+}

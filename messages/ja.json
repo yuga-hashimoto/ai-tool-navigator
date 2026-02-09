@@ -1,0 +1,56 @@
+{
+  "HomePage": {
+    "title": "プレミアムAIツール比較",
+    "description": "あなたのニーズに最適なAIツールを見つけましょう。公平なレビュー、長所と短所、そして詳細な比較を提供します。",
+    "featuredComparison": "注目の比較",
+    "editorsChoice": "編集部のおすすめ",
+    "noTools": "条件に一致するツールは見つかりませんでした。"
+  },
+  "Footer": {
+    "sponsorship": "スポンサーシップ",
+    "privacy": "プライバシー",
+    "terms": "利用規約",
+    "rights": "AI Tool Navigator. All rights reserved.",
+    "disclosure": "アフィリエイト開示: リンクをクリックして購入すると、コミッションが発生する場合があります。これは私たちの独立したレビューをサポートするのに役立ちます。"
+  },
+  "ToolGrid": {
+      "searchPlaceholder": "ツールを検索...",
+      "all": "すべて"
+  },
+  "ToolCard": {
+      "compare": "比較",
+      "selected": "選択済み",
+      "readMore": "続きを読む",
+      "featured": "注目"
+  },
+  "FeaturedTools": {
+      "title": "注目のツール",
+      "promoted": "プロモーション",
+      "checkItOut": "チェックする"
+  },
+  "ToolPage": {
+    "backToTools": "ツール一覧に戻る",
+    "lastUpdated": "最終更新日",
+    "tryThisTool": "ツールを試す",
+    "pros": "長所",
+    "cons": "短所",
+    "relatedTools": "関連ツール",
+    "toolNotFound": "ツールが見つかりません"
+  },
+  "CompareBar": {
+      "selected": "選択済み",
+      "tools": "ツール",
+      "tool": "ツール",
+      "clearAll": "すべてクリア",
+      "compareNow": "今すぐ比較"
+  },
+  "NewsletterPopup": {
+      "title": "週刊AIツール情報を取得",
+      "subtitle": "10,000人以上のビルダーに参加しましょう。",
+      "placeholder": "メールアドレスを入力",
+      "button": "無料で登録",
+      "spam": "スパムはありません。いつでも解除可能。",
+      "successTitle": "登録完了！",
+      "successSubtitle": "ありがとうございます。受信トレイをご確認ください。"
+  }
+}

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { appendSubscriber } from '@/lib/google-sheets';
 
 export async function POST(request: Request) {
   try {
@@ -12,19 +13,28 @@ export async function POST(request: Request) {
       );
     }
 
-    // TODO: Connect to Mailchimp/ConvertKit/Supabase
-    // For now, we log it to server console (visible in Vercel logs)
-    console.log(`[NEWSLETTER LEAD] New subscriber: ${email} at ${new Date().toISOString()}`);
+    try {
+      await appendSubscriber(email);
+      
+      // Also log to console for visibility
+      console.log(`[NEWSLETTER LEAD] New subscriber: ${email} at ${new Date().toISOString()}`);
 
-    return NextResponse.json(
-      { message: 'Subscribed successfully' },
-      { status: 200 }
-    );
+      return NextResponse.json(
+        { message: 'Subscribed successfully' },
+        { status: 200 }
+      );
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      return NextResponse.json(
+        { error: 'Internal server error' },
+        { status: 500 }
+      );
+    }
   } catch (error) {
-    console.error('Newsletter subscription error:', error);
+    console.error('Request processing error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: 'Bad Request' },
+      { status: 400 }
     );
   }
 }

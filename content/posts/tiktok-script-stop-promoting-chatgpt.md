@@ -1,4 +1,10 @@
-# TikTok Script: Stop Promoting ChatGPT
+---
+title: "TikTok Script: Stop Promoting ChatGPT"
+date: "2026-02-10"
+author: "AI Tool Navigator Team"
+excerpt: "A viral TikTok script template for promoting high-ticket AI affiliate programs."
+tags: ["TikTok", "Affiliate Marketing", "Scripts"]
+---
 
 **Visual**: Screen recording of ChatGPT affiliate page (low commission) -> Transition to Semrush/Snov.io payout dashboard (high commission).
 **Text Overlay**: "Stop Promoting Broke AI Tools 🛑"

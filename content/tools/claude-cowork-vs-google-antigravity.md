@@ -12,6 +12,8 @@ cons:
   - "High cost for both premium agents"
   - "Steep learning curve for advanced agent orchestration"
 affiliate_link: "/"
+last_updated: "2024-05-21"
+verified: false
 ---
 
 ## Claude Cowork vs. Google Antigravity: Which Agentic IDE wins in 2026?

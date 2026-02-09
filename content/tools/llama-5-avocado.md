@@ -12,6 +12,8 @@ cons:
   - "Release delayed to Q1 2026"
   - "Rumors of potential closed-source pivot"
 affiliate_link: "https://llama.meta.com/"
+last_updated: "2024-05-21"
+verified: false
 ---
 
 ## What is Meta Avocado?

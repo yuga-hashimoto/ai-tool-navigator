@@ -12,6 +12,8 @@ cons:
   - "Usage limits on Plus plan for Codex queries"
   - "Strict safety guardrails on generation"
 affiliate_link: "https://chat.openai.com"
+last_updated: "2024-05-21"
+verified: true
 ---
 
 ## What is ChatGPT (GPT-5.3 Codex)?

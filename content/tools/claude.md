@@ -12,6 +12,8 @@ cons:
   - "High latency for Opus models"
   - "Strict safety filters can be aggressive"
 affiliate_link: "https://www.anthropic.com/claude"
+last_updated: "2024-05-21"
+verified: true
 ---
 
 ## What is Claude Opus 4.6?

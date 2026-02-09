@@ -15,9 +15,12 @@ export function Footer() {
             Terms
           </Link>
         </div>
-        <div className="mt-8 md:order-1 md:mt-0">
-          <p className="text-center text-xs leading-5 text-zinc-500">
+        <div className="mt-8 md:order-1 md:mt-0 space-y-2">
+          <p className="text-center md:text-left text-xs leading-5 text-zinc-500">
             &copy; {new Date().getFullYear()} AI Tool Navigator. All rights reserved.
+          </p>
+          <p className="text-center md:text-left text-[10px] leading-4 text-zinc-400 max-w-md">
+            Affiliate Disclosure: We may earn a commission when you click on links and make a purchase. This helps support our independent reviews.
           </p>
         </div>
       </div>

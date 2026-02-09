@@ -1,7 +1,7 @@
 import { getToolBySlug, getToolSlugs, getRelatedTools } from "@/lib/tools";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import { Star, CheckCircle2, XCircle, ExternalLink, ArrowLeft } from "lucide-react";
+import { Star, CheckCircle2, XCircle, ExternalLink, ArrowLeft, BadgeCheck, Calendar } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
 import { ToolCard } from "@/components/ToolCard";
@@ -38,6 +38,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   }
 
   const { metadata, content } = tool;
+  const { verified, last_updated } = metadata;
   const relatedTools = getRelatedTools(metadata);
 
   return (
@@ -52,30 +53,43 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
             <div className="px-6 py-8 sm:px-12 sm:py-12 lg:px-16">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
                     <div>
-                        <div className="flex items-center gap-x-3">
-                             <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
-                                {metadata.title}
-                            </h1>
+                        <div className="flex items-center gap-x-3 flex-wrap">
+                             <div className="flex items-center gap-2">
+                                <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
+                                    {metadata.title}
+                                </h1>
+                                {verified && (
+                                    <BadgeCheck className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500" aria-label="Verified Tool" />
+                                )}
+                             </div>
                             <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
                                 {metadata.category}
                             </span>
                         </div>
-                        <div className="mt-4 flex items-center gap-2">
-                             <div className="flex items-center">
-                                {[...Array(5)].map((_, i) => (
-                                    <Star
-                                        key={i}
-                                        className={`h-5 w-5 ${
-                                            i < Math.round(metadata.rating || 0)
-                                                ? "fill-yellow-400 text-yellow-400"
-                                                : "fill-gray-200 text-gray-200 dark:fill-zinc-700 dark:text-zinc-700"
-                                        }`}
-                                    />
-                                ))}
+                        <div className="mt-4 flex flex-col gap-2">
+                            <div className="flex items-center gap-2">
+                                <div className="flex items-center">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star
+                                            key={i}
+                                            className={`h-5 w-5 ${
+                                                i < Math.round(metadata.rating || 0)
+                                                    ? "fill-yellow-400 text-yellow-400"
+                                                    : "fill-gray-200 text-gray-200 dark:fill-zinc-700 dark:text-zinc-700"
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
+                                <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                                    {metadata.rating}
+                                </span>
                             </div>
-                            <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                                {metadata.rating}
-                            </span>
+                            {last_updated && (
+                                <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+                                    <Calendar className="h-4 w-4" />
+                                    <span>Last updated: {new Date(last_updated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <a
@@ -89,30 +103,34 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                 </div>
 
                 <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
-                    <div className="rounded-2xl bg-green-50/50 p-6 ring-1 ring-green-600/10 dark:bg-green-500/5 dark:ring-green-500/20">
-                        <h3 className="flex items-center text-sm font-semibold text-green-700 dark:text-green-400 mb-4">
-                            <CheckCircle2 className="mr-2 h-5 w-5" /> Pros
-                        </h3>
-                        <ul className="space-y-3">
-                            {metadata.pros?.map((pro: string, idx: number) => (
-                                <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
-                                    <span className="mr-2">•</span> {pro}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="rounded-2xl bg-red-50/50 p-6 ring-1 ring-red-600/10 dark:bg-red-500/5 dark:ring-red-500/20">
-                        <h3 className="flex items-center text-sm font-semibold text-red-700 dark:text-red-400 mb-4">
-                            <XCircle className="mr-2 h-5 w-5" /> Cons
-                        </h3>
-                        <ul className="space-y-3">
-                            {metadata.cons?.map((con: string, idx: number) => (
-                                <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
-                                    <span className="mr-2">•</span> {con}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    {metadata.pros && metadata.pros.length > 0 && (
+                        <div className="rounded-2xl bg-green-50/50 p-6 ring-1 ring-green-600/10 dark:bg-green-500/5 dark:ring-green-500/20">
+                            <h3 className="flex items-center text-sm font-semibold text-green-700 dark:text-green-400 mb-4">
+                                <CheckCircle2 className="mr-2 h-5 w-5" /> Pros
+                            </h3>
+                            <ul className="space-y-3">
+                                {metadata.pros.map((pro: string, idx: number) => (
+                                    <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
+                                        <span className="mr-2">•</span> {pro}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    {metadata.cons && metadata.cons.length > 0 && (
+                        <div className="rounded-2xl bg-red-50/50 p-6 ring-1 ring-red-600/10 dark:bg-red-500/5 dark:ring-red-500/20">
+                            <h3 className="flex items-center text-sm font-semibold text-red-700 dark:text-red-400 mb-4">
+                                <XCircle className="mr-2 h-5 w-5" /> Cons
+                            </h3>
+                            <ul className="space-y-3">
+                                {metadata.cons.map((con: string, idx: number) => (
+                                    <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
+                                        <span className="mr-2">•</span> {con}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
 
                 <div className="mt-12 prose prose-zinc dark:prose-invert max-w-none">

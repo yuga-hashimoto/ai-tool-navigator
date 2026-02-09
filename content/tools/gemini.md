@@ -12,6 +12,8 @@ cons:
   - "Antigravity features currently in beta"
   - "Safety filters can still be strict"
 affiliate_link: "https://gemini.google.com"
+last_updated: "2026-02-09"
+verified: true
 ---
 
 ## What is Gemini 3 Pro?

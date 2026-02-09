@@ -12,6 +12,8 @@ cons:
   - "Premium pricing for 'Agent Teams' functionality"
   - "Can be overly cautious with high-stakes production actions"
 affiliate_link: "https://www.anthropic.com/claude"
+last_updated: "2024-05-21"
+verified: false
 ---
 
 ## What is Claude Cowork (Opus 4.6)?

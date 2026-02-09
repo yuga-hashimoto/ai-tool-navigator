@@ -24,9 +24,16 @@ export function ToolCard({ tool }: { tool: ToolMetadata }) {
     )}>
       <div>
         <div className="flex items-center justify-between">
-            <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
-              {tool.category}
-            </span>
+            <div className="flex items-center gap-2">
+                <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
+                {tool.category}
+                </span>
+                {tool.featured && (
+                <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-500 dark:ring-amber-400/20">
+                    Featured
+                </span>
+                )}
+            </div>
             <div className="flex items-center gap-3">
                  <button
                     onClick={handleCompareClick}

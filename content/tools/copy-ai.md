@@ -11,7 +11,8 @@ pros:
 cons:
   - "Long-form content may require editing"
   - "Can be repetitive with similar prompts"
-affiliate_link: "https://www.copy.ai/?ref=ai-tools-nav"
+affiliate_link: "https://copy.ai?aff=yuga"
+featured: true
 ---
 
 ## What is Copy.ai?

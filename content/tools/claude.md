@@ -4,6 +4,7 @@ slug: "claude"
 category: "LLM"
 description: "Anthropic's most powerful reasoning model, specialized in coding and complex projects."
 rating: 4.9
+promoted: true
 pros:
   - "Exceptional coding capabilities"
   - "Low hallucination rate"

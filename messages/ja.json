@@ -10,7 +10,22 @@
     "title": "限定セール",
     "description": "プレミアムAIツールの割引情報をチェック。"
   },
+  "SubmitPage": {
+    "title": "ツールを送信",
+    "description": "掲載したいAIツールがありますか？以下から送信してください！",
+    "form": {
+      "name": "ツール名",
+      "url": "ウェブサイトURL",
+      "description": "説明",
+      "category": "カテゴリー",
+      "submit": "ツールを送信",
+      "submitting": "送信中...",
+      "success": "ツールが正常に送信されました！",
+      "error": "ツールの送信に失敗しました。もう一度お試しください。"
+    }
+  },
   "Footer": {
+    "submit": "ツールを送信",
     "sponsorship": "スポンサーシップ",
     "privacy": "プライバシー",
     "terms": "利用規約",

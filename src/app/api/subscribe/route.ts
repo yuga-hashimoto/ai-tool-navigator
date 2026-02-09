@@ -1,29 +1,30 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    const body = await request.json();
+    const { email } = body;
 
     if (!email || !email.includes('@')) {
-      return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid email address' },
+        { status: 400 }
+      );
     }
 
-    const filePath = path.join(process.cwd(), 'subscribers.csv');
-    const date = new Date().toISOString();
-    const line = `${email},${date}\n`;
+    // TODO: Connect to Mailchimp/ConvertKit/Supabase
+    // For now, we log it to server console (visible in Vercel logs)
+    console.log(`[NEWSLETTER LEAD] New subscriber: ${email} at ${new Date().toISOString()}`);
 
-    // Append to file (create if doesn't exist)
-    if (!fs.existsSync(filePath)) {
-      fs.writeFileSync(filePath, 'email,date\n');
-    }
-    
-    fs.appendFileSync(filePath, line);
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json(
+      { message: 'Subscribed successfully' },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error('Subscription error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Newsletter subscription error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }

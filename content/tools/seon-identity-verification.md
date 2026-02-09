@@ -13,6 +13,8 @@ cons:
   - "Primarily B2B focused, not for individual users"
   - "Requires integration effort for full potential"
 affiliate_link: "https://seon.io"
+last_updated: "2024-05-21"
+verified: false
 ---
 
 ## What is SEON Identity Verification?

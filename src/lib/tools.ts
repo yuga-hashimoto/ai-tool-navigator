@@ -10,9 +10,11 @@ export interface ToolMetadata {
   category: string;
   description: string;
   rating: number;
-  pros: string[];
-  cons: string[];
+  pros?: string[];
+  cons?: string[];
   affiliate_link: string;
+  last_updated?: string;
+  verified?: boolean;
   [key: string]: any;
 }
 

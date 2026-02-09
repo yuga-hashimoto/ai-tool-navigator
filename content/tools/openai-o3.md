@@ -12,6 +12,8 @@ cons:
   - "Still trails Claude Opus 4.6 in general knowledge work (GDPval-AA)"
   - "Optimized specifically for code, may lag in creative reasoning"
 affiliate_link: "https://openai.com/gpt-5"
+last_updated: "2024-05-21"
+verified: false
 ---
 
 ## What is OpenAI GPT-5.3 Codex?

@@ -13,6 +13,8 @@ cons:
   - "Still in Preview"
   - "Requires Google account"
 affiliate_link: "https://ai-tools-nav.com/antigravity"
+last_updated: "2026-02-09"
+verified: true
 ---
 
 # Google Antigravity: The End of VS Code?

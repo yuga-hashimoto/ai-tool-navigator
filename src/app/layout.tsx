@@ -5,6 +5,7 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { CompareProvider } from "@/context/CompareContext";
 import { Footer } from "@/components/Footer";
 import { CompareBar } from "@/components/CompareBar";
+import NewsletterPopup from "@/components/NewsletterPopup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           {children}
           <Footer />
           <CompareBar />
+          <NewsletterPopup />
         </CompareProvider>
       </body>
     </html>

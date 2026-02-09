@@ -1,0 +1,375 @@
+diff --git a/content/tools/chatgpt.md b/content/tools/chatgpt.md
+index 3f6edfd..06de4ba 100644
+--- a/content/tools/chatgpt.md
++++ b/content/tools/chatgpt.md
+@@ -12,6 +12,8 @@ cons:
+   - "Usage limits on Plus plan for Codex queries"
+   - "Strict safety guardrails on generation"
+ affiliate_link: "https://chat.openai.com"
++last_updated: "2024-05-21"
++verified: true
+ ---
+ 
+ ## What is ChatGPT (GPT-5.3 Codex)?
+diff --git a/content/tools/claude-cowork-vs-google-antigravity.md b/content/tools/claude-cowork-vs-google-antigravity.md
+index 57aab61..5af000d 100644
+--- a/content/tools/claude-cowork-vs-google-antigravity.md
++++ b/content/tools/claude-cowork-vs-google-antigravity.md
+@@ -12,6 +12,8 @@ cons:
+   - "High cost for both premium agents"
+   - "Steep learning curve for advanced agent orchestration"
+ affiliate_link: "/"
++last_updated: "2024-05-21"
++verified: false
+ ---
+ 
+ ## Claude Cowork vs. Google Antigravity: Which Agentic IDE wins in 2026?
+diff --git a/content/tools/claude-cowork.md b/content/tools/claude-cowork.md
+index 55d4f4c..8f38034 100644
+--- a/content/tools/claude-cowork.md
++++ b/content/tools/claude-cowork.md
+@@ -12,6 +12,8 @@ cons:
+   - "Premium pricing for 'Agent Teams' functionality"
+   - "Can be overly cautious with high-stakes production actions"
+ affiliate_link: "https://www.anthropic.com/claude"
++last_updated: "2024-05-21"
++verified: false
+ ---
+ 
+ ## What is Claude Cowork (Opus 4.6)?
+diff --git a/content/tools/claude.md b/content/tools/claude.md
+index e4b0430..92398b2 100644
+--- a/content/tools/claude.md
++++ b/content/tools/claude.md
+@@ -12,6 +12,8 @@ cons:
+   - "High latency for Opus models"
+   - "Strict safety filters can be aggressive"
+ affiliate_link: "https://www.anthropic.com/claude"
++last_updated: "2024-05-21"
++verified: true
+ ---
+ 
+ ## What is Claude Opus 4.6?
+diff --git a/content/tools/cursor.md b/content/tools/cursor.md
+index f8f9837..b9d6044 100644
+--- a/content/tools/cursor.md
++++ b/content/tools/cursor.md
+@@ -12,6 +12,8 @@ cons:
+   - "Requires subscription for best models"
+   - "Sometimes lags with large files"
+ affiliate_link: "https://cursor.sh"
++last_updated: "2024-05-21"
++verified: false
+ ---
+ 
+ ## What is Cursor?
+diff --git a/content/tools/gemini.md b/content/tools/gemini.md
+index 60bc68a..1a9a340 100644
+--- a/content/tools/gemini.md
++++ b/content/tools/gemini.md
+@@ -12,6 +12,8 @@ cons:
+   - "Can be hallucination-prone"
+   - "Safety filters can be over-sensitive"
+ affiliate_link: "https://gemini.google.com"
++last_updated: "2024-05-21"
++verified: true
+ ---
+ 
+ ## What is Gemini?
+diff --git a/content/tools/google-antigravity.md b/content/tools/google-antigravity.md
+index c65a975..039438a 100644
+--- a/content/tools/google-antigravity.md
++++ b/content/tools/google-antigravity.md
+@@ -13,6 +13,8 @@ cons:
+   - "Optimized for professional, high-end development environments"
+   - "Ecosystem still expanding (though growing rapidly)"
+ affiliate_link: "https://ai.google/antigravity"
++last_updated: "2024-05-21"
++verified: false
+ ---
+ 
+ ## What is Google Antigravity?
+diff --git a/content/tools/grok.md b/content/tools/grok.md
+index 0e9f268..e448609 100644
+--- a/content/tools/grok.md
++++ b/content/tools/grok.md
+@@ -12,6 +12,8 @@ cons:
+   - "Restricted to X Premium/Enterprise"
+   - "Sometimes over-opinionated"
+ affiliate_link: "https://x.ai"
++last_updated: "2024-05-21"
++verified: true
+ ---
+ 
+ ## What is Grok 3?
+diff --git a/content/tools/llama-5-avocado.md b/content/tools/llama-5-avocado.md
+index 50a17b5..db26fb2 100644
+--- a/content/tools/llama-5-avocado.md
++++ b/content/tools/llama-5-avocado.md
+@@ -12,6 +12,8 @@ cons:
+   - "Release delayed to Q1 2026"
+   - "Rumors of potential closed-source pivot"
+ affiliate_link: "https://llama.meta.com/"
++last_updated: "2024-05-21"
++verified: false
+ ---
+ 
+ ## What is Meta Avocado?
+diff --git a/content/tools/openai-o3.md b/content/tools/openai-o3.md
+index cbc19cb..a286048 100644
+--- a/content/tools/openai-o3.md
++++ b/content/tools/openai-o3.md
+@@ -12,6 +12,8 @@ cons:
+   - "Still trails Claude Opus 4.6 in general knowledge work (GDPval-AA)"
+   - "Optimized specifically for code, may lag in creative reasoning"
+ affiliate_link: "https://openai.com/gpt-5"
++last_updated: "2024-05-21"
++verified: false
+ ---
+ 
+ ## What is OpenAI GPT-5.3 Codex?
+diff --git a/content/tools/seon-identity-verification.md b/content/tools/seon-identity-verification.md
+index 6029fce..d1fbad6 100644
+--- a/content/tools/seon-identity-verification.md
++++ b/content/tools/seon-identity-verification.md
+@@ -13,6 +13,8 @@ cons:
+   - "Primarily B2B focused, not for individual users"
+   - "Requires integration effort for full potential"
+ affiliate_link: "https://seon.io"
++last_updated: "2024-05-21"
++verified: false
+ ---
+ 
+ ## What is SEON Identity Verification?
+diff --git a/content/tools/video-generation-2026.md b/content/tools/video-generation-2026.md
+index 1d6e415..06ddca7 100644
+--- a/content/tools/video-generation-2026.md
++++ b/content/tools/video-generation-2026.md
+@@ -8,6 +8,8 @@ cons: ["Sora 2: Expensive Pro plan ($200/mo)", "Runway: Credit burn rate is high
+ affiliate_link: "https://lumalabs.ai/?via=ai-tools-nav"
+ date: "2026-02-08"
+ description: "A deep dive comparison of the top AI video generators in 2026. We test Sora 2, Luma Dream Machine 3, and Runway Gen-4 on quality, speed, and cost."
++last_updated: "2024-05-21"
++verified: false
+ ---
+ 
+ # The Battle for AI Video Dominance in 2026
+diff --git a/content/tools/workflow-automation-2026.md b/content/tools/workflow-automation-2026.md
+index a825af8..4d3c91e 100644
+--- a/content/tools/workflow-automation-2026.md
++++ b/content/tools/workflow-automation-2026.md
+@@ -4,6 +4,8 @@ date: 2026-02-08
+ description: "A comprehensive comparison of n8n, Make, and Zapier for building AI Agents in 2026. We test LangChain nodes, autonomy, and pricing."
+ tags: ["AI Agents", "Workflow Automation", "n8n", "Make", "Zapier", "LangChain"]
+ author: "AI Tools Navigator"
++last_updated: "2024-05-21"
++verified: false
+ ---
+ 
+ # The Era of "Agentic" Automation is Here
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index c3fba0b..29c7250 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -4,6 +4,7 @@ import "./globals.css";
+ import GoogleAnalytics from "@/components/GoogleAnalytics";
+ import { CompareProvider } from "@/context/CompareContext";
+ import { CompareBar } from "@/components/CompareBar";
++import { Footer } from "@/components/Footer";
+ 
+ const geistSans = Geist({
+   variable: "--font-geist-sans",
+@@ -33,6 +34,7 @@ export default function RootLayout({
+         <CompareProvider>
+           <GoogleAnalytics gaId="G-XXXXXXXXXX" />
+           {children}
++          <Footer />
+           <CompareBar />
+         </CompareProvider>
+       </body>
+diff --git a/src/app/tools/[slug]/page.tsx b/src/app/tools/[slug]/page.tsx
+index dfbbe37..50aeb74 100644
+--- a/src/app/tools/[slug]/page.tsx
++++ b/src/app/tools/[slug]/page.tsx
+@@ -1,7 +1,7 @@
+ import { getToolBySlug, getToolSlugs } from "@/lib/tools";
+ import { notFound } from "next/navigation";
+ import ReactMarkdown from "react-markdown";
+-import { Star, CheckCircle2, XCircle, ExternalLink, ArrowLeft } from "lucide-react";
++import { Star, CheckCircle2, XCircle, ExternalLink, ArrowLeft, BadgeCheck, Calendar } from "lucide-react";
+ import Link from "next/link";
+ import { Metadata } from "next";
+ 
+@@ -37,6 +37,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
+   }
+ 
+   const { metadata, content } = tool;
++  const { verified, last_updated } = metadata;
+ 
+   return (
+     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
+@@ -50,30 +51,43 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
+             <div className="px-6 py-8 sm:px-12 sm:py-12 lg:px-16">
+                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                     <div>
+-                        <div className="flex items-center gap-x-3">
+-                             <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
+-                                {metadata.title}
+-                            </h1>
++                        <div className="flex items-center gap-x-3 flex-wrap">
++                             <div className="flex items-center gap-2">
++                                <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
++                                    {metadata.title}
++                                </h1>
++                                {verified && (
++                                    <BadgeCheck className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500" aria-label="Verified Tool" />
++                                )}
++                             </div>
+                             <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
+                                 {metadata.category}
+                             </span>
+                         </div>
+-                        <div className="mt-4 flex items-center gap-2">
+-                             <div className="flex items-center">
+-                                {[...Array(5)].map((_, i) => (
+-                                    <Star
+-                                        key={i}
+-                                        className={`h-5 w-5 ${
+-                                            i < Math.round(metadata.rating)
+-                                                ? "fill-yellow-400 text-yellow-400"
+-                                                : "fill-gray-200 text-gray-200 dark:fill-zinc-700 dark:text-zinc-700"
+-                                        }`}
+-                                    />
+-                                ))}
++                        <div className="mt-4 flex flex-col gap-2">
++                            <div className="flex items-center gap-2">
++                                <div className="flex items-center">
++                                    {[...Array(5)].map((_, i) => (
++                                        <Star
++                                            key={i}
++                                            className={`h-5 w-5 ${
++                                                i < Math.round(metadata.rating)
++                                                    ? "fill-yellow-400 text-yellow-400"
++                                                    : "fill-gray-200 text-gray-200 dark:fill-zinc-700 dark:text-zinc-700"
++                                            }`}
++                                        />
++                                    ))}
++                                </div>
++                                <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
++                                    {metadata.rating}
++                                </span>
+                             </div>
+-                            <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+-                                {metadata.rating}
+-                            </span>
++                            {last_updated && (
++                                <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
++                                    <Calendar className="h-4 w-4" />
++                                    <span>Last updated: {new Date(last_updated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
++                                </div>
++                            )}
+                         </div>
+                     </div>
+                     <a
+@@ -87,30 +101,34 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
+                 </div>
+ 
+                 <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
+-                    <div className="rounded-2xl bg-green-50/50 p-6 ring-1 ring-green-600/10 dark:bg-green-500/5 dark:ring-green-500/20">
+-                        <h3 className="flex items-center text-sm font-semibold text-green-700 dark:text-green-400 mb-4">
+-                            <CheckCircle2 className="mr-2 h-5 w-5" /> Pros
+-                        </h3>
+-                        <ul className="space-y-3">
+-                            {metadata.pros.map((pro, idx) => (
+-                                <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
+-                                    <span className="mr-2">•</span> {pro}
+-                                </li>
+-                            ))}
+-                        </ul>
+-                    </div>
+-                    <div className="rounded-2xl bg-red-50/50 p-6 ring-1 ring-red-600/10 dark:bg-red-500/5 dark:ring-red-500/20">
+-                        <h3 className="flex items-center text-sm font-semibold text-red-700 dark:text-red-400 mb-4">
+-                            <XCircle className="mr-2 h-5 w-5" /> Cons
+-                        </h3>
+-                        <ul className="space-y-3">
+-                            {metadata.cons.map((con, idx) => (
+-                                <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
+-                                    <span className="mr-2">•</span> {con}
+-                                </li>
+-                            ))}
+-                        </ul>
+-                    </div>
++                    {metadata.pros && metadata.pros.length > 0 && (
++                        <div className="rounded-2xl bg-green-50/50 p-6 ring-1 ring-green-600/10 dark:bg-green-500/5 dark:ring-green-500/20">
++                            <h3 className="flex items-center text-sm font-semibold text-green-700 dark:text-green-400 mb-4">
++                                <CheckCircle2 className="mr-2 h-5 w-5" /> Pros
++                            </h3>
++                            <ul className="space-y-3">
++                                {metadata.pros.map((pro, idx) => (
++                                    <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
++                                        <span className="mr-2">•</span> {pro}
++                                    </li>
++                                ))}
++                            </ul>
++                        </div>
++                    )}
++                    {metadata.cons && metadata.cons.length > 0 && (
++                        <div className="rounded-2xl bg-red-50/50 p-6 ring-1 ring-red-600/10 dark:bg-red-500/5 dark:ring-red-500/20">
++                            <h3 className="flex items-center text-sm font-semibold text-red-700 dark:text-red-400 mb-4">
++                                <XCircle className="mr-2 h-5 w-5" /> Cons
++                            </h3>
++                            <ul className="space-y-3">
++                                {metadata.cons.map((con, idx) => (
++                                    <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
++                                        <span className="mr-2">•</span> {con}
++                                    </li>
++                                ))}
++                            </ul>
++                        </div>
++                    )}
+                 </div>
+ 
+                 <div className="mt-12 prose prose-zinc dark:prose-invert max-w-none">
+diff --git a/src/components/Footer.tsx b/src/components/Footer.tsx
+new file mode 100644
+index 0000000..31aa509
+--- /dev/null
++++ b/src/components/Footer.tsx
+@@ -0,0 +1,18 @@
++import React from 'react';
++
++export const Footer = () => {
++  return (
++    <footer className="bg-white dark:bg-black border-t border-zinc-200 dark:border-zinc-800 py-12 transition-colors duration-300">
++      <div className="mx-auto max-w-7xl px-6 lg:px-8">
++        <div className="flex flex-col items-center justify-center gap-6 md:flex-row md:justify-between">
++            <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
++                &copy; {new Date().getFullYear()} AI Tool Navigator. All rights reserved.
++            </p>
++            <p className="text-xs leading-5 text-zinc-400 dark:text-zinc-500 max-w-md text-center md:text-right">
++                Affiliate Disclosure: This site contains affiliate links. We may earn a commission when you purchase through our links, at no extra cost to you.
++            </p>
++        </div>
++      </div>
++    </footer>
++  );
++};
+diff --git a/src/lib/tools.ts b/src/lib/tools.ts
+index 3948a48..262aa31 100644
+--- a/src/lib/tools.ts
++++ b/src/lib/tools.ts
+@@ -10,9 +10,11 @@ export interface ToolMetadata {
+   category: string;
+   description: string;
+   rating: number;
+-  pros: string[];
+-  cons: string[];
++  pros?: string[];
++  cons?: string[];
+   affiliate_link: string;
++  last_updated?: string;
++  verified?: boolean;
+   [key: string]: any;
+ }
+ 
+

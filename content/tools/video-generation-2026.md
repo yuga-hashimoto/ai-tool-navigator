@@ -8,6 +8,8 @@ cons: ["Sora 2: Expensive Pro plan ($200/mo)", "Runway: Credit burn rate is high
 affiliate_link: "https://lumalabs.ai/?via=ai-tools-nav"
 date: "2026-02-08"
 description: "A deep dive comparison of the top AI video generators in 2026. We test Sora 2, Luma Dream Machine 3, and Runway Gen-4 on quality, speed, and cost."
+last_updated: "2024-05-21"
+verified: false
 ---
 
 # The Battle for AI Video Dominance in 2026

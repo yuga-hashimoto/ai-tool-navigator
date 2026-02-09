@@ -12,6 +12,8 @@ cons:
   - "Restricted to X Premium/Enterprise"
   - "Sometimes over-opinionated"
 affiliate_link: "https://x.ai"
+last_updated: "2024-05-21"
+verified: true
 ---
 
 ## What is Grok 3?

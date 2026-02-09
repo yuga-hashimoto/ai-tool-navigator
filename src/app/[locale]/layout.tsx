@@ -8,6 +8,7 @@ import { CompareProvider } from "@/context/CompareContext";
 import { Footer } from "@/components/Footer";
 import { CompareBar } from "@/components/CompareBar";
 import NewsletterPopup from "@/components/NewsletterPopup";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
 import { Navigation } from "@/components/Navigation";
 
 const geistSans = Geist({
@@ -49,6 +50,7 @@ export default async function RootLayout({
             <Footer />
             <CompareBar />
             <NewsletterPopup />
+            <ExitIntentPopup />
             </CompareProvider>
         </NextIntlClientProvider>
       </body>

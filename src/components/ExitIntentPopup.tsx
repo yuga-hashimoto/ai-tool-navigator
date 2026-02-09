@@ -1,0 +1,142 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { X, Mail, CheckCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
+export default function ExitIntentPopup() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const t = useTranslations('NewsletterPopup');
+
+  useEffect(() => {
+    setIsClient(true);
+    const closedAt = localStorage.getItem('exit_intent_popup_closed');
+    const subscribed = localStorage.getItem('newsletter_subscribed');
+
+    if (subscribed) {
+      return;
+    }
+
+    if (closedAt) {
+      const closedDate = new Date(parseInt(closedAt, 10));
+      const now = new Date();
+      const diffTime = Math.abs(now.getTime() - closedDate.getTime());
+
+      if (diffTime < 7 * 24 * 60 * 60 * 1000) {
+        return;
+      }
+    }
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0) {
+        setIsVisible(true);
+      }
+    };
+
+    document.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      document.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    localStorage.setItem('exit_intent_popup_closed', Date.now().toString());
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    // Simulate API call
+    console.log('Subscribing email (Exit Intent):', email);
+    
+    try {
+      await fetch('/api/subscribe', { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }) 
+      });
+    } catch (err) {
+      console.error('Failed to subscribe', err);
+    }
+
+    setSubmitted(true);
+    localStorage.setItem('newsletter_subscribed', 'true');
+
+    // Auto-close after success message
+    setTimeout(() => {
+      setIsVisible(false);
+    }, 3000);
+  };
+
+  if (!isClient || !isVisible) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-300">
+      <div className="relative w-full max-w-md overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-gray-900 animate-in zoom-in-95 duration-300">
+        
+        {/* Close Button */}
+        <button
+          onClick={handleClose}
+          className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+          aria-label="Close"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
+        {submitted ? (
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <div className="mb-4 rounded-full bg-green-100 p-4 dark:bg-green-900/30">
+              <CheckCircle className="h-10 w-10 text-green-600 dark:text-green-400" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+              {t('successTitle')}
+            </h3>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              {t('successSubtitle')}
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="mb-6 flex flex-col items-center text-center">
+              <div className="mb-4 rounded-full bg-blue-100 p-3 dark:bg-blue-900/30">
+                <Mail className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                {t('title')}
+              </h3>
+              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                {t('subtitle')}
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <input
+                type="email"
+                placeholder={t('placeholder')}
+                className="w-full rounded-md border border-gray-300 px-4 py-3 text-base placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <button
+                type="submit"
+                className="w-full rounded-md bg-blue-600 px-4 py-3 text-base font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:bg-blue-500 dark:hover:bg-blue-400"
+              >
+                {t('button')}
+              </button>
+              <p className="text-center text-xs text-gray-400 dark:text-gray-500">
+                {t('spam')}
+              </p>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}

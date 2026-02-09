@@ -1,23 +1,11 @@
 ---
 title: "n8n vs Make vs Zapier: The State of AI Workflow Automation in 2026"
-slug: "workflow-automation-2026"
-category: "Automation"
-description: "A comprehensive comparison of n8n, Make, and Zapier for building AI Agents in 2026. We test LangChain nodes, autonomy, and pricing."
-rating: 4.5
-pros:
-  - "n8n: Open-source and self-hostable"
-  - "Make: Visual interface for complex logic"
-  - "Zapier: User-friendly and accessible"
-cons:
-  - "n8n: Higher learning curve"
-  - "Make: Can get complex quickly"
-  - "Zapier: Can be expensive for high volume"
-affiliate_link: "https://n8n.io"
 date: 2026-02-08
+description: "A comprehensive comparison of n8n, Make, and Zapier for building AI Agents in 2026. We test LangChain nodes, autonomy, and pricing."
 tags: ["AI Agents", "Workflow Automation", "n8n", "Make", "Zapier", "LangChain"]
 author: "AI Tools Navigator"
-last_updated: "2026-02-09"
-verified: true
+last_updated: "2024-05-21"
+verified: false
 ---
 
 # The Era of "Agentic" Automation is Here

@@ -79,3 +79,11 @@ export function getToolSlugs() {
     };
   });
 }
+
+export function getRelatedTools(currentTool: ToolMetadata, limit: number = 3): ToolMetadata[] {
+  const allTools = getAllTools();
+  return allTools
+    .filter((tool) => tool.category === currentTool.category && tool.slug !== currentTool.slug)
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, limit);
+}

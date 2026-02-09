@@ -1,9 +1,10 @@
-import { getToolBySlug, getToolSlugs } from "@/lib/tools";
+import { getToolBySlug, getToolSlugs, getRelatedTools } from "@/lib/tools";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { Star, CheckCircle2, XCircle, ExternalLink, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
+import { ToolCard } from "@/components/ToolCard";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -37,6 +38,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   }
 
   const { metadata, content } = tool;
+  const relatedTools = getRelatedTools(metadata);
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
@@ -118,6 +120,19 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                 </div>
             </div>
         </div>
+
+        {relatedTools.length > 0 && (
+            <div className="mt-16">
+                <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
+                    Related Tools
+                </h2>
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {relatedTools.map((relatedTool) => (
+                        <ToolCard key={relatedTool.slug} tool={relatedTool} />
+                    ))}
+                </div>
+            </div>
+        )}
       </div>
     </div>
   );

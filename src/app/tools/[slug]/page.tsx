@@ -5,6 +5,7 @@ import { Star, CheckCircle2, XCircle, ExternalLink, ArrowLeft, BadgeCheck, Calen
 import Link from "next/link";
 import { Metadata } from "next";
 import { ToolCard } from "@/components/ToolCard";
+import { generateToolSchema } from "@/lib/schema";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -40,9 +41,14 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const { metadata, content } = tool;
   const { verified, last_updated } = metadata;
   const relatedTools = getRelatedTools(metadata);
+  const jsonLd = generateToolSchema(tool);
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
         <Link href="/" className="inline-flex items-center text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 mb-8 transition-colors">
             <ArrowLeft className="mr-2 h-4 w-4" />

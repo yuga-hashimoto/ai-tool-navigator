@@ -1,4 +1,10 @@
-# Gemini 3 Ultra vs. Llama 5: The Battle for 2026 Supremacy
+---
+title: "Gemini 3 Ultra vs. Llama 5: The Battle for 2026 Supremacy"
+date: "2026-02-09"
+author: "TechNav Analyst"
+excerpt: "As we settle into early 2026, the AI landscape is dominated by two titans: Google’s Gemini 3 Ultra and Meta’s Llama 5. Here is how they stack up."
+tags: ["AI Models", "Comparison", "Gemini", "Llama"]
+---
 
 **By TechNav Analyst | February 9, 2026**
 

@@ -1,5 +1,6 @@
 import { getAllTools } from "@/lib/tools";
 import { ToolGrid } from "@/components/ToolGrid";
+import { ToolCard } from "@/components/ToolCard";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -10,6 +11,8 @@ export const metadata = {
 
 export default function Home() {
   const tools = getAllTools();
+  const editorsChoiceSlugs = ['speechify', 'mixo'];
+  const editorsChoiceTools = tools.filter(tool => editorsChoiceSlugs.includes(tool.slug));
 
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
@@ -51,6 +54,22 @@ export default function Home() {
             </div>
           </Link>
         </div>
+
+        {/* Editor's Choice Section */}
+        {editorsChoiceTools.length > 0 && (
+          <div className="mb-16">
+            <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mb-6 flex items-center gap-2">
+              <span className="text-yellow-500">★</span> Editor's Choice
+            </h2>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {editorsChoiceTools.map((tool) => (
+                <div key={tool.slug} className="flex flex-col h-full">
+                  <ToolCard tool={tool} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <ToolGrid tools={tools} />
       </div>

@@ -5,6 +5,7 @@ import { ToolMetadata } from '@/lib/tools';
 import { ToolCard } from './ToolCard';
 import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface ToolGridProps {
   tools: ToolMetadata[];
@@ -13,6 +14,8 @@ interface ToolGridProps {
 export function ToolGrid({ tools }: ToolGridProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const t = useTranslations('ToolGrid');
+  const tHome = useTranslations('HomePage');
 
   // Derive categories from tools
   const categories = ['All', ...Array.from(new Set(tools.map((tool) => tool.category)))];
@@ -34,7 +37,7 @@ export function ToolGrid({ tools }: ToolGridProps) {
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
                 <input
                     type="text"
-                    placeholder="Search tools..."
+                    placeholder={t('searchPlaceholder')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full rounded-full border border-zinc-200 bg-white py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
@@ -54,7 +57,7 @@ export function ToolGrid({ tools }: ToolGridProps) {
                                 : "border-transparent bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
                         )}
                     >
-                        {category}
+                        {category === 'All' ? t('all') : category}
                     </button>
                 ))}
             </div>
@@ -69,7 +72,7 @@ export function ToolGrid({ tools }: ToolGridProps) {
         </div>
         {filteredTools.length === 0 && (
             <div className="py-12 text-center">
-                <p className="text-zinc-500 dark:text-zinc-400">No tools found matching your criteria.</p>
+                <p className="text-zinc-500 dark:text-zinc-400">{tHome('noTools')}</p>
             </div>
         )}
     </div>

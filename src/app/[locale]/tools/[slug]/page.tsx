@@ -2,9 +2,10 @@ import { getToolBySlug, getToolSlugs, getRelatedTools } from "@/lib/tools";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { Star, CheckCircle2, XCircle, ExternalLink, ArrowLeft, BadgeCheck, Calendar } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Metadata } from "next";
 import { ToolCard } from "@/components/ToolCard";
+import { getTranslations } from "next-intl/server";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -12,10 +13,10 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ slug: string; locale: string }> }
 ): Promise<Metadata> {
-  const { slug } = await params;
-  const tool = getToolBySlug(slug);
+  const { slug, locale } = await params;
+  const tool = getToolBySlug(slug, locale);
 
   if (!tool) {
     return {
@@ -29,9 +30,10 @@ export async function generateMetadata(
   }
 }
 
-export default async function ToolPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const tool = getToolBySlug(slug);
+export default async function ToolPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+  const { slug, locale } = await params;
+  const tool = getToolBySlug(slug, locale);
+  const t = await getTranslations('ToolPage');
 
   if (!tool) {
     notFound();
@@ -39,14 +41,14 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   const { metadata, content } = tool;
   const { verified, last_updated } = metadata;
-  const relatedTools = getRelatedTools(metadata);
+  const relatedTools = getRelatedTools(metadata, 3, locale);
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
         <Link href="/" className="inline-flex items-center text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 mb-8 transition-colors">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Tools
+            {t('backToTools')}
         </Link>
 
         <div className="overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-900/5 dark:bg-zinc-900 dark:ring-white/10">
@@ -87,7 +89,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                             {last_updated && (
                                 <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
                                     <Calendar className="h-4 w-4" />
-                                    <span>Last updated: {new Date(last_updated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                    <span>{t('lastUpdated')}: {new Date(last_updated).toLocaleDateString(locale === 'ja' ? 'ja-JP' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                                 </div>
                             )}
                         </div>
@@ -98,7 +100,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all transform hover:scale-105"
                     >
-                        Try this Tool <ExternalLink className="ml-2 h-4 w-4" />
+                        {t('tryThisTool')} <ExternalLink className="ml-2 h-4 w-4" />
                     </a>
                 </div>
 
@@ -106,7 +108,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                     {metadata.pros && metadata.pros.length > 0 && (
                         <div className="rounded-2xl bg-green-50/50 p-6 ring-1 ring-green-600/10 dark:bg-green-500/5 dark:ring-green-500/20">
                             <h3 className="flex items-center text-sm font-semibold text-green-700 dark:text-green-400 mb-4">
-                                <CheckCircle2 className="mr-2 h-5 w-5" /> Pros
+                                <CheckCircle2 className="mr-2 h-5 w-5" /> {t('pros')}
                             </h3>
                             <ul className="space-y-3">
                                 {metadata.pros.map((pro: string, idx: number) => (
@@ -120,7 +122,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                     {metadata.cons && metadata.cons.length > 0 && (
                         <div className="rounded-2xl bg-red-50/50 p-6 ring-1 ring-red-600/10 dark:bg-red-500/5 dark:ring-red-500/20">
                             <h3 className="flex items-center text-sm font-semibold text-red-700 dark:text-red-400 mb-4">
-                                <XCircle className="mr-2 h-5 w-5" /> Cons
+                                <XCircle className="mr-2 h-5 w-5" /> {t('cons')}
                             </h3>
                             <ul className="space-y-3">
                                 {metadata.cons.map((con: string, idx: number) => (
@@ -142,7 +144,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
         {relatedTools.length > 0 && (
             <div className="mt-16">
                 <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
-                    Related Tools
+                    {t('relatedTools')}
                 </h2>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {relatedTools.map((relatedTool) => (

@@ -1,6 +1,8 @@
+import {NextIntlClientProvider} from 'next-intl';
+import {getMessages} from 'next-intl/server';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { CompareProvider } from "@/context/CompareContext";
 import { Footer } from "@/components/Footer";
@@ -22,23 +24,31 @@ export const metadata: Metadata = {
   description: "Compare the best AI tools for writing, coding, image generation, and more. Find the perfect AI solution for your workflow.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{locale: string}>;
 }>) {
+  const {locale} = await params;
+
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CompareProvider>
-          <GoogleAnalytics gaId="G-XXXXXXXXXX" />
-          {children}
-          <Footer />
-          <CompareBar />
-          <NewsletterPopup />
-        </CompareProvider>
+        <NextIntlClientProvider messages={messages}>
+            <CompareProvider>
+            <GoogleAnalytics gaId="G-XXXXXXXXXX" />
+            {children}
+            <Footer />
+            <CompareBar />
+            <NewsletterPopup />
+            </CompareProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

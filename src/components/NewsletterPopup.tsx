@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { X, Mail, CheckCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function NewsletterPopup() {
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const t = useTranslations('NewsletterPopup');
 
   // Check localStorage on mount to see if user dismissed/subscribed recently
   useEffect(() => {
@@ -90,10 +92,10 @@ export default function NewsletterPopup() {
               <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              You're Subscribed!
+              {t('successTitle')}
             </h3>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Thanks for joining. Watch your inbox for AI updates.
+              {t('successSubtitle')}
             </p>
           </div>
         ) : (
@@ -104,10 +106,10 @@ export default function NewsletterPopup() {
               </div>
               <div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                  Get Weekly AI Tools
+                  {t('title')}
                 </h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Join 10,000+ builders staying ahead.
+                  {t('subtitle')}
                 </p>
               </div>
             </div>
@@ -115,7 +117,7 @@ export default function NewsletterPopup() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('placeholder')}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -125,10 +127,10 @@ export default function NewsletterPopup() {
                 type="submit"
                 className="w-full rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:bg-blue-500 dark:hover:bg-blue-400"
               >
-                Subscribe Free
+                {t('button')}
               </button>
               <p className="text-center text-[10px] text-gray-400 dark:text-gray-500">
-                No spam. Unsubscribe anytime.
+                {t('spam')}
               </p>
             </form>
           </>

@@ -1,15 +1,17 @@
 "use client";
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { Star } from 'lucide-react';
 import { ToolMetadata } from '@/lib/tools';
 import { cn } from '@/lib/utils';
 import { useCompare } from '@/context/CompareContext';
 import { MouseEvent } from 'react';
+import { useTranslations } from 'next-intl';
 
 export function ToolCard({ tool }: { tool: ToolMetadata }) {
   const { selectedSlugs, toggleTool } = useCompare();
   const isSelected = selectedSlugs.includes(tool.slug);
+  const t = useTranslations('ToolCard');
 
   const handleCompareClick = (e: MouseEvent) => {
     e.preventDefault();
@@ -30,7 +32,7 @@ export function ToolCard({ tool }: { tool: ToolMetadata }) {
                 </span>
                 {tool.featured && (
                 <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-500 dark:ring-amber-400/20">
-                    Featured
+                    {t('featured')}
                 </span>
                 )}
             </div>
@@ -44,7 +46,7 @@ export function ToolCard({ tool }: { tool: ToolMetadata }) {
                             : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
                     )}
                 >
-                    {isSelected ? "Selected" : "Compare"}
+                    {isSelected ? t('selected') : t('compare')}
                 </button>
                 <div className="flex items-center gap-1">
                     <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
@@ -65,7 +67,7 @@ export function ToolCard({ tool }: { tool: ToolMetadata }) {
         </div>
       </div>
       <div className="mt-4 flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">
-        Read more <span aria-hidden="true" className="ml-1 transition-transform group-hover:translate-x-1">→</span>
+        {t('readMore')} <span aria-hidden="true" className="ml-1 transition-transform group-hover:translate-x-1">→</span>
       </div>
     </div>
   );

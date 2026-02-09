@@ -1,0 +1,42 @@
+[
+  {
+    "id": "cursor",
+    "name": "Cursor",
+    "description": "The AI-first code editor. Built for pair-programming with AI.",
+    "url": "https://cursor.sh?ref=ai-tools-nav",
+    "cta": "Download Free",
+    "tags": ["Editor", "Coding"]
+  },
+  {
+    "id": "semrush",
+    "name": "Semrush",
+    "description": "All-in-one SEO tool for improving online visibility.",
+    "url": "https://semrush.com?ref=ai-tools-nav",
+    "cta": "7-Day Free Trial",
+    "tags": ["SEO", "Marketing"]
+  },
+  {
+    "id": "vercel",
+    "name": "Vercel",
+    "description": "Develop. Preview. Ship. The frontend cloud for Next.js.",
+    "url": "https://vercel.com",
+    "cta": "Deploy Now",
+    "tags": ["Hosting", "Cloud"]
+  },
+  {
+    "id": "claude",
+    "name": "Claude Pro",
+    "description": "Anthropic's most powerful AI model for reasoning and coding.",
+    "url": "https://claude.ai",
+    "cta": "Upgrade to Pro",
+    "tags": ["LLM", "AI Model"]
+  },
+  {
+    "id": "gemini",
+    "name": "Gemini Advanced",
+    "description": "Google's most capable AI model, integrated with Google Workspace.",
+    "url": "https://gemini.google.com",
+    "cta": "Try Advanced",
+    "tags": ["LLM", "AI Model"]
+  }
+]

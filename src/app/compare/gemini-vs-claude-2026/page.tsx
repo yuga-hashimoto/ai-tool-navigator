@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import AffiliateSection from '../../../components/AffiliateSection';
 
 export const metadata: Metadata = {
   title: 'Gemini 3 Pro vs. Claude 3.7 Sonnet: The 2026 Coding Showdown | AI Tool Navigator',
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 export default function ComparePage() {
   return (
     <div className="bg-white dark:bg-gray-900 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto mb-16">
         <div className="mb-8 text-center">
             <span className="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-sm font-semibold mb-4">
                 2026 Update
@@ -144,7 +145,7 @@ export default function ComparePage() {
         </div>
 
         {/* Verdict */}
-        <div className="bg-gray-900 dark:bg-black text-white rounded-3xl p-8 md:p-12 text-center shadow-2xl relative overflow-hidden">
+        <div className="bg-gray-900 dark:bg-black text-white rounded-3xl p-8 md:p-12 text-center shadow-2xl relative overflow-hidden mb-16">
             <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500 via-purple-500 to-transparent"></div>
             <div className="relative z-10">
                 <h2 className="text-3xl font-bold mb-6">The 2026 Verdict</h2>
@@ -163,17 +164,19 @@ export default function ComparePage() {
                 </div>
             </div>
         </div>
+      </div>
 
-        <div className="mt-12 text-center">
+      <AffiliateSection />
+
+      <div className="mt-12 text-center max-w-4xl mx-auto">
              <Link 
                 href="/tools" 
                 className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10 transition-all duration-200"
             >
                 Explore More AI Tools
             </Link>
-        </div>
-
       </div>
+
     </div>
   );
 }

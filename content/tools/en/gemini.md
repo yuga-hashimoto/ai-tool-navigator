@@ -14,6 +14,7 @@ cons:
 affiliate_link: "https://gemini.google.com"
 last_updated: "2024-05-21"
 verified: true
+discount: "10% OFF"
 ---
 
 ## What is Gemini?

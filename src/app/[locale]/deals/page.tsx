@@ -1,0 +1,54 @@
+import { getAllTools } from "@/lib/tools";
+import { ToolCard } from "@/components/ToolCard";
+import { getTranslations } from 'next-intl/server';
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({locale, namespace: 'DealsPage'});
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
+
+export default async function DealsPage({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params;
+  const t = await getTranslations('DealsPage');
+  const tools = getAllTools(locale);
+  const deals = tools.filter(tool => tool.discount);
+
+  return (
+    <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
+      <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center mb-16">
+          <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-6xl dark:text-zinc-50">
+            {t('title')}
+          </h1>
+          <p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+            {t('description')}
+          </p>
+        </div>
+
+        {deals.length > 0 ? (
+          <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+            {deals.map((tool) => (
+              <ToolCard key={tool.slug} tool={tool} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-zinc-600 dark:text-zinc-400">
+            No deals found at the moment.
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

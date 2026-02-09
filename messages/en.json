@@ -6,6 +6,10 @@
     "editorsChoice": "Editor's Choice",
     "noTools": "No tools found matching your criteria."
   },
+  "DealsPage": {
+    "title": "Exclusive Deals",
+    "description": "Save on premium AI tools with these exclusive discounts."
+  },
   "Footer": {
     "sponsorship": "Sponsorship",
     "privacy": "Privacy",

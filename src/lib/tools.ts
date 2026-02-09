@@ -16,6 +16,7 @@ export interface ToolMetadata {
   promoted?: boolean;
   last_updated?: string;
   verified?: boolean;
+  discount?: string;
   [key: string]: any;
 }
 

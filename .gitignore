@@ -43,3 +43,11 @@ next-env.d.ts
 # next-sitemap
 public/sitemap*.xml
 public/robots.txt
+temp_thumb/
+user_data_temp/
+test_output.json
+video/
+temp_thumb/
+user_data_temp/
+test_output.json
+video/

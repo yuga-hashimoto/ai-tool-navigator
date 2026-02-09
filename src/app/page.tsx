@@ -1,6 +1,7 @@
 import { getAllTools } from "@/lib/tools";
 import { ToolGrid } from "@/components/ToolGrid";
 import { ToolCard } from "@/components/ToolCard";
+import { FeaturedTools } from "@/components/FeaturedTools";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -55,43 +56,8 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Featured Tool Sponsorship Section */}
-        <div className="mb-16">
-          <div className="rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 p-1">
-            <div className="flex flex-col md:flex-row items-center justify-between rounded-xl bg-white p-6 dark:bg-zinc-900">
-              <div className="flex-1">
-                <div className="flex items-center gap-x-2">
-                  <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 dark:bg-indigo-400/10 dark:text-indigo-400 dark:ring-indigo-400/20">
-                    Featured Tool
-                  </span>
-                  <span className="text-sm text-zinc-500 dark:text-zinc-400">Sponsored</span>
-                </div>
-                <h3 className="mt-2 text-xl font-bold text-zinc-900 dark:text-white">
-                  SuperScale AI
-                </h3>
-                <p className="mt-2 text-base text-zinc-600 dark:text-zinc-300">
-                  Automate your entire marketing workflow with one click. The most advanced AI agent for growth teams.
-                </p>
-                <div className="mt-4 flex items-center gap-x-4">
-                  <a
-                    href="#"
-                    className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    Try for Free
-                  </a>
-                  <Link href="/advertise" className="text-sm font-semibold leading-6 text-zinc-900 dark:text-white hover:text-indigo-500 transition-colors">
-                    Advertise with us <span aria-hidden="true">→</span>
-                  </Link>
-                </div>
-              </div>
-              <div className="mt-6 md:mt-0 md:ml-8 flex-shrink-0">
-                <div className="h-32 w-32 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-                   <span className="text-4xl">🚀</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Featured Tools Section (Promoted) */}
+        <FeaturedTools tools={tools} />
 
         {/* Editor's Choice Section */}
         {editorsChoiceTools.length > 0 && (

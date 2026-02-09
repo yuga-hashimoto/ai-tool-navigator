@@ -13,6 +13,7 @@ export interface ToolMetadata {
   pros?: string[];
   cons?: string[];
   affiliate_link: string;
+  promoted?: boolean;
   last_updated?: string;
   verified?: boolean;
   [key: string]: any;

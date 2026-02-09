@@ -4,6 +4,7 @@ slug: "cursor"
 category: "Code"
 description: "The AI-first Code Editor built on VS Code."
 rating: 4.7
+promoted: true
 pros:
   - "Seamless VS Code fork"
   - "Excellent codebase indexing"

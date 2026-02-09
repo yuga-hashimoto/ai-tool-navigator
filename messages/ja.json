@@ -6,6 +6,10 @@
     "editorsChoice": "編集部のおすすめ",
     "noTools": "条件に一致するツールは見つかりませんでした。"
   },
+  "DealsPage": {
+    "title": "限定セール",
+    "description": "プレミアムAIツールの割引情報をチェック。"
+  },
   "Footer": {
     "sponsorship": "スポンサーシップ",
     "privacy": "プライバシー",

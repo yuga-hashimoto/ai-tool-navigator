@@ -35,6 +35,11 @@ export function ToolCard({ tool }: { tool: ToolMetadata }) {
                     {t('featured')}
                 </span>
                 )}
+                {tool.discount && (
+                  <span className="inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-400/10 dark:text-green-500 dark:ring-green-400/20">
+                    {tool.discount}
+                  </span>
+                )}
             </div>
             <div className="flex items-center gap-3">
                  <button

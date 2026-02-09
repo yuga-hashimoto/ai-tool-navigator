@@ -14,6 +14,7 @@ cons:
 affiliate_link: "https://chat.openai.com"
 last_updated: "2024-05-21"
 verified: true
+discount: "20% OFF"
 ---
 
 ## What is ChatGPT (GPT-5.3 Codex)?

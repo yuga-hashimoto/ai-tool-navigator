@@ -15,6 +15,7 @@ cons:
 affiliate_link: "https://www.anthropic.com/claude"
 last_updated: "2024-05-21"
 verified: true
+discount: "15% OFF"
 ---
 
 ## What is Claude Opus 4.6?

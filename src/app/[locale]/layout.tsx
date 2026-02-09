@@ -8,6 +8,7 @@ import { CompareProvider } from "@/context/CompareContext";
 import { Footer } from "@/components/Footer";
 import { CompareBar } from "@/components/CompareBar";
 import NewsletterPopup from "@/components/NewsletterPopup";
+import { Navigation } from "@/components/Navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
             <CompareProvider>
             <GoogleAnalytics gaId="G-XXXXXXXXXX" />
+            <Navigation />
             {children}
             <Footer />
             <CompareBar />

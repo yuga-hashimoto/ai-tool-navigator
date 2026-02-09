@@ -13,8 +13,7 @@ cons:
   - "Sometimes lags with large files"
 affiliate_link: "https://cursor.sh"
 last_updated: "2024-05-21"
-verified: true
-promoted: true
+verified: false
 ---
 
 ## What is Cursor?

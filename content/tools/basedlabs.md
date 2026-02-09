@@ -11,7 +11,8 @@ pros:
 cons:
   - "Newer platform with fewer advanced features than some competitors"
   - "Video generation can be resource-intensive"
-affiliate_link: "https://basedlabs.ai/?ref=ai-tools-nav"
+affiliate_link: "https://basedlabs.ai?aff=yuga"
+featured: true
 ---
 
 ## What is BasedLabs?

@@ -1,9 +1,10 @@
-import { getToolBySlug, getToolSlugs } from "@/lib/tools";
+import { getToolBySlug, getToolSlugs, getRelatedTools } from "@/lib/tools";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { Star, CheckCircle2, XCircle, ExternalLink, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
+import { ToolCard } from "@/components/ToolCard";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -37,6 +38,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   }
 
   const { metadata, content } = tool;
+  const relatedTools = getRelatedTools(metadata);
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
@@ -64,7 +66,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                                     <Star
                                         key={i}
                                         className={`h-5 w-5 ${
-                                            i < Math.round(metadata.rating)
+                                            i < Math.round(metadata.rating || 0)
                                                 ? "fill-yellow-400 text-yellow-400"
                                                 : "fill-gray-200 text-gray-200 dark:fill-zinc-700 dark:text-zinc-700"
                                         }`}
@@ -92,7 +94,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                             <CheckCircle2 className="mr-2 h-5 w-5" /> Pros
                         </h3>
                         <ul className="space-y-3">
-                            {metadata.pros.map((pro, idx) => (
+                            {metadata.pros?.map((pro: string, idx: number) => (
                                 <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
                                     <span className="mr-2">•</span> {pro}
                                 </li>
@@ -104,7 +106,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                             <XCircle className="mr-2 h-5 w-5" /> Cons
                         </h3>
                         <ul className="space-y-3">
-                            {metadata.cons.map((con, idx) => (
+                            {metadata.cons?.map((con: string, idx: number) => (
                                 <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
                                     <span className="mr-2">•</span> {con}
                                 </li>
@@ -118,6 +120,19 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                 </div>
             </div>
         </div>
+
+        {relatedTools.length > 0 && (
+            <div className="mt-16">
+                <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
+                    Related Tools
+                </h2>
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {relatedTools.map((relatedTool) => (
+                        <ToolCard key={relatedTool.slug} tool={relatedTool} />
+                    ))}
+                </div>
+            </div>
+        )}
       </div>
     </div>
   );

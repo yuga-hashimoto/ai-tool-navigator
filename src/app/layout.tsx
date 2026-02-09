@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { CompareProvider } from "@/context/CompareContext";
+import { Footer } from "@/components/Footer";
 import { CompareBar } from "@/components/CompareBar";
 
 const geistSans = Geist({
@@ -33,6 +34,7 @@ export default function RootLayout({
         <CompareProvider>
           <GoogleAnalytics gaId="G-XXXXXXXXXX" />
           {children}
+          <Footer />
           <CompareBar />
         </CompareProvider>
       </body>

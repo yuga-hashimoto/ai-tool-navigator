@@ -11,7 +11,8 @@ pros:
 cons:
   - "Geographic coverage may be limited initially"
   - "Learning curve for new users"
-affiliate_link: "https://homesage.ai/?ref=ai-tools-nav"
+affiliate_link: "https://homesage.ai?aff=yuga"
+featured: true
 ---
 
 ## What is Homesage?

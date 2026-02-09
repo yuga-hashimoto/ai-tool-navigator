@@ -1,0 +1,21 @@
+
+> ai-tool-navigator@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 2.3s
+○ Compiling /[locale]/submit ...
+ GET /en/submit 200 in 7.2s (compile: 6.3s, proxy.ts: 146ms, render: 723ms)
+○ Compiling /api/submit ...
+GOOGLE_SERVICE_ACCOUNT_JSON environment variable is not set. Skipping Google Sheets update.
+[TOOL SUBMISSION] New submission: Test Tool (https://example.com) at 2026-02-09T20:28:14.911Z
+ POST /api/submit 200 in 7.6s (compile: 7.5s, render: 26ms)
+ GET /en/submit 200 in 431ms (compile: 89ms, proxy.ts: 21ms, render: 322ms)
+GOOGLE_SERVICE_ACCOUNT_JSON environment variable is not set. Skipping Google Sheets update.
+[TOOL SUBMISSION] New submission: Test Tool (https://example.com) at 2026-02-09T20:28:37.817Z
+ POST /api/submit 200 in 16ms (compile: 5ms, render: 11ms)

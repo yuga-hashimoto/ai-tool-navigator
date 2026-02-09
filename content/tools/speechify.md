@@ -11,7 +11,7 @@ pros:
 cons:
   - "Free version has limited voices"
   - "Premium plan can be pricey for casual users"
-affiliate_link: "https://speechify.com"
+affiliate_link: "https://speechify.com/?ref=ai-tools-nav"
 ---
 
 ## What is Speechify?

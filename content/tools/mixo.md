@@ -11,7 +11,7 @@ pros:
 cons:
   - "Limited customization compared to traditional builders"
   - "Best for validation and simple landing pages"
-affiliate_link: "https://mixo.io"
+affiliate_link: "https://mixo.io/?ref=ai-tools-nav"
 ---
 
 ## What is Mixo?

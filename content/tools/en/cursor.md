@@ -12,7 +12,7 @@ pros:
 cons:
   - "Requires subscription for best models"
   - "Sometimes lags with large files"
-affiliate_link: "https://cursor.sh"
+affiliate_link: "https://cursor.sh?ref=ai-tools-nav"
 last_updated: "2024-05-21"
 verified: false
 ---

@@ -5,12 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@swc/helpers": "^0.5.18",
     "clsx": "^2.1.1",
     "googleapis": "^171.4.0",
     "gray-matter": "^4.0.3",

@@ -99,8 +99,15 @@ export function getToolSlugs() {
 
 export function getRelatedTools(currentTool: ToolMetadata, limit: number = 3, locale: string = 'en'): ToolMetadata[] {
   const allTools = getAllTools(locale);
-  return allTools
-    .filter((tool) => tool.category === currentTool.category && tool.slug !== currentTool.slug)
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, limit);
+  const candidates = allTools.filter(
+    (tool) => tool.category === currentTool.category && tool.slug !== currentTool.slug
+  );
+
+  // Shuffle the candidates array
+  for (let i = candidates.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+  }
+
+  return candidates.slice(0, limit);
 }

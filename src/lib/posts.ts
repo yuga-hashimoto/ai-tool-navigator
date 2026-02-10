@@ -20,13 +20,17 @@ export interface Post {
   content: string;
 }
 
-export function getAllPosts(): PostMetadata[] {
-  // Ensure directory exists
-  if (!fs.existsSync(postsDirectory)) {
-    return [];
+export function getAllPosts(locale: string = 'en'): PostMetadata[] {
+  // Try to find posts for the requested locale
+  const localeDirectory = path.join(postsDirectory, locale);
+  
+  // If locale directory doesn't exist, fallback to root postsDirectory or 'en'
+  let targetDirectory = localeDirectory;
+  if (!fs.existsSync(localeDirectory)) {
+    targetDirectory = postsDirectory;
   }
 
-  const fileNames = fs.readdirSync(postsDirectory);
+  const fileNames = fs.readdirSync(targetDirectory);
   const allPostsData = fileNames
     .filter((fileName) => fileName.endsWith('.md'))
     .map((fileName) => {
@@ -34,7 +38,7 @@ export function getAllPosts(): PostMetadata[] {
       const id = fileName.replace(/\.md$/, '');
 
       // Read markdown file as string
-    const fullPath = path.join(postsDirectory, fileName);
+    const fullPath = path.join(targetDirectory, fileName);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
 
     // Use gray-matter to parse the post metadata section
@@ -57,8 +61,13 @@ export function getAllPosts(): PostMetadata[] {
   });
 }
 
-export function getPostBySlug(slug: string): Post | null {
-  const fullPath = path.join(postsDirectory, `${slug}.md`);
+export function getPostBySlug(slug: string, locale: string = 'en'): Post | null {
+  let fullPath = path.join(postsDirectory, locale, `${slug}.md`);
+
+  // Fallback to root or 'en'
+  if (!fs.existsSync(fullPath)) {
+    fullPath = path.join(postsDirectory, `${slug}.md`);
+  }
 
   if (!fs.existsSync(fullPath)) {
     return null;

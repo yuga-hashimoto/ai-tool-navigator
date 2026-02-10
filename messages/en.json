@@ -80,5 +80,9 @@
     "coding_title": "Coding Assistants & Agents",
     "coding_description": "Build software faster with AI.",
     "noTools": "No tools found in this category."
+  },
+  "BlogPage": {
+    "title": "AI Insights & Reviews",
+    "description": "Deep dives into the latest AI tools, comparisons, and industry trends."
   }
 }

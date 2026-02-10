@@ -74,3 +74,6 @@ jobs:
           flags: '--allow-unauthenticated'
           env_vars: |
             NODE_ENV=production
+            GOOGLE_SERVICE_ACCOUNT_JSON=${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+            GOOGLE_SHEET_ID=${{ secrets.GOOGLE_SHEET_ID }}
+            NEXT_PUBLIC_GA_ID=${{ secrets.NEXT_PUBLIC_GA_ID }}

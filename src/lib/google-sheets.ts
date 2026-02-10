@@ -35,7 +35,7 @@ export async function appendSubscriber(email: string) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: 'Sheet1!A:B', // Appends to columns A and B of Sheet1
+      range: 'Subscribers!A:B', // Appends to columns A and B of Subscribers
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [[email, date]],

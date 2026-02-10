@@ -10,7 +10,22 @@
     "title": "Exclusive Deals",
     "description": "Save on premium AI tools with these exclusive discounts."
   },
+  "SubmitPage": {
+    "title": "Submit a Tool",
+    "description": "Have an AI tool you'd like to see featured? Submit it below!",
+    "form": {
+      "name": "Tool Name",
+      "url": "Website URL",
+      "description": "Description",
+      "category": "Category",
+      "submit": "Submit Tool",
+      "submitting": "Submitting...",
+      "success": "Tool submitted successfully!",
+      "error": "Failed to submit tool. Please try again."
+    }
+  },
   "Footer": {
+    "submit": "Submit Tool",
     "sponsorship": "Sponsorship",
     "privacy": "Privacy",
     "terms": "Terms",

@@ -2,17 +2,7 @@ import { getAllTools } from "@/lib/tools";
 import { ToolGrid } from "@/components/ToolGrid";
 import { getTranslations } from 'next-intl/server';
 import { notFound } from "next/navigation";
-<<<<<<< HEAD
-
-// Define the valid slugs and their mapping to actual categories
-const CATEGORY_MAPPINGS = {
-  video: ['Video Generation'],
-  writing: ['Writing', 'Copywriting'],
-  coding: ['Code', 'Coding', 'Coding Agent'],
-};
-=======
 import { CATEGORY_MAPPINGS } from "@/lib/categories";
->>>>>>> origin/main
 
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_MAPPINGS).map((slug) => ({
@@ -22,11 +12,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string, locale: string }> }) {
     const { slug, locale } = await params;
-<<<<<<< HEAD
-
-=======
     
->>>>>>> origin/main
      // Validate slug for metadata as well
     if (!Object.keys(CATEGORY_MAPPINGS).includes(slug)) {
         return {
@@ -35,19 +21,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 
     const t = await getTranslations({locale, namespace: 'CategoryPage'});
-<<<<<<< HEAD
-
-    // Type assertion or safe access
-    const titleKey = `${slug}_title` as any;
-    const descriptionKey = `${slug}_description` as any;
-
-=======
     
     // Type assertion or safe access
     const titleKey = `${slug}_title` as any; 
     const descriptionKey = `${slug}_description` as any;
     
->>>>>>> origin/main
     const title = t(titleKey);
     const description = t(descriptionKey);
 
@@ -63,26 +41,13 @@ export default async function CategoryPage({
   params: Promise<{ locale: string; slug: string }>
 }) {
   const { locale, slug } = await params;
-<<<<<<< HEAD
-
-=======
   
->>>>>>> origin/main
   // Validate slug
   if (!Object.keys(CATEGORY_MAPPINGS).includes(slug)) {
     notFound();
   }
 
   const t = await getTranslations('CategoryPage');
-<<<<<<< HEAD
-
-  // Get the categories for the current slug
-  const targetCategories = CATEGORY_MAPPINGS[slug as keyof typeof CATEGORY_MAPPINGS];
-
-  // Fetch all tools and filter
-  const tools = getAllTools(locale);
-  const filteredTools = tools.filter((tool) =>
-=======
   
   // Get the categories for the current slug
   const targetCategories = CATEGORY_MAPPINGS[slug as keyof typeof CATEGORY_MAPPINGS];
@@ -90,7 +55,6 @@ export default async function CategoryPage({
   // Fetch all tools and filter
   const tools = getAllTools(locale);
   const filteredTools = tools.filter((tool) => 
->>>>>>> origin/main
     targetCategories.includes(tool.category)
   );
 

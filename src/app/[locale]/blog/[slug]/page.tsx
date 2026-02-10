@@ -1,13 +1,20 @@
 import { getPostBySlug, getPostSlugs } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import Link from "next/link";
+import remarkGfm from "remark-gfm";
+import { Link, routing } from "@/i18n/routing";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { Metadata } from "next";
 
 export async function generateStaticParams() {
   const slugs = getPostSlugs();
-  return slugs;
+  const params = [];
+  for (const locale of routing.locales) {
+    for (const slugObj of slugs) {
+      params.push({ locale, slug: slugObj.slug });
+    }
+  }
+  return params;
 }
 
 export async function generateMetadata(
@@ -76,7 +83,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </header>
             
             <div className="prose prose-lg prose-zinc dark:prose-invert mx-auto">
-                <ReactMarkdown>{content}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
             </div>
         </article>
       </div>

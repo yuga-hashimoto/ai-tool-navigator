@@ -71,5 +71,14 @@
       "spam": "No spam. Unsubscribe anytime.",
       "successTitle": "You're Subscribed!",
       "successSubtitle": "Thanks for joining. Watch your inbox for AI updates."
+  },
+  "CategoryPage": {
+    "video_title": "Video Generation Tools",
+    "video_description": "Create stunning videos with AI.",
+    "writing_title": "Writing & Copywriting Tools",
+    "writing_description": "Generate high-quality content in seconds.",
+    "coding_title": "Coding Assistants & Agents",
+    "coding_description": "Build software faster with AI.",
+    "noTools": "No tools found in this category."
   }
 }

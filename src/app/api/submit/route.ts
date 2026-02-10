@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     try {
       await appendToolSubmission({ name, url, description, category });
-
+      
       console.log(`[TOOL SUBMISSION] New submission: ${name} (${url}) at ${new Date().toISOString()}`);
 
       return NextResponse.json(

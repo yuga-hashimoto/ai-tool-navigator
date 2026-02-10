@@ -44,7 +44,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
             <CompareProvider>
-            <GoogleAnalytics gaId="G-XXXXXXXXXX" />
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-727KCHJ884"} />
             <Navigation />
             {children}
             <Footer />

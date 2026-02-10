@@ -16,7 +16,7 @@ But with so many powerful options, which one is right for your workflow? We test
 
 OpenAI's Sora 2.0 remains the industry standard for high-fidelity video generation. The 2.0 update introduced "World Physics v2," which drastically reduced the hallucination of objects merging or disappearing.
 
-*   **Key Features:** 
+*   **Key Features:**
     *   **60-Second Clips:** Generate up to a full minute of 4K video in a single prompt.
     *   **Audio Generation:** Automatically generates synchronized foley and background music.
     *   **Multi-Shot Consistency:** Maintains character identity across different camera angles.

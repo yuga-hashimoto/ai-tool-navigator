@@ -23,8 +23,12 @@ export function ToolGrid({ tools }: ToolGridProps) {
   const filteredTools = tools.filter((tool) => {
     const matchesCategory = selectedCategory === 'All' || tool.category === selectedCategory;
     const searchLower = searchQuery.toLowerCase();
-    const matchesSearch = tool.title.toLowerCase().includes(searchLower) ||
-                          tool.description.toLowerCase().includes(searchLower);
+    const matchesSearch =
+      (tool.title && tool.title.toLowerCase().includes(searchLower)) ||
+      (tool.description && tool.description.toLowerCase().includes(searchLower)) ||
+      (tool.category && tool.category.toLowerCase().includes(searchLower)) ||
+      (tool.pros && tool.pros.some((p) => p && p.toLowerCase().includes(searchLower))) ||
+      (tool.cons && tool.cons.some((c) => c && c.toLowerCase().includes(searchLower)));
 
     return matchesCategory && matchesSearch;
   });

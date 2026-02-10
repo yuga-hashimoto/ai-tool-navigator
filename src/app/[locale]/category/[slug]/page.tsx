@@ -2,13 +2,7 @@ import { getAllTools } from "@/lib/tools";
 import { ToolGrid } from "@/components/ToolGrid";
 import { getTranslations } from 'next-intl/server';
 import { notFound } from "next/navigation";
-
-// Define the valid slugs and their mapping to actual categories
-const CATEGORY_MAPPINGS = {
-  video: ['Video Generation'],
-  writing: ['Writing', 'Copywriting'],
-  coding: ['Code', 'Coding', 'Coding Agent'],
-};
+import { CATEGORY_MAPPINGS } from "@/lib/categories";
 
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_MAPPINGS).map((slug) => ({

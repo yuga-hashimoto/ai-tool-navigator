@@ -1,5 +1,5 @@
 import { getAllPosts } from "@/lib/posts";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

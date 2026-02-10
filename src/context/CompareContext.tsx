@@ -17,6 +17,8 @@ export function CompareProvider({ children }: { children: ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLoaded(true);
     // Load from localStorage on mount
     const saved = localStorage.getItem("compare_tools");
     if (saved) {
@@ -26,7 +28,6 @@ export function CompareProvider({ children }: { children: ReactNode }) {
         console.error("Failed to parse compare_tools", e);
       }
     }
-    setIsLoaded(true);
   }, []);
 
   useEffect(() => {

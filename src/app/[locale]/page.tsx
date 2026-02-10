@@ -47,7 +47,7 @@ export default async function Home({
                     Claude Cowork vs. Google Antigravity
                   </h2>
                   <p className="mt-4 text-lg text-zinc-400">
-                    Which "AI Colleague" wins in 2026? We break down the performance, pricing, and capabilities of the two biggest agentic platforms.
+                    Which &quot;AI Colleague&quot; wins in 2026? We break down the performance, pricing, and capabilities of the two biggest agentic platforms.
                   </p>
                 </div>
                 <div className="flex-shrink-0">

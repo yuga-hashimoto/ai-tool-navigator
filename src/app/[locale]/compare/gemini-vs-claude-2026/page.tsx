@@ -26,7 +26,7 @@ export default function ComparePage() {
             Gemini 3 Pro vs. Claude 3.7 Sonnet:<br className="hidden md:block" /> The 2026 Coding Showdown
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            By mid-2026, the "can it code?" phase is over. Now it's about ROI. Which titan deserves your API budget?
+            By mid-2026, the &quot;can it code?&quot; phase is over. Now it&apos;s about ROI. Which titan deserves your API budget?
             </p>
         </div>
 
@@ -64,7 +64,7 @@ export default function ComparePage() {
               <tr className="hover:bg-gray-50 dark:hover:bg-gray-750">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Killer Feature</th>
                 <td className="px-6 py-4">Full Repo Understanding & Video Context</td>
-                <td className="px-6 py-4">Agentic "Computer Use" & Intuition</td>
+                <td className="px-6 py-4">Agentic &quot;Computer Use&quot; & Intuition</td>
               </tr>
             </tbody>
           </table>
@@ -77,7 +77,7 @@ export default function ComparePage() {
                     Claude 3.7 Sonnet: The Artisan
                 </h2>
                 <p className="text-gray-700 dark:text-gray-300 mb-4">
-                    Claude 3.7 is the "developer's favorite" for a reason. Its reasoning engine is tuned for software architecture.
+                    Claude 3.7 is the &quot;developer&apos;s favorite&quot; for a reason. Its reasoning engine is tuned for software architecture.
                 </p>
                 <ul className="space-y-3">
                     <li className="flex items-start">
@@ -86,7 +86,7 @@ export default function ComparePage() {
                     </li>
                     <li className="flex items-start">
                         <span className="mr-2 text-purple-600">✓</span>
-                        <span className="text-gray-600 dark:text-gray-400"><strong>Computer Use v2:</strong> Can spin up dev servers and fix runtime errors autonomously.</span>
+                        <span className="text-gray-600 dark:text-gray-400"><strong>&quot;Computer Use v2&quot;:</strong> Can spin up dev servers and fix runtime errors autonomously.</span>
                     </li>
                     <li className="flex items-start">
                         <span className="mr-2 text-purple-600">✓</span>
@@ -129,7 +129,7 @@ export default function ComparePage() {
                         High Volume / Legacy Code
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300">
-                        <strong>Winner: Gemini 3 Pro.</strong> For "Explain how this 10-year-old C++ module interacts with the new microservice," Gemini's cost and speed are unbeatable. You can afford to scan the whole repo for every query.
+                        <strong>Winner: Gemini 3 Pro.</strong> For &quot;Explain how this 10-year-old C++ module interacts with the new microservice,&quot; Gemini&apos;s cost and speed are unbeatable. You can afford to scan the whole repo for every query.
                     </p>
                 </div>
                 <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
@@ -138,7 +138,7 @@ export default function ComparePage() {
                         Complex Logic / Greenfield
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300">
-                        <strong>Winner: Claude 3.7 Sonnet.</strong> If you are debugging race conditions or building new features, Claude pays for itself. The "time-to-merge" is consistently lower, saving expensive developer hours.
+                        <strong>Winner: Claude 3.7 Sonnet.</strong> If you are debugging race conditions or building new features, Claude pays for itself. The &quot;time-to-merge&quot; is consistently lower, saving expensive developer hours.
                     </p>
                 </div>
             </div>
@@ -150,7 +150,7 @@ export default function ComparePage() {
             <div className="relative z-10">
                 <h2 className="text-3xl font-bold mb-6">The 2026 Verdict</h2>
                 <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                    The "Single Model Fallacy" is dead. The most effective teams use a hybrid approach.
+                    The &quot;Single Model Fallacy&quot; is dead. The most effective teams use a hybrid approach.
                 </p>
                 <div className="flex flex-col md:flex-row justify-center gap-4">
                     <div className="bg-gray-800 p-4 rounded-lg flex-1">

@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import affiliates from '../../data/affiliates.json';
 
 type Affiliate = {

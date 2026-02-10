@@ -23,7 +23,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const t = await getTranslations({locale, namespace: 'CategoryPage'});
     
     // Type assertion or safe access
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const titleKey = `${slug}_title` as any; 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const descriptionKey = `${slug}_description` as any;
     
     const title = t(titleKey);
@@ -59,7 +61,9 @@ export default async function CategoryPage({
   );
 
   // Get localized title and description
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const title = t(`${slug}_title` as any);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const description = t(`${slug}_description` as any);
 
   return (

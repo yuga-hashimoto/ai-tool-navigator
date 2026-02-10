@@ -11,9 +11,16 @@ export default function NewsletterPopup() {
   const [isClient, setIsClient] = useState(false);
   const t = useTranslations('NewsletterPopup');
 
+  // Set isClient on mount to prevent hydration mismatch
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsClient(true);
+  }, []);
+
   // Check localStorage on mount to see if user dismissed/subscribed recently
   useEffect(() => {
-    setIsClient(true);
+    if (!isClient) return;
+
     const closedAt = localStorage.getItem('newsletter_popup_closed');
     const subscribed = localStorage.getItem('newsletter_subscribed');
 
@@ -38,7 +45,7 @@ export default function NewsletterPopup() {
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isClient]);
 
   const handleClose = () => {
     setIsVisible(false);

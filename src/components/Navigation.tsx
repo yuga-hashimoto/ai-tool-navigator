@@ -19,6 +19,9 @@ export function Navigation() {
               <Link href="/blog" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 Blog
               </Link>
+              <Link href="/submit" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
+                Submit Tool
+              </Link>
             </div>
           </div>
           {/* Mobile menu button could go here, for now keeping it simple */}
@@ -31,6 +34,9 @@ export function Navigation() {
               </Link>
               <Link href="/blog" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 Blog
+              </Link>
+              <Link href="/submit" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
+                Submit Tool
               </Link>
            </div>
         </div>

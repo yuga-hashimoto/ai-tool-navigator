@@ -85,16 +85,25 @@ export function getToolBySlug(slug: string, locale: string = 'en'): Tool | null 
 }
 
 export function getToolSlugs() {
-  const enDirectory = path.join(toolsDirectory, 'en');
-  if (!fs.existsSync(enDirectory)) {
-    return [];
-  }
-  const fileNames = fs.readdirSync(enDirectory);
-  return fileNames.map((fileName) => {
-    return {
-      slug: fileName.replace(/\.md$/, ''),
-    };
+  const locales = ['en', 'ja'];
+  const allParams: { slug: string; locale: string }[] = [];
+
+  locales.forEach((locale) => {
+    const dir = path.join(toolsDirectory, locale);
+    if (fs.existsSync(dir)) {
+      const fileNames = fs.readdirSync(dir);
+      fileNames.forEach((fileName) => {
+        if (fileName.endsWith('.md')) {
+          allParams.push({
+            slug: fileName.replace(/\.md$/, ''),
+            locale: locale,
+          });
+        }
+      });
+    }
   });
+
+  return allParams;
 }
 
 export function getRelatedTools(currentTool: ToolMetadata, limit: number = 3, locale: string = 'en'): ToolMetadata[] {

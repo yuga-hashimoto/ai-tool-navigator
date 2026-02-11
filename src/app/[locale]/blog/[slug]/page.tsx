@@ -2,11 +2,12 @@ import { getPostBySlug, getAllPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { routing } from "@/i18n/routing";
+import { routing, Link } from "@/i18n/routing";
 import { Calendar, User } from "lucide-react";
 import { Metadata } from "next";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
 export async function generateStaticParams() {
   const params = [];
@@ -41,6 +42,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { slug, locale } = await params;
   const post = getPostBySlug(slug, locale);
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
+  const tBlog = await getTranslations('BlogPage');
 
   if (!post) {
     notFound();
@@ -54,44 +56,90 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     { label: metadata.title },
   ];
 
+  // Fetch recent posts
+  const allPosts = getAllPosts(locale);
+  const recentPosts = allPosts
+    .filter((p) => p.slug !== slug)
+    .slice(0, 5);
+
+  const dateLocale = locale === 'ja' ? 'ja-JP' : 'en-US';
+
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
-      <div className="mx-auto max-w-3xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
 
-        <article>
-            <header className="mb-10 text-center">
-                <div className="flex items-center justify-center gap-4 text-sm text-zinc-500 dark:text-zinc-400 mb-4">
-                    <div className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        <time dateTime={metadata.date}>
-                            {new Date(metadata.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                        </time>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <main className="lg:col-span-8">
+                <article>
+                    <header className="mb-10 text-center">
+                        <div className="flex items-center justify-center gap-4 text-sm text-zinc-500 dark:text-zinc-400 mb-4">
+                            <div className="flex items-center gap-1">
+                                <Calendar className="h-4 w-4" />
+                                <time dateTime={metadata.date}>
+                                    {new Date(metadata.date).toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
+                                </time>
+                            </div>
+                            <span>•</span>
+                            <div className="flex items-center gap-1">
+                                <User className="h-4 w-4" />
+                                <span>{metadata.author}</span>
+                            </div>
+                        </div>
+                        <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-5xl mb-6">
+                            {metadata.title}
+                        </h1>
+                        {metadata.tags && metadata.tags.length > 0 && (
+                            <div className="flex flex-wrap justify-center gap-2">
+                                {metadata.tags.map((tag) => (
+                                    <span key={tag} className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+                    </header>
+
+                    <div className="prose prose-lg prose-zinc dark:prose-invert mx-auto">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
                     </div>
-                    <span>•</span>
-                    <div className="flex items-center gap-1">
-                        <User className="h-4 w-4" />
-                        <span>{metadata.author}</span>
-                    </div>
-                </div>
-                <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-5xl mb-6">
-                    {metadata.title}
-                </h1>
-                {metadata.tags && metadata.tags.length > 0 && (
-                    <div className="flex flex-wrap justify-center gap-2">
-                        {metadata.tags.map((tag) => (
-                            <span key={tag} className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
-                                {tag}
-                            </span>
+                </article>
+            </main>
+
+            <aside className="lg:col-span-4 space-y-8">
+                <div className="sticky top-24">
+                     <h3 className="text-xl font-semibold mb-6 text-zinc-900 dark:text-zinc-100">
+                        {tBlog('recentPosts')}
+                     </h3>
+                     <ul className="space-y-6">
+                        {recentPosts.map((post) => (
+                            <li key={post.slug} className="group">
+                                <Link href={`/blog/${post.slug}`} className="flex gap-4">
+                                     {post.image && (
+                                         <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
+                                            <Image
+                                                src={post.image}
+                                                alt={post.title}
+                                                fill
+                                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                            />
+                                         </div>
+                                     )}
+                                     <div className="flex flex-col justify-center">
+                                         <h4 className="text-sm font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                                            {post.title}
+                                         </h4>
+                                         <time className="text-xs text-zinc-500 mt-1 block">
+                                            {new Date(post.date).toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
+                                         </time>
+                                     </div>
+                                </Link>
+                            </li>
                         ))}
-                    </div>
-                )}
-            </header>
-            
-            <div className="prose prose-lg prose-zinc dark:prose-invert mx-auto">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-            </div>
-        </article>
+                     </ul>
+                </div>
+            </aside>
+        </div>
       </div>
     </div>
   );

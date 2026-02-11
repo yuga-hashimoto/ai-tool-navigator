@@ -15,6 +15,7 @@ export interface ToolMetadata {
   affiliate_link: string;
   promoted?: boolean;
   sponsored?: boolean;
+  tool_of_the_week?: boolean;
   last_updated?: string;
   verified?: boolean;
   discount?: string;
@@ -84,6 +85,11 @@ export function getToolBySlug(slug: string, locale: string = 'en'): Tool | null 
     } as ToolMetadata,
     content: matterResult.content,
   };
+}
+
+export function getToolOfTheWeek(locale: string = 'en'): ToolMetadata | null {
+  const tools = getAllTools(locale);
+  return tools.find((tool) => tool.tool_of_the_week) || null;
 }
 
 export function getToolSlugs() {

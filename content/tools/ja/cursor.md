@@ -5,6 +5,7 @@ category: 'Code'
 description: 'VS Codeをベースに構築された、AIファーストのコードエディタ。'
 rating: 4.7
 promoted: true
+tool_of_the_week: true
 pros:
   - 'VS Codeからの移行がスムーズ'
   - '優れたコードベースのインデックス作成'

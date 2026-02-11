@@ -2,6 +2,7 @@
   "HomePage": {
     "title": "プレミアムAIツール比較",
     "description": "あなたのニーズに最適なAIツールを見つけましょう。公平なレビュー、長所と短所、そして詳細な比較を提供します。",
+    "toolOfTheWeek": "今週のAIツール",
     "featuredComparison": "注目の比較",
     "editorsChoice": "編集部のおすすめ",
     "noTools": "条件に一致するツールは見つかりませんでした。"

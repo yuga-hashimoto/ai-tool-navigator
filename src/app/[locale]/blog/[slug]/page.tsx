@@ -1,4 +1,4 @@
-import { getPostBySlug, getPostSlugs } from "@/lib/posts";
+import { getPostBySlug, getAllPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -7,11 +7,11 @@ import { ArrowLeft, Calendar, User } from "lucide-react";
 import { Metadata } from "next";
 
 export async function generateStaticParams() {
-  const slugs = getPostSlugs();
   const params = [];
   for (const locale of routing.locales) {
-    for (const slugObj of slugs) {
-      params.push({ locale, slug: slugObj.slug });
+    const posts = getAllPosts(locale);
+    for (const post of posts) {
+      params.push({ locale, slug: post.slug });
     }
   }
   return params;

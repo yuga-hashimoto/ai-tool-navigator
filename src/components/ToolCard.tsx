@@ -22,7 +22,11 @@ export function ToolCard({ tool }: { tool: ToolMetadata }) {
   return (
     <div className={cn(
         "group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-white p-6 shadow-sm transition-all hover:shadow-md dark:bg-zinc-900/50 dark:hover:bg-zinc-900",
-        isSelected ? "border-blue-500 ring-1 ring-blue-500 dark:border-blue-400 dark:ring-blue-400" : "border-zinc-200 dark:border-zinc-800"
+        isSelected
+          ? "border-blue-500 ring-1 ring-blue-500 dark:border-blue-400 dark:ring-blue-400"
+          : tool.sponsored
+          ? "border-amber-400 ring-1 ring-amber-400/50 dark:border-amber-500 dark:ring-amber-500/50 bg-amber-50/30 dark:bg-amber-900/10"
+          : "border-zinc-200 dark:border-zinc-800"
     )}>
       <div>
         <div className="flex items-center justify-between">
@@ -30,6 +34,11 @@ export function ToolCard({ tool }: { tool: ToolMetadata }) {
                 <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
                 {tool.category}
                 </span>
+                {tool.sponsored && (
+                  <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-800 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-500 dark:ring-amber-400/20 uppercase tracking-wide">
+                    {t('sponsored')}
+                  </span>
+                )}
                 {tool.featured && (
                 <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-500 dark:ring-amber-400/20">
                     {t('featured')}

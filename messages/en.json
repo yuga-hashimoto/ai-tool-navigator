@@ -121,7 +121,8 @@
   },
   "BlogPage": {
     "title": "AI Insights & Reviews",
-    "description": "Deep dives into the latest AI tools, comparisons, and industry trends."
+    "description": "Deep dives into the latest AI tools, comparisons, and industry trends.",
+    "recentPosts": "Recent Posts"
   },
   "ShareButtons": {
     "shareOnX": "Share on X",

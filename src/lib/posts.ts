@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { ToolMetadata } from './tools';
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
 
@@ -97,4 +98,59 @@ export function getPostSlugs() {
         slug: fileName.replace(/\.md$/, ''),
       };
     });
+}
+
+export function getRelatedPosts(tool: ToolMetadata, limit: number = 3, locale: string = 'en'): PostMetadata[] {
+  const allPosts = getAllPosts(locale);
+
+  if (allPosts.length === 0) {
+    return [];
+  }
+
+  // Calculate scores for each post
+  const scoredPosts = allPosts.map((post) => {
+    let score = 0;
+    const toolCategory = tool.category.toLowerCase();
+    const toolTitle = tool.title.toLowerCase();
+
+    // Check tags
+    if (post.tags) {
+      post.tags.forEach((tag) => {
+        const lowerTag = tag.toLowerCase();
+        // Exact category match or partial match
+        if (lowerTag === toolCategory || toolCategory.includes(lowerTag) || lowerTag.includes(toolCategory)) {
+          score += 3;
+        }
+        // Title match
+        if (toolTitle.includes(lowerTag)) {
+           score += 2;
+        }
+      });
+    }
+
+    // Check post title match
+    if (post.title.toLowerCase().includes(toolCategory)) {
+        score += 1;
+    }
+
+    return { post, score };
+  });
+
+  // Filter posts with score > 0 and sort by score descending
+  let related = scoredPosts
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map((item) => item.post);
+
+  // If we don't have enough related posts, fill with recent posts
+  if (related.length < limit) {
+    const usedSlugs = new Set(related.map(p => p.slug));
+    const recent = allPosts
+        .filter(p => !usedSlugs.has(p.slug))
+        // allPosts is already sorted by date
+        .slice(0, limit - related.length);
+    related = [...related, ...recent];
+  }
+
+  return related.slice(0, limit);
 }

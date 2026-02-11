@@ -1,7 +1,7 @@
 import { getAllPosts } from "@/lib/posts";
-import { Link } from "@/i18n/routing";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { ArticleCard } from "@/components/ArticleCard";
 
 export const metadata: Metadata = {
   title: "Blog - AI Tool Navigator",
@@ -30,40 +30,7 @@ export default async function BlogPage({
         </div>
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {posts.map((post) => (
-            <article key={post.slug} className="flex flex-col items-start justify-between">
-              <div className="relative w-full">
-                {/* Image placeholder could go here */}
-                 <div className="flex items-center gap-x-4 text-xs">
-                  <time dateTime={post.date} className="text-zinc-500 dark:text-zinc-400">
-                    {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                  </time>
-                  {post.tags && post.tags.length > 0 && (
-                      <span className="relative z-10 rounded-full bg-zinc-100 px-3 py-1.5 font-medium text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700">
-                        {post.tags[0]}
-                      </span>
-                  )}
-                </div>
-                <div className="group relative">
-                  <h3 className="mt-3 text-lg font-semibold leading-6 text-zinc-900 group-hover:text-zinc-600 dark:text-zinc-100 dark:group-hover:text-zinc-300">
-                    <Link href={`/blog/${post.slug}`}>
-                      <span className="absolute inset-0" />
-                      {post.title}
-                    </Link>
-                  </h3>
-                  <p className="mt-5 line-clamp-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-                    {post.excerpt}
-                  </p>
-                </div>
-                <div className="relative mt-8 flex items-center gap-x-4">
-                  <div className="text-sm leading-6">
-                    <p className="font-semibold text-zinc-900 dark:text-zinc-100">
-                      <span className="absolute inset-0" />
-                      {post.author}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </article>
+            <ArticleCard key={post.slug} post={post} locale={locale} />
           ))}
         </div>
       </div>

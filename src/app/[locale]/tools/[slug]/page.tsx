@@ -1,10 +1,12 @@
 import { getToolBySlug, getToolSlugs, getRelatedTools } from "@/lib/tools";
+import { getRelatedPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { Star, ExternalLink, ArrowLeft, BadgeCheck, Calendar } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { Metadata } from "next";
 import { ToolCard } from "@/components/ToolCard";
+import { ArticleCard } from "@/components/ArticleCard";
 import { getTranslations } from "next-intl/server";
 import { generateToolSchema } from "@/lib/schema";
 import { ProsConsSection } from "@/components/ProsConsSection";
@@ -57,6 +59,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const { metadata, content } = tool;
   const { verified, last_updated } = metadata;
   const relatedTools = getRelatedTools(metadata, 3, locale);
+  const relatedPosts = getRelatedPosts(metadata, 3, locale);
   const jsonLd = generateToolSchema(tool);
 
   return (
@@ -148,6 +151,19 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {relatedTools.map((relatedTool) => (
                         <ToolCard key={relatedTool.slug} tool={relatedTool} />
+                    ))}
+                </div>
+            </div>
+        )}
+
+        {relatedPosts.length > 0 && (
+            <div className="mt-16">
+                <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
+                    {t('relatedArticles')}
+                </h2>
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {relatedPosts.map((post) => (
+                        <ArticleCard key={post.slug} post={post} locale={locale} />
                     ))}
                 </div>
             </div>

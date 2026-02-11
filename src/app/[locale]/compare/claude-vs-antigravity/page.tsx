@@ -16,7 +16,7 @@ export default function ComparePage() {
 
         <div className="prose dark:prose-invert max-w-none mb-12">
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 text-center">
-            Choosing the right AI assistant can make or break your productivity. Here's how the top contenders stack up.
+            Choosing the right AI assistant can make or break your productivity. Here&apos;s how the top contenders stack up.
           </p>
         </div>
 
@@ -64,7 +64,7 @@ export default function ComparePage() {
         <div className="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-xl p-8 mb-12 text-white shadow-xl">
           <h2 className="text-3xl font-bold mb-4">Why Antigravity Wins for Developers</h2>
           <p className="mb-6 text-lg text-purple-100">
-            While Claude is a brilliant conversationalist, <strong>Google Antigravity</strong> is built for *building*. Its "Agentic Coding" engine doesn't just write snippets; it understands your entire repo, plans multi-file refactors, and executes them autonomously.
+            While Claude is a brilliant conversationalist, <strong>Google Antigravity</strong> is built for *building*. Its &quot;Agentic Coding&quot; engine doesn&apos;t just write snippets; it understands your entire repo, plans multi-file refactors, and executes them autonomously.
           </p>
           <ul className="list-disc list-inside space-y-2 mb-6 text-purple-200">
             <li>Self-healing code generation</li>

@@ -56,7 +56,7 @@ export default function AdvertisePage() {
               <ul className="mt-6 space-y-4 text-gray-500">
                 <li className="flex items-start">
                   <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>
-                  <span className="ml-3">Homepage "Featured Tool" placement</span>
+                  <span className="ml-3">Homepage &quot;Featured Tool&quot; placement</span>
                 </li>
                 <li className="flex items-start">
                   <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>
@@ -64,7 +64,7 @@ export default function AdvertisePage() {
                 </li>
                 <li className="flex items-start">
                   <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>
-                  <span className="ml-3">"Featured" badge on listing</span>
+                  <span className="ml-3">&quot;Featured&quot; badge on listing</span>
                 </li>
                 <li className="flex items-start">
                   <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>

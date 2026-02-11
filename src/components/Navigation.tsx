@@ -31,7 +31,7 @@ export function Navigation() {
             <Link href="/" className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white hover:opacity-80 transition-opacity">
               AI Tool Navigator
             </Link>
-            <div className="hidden md:flex gap-6">
+            <div className="hidden md:flex gap-6 items-center">
               <Link href="/" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('home')}
               </Link>
@@ -41,8 +41,8 @@ export function Navigation() {
               <Link href="/blog" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('blog')}
               </Link>
-              <Link href="/submit" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
-                {t('submit')}
+              <Link href="/submit" className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors shadow-sm hover:shadow-md">
+                {t('submit_cta')}
               </Link>
             </div>
           </div>
@@ -109,7 +109,7 @@ export function Navigation() {
                 className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {t('submit')}
+                {t('submit_cta')}
               </Link>
            </div>
 

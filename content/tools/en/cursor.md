@@ -5,6 +5,7 @@ category: "Code"
 description: "The AI-first Code Editor built on VS Code."
 rating: 4.7
 promoted: true
+tool_of_the_week: true
 pros:
   - "Seamless VS Code fork"
   - "Excellent codebase indexing"

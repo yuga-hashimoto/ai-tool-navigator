@@ -2,14 +2,15 @@ import { getToolBySlug, getToolSlugs, getRelatedTools } from "@/lib/tools";
 import { getRelatedPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import { Star, ExternalLink, ArrowLeft, BadgeCheck, Calendar } from "lucide-react";
-import { Link } from "@/i18n/routing";
+import { Star, ExternalLink, BadgeCheck, Calendar } from "lucide-react";
 import { Metadata } from "next";
 import { ToolCard } from "@/components/ToolCard";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getTranslations } from "next-intl/server";
 import { generateToolSchema } from "@/lib/schema";
 import { ProsConsSection } from "@/components/ProsConsSection";
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { getCategorySlug } from "@/lib/breadcrumbs";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -51,6 +52,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const { slug, locale } = await params;
   const tool = getToolBySlug(slug, locale);
   const t = await getTranslations('ToolPage');
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
 
   if (!tool) {
     notFound();
@@ -62,6 +64,18 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const relatedPosts = getRelatedPosts(metadata, 3, locale);
   const jsonLd = generateToolSchema(tool);
 
+  const categorySlug = getCategorySlug(metadata.category);
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+  ];
+
+  if (categorySlug) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    breadcrumbItems.push({ label: tBreadcrumbs(categorySlug as any), href: `/category/${categorySlug}` });
+  }
+
+  breadcrumbItems.push({ label: metadata.title });
+
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
       <script
@@ -69,10 +83,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
-        <Link href="/" className="inline-flex items-center text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 mb-8 transition-colors">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            {t('backToTools')}
-        </Link>
+        <Breadcrumbs items={breadcrumbItems} />
 
         <div className="overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-900/5 dark:bg-zinc-900 dark:ring-white/10">
             <div className="px-6 py-8 sm:px-12 sm:py-12 lg:px-16">

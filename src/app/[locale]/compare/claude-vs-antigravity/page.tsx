@@ -1,15 +1,25 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { getTranslations } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: 'Claude 3.5 Sonnet vs. Google Antigravity (Gemini 3 Pro): The IDE Battle of 2026',
   description: 'A comprehensive comparison of Claude 3.5 Sonnet and Google Antigravity (Gemini 3 Pro). Discover which AI model is best for your coding needs in 2026.',
 };
 
-export default function ComparePage() {
+export default async function ComparePage() {
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+    { label: tBreadcrumbs('compare'), href: '/compare' },
+    { label: "Claude 3.5 Sonnet vs. Google Antigravity" },
+  ];
+
   return (
     <div className="bg-white dark:bg-gray-900 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+        <Breadcrumbs items={breadcrumbItems} />
         <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-8 text-center">
           Claude 3.5 Sonnet vs. Google Antigravity (Gemini 3 Pro): The IDE Battle of 2026
         </h1>

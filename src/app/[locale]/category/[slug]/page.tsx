@@ -3,6 +3,7 @@ import { ToolGrid } from "@/components/ToolGrid";
 import { getTranslations } from 'next-intl/server';
 import { notFound } from "next/navigation";
 import { CATEGORY_MAPPINGS } from "@/lib/categories";
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_MAPPINGS).map((slug) => ({
@@ -61,6 +62,7 @@ export default async function CategoryPage({
   }
 
   const t = await getTranslations('CategoryPage');
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
   
   // Get the categories for the current slug
   const targetCategories = CATEGORY_MAPPINGS[slug as keyof typeof CATEGORY_MAPPINGS];
@@ -77,9 +79,16 @@ export default async function CategoryPage({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const description = t(`${slug}_description` as any);
 
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    { label: tBreadcrumbs(slug as any) },
+  ];
+
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+        <Breadcrumbs items={breadcrumbItems} />
         <div className="mx-auto max-w-2xl text-center mb-16">
           <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-6xl dark:text-zinc-50">
             {title}

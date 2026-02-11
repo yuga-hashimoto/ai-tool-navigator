@@ -118,5 +118,16 @@
   "BlogPage": {
     "title": "AI Insights & Reviews",
     "description": "Deep dives into the latest AI tools, comparisons, and industry trends."
+  },
+  "Breadcrumbs": {
+    "home": "Home",
+    "blog": "Blog",
+    "compare": "Compare",
+    "deals": "Deals",
+    "tools": "Tools",
+    "category": "Category",
+    "video": "Video",
+    "writing": "Writing",
+    "coding": "Coding"
   }
 }

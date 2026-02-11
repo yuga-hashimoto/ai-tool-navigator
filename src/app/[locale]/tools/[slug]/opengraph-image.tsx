@@ -90,11 +90,19 @@ export default async function Image({ params }: { params: Promise<{ slug: string
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: 20 }}>
             {/* Simple star representation since we can't easily loop in JSX inside ImageResponse without creating an array */}
              <div style={{ display: 'flex' }}>
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} style={{ fontSize: 40, color: i < Math.round(metadata.rating) ? '#facc15' : '#52525b' }}>★</div>
-              ))}
+              {Array.from({ length: 5 }).map((_, i) => {
+                  const rating = metadata.rating;
+                  const is10PointScale = rating > 5;
+                  const normalizedRating = is10PointScale ? rating / 2 : rating;
+                  // Use partial stars logic?
+                  // Math.round logic matches what I did in components for full stars.
+                  const isFilled = i < Math.round(normalizedRating);
+                  return (
+                    <div key={i} style={{ fontSize: 40, color: isFilled ? '#facc15' : '#52525b' }}>★</div>
+                  );
+              })}
             </div>
-            <div style={{ fontSize: 30, color: '#e4e4e7', marginLeft: 10 }}>{metadata.rating}/5</div>
+            <div style={{ fontSize: 30, color: '#e4e4e7', marginLeft: 10 }}>{metadata.rating}/{metadata.rating > 5 ? '10' : '5'}</div>
         </div>
 
          <div style={{ fontSize: 30, color: '#d4d4d8', maxWidth: '80%', marginTop: 30, lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>

@@ -2,7 +2,8 @@
 
 import { ToolMetadata } from '@/lib/tools';
 import { Link } from '@/i18n/routing';
-import { Star, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Sparkles, CheckCircle2 } from 'lucide-react';
+import { Rating } from '@/components/Rating';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
@@ -83,11 +84,7 @@ export function FeaturedTools({ tools }: FeaturedToolsProps) {
                 </div>
 
                 <div className="relative z-10 mt-auto flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800 pt-6">
-                  <div className="flex items-center gap-1.5">
-                      <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
-                      <span className="text-lg font-bold text-zinc-900 dark:text-white">{tool.rating}</span>
-                      <span className="text-zinc-500 text-sm">/ 5.0</span>
-                  </div>
+                  <Rating rating={tool.rating} size="h-5 w-5" textClassName="text-lg font-bold text-zinc-900 dark:text-white" />
                   <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform flex items-center gap-1">
                       {t('checkItOut')} &rarr;
                   </span>

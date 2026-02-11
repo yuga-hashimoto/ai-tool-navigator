@@ -2,6 +2,7 @@
   "HomePage": {
     "title": "Premium AI Tool Comparison",
     "description": "Find the perfect AI tool for your needs. Unbiased reviews, pros & cons, and detailed comparisons.",
+    "toolOfTheWeek": "AI Tool of the Week",
     "featuredComparison": "Featured Comparison",
     "editorsChoice": "Editor's Choice",
     "noTools": "No tools found matching your criteria."

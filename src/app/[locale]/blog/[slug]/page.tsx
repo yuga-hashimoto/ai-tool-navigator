@@ -34,9 +34,25 @@ export async function generateMetadata(
     }
   }
 
+  const title = `${post.metadata.title} - AI Tool Navigator Blog`;
+  const description = post.metadata.excerpt;
+
   return {
-    title: `${post.metadata.title} - AI Tool Navigator Blog`,
-    description: post.metadata.excerpt,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      publishedTime: post.metadata.date,
+      authors: [post.metadata.author],
+      url: `/${locale}/blog/${slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   }
 }
 

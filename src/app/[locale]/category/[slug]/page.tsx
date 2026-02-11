@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             title: fullTitle,
             description: description,
             type: 'website',
+            url: `/${locale}/category/${slug}`,
         },
         twitter: {
             card: 'summary_large_image',

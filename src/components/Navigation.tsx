@@ -7,7 +7,7 @@ import { Menu, X, Search } from 'lucide-react';
 import { CATEGORY_MAPPINGS } from '@/lib/categories';
 import { cn } from '@/lib/utils';
 
-export function Navigation() {
+export function Navigation({ className }: { className?: string }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const t = useTranslations('Navigation');
@@ -24,7 +24,7 @@ export function Navigation() {
   };
 
   return (
-    <nav className="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-black/80 backdrop-blur-md sticky top-0 z-50">
+    <nav className={cn("border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-black/80 backdrop-blur-md sticky top-0 z-50", className)}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-8">

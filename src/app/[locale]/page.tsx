@@ -1,8 +1,9 @@
-import { getAllTools } from "@/lib/tools";
+import { getAllTools, getToolOfTheWeek } from "@/lib/tools";
 import { ToolGrid } from "@/components/ToolGrid";
 import { ToolCard } from "@/components/ToolCard";
 import { FeaturedTools } from "@/components/FeaturedTools";
 import { SponsoredTools } from "@/components/SponsoredTools";
+import { ToolOfTheWeek } from "@/components/ToolOfTheWeek";
 import { Link } from "@/i18n/routing";
 import { ArrowLeft } from "lucide-react";
 import { getTranslations } from 'next-intl/server';
@@ -21,6 +22,7 @@ export default async function Home({
   const { locale } = await params;
   const t = await getTranslations('HomePage');
   const tools = getAllTools(locale);
+  const toolOfTheWeek = getToolOfTheWeek(locale);
   const editorsChoiceSlugs = ['speechify', 'mixo', 'copy-ai', 'basedlabs', 'homesage'];
   const editorsChoiceTools = tools.filter(tool => editorsChoiceSlugs.includes(tool.slug));
 
@@ -38,6 +40,9 @@ export default async function Home({
 
         {/* Sponsored Tools Section */}
         <SponsoredTools tools={tools} />
+
+        {/* Tool of the Week Section */}
+        <ToolOfTheWeek tool={toolOfTheWeek} />
 
         {/* Featured Comparison Banner */}
         <div className="mb-16">

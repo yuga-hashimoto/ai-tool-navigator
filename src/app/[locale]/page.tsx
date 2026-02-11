@@ -5,6 +5,7 @@ import { FeaturedTools } from "@/components/FeaturedTools";
 import { Link } from "@/i18n/routing";
 import { ArrowLeft } from "lucide-react";
 import { getTranslations } from 'next-intl/server';
+import { Suspense } from 'react';
 
 export const metadata = {
   title: "AI Tool Navigator",
@@ -82,7 +83,9 @@ export default async function Home({
           </div>
         )}
 
-        <ToolGrid tools={tools} />
+        <Suspense fallback={<div className="py-12 text-center">Loading tools...</div>}>
+          <ToolGrid tools={tools} />
+        </Suspense>
       </div>
     </div>
   );

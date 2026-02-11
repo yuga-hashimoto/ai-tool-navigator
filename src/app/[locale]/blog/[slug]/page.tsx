@@ -2,9 +2,11 @@ import { getPostBySlug, getAllPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Link, routing } from "@/i18n/routing";
-import { ArrowLeft, Calendar, User } from "lucide-react";
+import { routing } from "@/i18n/routing";
+import { Calendar, User } from "lucide-react";
 import { Metadata } from "next";
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { getTranslations } from "next-intl/server";
 
 export async function generateStaticParams() {
   const params = [];
@@ -38,6 +40,7 @@ export async function generateMetadata(
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string, locale: string }> }) {
   const { slug, locale } = await params;
   const post = getPostBySlug(slug, locale);
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
 
   if (!post) {
     notFound();
@@ -45,13 +48,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   const { metadata, content } = post;
 
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+    { label: tBreadcrumbs('blog'), href: '/blog' },
+    { label: metadata.title },
+  ];
+
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
       <div className="mx-auto max-w-3xl px-6 lg:px-8">
-        <Link href="/blog" className="inline-flex items-center text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 mb-8 transition-colors">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Blog
-        </Link>
+        <Breadcrumbs items={breadcrumbItems} />
 
         <article>
             <header className="mb-10 text-center">

@@ -2,6 +2,7 @@ import { getAllPosts } from "@/lib/posts";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { ArticleCard } from "@/components/ArticleCard";
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Blog - AI Tool Navigator",
@@ -15,11 +16,18 @@ export default async function BlogPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations("BlogPage");
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
   const posts = getAllPosts(locale);
+
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+    { label: tBreadcrumbs('blog') },
+  ];
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-24 sm:py-32 transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <Breadcrumbs items={breadcrumbItems} />
         <div className="mx-auto max-w-2xl text-center mb-16">
           <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
             {t("title")}

@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import AffiliateSection from '@/components/AffiliateSection';
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { getTranslations } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: 'Gemini 3 Pro vs. Claude 3.7 Sonnet: The 2026 Coding Showdown | AI Tool Navigator',
@@ -14,10 +16,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ComparePage() {
+export default async function ComparePage() {
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+    { label: tBreadcrumbs('compare'), href: '/compare' },
+    { label: "Gemini 3 Pro vs. Claude 3.7 Sonnet" },
+  ];
+
   return (
     <div className="bg-white dark:bg-gray-900 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto mb-16">
+        <Breadcrumbs items={breadcrumbItems} />
         <div className="mb-8 text-center">
             <span className="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-sm font-semibold mb-4">
                 2026 Update

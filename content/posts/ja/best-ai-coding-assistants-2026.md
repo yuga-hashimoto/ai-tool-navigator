@@ -19,8 +19,9 @@ AIネイティブなエディタとして絶大な人気を誇るツール。VS 
     *   プロジェクト全体のコードベースを理解する「Codebase Indexing」。
     *   自然言語でファイルを跨いだ編集が可能な「Composer」機能。
     *   次に書くコードを予測する「Copilot++」。
+    *   DeepSeek V3を含む、多様なモデルを選択可能。
 *   **料金:** フリープランあり。Pro版は月額$20。
-*   **[公式サイトへ](https://cursor.sh)**
+*   **[Cursorの詳細を見る](/tools/cursor)** / **[公式サイトへ](https://cursor.sh)**
 
 ## 2. GitHub Copilot
 AIコーディングアシスタントの代名詞的存在。GitHub上の膨大なコードを学習しており、汎用性が高く、多くの企業で標準採用されています。
@@ -29,6 +30,7 @@ AIコーディングアシスタントの代名詞的存在。GitHub上の膨大
 *   **主な特徴:**
     *   幅広い言語とフレームワークに対応した安定したコード生成。
     *   GitHub IssuesやPull Requestsとの強力な連携。
+    *   最新のGPT-5モデルをサポートし、より正確な推論を実現。
     *   IDE内でチャット形式で質問できる「Copilot Chat」。
 *   **料金:** 個人向け月額$10、ビジネスプランあり。
 *   **[公式サイトへ](https://github.com/features/copilot)**
@@ -41,6 +43,7 @@ Codeiumが2024年末にリリースした次世代のエージェント型IDE。
     *   深い文脈理解を持つ「Cascade」機能により、複雑なリファクタリングも可能。
     *   エディタ操作とターミナルコマンド実行をAIが代行。
     *   超高速なインデックス作成によるレスポンスの良さ。
+    *   DeepSeek V3モデルへの対応により、コスト効率の良い開発が可能。
 *   **料金:** 個人向け無料プランあり。Pro版は月額$15〜。
 *   **[公式サイトへ](https://codeium.com/windsurf)**
 
@@ -50,10 +53,11 @@ VS Codeの拡張機能として動作する、強力な自律型AIエンジニ�
 *   **概要:** 複雑なタスクを丸投げできる自律型エージェント。
 *   **主な特徴:**
     *   ファイルの作成・編集からターミナルでのコマンド実行まで自律的に行う。
-    *   Claude 3.7 Sonnetなどの最新モデルをAPIキーで利用可能。
+    *   Claude Opus 4.6などの最新モデルをAPIキーで利用可能。
     *   各ステップで人間の承認を求める安全設計。
+    *   DeepSeek V3などの外部モデルも柔軟に選択可能。
 *   **料金:** 拡張機能は無料（各LLMのAPI利用料が別途必要）。
-*   **[公式サイトへ](https://github.com/cline/cline)**
+*   **[Claudeの詳細を見る](/tools/claude)** / **[公式サイトへ](https://github.com/cline/cline)**
 
 ## 5. Supermaven
 驚異的なスピードと100万トークン以上のコンテキストウィンドウを持つコード補完ツール。レイテンシを感じさせない爆速な体験が売りです。
@@ -110,16 +114,16 @@ AWS（Amazon Web Services）での開発に特化したAIアシスタント（�
 *   **料金:** 個人利用は無料。Pro版は月額$19。
 *   **[公式サイトへ](https://aws.amazon.com/q/developer/)**
 
-## 10. Gemini Code Assist
-Googleが提供する、超長文コンテキスト（最大100万トークン以上）に対応したAIアシスタント。Google Cloudとの親和性が高いです。
+## 10. Google Antigravity / Gemini Code Assist
+Googleが提供する、超長文コンテキストに対応した次世代のAIアシスタント。最新の「Antigravity」機能により、自律的な開発体験を提供します。
 
-*   **概要:** GoogleのGemini 1.5 Proモデルを搭載したパワフルなツール。
+*   **概要:** Gemini 3 Proモデルを搭載した、Googleの最高峰ツール。
 *   **主な特徴:**
-    *   極めて長いコンテキストウィンドウで、大規模プロジェクト全体を理解。
+    *   極めて長いコンテキストウィンドウ（200万トークン超）で、大規模プロジェクト全体を理解。
+    *   **Google Antigravity**: 開発者の意図を深く理解し、複雑なタスクを自律的に遂行するエージェント機能。
     *   Google Cloud Platform (GCP) との深い統合により、デプロイやログ分析も支援。
-    *   マルチモーダル対応で、UIのスクリーンショットからコード生成も可能。
-*   **料金:** 月額$19（ユーザーあたり）。
-*   **[公式サイトへ](https://cloud.google.com/products/gemini/code-assist)**
+*   **料金:** 月額$19（ユーザーあたり）。Antigravity機能は別途オプションの場合あり。
+*   **[Geminiの詳細を見る](/tools/gemini)** / **[公式サイトへ](https://cloud.google.com/products/gemini/code-assist)**
 
 ## 結論
 2026年のAIコーディングアシスタントは、それぞれの強みが明確に分かれています。
@@ -127,6 +131,6 @@ Googleが提供する、超長文コンテキスト（最大100万トークン�
 *   **IDE体験そのものを変えたいなら:** **Cursor** や **Windsurf**
 *   **安定性と既存フローを重視するなら:** **GitHub Copilot**
 *   **自律的にタスクを任せたいなら:** **Claude Dev (Cline)** や **Aider**
-*   **大規模なコンテキストが必要なら:** **Supermaven** や **Gemini Code Assist**
+*   **大規模なコンテキストと未来的な体験が必要なら:** **Google Antigravity** (Gemini Code Assist)
 
 自分の開発スタイルやチームの要件に合ったツールを選び、開発効率を最大化しましょう。

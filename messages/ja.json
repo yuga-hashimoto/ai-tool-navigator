@@ -72,6 +72,7 @@
     "tryThisTool": "ツールを試す",
     "pros": "長所",
     "cons": "短所",
+    "prosConsTitle": "長所と短所",
     "relatedTools": "関連ツール",
     "toolNotFound": "ツールが見つかりません"
   },

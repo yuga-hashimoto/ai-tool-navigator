@@ -1,12 +1,13 @@
 import { getToolBySlug, getToolSlugs, getRelatedTools } from "@/lib/tools";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import { Star, CheckCircle2, XCircle, ExternalLink, ArrowLeft, BadgeCheck, Calendar } from "lucide-react";
+import { Star, ExternalLink, ArrowLeft, BadgeCheck, Calendar } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { Metadata } from "next";
 import { ToolCard } from "@/components/ToolCard";
 import { getTranslations } from "next-intl/server";
 import { generateToolSchema } from "@/lib/schema";
+import { ProsConsSection } from "@/components/ProsConsSection";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -123,36 +124,15 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                     </a>
                 </div>
 
-                <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
-                    {metadata.pros && metadata.pros.length > 0 && (
-                        <div className="rounded-2xl bg-green-50/50 p-6 ring-1 ring-green-600/10 dark:bg-green-500/5 dark:ring-green-500/20">
-                            <h3 className="flex items-center text-sm font-semibold text-green-700 dark:text-green-400 mb-4">
-                                <CheckCircle2 className="mr-2 h-5 w-5" /> {t('pros')}
-                            </h3>
-                            <ul className="space-y-3">
-                                {metadata.pros.map((pro: string, idx: number) => (
-                                    <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
-                                        <span className="mr-2">•</span> {pro}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                    {metadata.cons && metadata.cons.length > 0 && (
-                        <div className="rounded-2xl bg-red-50/50 p-6 ring-1 ring-red-600/10 dark:bg-red-500/5 dark:ring-red-500/20">
-                            <h3 className="flex items-center text-sm font-semibold text-red-700 dark:text-red-400 mb-4">
-                                <XCircle className="mr-2 h-5 w-5" /> {t('cons')}
-                            </h3>
-                            <ul className="space-y-3">
-                                {metadata.cons.map((con: string, idx: number) => (
-                                    <li key={idx} className="flex items-start text-sm text-zinc-700 dark:text-zinc-300">
-                                        <span className="mr-2">•</span> {con}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </div>
+                <ProsConsSection
+                    pros={metadata.pros}
+                    cons={metadata.cons}
+                    labels={{
+                        title: t('prosConsTitle'),
+                        pros: t('pros'),
+                        cons: t('cons'),
+                    }}
+                />
 
                 <div className="mt-12 prose prose-zinc dark:prose-invert max-w-none">
                     <ReactMarkdown>{content}</ReactMarkdown>

@@ -43,6 +43,7 @@ export function FeaturedTools({ tools }: FeaturedToolsProps) {
                       src={tool.image}
                       alt={tool.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"
                    />
                 </div>

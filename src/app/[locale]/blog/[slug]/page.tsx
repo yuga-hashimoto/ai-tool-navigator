@@ -175,6 +175,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                                                     src={post.image}
                                                     alt={post.title}
                                                     fill
+                                                    sizes="96px"
                                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                                 />
                                              </div>

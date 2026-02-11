@@ -87,6 +87,7 @@ export function ToolOfTheWeek({ tool }: ToolOfTheWeekProps) {
                         src={tool.image}
                         alt={tool.title}
                         fill
+                        sizes="200px"
                         className="object-cover"
                     />
                  ) : (

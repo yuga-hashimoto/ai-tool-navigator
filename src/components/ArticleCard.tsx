@@ -23,6 +23,7 @@ export function ArticleCard({ post, locale }: ArticleCardProps) {
             src={post.image}
             alt={post.title}
             fill
+            sizes="(max-width: 1024px) 100vw, 33vw"
             className="object-cover transition-transform duration-300 hover:scale-105"
           />
         </div>

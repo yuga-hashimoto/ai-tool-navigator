@@ -30,10 +30,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     
     const title = t(titleKey);
     const description = t(descriptionKey);
+    const fullTitle = `${title} - AI Tool Navigator`;
 
     return {
-        title: `${title} - AI Tool Navigator`,
+        title: fullTitle,
         description: description,
+        openGraph: {
+            title: fullTitle,
+            description: description,
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: fullTitle,
+            description: description,
+        },
     }
 }
 

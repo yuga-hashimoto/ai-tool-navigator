@@ -99,12 +99,12 @@
     "close": "Close"
   },
   "CategoryPage": {
-    "video_title": "Video Generation Tools",
-    "video_description": "Create stunning videos with AI.",
-    "writing_title": "Writing & Copywriting Tools",
-    "writing_description": "Generate high-quality content in seconds.",
-    "coding_title": "Coding Assistants & Agents",
-    "coding_description": "Build software faster with AI.",
+    "video_title": "Top AI Video Generator Tools & Software (2025)",
+    "video_description": "Discover the best AI video generation tools to create professional videos in minutes. Compare features, pricing, and reviews of top video AI software.",
+    "writing_title": "Best AI Writing Assistants & Copywriting Tools",
+    "writing_description": "Boost your content creation with top-rated AI writing assistants. Find the best tools for copywriting, blogging, and creative writing.",
+    "coding_title": "Best AI Coding Assistants & Developer Tools",
+    "coding_description": "Accelerate your development workflow with the best AI coding assistants. Compare code generation, debugging, and refactoring tools.",
     "noTools": "No tools found in this category."
   },
   "BlogPage": {

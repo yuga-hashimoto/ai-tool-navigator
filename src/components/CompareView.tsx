@@ -3,7 +3,8 @@
 import { ToolMetadata } from "@/lib/tools";
 import { useCompare } from "@/context/CompareContext";
 import Link from "next/link";
-import { Star, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
+import { Rating } from "@/components/Rating";
 
 interface CompareViewProps {
   tools: ToolMetadata[];
@@ -72,10 +73,7 @@ export function CompareView({ tools }: CompareViewProps) {
                 </div>
                 {selectedTools.map((tool) => (
                     <div key={`${tool.slug}-rating`} className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-center items-center bg-zinc-50 dark:bg-zinc-900/50">
-                        <div className="flex items-center gap-1">
-                            <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                            <span className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{tool.rating}</span>
-                        </div>
+                         <Rating rating={tool.rating} size="h-5 w-5" textClassName="text-lg font-bold text-zinc-900 dark:text-zinc-100" />
                     </div>
                 ))}
 

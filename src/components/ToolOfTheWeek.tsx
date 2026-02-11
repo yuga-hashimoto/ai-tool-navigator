@@ -2,7 +2,8 @@
 
 import { ToolMetadata } from '@/lib/tools';
 import { Link } from '@/i18n/routing';
-import { Star, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Zap, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Rating } from '@/components/Rating';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
@@ -51,16 +52,8 @@ export function ToolOfTheWeek({ tool }: ToolOfTheWeekProps) {
                     {tool.description}
                 </p>
 
-                <div className="flex items-center gap-2 mb-8">
-                     <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                            <Star
-                                key={i}
-                                className={`h-5 w-5 ${i < Math.floor(tool.rating) ? 'fill-amber-400 text-amber-400' : 'fill-zinc-200 text-zinc-200 dark:fill-zinc-800 dark:text-zinc-800'}`}
-                            />
-                        ))}
-                     </div>
-                     <span className="text-lg font-bold text-zinc-900 dark:text-white ml-1">{tool.rating}</span>
+                <div className="mb-8">
+                     <Rating rating={tool.rating} size="h-5 w-5" textClassName="text-lg font-bold text-zinc-900 dark:text-white" />
                 </div>
 
                 <div className="flex flex-wrap gap-x-6 gap-y-3 mb-8">

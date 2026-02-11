@@ -1,9 +1,9 @@
 "use client";
 
 import { Link } from '@/i18n/routing';
-import { Star } from 'lucide-react';
 import { ToolMetadata } from '@/lib/tools';
 import { cn } from '@/lib/utils';
+import { Rating } from '@/components/Rating';
 import { useCompare } from '@/context/CompareContext';
 import { MouseEvent } from 'react';
 import { useTranslations } from 'next-intl';
@@ -74,10 +74,7 @@ export function ToolCard({ tool }: { tool: ToolMetadata }) {
                   >
                       {isSelected ? t('selected') : t('compare')}
                   </button>
-                  <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{tool.rating}</span>
-                  </div>
+                  <Rating rating={tool.rating} compact={true} />
               </div>
           </div>
           <div className="mt-4">

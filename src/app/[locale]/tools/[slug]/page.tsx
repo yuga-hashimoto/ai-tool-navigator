@@ -2,9 +2,10 @@ import { getToolBySlug, getToolSlugs, getRelatedTools } from "@/lib/tools";
 import { getRelatedPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import { Star, ExternalLink, BadgeCheck, Calendar } from "lucide-react";
+import { ExternalLink, BadgeCheck, Calendar } from "lucide-react";
 import { Metadata } from "next";
 import { ToolCard } from "@/components/ToolCard";
+import { Rating } from "@/components/Rating";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getTranslations } from "next-intl/server";
 import { generateToolSchema } from "@/lib/schema";
@@ -108,23 +109,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                             </span>
                         </div>
                         <div className="mt-4 flex flex-col gap-2">
-                            <div className="flex items-center gap-2">
-                                <div className="flex items-center">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star
-                                            key={i}
-                                            className={`h-5 w-5 ${
-                                                i < Math.round(metadata.rating || 0)
-                                                    ? "fill-yellow-400 text-yellow-400"
-                                                    : "fill-gray-200 text-gray-200 dark:fill-zinc-700 dark:text-zinc-700"
-                                            }`}
-                                        />
-                                    ))}
-                                </div>
-                                <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                                    {metadata.rating}
-                                </span>
-                            </div>
+                            <Rating rating={metadata.rating || 0} size="h-5 w-5" textClassName="text-lg font-semibold text-zinc-900 dark:text-zinc-100" />
                             {last_updated && (
                                 <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
                                     <Calendar className="h-4 w-4" />

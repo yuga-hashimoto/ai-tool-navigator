@@ -3,11 +3,12 @@ import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
-import { routing } from "@/i18n/routing";
+import { routing, Link } from "@/i18n/routing";
 import { Calendar, User } from "lucide-react";
 import { Metadata } from "next";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 import { extractHeadings } from "@/lib/markdown";
 import { TableOfContents } from "@/components/TableOfContents";
 import { ShareButtons } from "@/components/ShareButtons";
@@ -61,6 +62,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { slug, locale } = await params;
   const post = getPostBySlug(slug, locale);
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
+  const tBlog = await getTranslations('BlogPage');
   const tShare = await getTranslations('ShareButtons');
 
   if (!post) {
@@ -76,6 +78,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     { label: tBreadcrumbs('blog'), href: '/blog' },
     { label: metadata.title },
   ];
+
+  // Fetch recent posts
+  const allPosts = getAllPosts(locale);
+  const recentPosts = allPosts
+    .filter((p) => p.slug !== slug)
+    .slice(0, 5);
+
+  const dateLocale = locale === 'ja' ? 'ja-JP' : 'en-US';
 
   const components = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
@@ -101,7 +111,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             <div className="flex items-center gap-1">
                                 <Calendar className="h-4 w-4" />
                                 <time dateTime={metadata.date}>
-                                    {new Date(metadata.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                    {new Date(metadata.date).toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
                                 </time>
                             </div>
                             <span>•</span>
@@ -138,14 +148,49 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </div>
                 </article>
             </main>
-            <aside className="hidden lg:block lg:col-span-4">
+
+            <aside className="lg:col-span-4 space-y-8">
                  <div className="sticky top-24 space-y-8">
-                    <TableOfContents headings={headings} />
+                    <div className="hidden lg:block space-y-8">
+                        <TableOfContents headings={headings} />
+                        <div>
+                            <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 mb-4 uppercase tracking-wider text-xs">
+                                {tShare('shareThisPost')}
+                            </h3>
+                            <ShareButtons url={url} title={metadata.title} />
+                        </div>
+                    </div>
+
                     <div>
-                        <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 mb-4 uppercase tracking-wider text-xs">
-                            {tShare('shareThisPost')}
-                        </h3>
-                        <ShareButtons url={url} title={metadata.title} />
+                         <h3 className="text-xl font-semibold mb-6 text-zinc-900 dark:text-zinc-100">
+                            {tBlog('recentPosts')}
+                         </h3>
+                         <ul className="space-y-6">
+                            {recentPosts.map((post) => (
+                                <li key={post.slug} className="group">
+                                    <Link href={`/blog/${post.slug}`} className="flex gap-4">
+                                         {post.image && (
+                                             <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
+                                                <Image
+                                                    src={post.image}
+                                                    alt={post.title}
+                                                    fill
+                                                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                                />
+                                             </div>
+                                         )}
+                                         <div className="flex flex-col justify-center">
+                                             <h4 className="text-sm font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                                                {post.title}
+                                             </h4>
+                                             <time className="text-xs text-zinc-500 mt-1 block">
+                                                {new Date(post.date).toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
+                                             </time>
+                                         </div>
+                                    </Link>
+                                </li>
+                            ))}
+                         </ul>
                     </div>
                  </div>
             </aside>

@@ -10,13 +10,19 @@ export function generateToolSchema(tool: Tool) {
     name: metadata.title,
     description: metadata.description,
     applicationCategory: metadata.category,
-    operatingSystem: "Web", 
+    operatingSystem: "Web",
   };
+
+  if (metadata.last_updated) {
+    schema.dateModified = metadata.last_updated;
+  }
 
   if (metadata.affiliate_link) {
     schema.offers = {
       "@type": "Offer",
       url: metadata.affiliate_link,
+      price: "0",
+      priceCurrency: "USD",
     };
   }
 

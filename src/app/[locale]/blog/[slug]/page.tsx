@@ -10,6 +10,7 @@ import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getTranslations } from "next-intl/server";
 import { extractHeadings } from "@/lib/markdown";
 import { TableOfContents } from "@/components/TableOfContents";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export async function generateStaticParams() {
   const params = [];
@@ -60,6 +61,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { slug, locale } = await params;
   const post = getPostBySlug(slug, locale);
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
+  const tShare = await getTranslations('ShareButtons');
 
   if (!post) {
     notFound();
@@ -67,6 +69,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   const { metadata, content } = post;
   const headings = extractHeadings(content);
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/blog/${slug}`;
 
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: tBreadcrumbs('home'), href: '/' },
@@ -119,6 +122,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                                 ))}
                             </div>
                         )}
+                        <div className="flex justify-center mt-6">
+                            <ShareButtons url={url} title={metadata.title} />
+                        </div>
                     </header>
 
                     <div className="prose prose-lg prose-zinc dark:prose-invert">
@@ -133,8 +139,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 </article>
             </main>
             <aside className="hidden lg:block lg:col-span-4">
-                 <div className="sticky top-24">
+                 <div className="sticky top-24 space-y-8">
                     <TableOfContents headings={headings} />
+                    <div>
+                        <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 mb-4 uppercase tracking-wider text-xs">
+                            {tShare('shareThisPost')}
+                        </h3>
+                        <ShareButtons url={url} title={metadata.title} />
+                    </div>
                  </div>
             </aside>
         </div>

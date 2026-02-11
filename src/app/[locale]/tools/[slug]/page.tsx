@@ -12,6 +12,7 @@ import { ProsConsSection } from "@/components/ProsConsSection";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getCategorySlug } from "@/lib/breadcrumbs";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -55,6 +56,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const tool = getToolBySlug(slug, locale);
   const t = await getTranslations('ToolPage');
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
+  const tShare = await getTranslations('ShareButtons');
 
   if (!tool) {
     notFound();
@@ -65,6 +67,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const relatedTools = getRelatedTools(metadata, 3, locale);
   const relatedPosts = getRelatedPosts(metadata, 3, locale);
   const jsonLd = generateToolSchema(tool);
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/tools/${slug}`;
 
   const categorySlug = getCategorySlug(metadata.category);
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -155,6 +158,13 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
                 <div className="mt-12 prose prose-zinc dark:prose-invert max-w-none">
                     <ReactMarkdown>{content}</ReactMarkdown>
+                </div>
+
+                <div className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+                    <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
+                        {tShare('shareThisTool')}
+                    </h3>
+                    <ShareButtons url={url} title={metadata.title} />
                 </div>
             </div>
         </div>

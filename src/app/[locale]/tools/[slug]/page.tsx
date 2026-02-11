@@ -104,7 +104,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                         href={metadata.affiliate_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all transform hover:scale-105"
+                        className="inline-flex w-full sm:w-auto items-center justify-center rounded-full bg-green-600 px-8 py-4 text-base font-semibold text-white shadow-sm hover:bg-green-500 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 transition-all transform hover:scale-105"
                     >
                         {t('tryThisTool')} <ExternalLink className="ml-2 h-4 w-4" />
                     </a>

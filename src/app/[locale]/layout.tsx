@@ -11,6 +11,7 @@ import NewsletterPopup from "@/components/NewsletterPopup";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import { Navigation } from "@/components/Navigation";
 import StickyNotificationBar from "@/components/StickyNotificationBar";
+import BackToTop from "@/components/BackToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,6 +56,7 @@ export default async function RootLayout({
             <CompareBar />
             <NewsletterPopup />
             <ExitIntentPopup />
+            <BackToTop />
             </CompareProvider>
         </NextIntlClientProvider>
       </body>

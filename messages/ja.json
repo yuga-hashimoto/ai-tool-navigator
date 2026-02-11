@@ -28,6 +28,7 @@
   "Footer": {
     "submit": "ツールを送信",
     "sponsorship": "スポンサーシップ",
+    "about": "About",
     "privacy": "プライバシー",
     "terms": "利用規約",
     "rights": "AI Tool Navigator. All rights reserved.",
@@ -37,6 +38,7 @@
     "home": "ホーム",
     "deals": "セール",
     "blog": "ブログ",
+    "about": "About",
     "submit": "ツールを送信",
     "submit_cta": "ツールを送信",
     "search": "検索",
@@ -81,7 +83,9 @@
     "prosConsTitle": "長所と短所",
     "relatedTools": "関連ツール",
     "relatedArticles": "関連記事",
-    "toolNotFound": "ツールが見つかりません"
+    "toolNotFound": "ツールが見つかりません",
+    "copyLink": "リンクをコピー",
+    "copied": "コピーしました"
   },
   "CompareBar": {
       "selected": "選択済み",
@@ -129,5 +133,13 @@
     "video": "動画",
     "writing": "ライティング",
     "coding": "コーディング"
+  },
+  "AboutPage": {
+    "title": "About AI Tool Navigator",
+    "description": "Learn more about our mission to democratize access to artificial intelligence.",
+    "mission_title": "Our Mission",
+    "mission_text": "We are dedicated to helping users navigate the rapidly evolving landscape of artificial intelligence. Our goal is to provide unbiased, comprehensive reviews and comparisons to empower you to make informed decisions.",
+    "values_title": "Our Values",
+    "values_text": "Transparency, integrity, and community are at the core of everything we do. we believe in providing honest assessments and fostering a collaborative environment for AI enthusiasts."
   }
 }

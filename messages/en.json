@@ -28,6 +28,7 @@
   "Footer": {
     "submit": "Submit Tool",
     "sponsorship": "Sponsorship",
+    "about": "About",
     "privacy": "Privacy",
     "terms": "Terms",
     "rights": "AI Tool Navigator. All rights reserved.",
@@ -37,6 +38,7 @@
     "home": "Home",
     "deals": "Deals",
     "blog": "Blog",
+    "about": "About",
     "submit": "Submit Tool",
     "submit_cta": "Submit Your Tool",
     "search": "Search",
@@ -81,7 +83,9 @@
     "prosConsTitle": "Pros & Cons",
     "relatedTools": "Related Tools",
     "relatedArticles": "Related Articles",
-    "toolNotFound": "Tool Not Found"
+    "toolNotFound": "Tool Not Found",
+    "copyLink": "Copy Link",
+    "copied": "Copied"
   },
   "CompareBar": {
       "selected": "selected",
@@ -129,5 +133,13 @@
     "video": "Video",
     "writing": "Writing",
     "coding": "Coding"
+  },
+  "AboutPage": {
+    "title": "About AI Tool Navigator",
+    "description": "Learn more about our mission to democratize access to artificial intelligence.",
+    "mission_title": "Our Mission",
+    "mission_text": "We are dedicated to helping users navigate the rapidly evolving landscape of artificial intelligence. Our goal is to provide unbiased, comprehensive reviews and comparisons to empower you to make informed decisions.",
+    "values_title": "Our Values",
+    "values_text": "Transparency, integrity, and community are at the core of everything we do. we believe in providing honest assessments and fostering a collaborative environment for AI enthusiasts."
   }
 }

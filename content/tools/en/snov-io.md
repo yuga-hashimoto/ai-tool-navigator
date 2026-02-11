@@ -12,6 +12,7 @@ cons:
   - "Learning curve for cold outreach best practices"
   - "Initial setup requires attention to deliverability"
 affiliate_link: "https://snov.io?ref=ai-tools-nav"
+featured: true
 last_updated: "2026-02-10"
 verified: true
 ---

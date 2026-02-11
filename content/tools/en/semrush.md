@@ -12,6 +12,7 @@ cons:
   - "Steep learning curve for beginners"
   - "Premium pricing tiers"
 affiliate_link: "https://semrush.com?ref=ai-tools-nav"
+featured: true
 last_updated: "2026-02-10"
 verified: true
 ---

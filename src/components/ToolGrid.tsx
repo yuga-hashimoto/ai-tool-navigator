@@ -19,6 +19,7 @@ export function ToolGrid({ tools }: ToolGridProps) {
 
   useEffect(() => {
     const query = searchParams.get('search');
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSearchQuery(query || '');
   }, [searchParams]);
 

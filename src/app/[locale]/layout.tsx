@@ -24,8 +24,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app'),
   title: "AI Tool Navigator | Best AI Tools Comparison",
   description: "Compare the best AI tools for writing, coding, image generation, and more. Find the perfect AI solution for your workflow.",
+  openGraph: {
+    type: 'website',
+    siteName: 'AI Tool Navigator',
+    title: "AI Tool Navigator | Best AI Tools Comparison",
+    description: "Compare the best AI tools for writing, coding, image generation, and more. Find the perfect AI solution for your workflow.",
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "AI Tool Navigator | Best AI Tools Comparison",
+    description: "Compare the best AI tools for writing, coding, image generation, and more. Find the perfect AI solution for your workflow.",
+  },
 };
 
 export default async function RootLayout({

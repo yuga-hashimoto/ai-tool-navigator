@@ -12,6 +12,7 @@ import Image from "next/image";
 import { extractHeadings } from "@/lib/markdown";
 import { TableOfContents } from "@/components/TableOfContents";
 import { ShareButtons } from "@/components/ShareButtons";
+import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 
 export async function generateStaticParams() {
   const params = [];
@@ -100,6 +101,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
+      <ReadingProgressBar />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
 

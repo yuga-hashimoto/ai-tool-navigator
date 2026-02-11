@@ -10,6 +10,7 @@ import { CompareBar } from "@/components/CompareBar";
 import NewsletterPopup from "@/components/NewsletterPopup";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import { Navigation } from "@/components/Navigation";
+import StickyNotificationBar from "@/components/StickyNotificationBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,7 +46,10 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
             <CompareProvider>
             <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-727KCHJ884"} />
-            <Navigation />
+            <div className="sticky top-0 z-50 flex flex-col">
+              <StickyNotificationBar />
+              <Navigation className="relative" />
+            </div>
             {children}
             <Footer />
             <CompareBar />

@@ -2,6 +2,7 @@ import { getAllTools } from "@/lib/tools";
 import { ToolGrid } from "@/components/ToolGrid";
 import { ToolCard } from "@/components/ToolCard";
 import { FeaturedTools } from "@/components/FeaturedTools";
+import { SponsoredTools } from "@/components/SponsoredTools";
 import { Link } from "@/i18n/routing";
 import { ArrowLeft } from "lucide-react";
 import { getTranslations } from 'next-intl/server';
@@ -33,6 +34,9 @@ export default async function Home({
             {t('description')}
           </p>
         </div>
+
+        {/* Sponsored Tools Section */}
+        <SponsoredTools tools={tools} />
 
         {/* Featured Comparison Banner */}
         <div className="mb-16">

@@ -40,7 +40,12 @@
       "compare": "Compare",
       "selected": "Selected",
       "readMore": "Read more",
-      "featured": "Featured"
+      "featured": "Featured",
+      "sponsored": "Sponsored"
+  },
+  "SponsoredTools": {
+      "title": "Sponsored Tools",
+      "sponsored": "Sponsored"
   },
   "FeaturedTools": {
       "title": "Featured Tools",

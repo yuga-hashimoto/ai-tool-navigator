@@ -10,6 +10,7 @@ import { ArticleCard } from "@/components/ArticleCard";
 import { getTranslations } from "next-intl/server";
 import { generateToolSchema } from "@/lib/schema";
 import { ProsConsSection } from "@/components/ProsConsSection";
+import { CopyLinkButton } from "@/components/CopyLinkButton";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -117,14 +118,17 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                             )}
                         </div>
                     </div>
-                    <a
-                        href={metadata.affiliate_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex w-full sm:w-auto items-center justify-center rounded-full bg-green-600 px-8 py-4 text-base font-semibold text-white shadow-sm hover:bg-green-500 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 transition-all transform hover:scale-105"
-                    >
-                        {t('tryThisTool')} <ExternalLink className="ml-2 h-4 w-4" />
-                    </a>
+                    <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                        <CopyLinkButton className="w-full sm:w-auto" />
+                        <a
+                            href={metadata.affiliate_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex w-full sm:w-auto items-center justify-center rounded-full bg-green-600 px-8 py-4 text-base font-semibold text-white shadow-sm hover:bg-green-500 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 transition-all transform hover:scale-105"
+                        >
+                            {t('tryThisTool')} <ExternalLink className="ml-2 h-4 w-4" />
+                        </a>
+                    </div>
                 </div>
 
                 <ProsConsSection

@@ -81,7 +81,9 @@
     "prosConsTitle": "Pros & Cons",
     "relatedTools": "Related Tools",
     "relatedArticles": "Related Articles",
-    "toolNotFound": "Tool Not Found"
+    "toolNotFound": "Tool Not Found",
+    "copyLink": "Copy Link",
+    "copied": "Copied"
   },
   "CompareBar": {
       "selected": "selected",

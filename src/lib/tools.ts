@@ -14,6 +14,7 @@ export interface ToolMetadata {
   cons?: string[];
   affiliate_link: string;
   promoted?: boolean;
+  featured?: boolean;
   last_updated?: string;
   verified?: boolean;
   discount?: string;

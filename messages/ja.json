@@ -42,8 +42,13 @@
       "readMore": "続きを読む",
       "featured": "注目"
   },
-  "FeaturedTools": {
+  "FeaturedCarousel": {
       "title": "注目のツール",
+      "viewDeal": "詳細を見る",
+      "learnMore": "もっと詳しく"
+  },
+  "PromotedTools": {
+      "title": "プロモーション",
       "promoted": "プロモーション",
       "checkItOut": "チェックする"
   },

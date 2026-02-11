@@ -5,13 +5,13 @@ import { Link } from '@/i18n/routing';
 import { Star, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-interface FeaturedToolsProps {
+interface PromotedToolsProps {
   tools: ToolMetadata[];
 }
 
-export function FeaturedTools({ tools }: FeaturedToolsProps) {
+export function PromotedTools({ tools }: PromotedToolsProps) {
   const promotedTools = tools.filter((tool) => tool.promoted);
-  const t = useTranslations('FeaturedTools');
+  const t = useTranslations('PromotedTools');
 
   if (promotedTools.length === 0) {
     return null;

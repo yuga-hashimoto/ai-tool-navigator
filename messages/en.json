@@ -42,8 +42,13 @@
       "readMore": "Read more",
       "featured": "Featured"
   },
-  "FeaturedTools": {
+  "FeaturedCarousel": {
       "title": "Featured Tools",
+      "viewDeal": "View Deal",
+      "learnMore": "Learn More"
+  },
+  "PromotedTools": {
+      "title": "Promoted Tools",
       "promoted": "Promoted",
       "checkItOut": "Check it out"
   },

@@ -1,7 +1,8 @@
 import { getAllTools } from "@/lib/tools";
 import { ToolGrid } from "@/components/ToolGrid";
 import { ToolCard } from "@/components/ToolCard";
-import { FeaturedTools } from "@/components/FeaturedTools";
+import { PromotedTools } from "@/components/PromotedTools";
+import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { Link } from "@/i18n/routing";
 import { ArrowLeft } from "lucide-react";
 import { getTranslations } from 'next-intl/server';
@@ -63,8 +64,11 @@ export default async function Home({
           </Link>
         </div>
 
+        {/* Featured Tools Carousel */}
+        <FeaturedCarousel tools={tools} />
+
         {/* Featured Tools Section (Promoted) */}
-        <FeaturedTools tools={tools} />
+        <PromotedTools tools={tools} />
 
         {/* Editor's Choice Section */}
         {editorsChoiceTools.length > 0 && (

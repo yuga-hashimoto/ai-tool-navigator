@@ -2,16 +2,14 @@ import { MetadataRoute } from 'next'
 import { getAllTools } from '@/lib/tools'
 import { getAllPosts } from '@/lib/posts'
 import { CATEGORY_MAPPINGS } from '@/lib/categories'
+import { routing } from '@/i18n/routing'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app'
-  const locales = ['en', 'ja']
+  const locales = routing.locales
   
   // Static pages that exist for each locale
-  // Note: 'tools' index is just a redirect usually or handled via category, but structure says /tools/[slug]. 
-  // There is no /tools page based on file structure (only [slug]). 
-  // However, there is /deals, /compare, etc.
-  const staticPages = ['', 'deals', 'compare', 'privacy', 'terms', 'submit', 'advertise', 'sponsor']
+  const staticPages = ['', 'deals', 'compare', 'privacy', 'terms', 'submit', 'advertise', 'sponsor', 'blog']
 
   // 1. Static Pages
   const staticEntries = locales.flatMap((locale) =>
@@ -44,28 +42,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   )
 
-  // 4. Blog Index
-  const blogIndexEntry = {
-    url: `${baseUrl}/blog`,
-    lastModified: new Date(),
-    changeFrequency: 'daily' as const,
-    priority: 0.8,
-  }
-
-  // 5. Blog Posts
-  const posts = getAllPosts()
-  const postEntries = posts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }))
+  // 4. Blog Posts
+  const postEntries = locales.flatMap((locale) => {
+    const posts = getAllPosts(locale)
+    return posts.map((post) => ({
+      url: `${baseUrl}/${locale}/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }))
+  })
 
   return [
     ...staticEntries,
     ...toolEntries,
     ...categoryEntries,
-    blogIndexEntry,
     ...postEntries,
   ]
 }

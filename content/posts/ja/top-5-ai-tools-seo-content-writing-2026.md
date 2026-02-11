@@ -3,7 +3,7 @@ title: "2026年最新：SEO・記事作成におすすめのAIツールTOP5 | �
 slug: "top-5-ai-tools-seo-content-writing-2026"
 date: "2026-07-15"
 author: "AI Tool Navigator 編集部"
-excerpt: "ChatGPT (GPT-5.3)、Claude Opus 4.6、Perplexityなど、2026年のSEOとコンテンツ制作を革新するAIツール5選。検索順位向上と執筆効率化を実現。"
+excerpt: "ChatGPT (GPT-5.3)、Claude Opus 4.6、Perplexityなど、2026年のSEOとコンテンツ制作を革新するAIツール5選。検索順位の向上と執筆効率化を実現します。"
 tags: ["SEO", "記事作成", "AIライティング", "ブログ", "コンテンツ制作"]
 ---
 

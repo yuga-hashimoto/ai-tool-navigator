@@ -91,6 +91,13 @@
       "successTitle": "登録完了！",
       "successSubtitle": "ありがとうございます。受信トレイをご確認ください。"
   },
+  "StickyNotificationBar": {
+    "text": "最高のAIツール情報をメールでお届けします。",
+    "placeholder": "メールアドレス",
+    "button": "登録",
+    "success": "登録完了！",
+    "close": "閉じる"
+  },
   "CategoryPage": {
     "video_title": "動画生成ツール",
     "video_description": "AIで素晴らしい動画を作成しましょう。",

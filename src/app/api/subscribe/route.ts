@@ -14,7 +14,11 @@ export async function POST(request: Request) {
     }
 
     try {
-      await appendSubscriber(email);
+      if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+        await appendSubscriber(email);
+      } else {
+        console.warn('GOOGLE_SERVICE_ACCOUNT_JSON not set, skipping Google Sheets append.');
+      }
       
       // Also log to console for visibility
       console.log(`[NEWSLETTER LEAD] New subscriber: ${email} at ${new Date().toISOString()}`);

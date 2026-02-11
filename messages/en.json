@@ -91,6 +91,13 @@
       "successTitle": "You're Subscribed!",
       "successSubtitle": "Thanks for joining. Watch your inbox for AI updates."
   },
+  "StickyNotificationBar": {
+    "text": "Get the best AI tools delivered to your inbox.",
+    "placeholder": "Enter your email",
+    "button": "Subscribe",
+    "success": "Subscribed!",
+    "close": "Close"
+  },
   "CategoryPage": {
     "video_title": "Video Generation Tools",
     "video_description": "Create stunning videos with AI.",

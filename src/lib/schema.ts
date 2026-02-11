@@ -1,5 +1,16 @@
 import { Tool } from "@/lib/tools";
 
+const APPLICATION_CATEGORY_MAP: Record<string, string> = {
+  "Video Generation": "Multimedia",
+  "Writing": "Productivity",
+  "Copywriting": "Business",
+  "Code": "Developer",
+  "Coding": "Developer",
+  "Coding Agent": "Developer",
+  "LLM": "Productivity",
+  "Search": "Utilities",
+};
+
 export function generateToolSchema(tool: Tool) {
   const { metadata } = tool;
 
@@ -9,7 +20,7 @@ export function generateToolSchema(tool: Tool) {
     "@type": "SoftwareApplication",
     name: metadata.title,
     description: metadata.description,
-    applicationCategory: metadata.category,
+    applicationCategory: APPLICATION_CATEGORY_MAP[metadata.category] || metadata.category || "Application",
     operatingSystem: "Web",
   };
 
@@ -17,13 +28,21 @@ export function generateToolSchema(tool: Tool) {
     schema.dateModified = metadata.last_updated;
   }
 
+  if (metadata.pros && metadata.pros.length > 0) {
+    schema.featureList = metadata.pros;
+  }
+
   if (metadata.affiliate_link) {
-    schema.offers = {
+    const offer: any = {
       "@type": "Offer",
       url: metadata.affiliate_link,
       price: "0",
       priceCurrency: "USD",
     };
+    if (metadata.discount) {
+      offer.description = metadata.discount;
+    }
+    schema.offers = offer;
   }
 
   if (metadata.rating) {

@@ -33,6 +33,7 @@ export function generateToolSchema(tool: Tool) {
   }
 
   if (metadata.affiliate_link) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const offer: any = {
       "@type": "Offer",
       url: metadata.affiliate_link,

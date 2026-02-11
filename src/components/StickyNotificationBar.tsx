@@ -14,6 +14,7 @@ export default function StickyNotificationBar() {
     const closed = localStorage.getItem('sticky_notification_closed');
     const subscribed = localStorage.getItem('newsletter_subscribed');
     if (!closed && !subscribed) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsVisible(true);
     }
   }, []);
@@ -42,7 +43,7 @@ export default function StickyNotificationBar() {
       } else {
         setStatus('error');
       }
-    } catch (error) {
+    } catch {
       setStatus('error');
     }
   };

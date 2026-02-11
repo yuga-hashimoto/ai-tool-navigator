@@ -7,6 +7,7 @@ const APPLICATION_CATEGORY_MAP: Record<string, string> = {
   "Code": "DeveloperApplication",
   "Coding": "DeveloperApplication",
   "Coding Agent": "DeveloperApplication",
+  "Coding Assistant": "DeveloperApplication",
   "LLM": "BusinessApplication",
   "Search": "UtilitiesApplication",
   "AI Comparisons": "UtilitiesApplication",

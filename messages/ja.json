@@ -99,12 +99,12 @@
     "close": "閉じる"
   },
   "CategoryPage": {
-    "video_title": "動画生成ツール",
-    "video_description": "AIで素晴らしい動画を作成しましょう。",
-    "writing_title": "ライティング＆コピーライティングツール",
-    "writing_description": "数秒で高品質なコンテンツを生成します。",
-    "coding_title": "コーディングアシスタント＆エージェント",
-    "coding_description": "AIでソフトウェア開発を加速させましょう。",
+    "video_title": "おすすめAI動画生成ツール・ソフト (2025年版)",
+    "video_description": "プロ品質の動画を数分で作成できる最高のAI動画生成ツールを見つけましょう。機能、価格、レビューを比較。",
+    "writing_title": "最高のAIライティングアシスタント＆コピーライティングツール",
+    "writing_description": "評価の高いAIライティングアシスタントでコンテンツ作成を効率化。コピーライティング、ブログ、クリエイティブな執筆に最適なツールを探す。",
+    "coding_title": "おすすめAIコーディングアシスタント＆開発ツール",
+    "coding_description": "最高のAIコーディングアシスタントで開発ワークフローを加速。コード生成、デバッグ、リファクタリングツールを比較。",
     "noTools": "このカテゴリーのツールは見つかりませんでした。"
   },
   "BlogPage": {

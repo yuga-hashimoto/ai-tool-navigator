@@ -30,6 +30,9 @@ export function Footer() {
             <Link href="/sponsor" className="text-zinc-500 hover:text-zinc-400">
               {t('sponsorship')}
             </Link>
+            <Link href="/about" className="text-zinc-500 hover:text-zinc-400">
+              {t('about')}
+            </Link>
             <Link href="/privacy" className="text-zinc-500 hover:text-zinc-400">
               {t('privacy')}
             </Link>

@@ -126,7 +126,6 @@ export function Navigation({ className }: { className?: string }) {
                    className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
                    onClick={() => setIsMenuOpen(false)}
                  >
-                   {/* @ts-ignore */}
                    {t(slug)}
                  </Link>
                ))}

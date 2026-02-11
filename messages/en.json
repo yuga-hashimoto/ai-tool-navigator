@@ -93,7 +93,7 @@
       "successSubtitle": "Thanks for joining. Watch your inbox for AI updates."
   },
   "StickyNotificationBar": {
-    "text": "Get the best AI tools delivered to your inbox.",
+    "text": "Subscribe for AI Updates",
     "placeholder": "Enter your email",
     "button": "Subscribe",
     "success": "Subscribed!",

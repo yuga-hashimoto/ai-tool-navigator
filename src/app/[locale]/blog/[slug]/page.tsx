@@ -8,6 +8,7 @@ import { Calendar, User } from "lucide-react";
 import { Metadata } from "next";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getTranslations } from "next-intl/server";
+import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { extractHeadings } from "@/lib/markdown";
 import { TableOfContents } from "@/components/TableOfContents";
 import { ShareButtons } from "@/components/ShareButtons";
@@ -90,6 +91,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
+      <ReadingProgressBar />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
 

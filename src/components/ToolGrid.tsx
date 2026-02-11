@@ -1,19 +1,27 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ToolMetadata } from '@/lib/tools';
 import { ToolCard } from './ToolCard';
 import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 
 interface ToolGridProps {
   tools: ToolMetadata[];
 }
 
 export function ToolGrid({ tools }: ToolGridProps) {
+  const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('search') || '');
+
+  useEffect(() => {
+    const query = searchParams.get('search');
+    setSearchQuery(query || '');
+  }, [searchParams]);
+
   const t = useTranslations('ToolGrid');
   const tHome = useTranslations('HomePage');
 

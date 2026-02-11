@@ -118,5 +118,16 @@
   "BlogPage": {
     "title": "AIツール解説＆レビュー",
     "description": "最新のAIツール、比較、業界トレンドを深掘りします。"
+  },
+  "Breadcrumbs": {
+    "home": "ホーム",
+    "blog": "ブログ",
+    "compare": "比較",
+    "deals": "セール",
+    "tools": "ツール",
+    "category": "カテゴリー",
+    "video": "動画",
+    "writing": "ライティング",
+    "coding": "コーディング"
   }
 }

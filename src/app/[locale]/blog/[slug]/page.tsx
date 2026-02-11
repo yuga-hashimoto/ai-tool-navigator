@@ -7,6 +7,7 @@ import { Calendar, User } from "lucide-react";
 import { Metadata } from "next";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getTranslations } from "next-intl/server";
+import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 
 export async function generateStaticParams() {
   const params = [];
@@ -56,6 +57,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
+      <ReadingProgressBar />
       <div className="mx-auto max-w-3xl px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
 

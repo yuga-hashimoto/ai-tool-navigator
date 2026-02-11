@@ -1,14 +1,26 @@
 import { Tool } from "@/lib/tools";
 
 const APPLICATION_CATEGORY_MAP: Record<string, string> = {
-  "Video Generation": "Multimedia",
-  "Writing": "Productivity",
-  "Copywriting": "Business",
-  "Code": "Developer",
-  "Coding": "Developer",
-  "Coding Agent": "Developer",
-  "LLM": "Productivity",
-  "Search": "Utilities",
+  "Video Generation": "MultimediaApplication",
+  "Writing": "BusinessApplication",
+  "Copywriting": "BusinessApplication",
+  "Code": "DeveloperApplication",
+  "Coding": "DeveloperApplication",
+  "Coding Agent": "DeveloperApplication",
+  "LLM": "BusinessApplication",
+  "Search": "UtilitiesApplication",
+  "AI Comparisons": "UtilitiesApplication",
+  "AI Coworker": "BusinessApplication",
+  "Automation": "BusinessApplication",
+  "Business Automation": "BusinessApplication",
+  "Comparison": "UtilitiesApplication",
+  "LLM/Chatbot": "CommunicationApplication",
+  "Marketing": "BusinessApplication",
+  "Real Estate": "BusinessApplication",
+  "Security": "SecurityApplication",
+  "Text-to-Speech": "MultimediaApplication",
+  "Upcoming LLM": "BusinessApplication",
+  "Website Builder": "DesignApplication",
 };
 
 export function generateToolSchema(tool: Tool) {
@@ -47,12 +59,29 @@ export function generateToolSchema(tool: Tool) {
   }
 
   if (metadata.rating) {
+    const bestRating = metadata.rating > 5 ? "10" : "5";
+
     schema.aggregateRating = {
       "@type": "AggregateRating",
       ratingValue: metadata.rating,
       ratingCount: 1,
-      bestRating: "5",
+      bestRating: bestRating,
       worstRating: "1",
+    };
+
+    schema.review = {
+      "@type": "Review",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: metadata.rating,
+        bestRating: bestRating,
+        worstRating: "1",
+      },
+      author: {
+        "@type": "Organization",
+        name: "AI Tool Navigator",
+      },
+      reviewBody: metadata.description,
     };
   }
 

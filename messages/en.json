@@ -58,12 +58,17 @@
       "featured": "Featured",
       "sponsored": "Sponsored"
   },
+  "FeaturedCarousel": {
+      "title": "Featured Tools",
+      "viewDeal": "View Deal",
+      "learnMore": "Learn More"
+  },
   "SponsoredTools": {
       "title": "Sponsored Tools",
       "sponsored": "Sponsored"
   },
   "FeaturedTools": {
-      "title": "Featured Tools",
+      "title": "Promoted Tools",
       "promoted": "Promoted",
       "checkItOut": "Check it out"
   },

@@ -2,18 +2,27 @@ import { getAllTools } from "@/lib/tools";
 import { CompareView } from "@/components/CompareView";
 import { Metadata } from "next";
 import Link from 'next/link';
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { getTranslations } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "Compare AI Tools | AI Tool Navigator",
   description: "Compare features, pricing, pros, and cons of top AI tools side-by-side.",
 };
 
-export default function ComparePage() {
+export default async function ComparePage() {
   const tools = getAllTools();
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
+
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+    { label: tBreadcrumbs('compare') },
+  ];
 
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+        <Breadcrumbs items={breadcrumbItems} />
         <div className="mx-auto max-w-2xl text-center mb-16">
           <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
             Compare AI Tools

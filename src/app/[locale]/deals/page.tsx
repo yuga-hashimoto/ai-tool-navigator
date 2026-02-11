@@ -1,6 +1,7 @@
 import { getAllTools } from "@/lib/tools";
 import { ToolCard } from "@/components/ToolCard";
 import { getTranslations } from 'next-intl/server';
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 
 export async function generateMetadata({
   params
@@ -22,12 +23,19 @@ export default async function DealsPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations('DealsPage');
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
   const tools = getAllTools(locale);
   const deals = tools.filter(tool => tool.discount);
+
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+    { label: tBreadcrumbs('deals') },
+  ];
 
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+        <Breadcrumbs items={breadcrumbItems} />
         <div className="mx-auto max-w-2xl text-center mb-16">
           <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-6xl dark:text-zinc-50">
             {t('title')}

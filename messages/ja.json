@@ -40,7 +40,12 @@
       "compare": "比較",
       "selected": "選択済み",
       "readMore": "続きを読む",
-      "featured": "注目"
+      "featured": "注目",
+      "sponsored": "スポンサー"
+  },
+  "SponsoredTools": {
+      "title": "スポンサーツール",
+      "sponsored": "スポンサー"
   },
   "FeaturedTools": {
       "title": "注目のツール",

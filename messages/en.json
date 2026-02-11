@@ -32,6 +32,19 @@
     "rights": "AI Tool Navigator. All rights reserved.",
     "disclosure": "Affiliate Disclosure: We may earn a commission when you click on links and make a purchase. This helps support our independent reviews."
   },
+  "Navigation": {
+    "home": "Home",
+    "deals": "Deals",
+    "blog": "Blog",
+    "submit": "Submit Tool",
+    "search": "Search",
+    "menu": "Menu",
+    "close": "Close",
+    "categories": "Categories",
+    "video": "Video",
+    "writing": "Writing",
+    "coding": "Coding"
+  },
   "ToolGrid": {
       "searchPlaceholder": "Search tools...",
       "all": "All"

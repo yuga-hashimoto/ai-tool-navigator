@@ -41,6 +41,9 @@ export function Navigation({ className }: { className?: string }) {
               <Link href="/blog" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('blog')}
               </Link>
+              <Link href="/about" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
+                {t('about')}
+              </Link>
               <Link href="/submit" className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors shadow-sm hover:shadow-md">
                 {t('submit_cta')}
               </Link>
@@ -103,6 +106,13 @@ export function Navigation({ className }: { className?: string }) {
                 onClick={() => setIsMenuOpen(false)}
               >
                 {t('blog')}
+              </Link>
+              <Link
+                href="/about"
+                className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t('about')}
               </Link>
               <Link
                 href="/submit"

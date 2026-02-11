@@ -10,6 +10,7 @@ export interface ToolMetadata {
   category: string;
   description: string;
   rating: number;
+  image?: string;
   pros?: string[];
   cons?: string[];
   affiliate_link: string;

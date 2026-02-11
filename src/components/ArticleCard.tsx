@@ -1,5 +1,6 @@
 import { PostMetadata } from "@/lib/posts";
 import { Link } from "@/i18n/routing";
+import Image from "next/image";
 
 interface ArticleCardProps {
   post: PostMetadata;
@@ -16,6 +17,16 @@ export function ArticleCard({ post, locale }: ArticleCardProps) {
 
   return (
     <article className="flex flex-col items-start justify-between">
+      {post.image && (
+        <div className="relative w-full h-48 mb-4 overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800">
+          <Image
+            src={post.image}
+            alt={post.title}
+            fill
+            className="object-cover transition-transform duration-300 hover:scale-105"
+          />
+        </div>
+      )}
       <div className="relative w-full">
          <div className="flex items-center gap-x-4 text-xs">
           <time dateTime={post.date} className="text-zinc-500 dark:text-zinc-400">

@@ -4,6 +4,7 @@ import { ToolMetadata } from '@/lib/tools';
 import { Link } from '@/i18n/routing';
 import { Star, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 interface ToolOfTheWeekProps {
   tool: ToolMetadata | null;
@@ -80,8 +81,17 @@ export function ToolOfTheWeek({ tool }: ToolOfTheWeekProps) {
             </div>
 
             {/* Visual element or large icon on the right for desktop */}
-            <div className="hidden md:flex flex-col items-center justify-center flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 self-center">
-                 <span className="text-4xl font-bold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">{tool.title.substring(0, 2)}</span>
+            <div className="hidden md:flex flex-col items-center justify-center flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 self-center overflow-hidden relative">
+                 {tool.image ? (
+                    <Image
+                        src={tool.image}
+                        alt={tool.title}
+                        fill
+                        className="object-cover"
+                    />
+                 ) : (
+                    <span className="text-4xl font-bold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">{tool.title.substring(0, 2)}</span>
+                 )}
             </div>
         </div>
       </div>

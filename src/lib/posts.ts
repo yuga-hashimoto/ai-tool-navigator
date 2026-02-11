@@ -11,6 +11,7 @@ export interface PostMetadata {
   date: string;
   author: string;
   excerpt: string;
+  image?: string;
   tags?: string[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;

@@ -123,6 +123,14 @@
     "title": "AIツール解説＆レビュー",
     "description": "最新のAIツール、比較、業界トレンドを深掘りします。"
   },
+  "ShareButtons": {
+    "shareOnX": "Xでシェア",
+    "shareOnFacebook": "Facebookでシェア",
+    "shareOnLinkedIn": "LinkedInでシェア",
+    "shareOnEmail": "メールでシェア",
+    "shareThisPost": "この記事をシェア",
+    "shareThisTool": "このツールをシェア"
+  },
   "Breadcrumbs": {
     "home": "ホーム",
     "blog": "ブログ",

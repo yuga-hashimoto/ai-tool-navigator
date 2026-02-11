@@ -123,6 +123,14 @@
     "title": "AI Insights & Reviews",
     "description": "Deep dives into the latest AI tools, comparisons, and industry trends."
   },
+  "ShareButtons": {
+    "shareOnX": "Share on X",
+    "shareOnFacebook": "Share on Facebook",
+    "shareOnLinkedIn": "Share on LinkedIn",
+    "shareOnEmail": "Share via Email",
+    "shareThisPost": "Share this post",
+    "shareThisTool": "Share this tool"
+  },
   "Breadcrumbs": {
     "home": "Home",
     "blog": "Blog",

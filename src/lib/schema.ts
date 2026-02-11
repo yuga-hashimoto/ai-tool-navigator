@@ -3,6 +3,7 @@ import { Tool } from "@/lib/tools";
 export function generateToolSchema(tool: Tool) {
   const { metadata } = tool;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const schema: any = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",

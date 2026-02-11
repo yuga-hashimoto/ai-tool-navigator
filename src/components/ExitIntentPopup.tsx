@@ -12,7 +12,13 @@ export default function ExitIntentPopup() {
   const t = useTranslations('NewsletterPopup');
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const closedAt = localStorage.getItem('exit_intent_popup_closed');
     const subscribed = localStorage.getItem('newsletter_subscribed');
 
@@ -41,7 +47,7 @@ export default function ExitIntentPopup() {
     return () => {
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [isClient]);
 
   const handleClose = () => {
     setIsVisible(false);

@@ -2,6 +2,7 @@ import { getAllTools, getToolOfTheWeek } from "@/lib/tools";
 import { ToolGrid } from "@/components/ToolGrid";
 import { ToolCard } from "@/components/ToolCard";
 import { FeaturedTools } from "@/components/FeaturedTools";
+import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { SponsoredTools } from "@/components/SponsoredTools";
 import { ToolOfTheWeek } from "@/components/ToolOfTheWeek";
 import { Link } from "@/i18n/routing";
@@ -72,6 +73,9 @@ export default async function Home({
             </div>
           </Link>
         </div>
+
+        {/* Featured Tools Carousel */}
+        <FeaturedCarousel tools={tools} />
 
         {/* Featured Tools Section (Promoted) */}
         <FeaturedTools tools={tools} />

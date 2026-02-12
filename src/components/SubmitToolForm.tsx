@@ -12,6 +12,8 @@ const submissionSchema = z.object({
   url: z.string().url('Please enter a valid URL'),
   description: z.string().min(10, 'Description must be at least 10 characters'),
   category: z.string().min(1, 'Category is required'),
+  pricing_model: z.string().min(1, 'Pricing model is required'),
+  price: z.string().optional(),
 });
 
 type SubmissionFormData = z.infer<typeof submissionSchema>;
@@ -119,6 +121,45 @@ export function SubmitToolForm() {
                 />
                 {errors.category && (
                   <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="pricing_model" className="block text-sm font-medium leading-6 text-zinc-900 dark:text-white">
+                {t('form.pricing_model')}
+              </label>
+              <div className="mt-2">
+                <select
+                  id="pricing_model"
+                  {...register('pricing_model')}
+                  className="block w-full rounded-md border-0 py-1.5 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-zinc-800 dark:text-white dark:ring-zinc-700"
+                >
+                  <option value="">Select a pricing model</option>
+                  <option value="free">{t('form.pricing_model_options.free')}</option>
+                  <option value="freemium">{t('form.pricing_model_options.freemium')}</option>
+                  <option value="paid">{t('form.pricing_model_options.paid')}</option>
+                  <option value="contact">{t('form.pricing_model_options.contact')}</option>
+                </select>
+                {errors.pricing_model && (
+                  <p className="mt-1 text-sm text-red-600">{errors.pricing_model.message}</p>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="price" className="block text-sm font-medium leading-6 text-zinc-900 dark:text-white">
+                {t('form.price')}
+              </label>
+              <div className="mt-2">
+                <input
+                  id="price"
+                  type="text"
+                  {...register('price')}
+                  className="block w-full rounded-md border-0 py-1.5 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-zinc-800 dark:text-white dark:ring-zinc-700"
+                />
+                {errors.price && (
+                  <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>
                 )}
               </div>
             </div>

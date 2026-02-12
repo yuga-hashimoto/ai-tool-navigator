@@ -69,7 +69,8 @@
   },
   "ToolGrid": {
       "searchPlaceholder": "ツールを検索...",
-      "all": "すべて"
+      "all": "すべて",
+      "error": "ツールの読み込み中にエラーが発生しました。"
   },
   "ToolCard": {
       "compare": "比較",

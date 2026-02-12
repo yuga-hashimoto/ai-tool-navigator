@@ -7,13 +7,30 @@ import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
+import { ErrorBoundary } from './ErrorBoundary';
 
 interface ToolGridProps {
   tools: ToolMetadata[];
   hideSearch?: boolean;
 }
 
-export function ToolGrid({ tools, hideSearch }: ToolGridProps) {
+export function ToolGrid(props: ToolGridProps) {
+  const t = useTranslations('ToolGrid');
+
+  return (
+    <ErrorBoundary
+      fallback={
+        <div className="py-12 text-center">
+            <p className="text-red-500">{t('error')}</p>
+        </div>
+      }
+    >
+      <ToolGridContent {...props} />
+    </ErrorBoundary>
+  );
+}
+
+function ToolGridContent({ tools, hideSearch }: ToolGridProps) {
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('search') || '');

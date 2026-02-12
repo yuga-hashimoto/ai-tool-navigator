@@ -77,7 +77,8 @@
   },
   "ToolGrid": {
       "searchPlaceholder": "Search tools...",
-      "all": "All"
+      "all": "All",
+      "error": "Something went wrong while loading the tools."
   },
   "ToolCard": {
       "compare": "Compare",

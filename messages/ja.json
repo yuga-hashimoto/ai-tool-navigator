@@ -203,7 +203,14 @@
     "privacy": "プライバシー",
     "sponsor": "スポンサー",
     "submit": "ツールを送信",
-    "terms": "利用規約"
+    "terms": "利用規約",
+    "support": "サポート"
+  },
+  "SupportPage": {
+    "title": "サポート",
+    "description": "公平なAIツールレビューと比較を提供し続けるために、ご支援をお願いします。",
+    "intro": "私たちのコンテンツがお役に立ちましたら、サポートをご検討ください。皆様の寄付は、サーバー費用や新しいAIツールの調査・テストに充てられます。",
+    "donate_button": "Stripeで寄付する"
   },
   "AboutPage": {
     "title": "About AI Tool Navigator",

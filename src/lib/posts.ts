@@ -11,10 +11,29 @@ export interface PostMetadata {
   date: string;
   author: string;
   excerpt: string;
+  readingTime: number;
   image?: string;
   tags?: string[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
+}
+
+export function calculateReadingTime(content: string): number {
+  const wordsPerMinute = 200;
+  const charactersPerMinute = 500;
+
+  // Check for CJK characters
+  const hasCJK = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]/.test(content);
+
+  if (hasCJK) {
+    // Count characters (approximate, excluding whitespace)
+    const charCount = content.replace(/\s+/g, '').length;
+    return Math.max(1, Math.ceil(charCount / charactersPerMinute));
+  } else {
+    // Count words
+    const wordCount = content.trim().split(/\s+/).length;
+    return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+  }
 }
 
 export interface Post {
@@ -49,6 +68,7 @@ export function getAllPosts(locale: string = 'en'): PostMetadata[] {
     // Combine the data with the id
     return {
       slug: id,
+      readingTime: calculateReadingTime(matterResult.content),
       ...matterResult.data,
     } as PostMetadata;
   });
@@ -81,6 +101,7 @@ export function getPostBySlug(slug: string, locale: string = 'en'): Post | null 
   return {
     metadata: {
       slug,
+      readingTime: calculateReadingTime(matterResult.content),
       ...matterResult.data,
     } as PostMetadata,
     content: matterResult.content,

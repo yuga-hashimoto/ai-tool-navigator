@@ -126,7 +126,8 @@
   "BlogPage": {
     "title": "AIツール解説＆レビュー",
     "description": "最新のAIツール、比較、業界トレンドを深掘りします。",
-    "recentPosts": "最新の記事"
+    "recentPosts": "最新の記事",
+    "readingTime": "{minutes} 分で読めます"
   },
   "ShareButtons": {
     "shareOnX": "Xでシェア",

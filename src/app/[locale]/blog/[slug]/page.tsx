@@ -6,7 +6,7 @@ import remarkDirective from "remark-directive";
 import { remarkRelatedPost } from "@/lib/remark-related-post";
 import rehypeSlug from "rehype-slug";
 import { routing, Link } from "@/i18n/routing";
-import { Calendar, User } from "lucide-react";
+import { Calendar, User, Clock } from "lucide-react";
 import { Metadata } from "next";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getTranslations } from "next-intl/server";
@@ -128,13 +128,22 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <main className="lg:col-span-8">
                 <article>
                     <header className="mb-10 text-center">
-                        <div className="flex items-center justify-center gap-4 text-sm text-zinc-500 dark:text-zinc-400 mb-4">
+                        <div className="flex items-center justify-center gap-4 text-sm text-zinc-500 dark:text-zinc-400 mb-4 flex-wrap">
                             <div className="flex items-center gap-1">
                                 <Calendar className="h-4 w-4" />
                                 <time dateTime={metadata.date}>
                                     {new Date(metadata.date).toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
                                 </time>
                             </div>
+                            {metadata.readingTime > 0 && (
+                                <>
+                                    <span>•</span>
+                                    <div className="flex items-center gap-1">
+                                        <Clock className="h-4 w-4" />
+                                        <span>{tBlog('readingTime', { minutes: metadata.readingTime })}</span>
+                                    </div>
+                                </>
+                            )}
                             <span>•</span>
                             <div className="flex items-center gap-1">
                                 <User className="h-4 w-4" />

@@ -13,6 +13,7 @@ import { extractHeadings } from "@/lib/markdown";
 import { TableOfContents } from "@/components/TableOfContents";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ReadingProgressBar } from "@/components/ReadingProgressBar";
+import { generateBlogPostSchema } from "@/lib/schema";
 
 export async function generateStaticParams() {
   const params = [];
@@ -73,6 +74,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { metadata, content } = post;
   const headings = extractHeadings(content);
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/blog/${slug}`;
+  const schema = generateBlogPostSchema(post, url);
 
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: tBreadcrumbs('home'), href: '/' },
@@ -101,6 +103,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <ReadingProgressBar />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />

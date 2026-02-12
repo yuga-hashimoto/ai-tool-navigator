@@ -1,5 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { generateBreadcrumbSchema } from "@/lib/schema";
 
 export async function generateMetadata({
   params
@@ -16,10 +19,25 @@ export async function generateMetadata({
   };
 }
 
-export default function PrivacyPage() {
+export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
+
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+    { label: tBreadcrumbs('privacy') },
+  ];
+
+  const jsonLd = generateBreadcrumbSchema(breadcrumbItems, locale);
+
   return (
     <div className="bg-background min-h-screen py-12 transition-colors duration-300">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
+        <Breadcrumbs items={breadcrumbItems} />
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">
           Privacy Policy
         </h1>

@@ -119,7 +119,7 @@ export default async function Home({
         )}
 
         <Suspense fallback={<div className="py-12 text-center">Loading tools...</div>}>
-          <ToolGrid tools={tools} hideSearch={hasSearch} />
+          <ToolGrid tools={tools} hideSearch={hasSearch} priority={hasSearch} />
         </Suspense>
       </div>
     </div>

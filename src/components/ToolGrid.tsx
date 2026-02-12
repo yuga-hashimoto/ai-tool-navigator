@@ -11,9 +11,10 @@ import { useSearchParams } from 'next/navigation';
 interface ToolGridProps {
   tools: ToolMetadata[];
   hideSearch?: boolean;
+  priority?: boolean;
 }
 
-export function ToolGrid({ tools, hideSearch }: ToolGridProps) {
+export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps) {
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('search') || '');
@@ -80,9 +81,9 @@ export function ToolGrid({ tools, hideSearch }: ToolGridProps) {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredTools.map((tool) => (
+            {filteredTools.map((tool, index) => (
                 <div key={tool.slug} className="flex flex-col h-full">
-                   <ToolCard tool={tool} />
+                   <ToolCard tool={tool} priority={priority && index < 4} />
                 </div>
             ))}
         </div>

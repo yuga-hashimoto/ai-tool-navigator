@@ -174,7 +174,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             {tBlog('recentPosts')}
                          </h3>
                          <ul className="space-y-6">
-                            {recentPosts.map((post) => (
+                            {recentPosts.map((post, index) => (
                                 <li key={post.slug} className="group">
                                     <Link href={`/blog/${post.slug}`} className="flex gap-4">
                                          {post.image && (
@@ -183,6 +183,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                                                     src={post.image}
                                                     alt={post.title}
                                                     fill
+                                                    priority={index < 2}
                                                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                                                 />
                                              </div>

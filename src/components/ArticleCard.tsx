@@ -5,9 +5,10 @@ import Image from "next/image";
 interface ArticleCardProps {
   post: PostMetadata;
   locale: string;
+  priority?: boolean;
 }
 
-export function ArticleCard({ post, locale }: ArticleCardProps) {
+export function ArticleCard({ post, locale, priority }: ArticleCardProps) {
   const dateOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -23,6 +24,7 @@ export function ArticleCard({ post, locale }: ArticleCardProps) {
             src={post.image}
             alt={post.title}
             fill
+            priority={priority}
             className="object-cover transition-transform duration-300 hover:scale-105"
           />
         </div>

@@ -1,10 +1,20 @@
 import React from 'react';
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: "Terms of Service - AI Tool Navigator",
-  description: "Terms of Service for AI Tool Navigator",
-};
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Terms of Service - AI Tool Navigator",
+    description: "Terms of Service for AI Tool Navigator",
+    alternates: {
+      canonical: `/${locale}/terms`,
+    }
+  };
+}
 
 export default function TermsPage() {
   return (

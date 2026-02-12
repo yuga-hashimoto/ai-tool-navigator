@@ -21,6 +21,7 @@ import { ComparisonTable } from "@/components/ComparisonTable";
 import { generateBlogPostSchema, generateBreadcrumbSchema } from "@/lib/schema";
 import { getToolOfTheWeek, getToolBySlug, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
+import { GoogleAdsensePlaceholder } from "@/components/GoogleAdsensePlaceholder";
 
 export async function generateStaticParams() {
   const params = [];
@@ -223,6 +224,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             />
                         </div>
                     </div>
+
+                    <GoogleAdsensePlaceholder />
 
                     <ToolOfTheWeekSidebar tool={toolOfTheWeek} />
 

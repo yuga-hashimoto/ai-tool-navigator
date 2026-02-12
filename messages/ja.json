@@ -134,7 +134,9 @@
     "shareOnLinkedIn": "LinkedInでシェア",
     "shareOnEmail": "メールでシェア",
     "shareThisPost": "この記事をシェア",
-    "shareThisTool": "このツールをシェア"
+    "shareThisTool": "このツールをシェア",
+    "twitterShareTool": "AI Tool Navigatorで{toolName}をチェック！",
+    "twitterSharePost": "AI Tool Navigatorの記事: {postTitle}"
   },
   "Breadcrumbs": {
     "home": "ホーム",

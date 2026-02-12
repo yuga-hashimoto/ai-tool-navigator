@@ -8,12 +8,13 @@ export default function NewsletterPopup() {
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [isClient, setIsClient] = useState(false);
   const t = useTranslations('NewsletterPopup');
 
   // Set isClient on mount to prevent hydration mismatch
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsClient(true);
   }, []);
 
@@ -56,26 +57,33 @@ export default function NewsletterPopup() {
     e.preventDefault();
     if (!email) return;
 
-    // Simulate API call
-    console.log('Subscribing email:', email);
+    setLoading(true);
+    setError(null);
     
     try {
-      await fetch('/api/subscribe', { 
+      const response = await fetch('/api/subscribe', {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }) 
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to subscribe');
+      }
+
+      setSubmitted(true);
+      localStorage.setItem('newsletter_subscribed', 'true');
+
+      // Auto-close after success message
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 3000);
     } catch (err) {
       console.error('Failed to subscribe', err);
+      setError(t('error'));
+    } finally {
+      setLoading(false);
     }
-
-    setSubmitted(true);
-    localStorage.setItem('newsletter_subscribed', 'true');
-
-    // Auto-close after success message
-    setTimeout(() => {
-      setIsVisible(false);
-    }, 3000);
   };
 
   if (!isClient || !isVisible) return null;
@@ -122,19 +130,28 @@ export default function NewsletterPopup() {
             </div>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              <input
-                type="email"
-                placeholder={t('placeholder')}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+              <div className="flex flex-col gap-1">
+                <input
+                  type="email"
+                  placeholder={t('placeholder')}
+                  className={`w-full rounded-md border px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 ${
+                    error
+                      ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                      : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:focus:border-blue-400'
+                  } dark:bg-gray-800 dark:text-white`}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={loading}
+                />
+                {error && <p className="text-xs text-red-500">{error}</p>}
+              </div>
               <button
                 type="submit"
-                className="w-full rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:bg-blue-500 dark:hover:bg-blue-400"
+                disabled={loading}
+                className="w-full rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:bg-blue-500 dark:hover:bg-blue-400 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {t('button')}
+                {loading ? t('submitting') : t('button')}
               </button>
               <p className="text-center text-[10px] text-gray-400 dark:text-gray-500">
                 {t('spam')}

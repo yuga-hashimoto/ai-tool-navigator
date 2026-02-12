@@ -39,7 +39,7 @@ function getStaticPages(dir: string, basePath: string = ''): string[] {
   return pages
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app').replace(/\/$/, '')
   const locales = routing.locales
 
@@ -61,15 +61,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   )
 
   // 2. Tools
-  const toolEntries = locales.flatMap((locale) => {
-    const tools = getAllTools(locale)
+  const toolEntries = (await Promise.all(locales.map(async (locale) => {
+    const tools = await getAllTools(locale)
     return tools.map((tool) => ({
       url: `${baseUrl}/${locale}/tools/${tool.slug}`,
       lastModified: tool.last_updated ? new Date(tool.last_updated) : new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     }))
-  })
+  }))).flat()
 
   // 3. Categories
   const categoryEntries = locales.flatMap((locale) =>
@@ -82,15 +82,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   )
 
   // 4. Blog Posts
-  const postEntries = locales.flatMap((locale) => {
-    const posts = getAllPosts(locale)
+  const postEntries = (await Promise.all(locales.map(async (locale) => {
+    const posts = await getAllPosts(locale)
     return posts.map((post) => ({
       url: `${baseUrl}/${locale}/blog/${post.slug}`,
       lastModified: new Date(post.date),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     }))
-  })
+  }))).flat()
 
   return [
     ...staticEntries,

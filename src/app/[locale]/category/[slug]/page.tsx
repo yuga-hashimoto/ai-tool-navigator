@@ -74,7 +74,7 @@ export default async function CategoryPage({
   const targetCategories = CATEGORY_MAPPINGS[slug as keyof typeof CATEGORY_MAPPINGS];
   
   // Fetch all tools and filter
-  const tools = getAllTools(locale);
+  const tools = await getAllTools(locale);
   const filteredTools = tools.filter((tool) => 
     targetCategories.includes(tool.category)
   );

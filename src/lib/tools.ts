@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { unstable_cache } from 'next/cache';
 
 const toolsDirectory = path.join(process.cwd(), 'content/tools');
 
@@ -31,7 +32,7 @@ export interface Tool {
   content: string;
 }
 
-export function getAllTools(locale: string = 'en'): ToolMetadata[] {
+const _getAllTools = async (locale: string = 'en'): Promise<ToolMetadata[]> => {
   const enDirectory = path.join(toolsDirectory, 'en');
   // Ensure directory exists
   if (!fs.existsSync(enDirectory)) {
@@ -64,9 +65,15 @@ export function getAllTools(locale: string = 'en'): ToolMetadata[] {
   });
 
   return allToolsData;
-}
+};
 
-export function getToolBySlug(slug: string, locale: string = 'en'): Tool | null {
+export const getAllTools = unstable_cache(
+  _getAllTools,
+  ['tools-all'],
+  { tags: ['tools'] }
+);
+
+const _getToolBySlug = async (slug: string, locale: string = 'en'): Promise<Tool | null> => {
   let fullPath = path.join(toolsDirectory, locale, `${slug}.md`);
 
   // Fallback to English
@@ -88,10 +95,16 @@ export function getToolBySlug(slug: string, locale: string = 'en'): Tool | null 
     } as ToolMetadata,
     content: matterResult.content,
   };
-}
+};
 
-export function getToolOfTheWeek(locale: string = 'en'): ToolMetadata | null {
-  const tools = getAllTools(locale);
+export const getToolBySlug = unstable_cache(
+  _getToolBySlug,
+  ['tool-slug'],
+  { tags: ['tools'] }
+);
+
+export async function getToolOfTheWeek(locale: string = 'en'): Promise<ToolMetadata | null> {
+  const tools = await getAllTools(locale);
   return tools.find((tool) => tool.tool_of_the_week) || null;
 }
 
@@ -117,8 +130,8 @@ export function getToolSlugs() {
   return allParams;
 }
 
-export function getRelatedTools(currentTool: ToolMetadata, limit: number = 3, locale: string = 'en'): ToolMetadata[] {
-  const allTools = getAllTools(locale);
+export async function getRelatedTools(currentTool: ToolMetadata, limit: number = 3, locale: string = 'en'): Promise<ToolMetadata[]> {
+  const allTools = await getAllTools(locale);
   const candidates = allTools.filter(
     (tool) => tool.category === currentTool.category && tool.slug !== currentTool.slug
   );

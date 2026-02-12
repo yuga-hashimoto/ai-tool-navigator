@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { unstable_cache } from 'next/cache';
 import { ToolMetadata } from './tools';
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
@@ -41,7 +42,7 @@ export interface Post {
   content: string;
 }
 
-export function getAllPosts(locale: string = 'en'): PostMetadata[] {
+const _getAllPosts = async (locale: string = 'en'): Promise<PostMetadata[]> => {
   // Try to find posts for the requested locale
   const localeDirectory = path.join(postsDirectory, locale);
   
@@ -81,9 +82,15 @@ export function getAllPosts(locale: string = 'en'): PostMetadata[] {
       return -1;
     }
   });
-}
+};
 
-export function getPostBySlug(slug: string, locale: string = 'en'): Post | null {
+export const getAllPosts = unstable_cache(
+  _getAllPosts,
+  ['posts-all'],
+  { tags: ['posts'] }
+);
+
+const _getPostBySlug = async (slug: string, locale: string = 'en'): Promise<Post | null> => {
   let fullPath = path.join(postsDirectory, locale, `${slug}.md`);
 
   // Fallback to root or 'en'
@@ -106,7 +113,13 @@ export function getPostBySlug(slug: string, locale: string = 'en'): Post | null 
     } as PostMetadata,
     content: matterResult.content,
   };
-}
+};
+
+export const getPostBySlug = unstable_cache(
+  _getPostBySlug,
+  ['post-slug'],
+  { tags: ['posts'] }
+);
 
 export function getPostSlugs() {
   if (!fs.existsSync(postsDirectory)) {
@@ -122,8 +135,8 @@ export function getPostSlugs() {
     });
 }
 
-export function getRelatedPosts(tool: ToolMetadata, limit: number = 3, locale: string = 'en'): PostMetadata[] {
-  const allPosts = getAllPosts(locale);
+export async function getRelatedPosts(tool: ToolMetadata, limit: number = 3, locale: string = 'en'): Promise<PostMetadata[]> {
+  const allPosts = await getAllPosts(locale);
 
   if (allPosts.length === 0) {
     return [];

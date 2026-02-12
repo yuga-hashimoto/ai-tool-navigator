@@ -3,13 +3,52 @@ import { getAllTools } from '@/lib/tools'
 import { getAllPosts } from '@/lib/posts'
 import { CATEGORY_MAPPINGS } from '@/lib/categories'
 import { routing } from '@/i18n/routing'
+import fs from 'fs'
+import path from 'path'
+
+function getStaticPages(dir: string, basePath: string = ''): string[] {
+  const pages: string[] = []
+
+  if (!fs.existsSync(dir)) return pages
+
+  const items = fs.readdirSync(dir)
+
+  for (const item of items) {
+    if (item.startsWith('[') || item.startsWith('_') || item.startsWith('.')) continue
+
+    const fullPath = path.join(dir, item)
+    if (fs.statSync(fullPath).isDirectory()) {
+      const isRouteGroup = item.startsWith('(') && item.endsWith(')')
+      const pagePath = path.join(fullPath, 'page.tsx')
+
+      const currentPath = isRouteGroup
+        ? basePath
+        : (basePath ? `${basePath}/${item}` : item)
+
+      if (fs.existsSync(pagePath)) {
+        if (currentPath !== '') {
+          pages.push(currentPath)
+        }
+      }
+
+      // Recurse
+      pages.push(...getStaticPages(fullPath, currentPath))
+    }
+  }
+
+  return pages
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app').replace(/\/$/, '')
   const locales = routing.locales
+
+  // Discover static pages dynamically
+  const appDir = path.join(process.cwd(), 'src/app/[locale]')
+  const discoveredPages = getStaticPages(appDir)
   
-  // Static pages that exist for each locale
-  const staticPages = ['', 'deals', 'compare', 'privacy', 'terms', 'submit', 'advertise', 'sponsor', 'blog']
+  // Ensure root page is included and remove duplicates
+  const staticPages = Array.from(new Set(['', ...discoveredPages]))
 
   // 1. Static Pages
   const staticEntries = locales.flatMap((locale) =>

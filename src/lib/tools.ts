@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { CATEGORY_MAPPINGS } from './categories';
 
 const toolsDirectory = path.join(process.cwd(), 'content/tools');
 
@@ -119,8 +120,18 @@ export function getToolSlugs() {
 
 export function getRelatedTools(currentTool: ToolMetadata, limit: number = 3, locale: string = 'en'): ToolMetadata[] {
   const allTools = getAllTools(locale);
+
+  let relatedCategories = [currentTool.category];
+
+  for (const groupCategories of Object.values(CATEGORY_MAPPINGS)) {
+    if (groupCategories.includes(currentTool.category)) {
+      relatedCategories = groupCategories;
+      break;
+    }
+  }
+
   const candidates = allTools.filter(
-    (tool) => tool.category === currentTool.category && tool.slug !== currentTool.slug
+    (tool) => relatedCategories.includes(tool.category) && tool.slug !== currentTool.slug
   );
 
   // Shuffle the candidates array

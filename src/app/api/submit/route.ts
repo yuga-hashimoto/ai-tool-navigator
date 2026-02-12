@@ -4,10 +4,10 @@ import { appendToolSubmission, ToolSubmissionData } from '@/lib/google-sheets';
 export async function POST(request: Request) {
   try {
     const body: ToolSubmissionData = await request.json();
-    const { name, url, description, category } = body;
+    const { name, url, description, category, pricing_model, price } = body;
 
     // Basic validation
-    if (!name || !url || !description || !category) {
+    if (!name || !url || !description || !category || !pricing_model) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     }
 
     try {
-      await appendToolSubmission({ name, url, description, category });
+      await appendToolSubmission({ name, url, description, category, pricing_model, price: price || '' });
       
       console.log(`[TOOL SUBMISSION] New submission: ${name} (${url}) at ${new Date().toISOString()}`);
 

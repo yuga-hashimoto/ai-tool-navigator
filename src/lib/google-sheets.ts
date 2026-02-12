@@ -63,6 +63,8 @@ export interface ToolSubmissionData {
   url: string;
   description: string;
   category: string;
+  pricing_model: string;
+  price: string;
 }
 
 export async function appendToolSubmission(data: ToolSubmissionData) {
@@ -108,10 +110,10 @@ export async function appendToolSubmission(data: ToolSubmissionData) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: 'Submissions!A:E',
+      range: 'Submissions!A:G',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
-        values: [[data.name, data.url, data.description, data.category, date]],
+        values: [[data.name, data.url, data.description, data.category, data.pricing_model, data.price, date]],
       },
     });
 

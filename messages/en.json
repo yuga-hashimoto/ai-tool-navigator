@@ -19,6 +19,14 @@
       "url": "Website URL",
       "description": "Description",
       "category": "Category",
+      "pricing_model": "Pricing Model",
+      "pricing_model_options": {
+        "free": "Free",
+        "freemium": "Freemium",
+        "paid": "Paid",
+        "contact": "Contact for Pricing"
+      },
+      "price": "Price (e.g. $10/mo)",
       "submit": "Submit Tool",
       "submitting": "Submitting...",
       "success": "Tool submitted successfully!",

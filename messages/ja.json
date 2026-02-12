@@ -92,6 +92,10 @@
       "promoted": "注目",
       "checkItOut": "チェックする"
   },
+  "TopPicks": {
+    "title": "トップピック",
+    "description": "高評価のAIツールを厳選しました。"
+  },
   "ToolPage": {
     "backToTools": "ツール一覧に戻る",
     "lastUpdated": "最終更新日",

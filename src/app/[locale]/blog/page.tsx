@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { generateBreadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Blog - AI Tool Navigator",
@@ -24,8 +25,14 @@ export default async function BlogPage({
     { label: tBreadcrumbs('blog') },
   ];
 
+  const jsonLd = generateBreadcrumbSchema(breadcrumbItems, locale);
+
   return (
     <div className="bg-white dark:bg-black min-h-screen py-24 sm:py-32 transition-colors duration-300">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
         <div className="mx-auto max-w-2xl text-center mb-16">

@@ -201,7 +201,13 @@
     "search": "Search",
     "security": "Security",
     "voice": "Voice",
-    "design": "Design"
+    "design": "Design",
+    "about": "About",
+    "advertise": "Advertise",
+    "privacy": "Privacy",
+    "sponsor": "Sponsor",
+    "submit": "Submit Tool",
+    "terms": "Terms"
   },
   "AboutPage": {
     "title": "About AI Tool Navigator",

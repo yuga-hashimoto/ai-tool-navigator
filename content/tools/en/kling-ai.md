@@ -12,6 +12,7 @@ cons:
   - "Initially limited availability outside certain regions"
   - "Web interface may have language barriers or specific regional requirements"
 affiliate_link: "https://kling.kuaishou.com"
+last_updated: '2026-02-12'
 ---
 
 ## What is Kling AI?

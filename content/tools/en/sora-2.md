@@ -12,6 +12,7 @@ cons:
   - "High entry cost for the Pro plan ($200/mo)"
   - "Generation times are longer than competitors"
 affiliate_link: "https://openai.com/sora"
+last_updated: '2026-02-12'
 ---
 
 ## What is OpenAI Sora 2?

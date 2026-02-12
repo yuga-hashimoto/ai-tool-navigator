@@ -13,6 +13,7 @@ cons:
   - "Premium plan can be pricey for casual users"
 affiliate_link: "https://speechify.com?aff=yuga"
 featured: true
+last_updated: '2026-02-12'
 ---
 
 ## What is Speechify?

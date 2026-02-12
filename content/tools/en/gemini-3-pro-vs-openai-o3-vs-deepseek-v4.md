@@ -12,6 +12,7 @@ cons:
   - "o3: Slower generation due to reasoning steps"
   - "DeepSeek V4: Requires high-end hardware for local execution"
 affiliate_link: "https://runpod.io?ref=ai-tools-nav"
+last_updated: '2026-02-12'
 ---
 
 # Best AI Coding Agent 2026: Gemini 3 Pro vs. OpenAI o3 vs. DeepSeek V4

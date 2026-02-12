@@ -12,6 +12,7 @@ cons:
   - "High credit consumption for complex prompts"
   - "Strict safety filters can limit creative freedom"
 affiliate_link: "https://runwayml.com"
+last_updated: '2026-02-12'
 ---
 
 ## What is Runway Gen-3 Alpha?

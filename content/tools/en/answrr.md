@@ -12,6 +12,7 @@ cons:
   - "Primarily optimized for English markets"
   - "Requires phone number porting or forwarding"
 affiliate_link: "https://answrr.ai?ref=yuga"
+last_updated: '2026-02-12'
 ---
 
 ## What is Answrr?

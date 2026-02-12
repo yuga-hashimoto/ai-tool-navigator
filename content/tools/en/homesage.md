@@ -13,6 +13,7 @@ cons:
   - "Learning curve for new users"
 affiliate_link: "https://homesage.ai?aff=yuga"
 featured: true
+last_updated: '2026-02-12'
 ---
 
 ## What is Homesage?

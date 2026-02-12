@@ -13,6 +13,7 @@ cons:
   - "Can be repetitive with similar prompts"
 affiliate_link: "https://copy.ai?aff=yuga"
 featured: true
+last_updated: '2026-02-12'
 ---
 
 ## What is Copy.ai?

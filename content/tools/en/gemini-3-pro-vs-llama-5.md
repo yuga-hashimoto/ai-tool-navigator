@@ -12,6 +12,7 @@ cons:
   - "Llama 5 specs based on leaks"
   - "Pricing models may change"
 affiliate_link: "https://ai-tools-nav.com"
+last_updated: '2026-02-12'
 ---
 
 ## The Battle for AI Supremacy: Gemini 3 Pro vs. Llama 5

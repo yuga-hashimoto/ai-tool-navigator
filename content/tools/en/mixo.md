@@ -13,6 +13,7 @@ cons:
   - "Best for validation and simple landing pages"
 affiliate_link: "https://mixo.io?aff=yuga"
 featured: true
+last_updated: '2026-02-12'
 ---
 
 ## What is Mixo?

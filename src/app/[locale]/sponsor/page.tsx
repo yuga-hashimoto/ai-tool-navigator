@@ -1,11 +1,26 @@
 import React from 'react';
 
-export const metadata = {
-  title: "Sponsorship - AI Tool Navigator",
-  description: "Promote your AI tool to our audience of developers and enthusiasts.",
-};
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params;
+  return {
+    title: "Sponsorship - AI Tool Navigator",
+    description: "Promote your AI tool to our audience of developers and enthusiasts.",
+    alternates: {
+      canonical: `/${locale}/sponsor`,
+    },
+  };
+}
 
-export default function SponsorshipPage() {
+export default async function SponsorshipPage({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  await params;
   return (
     <div className="bg-white dark:bg-black min-h-screen text-zinc-900 dark:text-zinc-50 transition-colors duration-300">
       <div className="mx-auto max-w-4xl px-6 py-24 sm:py-32 lg:px-8">

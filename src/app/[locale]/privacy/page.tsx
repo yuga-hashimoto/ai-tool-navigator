@@ -1,12 +1,27 @@
 import React from 'react';
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: "Privacy Policy - AI Tool Navigator",
-  description: "Privacy Policy for AI Tool Navigator",
-};
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params;
+  return {
+    title: "Privacy Policy - AI Tool Navigator",
+    description: "Privacy Policy for AI Tool Navigator",
+    alternates: {
+      canonical: `/${locale}/privacy`,
+    },
+  };
+}
 
-export default function PrivacyPage() {
+export default async function PrivacyPage({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  await params;
   return (
     <div className="bg-background min-h-screen py-12 transition-colors duration-300">
       <div className="mx-auto max-w-4xl px-6 lg:px-8">

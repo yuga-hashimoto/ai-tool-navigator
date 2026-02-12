@@ -4,10 +4,20 @@ import { getTranslations } from "next-intl/server";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 
-export const metadata: Metadata = {
-  title: "Blog - AI Tool Navigator",
-  description: "Latest news, reviews, and insights about AI tools and technology.",
-};
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params;
+  return {
+    title: "Blog - AI Tool Navigator",
+    description: "Latest news, reviews, and insights about AI tools and technology.",
+    alternates: {
+      canonical: `/${locale}/blog`,
+    },
+  };
+}
 
 export default async function BlogPage({
   params

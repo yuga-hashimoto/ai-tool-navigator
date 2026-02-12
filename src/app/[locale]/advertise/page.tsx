@@ -1,6 +1,26 @@
 import React from 'react';
 
-export default function AdvertisePage() {
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params;
+  return {
+    title: "Sponsor AI Tools Navigator",
+    description: "Get your AI tool in front of thousands of developers and enthusiasts.",
+    alternates: {
+      canonical: `/${locale}/advertise`,
+    },
+  };
+}
+
+export default async function AdvertisePage({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  await params;
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">

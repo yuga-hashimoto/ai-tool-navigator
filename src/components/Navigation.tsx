@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { Menu, X, Search } from 'lucide-react';
 import { CATEGORY_MAPPINGS } from '@/lib/categories';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export function Navigation({ className }: { className?: string }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,6 +45,7 @@ export function Navigation({ className }: { className?: string }) {
               <Link href="/about" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('about')}
               </Link>
+              <ThemeToggle />
               <Link href="/submit" className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors shadow-sm hover:shadow-md">
                 {t('submit_cta')}
               </Link>
@@ -51,7 +53,8 @@ export function Navigation({ className }: { className?: string }) {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
             <button
               onClick={toggleMenu}
               className="p-2 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"

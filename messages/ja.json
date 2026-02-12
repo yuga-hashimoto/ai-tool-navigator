@@ -61,7 +61,7 @@
       "sponsored": "スポンサー"
   },
   "FeaturedCarousel": {
-      "title": "注目のツール",
+      "title": "話題のツール",
       "viewDeal": "詳細を見る",
       "learnMore": "もっと詳しく"
   },
@@ -70,8 +70,8 @@
       "sponsored": "スポンサー"
   },
   "FeaturedTools": {
-      "title": "プロモーションツール",
-      "promoted": "プロモーション",
+      "title": "注目のツール",
+      "promoted": "注目",
       "checkItOut": "チェックする"
   },
   "ToolPage": {

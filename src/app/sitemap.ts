@@ -5,7 +5,7 @@ import { CATEGORY_MAPPINGS } from '@/lib/categories'
 import { routing } from '@/i18n/routing'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app'
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app').replace(/\/$/, '')
   const locales = routing.locales
   
   // Static pages that exist for each locale

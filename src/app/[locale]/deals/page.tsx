@@ -1,7 +1,8 @@
 import { getAllTools } from "@/lib/tools";
-import { ToolCard } from "@/components/ToolCard";
+import { ToolGrid } from "@/components/ToolGrid";
 import { getTranslations } from 'next-intl/server';
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { Suspense } from 'react';
 
 export async function generateMetadata({
   params
@@ -49,11 +50,9 @@ export default async function DealsPage({
         </div>
 
         {deals.length > 0 ? (
-          <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-            {deals.map((tool) => (
-              <ToolCard key={tool.slug} tool={tool} />
-            ))}
-          </div>
+          <Suspense fallback={<div className="py-12 text-center">Loading deals...</div>}>
+            <ToolGrid tools={deals} />
+          </Suspense>
         ) : (
           <div className="text-center text-zinc-600 dark:text-zinc-400">
             No deals found at the moment.

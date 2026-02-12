@@ -66,10 +66,8 @@ export default async function RootLayout({
           >
             <CompareProvider>
             <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-727KCHJ884"} />
-            <div className="sticky top-0 z-50 flex flex-col">
-              <StickyNotificationBar />
-              <Navigation className="relative" />
-            </div>
+            <StickyNotificationBar />
+            <Navigation />
             {children}
             <Footer />
             <CompareBar />

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { sendGAEvent } from '@/lib/analytics';
 import { CheckCircle } from 'lucide-react';
 
 export default function FooterNewsletterForm() {
@@ -30,6 +31,7 @@ export default function FooterNewsletterForm() {
       }
 
       setSubmitted(true);
+      sendGAEvent('sign_up', { method: 'footer_newsletter' });
       localStorage.setItem('newsletter_subscribed', 'true');
     } catch (err) {
       console.error('Failed to subscribe', err);

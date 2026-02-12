@@ -42,10 +42,23 @@ export default function NewsletterPopup() {
 
     // Show popup after a small delay (e.g., 3 seconds)
     const timer = setTimeout(() => {
+      // Double check subscription status before showing
+      if (localStorage.getItem('newsletter_subscribed')) {
+        return;
+      }
       setIsVisible(true);
     }, 3000);
 
-    return () => clearTimeout(timer);
+    const handleExitIntentTriggered = () => {
+      setIsVisible(false);
+    };
+
+    window.addEventListener('exit-intent-triggered', handleExitIntentTriggered);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('exit-intent-triggered', handleExitIntentTriggered);
+    };
   }, [isClient]);
 
   const handleClose = () => {

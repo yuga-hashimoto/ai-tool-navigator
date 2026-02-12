@@ -13,6 +13,7 @@ cons:
   - "Video generation can be resource-intensive"
 affiliate_link: "https://basedlabs.ai?aff=yuga"
 featured: true
+last_updated: '2026-02-12'
 ---
 
 ## What is BasedLabs?

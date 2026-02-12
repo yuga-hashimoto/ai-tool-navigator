@@ -12,6 +12,7 @@ cons:
   - "Less photorealistic than Runway Gen-3"
   - "Duration limits on lower tiers"
 affiliate_link: "https://pika.art"
+last_updated: '2026-02-12'
 ---
 
 ## What is Pika Art?

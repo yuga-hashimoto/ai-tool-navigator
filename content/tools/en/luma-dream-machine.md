@@ -12,6 +12,7 @@ cons:
   - "Queue times can be lengthy during peak hours"
   - "Sometimes struggles with very complex physics"
 affiliate_link: "https://lumalabs.ai/dream-machine"
+last_updated: '2026-02-12'
 ---
 
 ## What is Luma Dream Machine?

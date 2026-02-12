@@ -12,6 +12,7 @@ cons:
   - "Llama 4.5: Can struggle with multi-step reasoning in edge cases without fine-tuning"
   - "Gemini 3 Pro: Higher API costs for high-volume, simple queries"
 affiliate_link: "https://google.com/gemini?ref=ai-tools-nav"
+last_updated: '2026-02-12'
 ---
 
 # Llama 4.5 vs Gemini 3 Pro: The Battle for Local Business Automation

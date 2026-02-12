@@ -12,6 +12,7 @@ cons:
   - "Requires high-end GPU (RTX 5090) for local V4 performance"
   - "Less polished UI than Gemini or ChatGPT"
 affiliate_link: "https://chat.deepseek.com"
+last_updated: '2026-02-12'
 ---
 
 ## The 2026 AI Showdown: DeepSeek V4 vs. The Giants

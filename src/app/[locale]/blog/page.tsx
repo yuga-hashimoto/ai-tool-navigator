@@ -37,8 +37,8 @@ export default async function BlogPage({
           </p>
         </div>
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          {posts.map((post) => (
-            <ArticleCard key={post.slug} post={post} locale={locale} />
+          {posts.map((post, index) => (
+            <ArticleCard key={post.slug} post={post} locale={locale} priority={index < 3} />
           ))}
         </div>
       </div>

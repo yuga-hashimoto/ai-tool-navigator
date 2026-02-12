@@ -104,7 +104,7 @@ export default async function CategoryPage({
           <HeroSearchBar />
         </div>
 
-        <ToolGrid tools={filteredTools} hideSearch={true} />
+        <ToolGrid tools={filteredTools} hideSearch={true} priority={true} />
       </div>
     </div>
   );

@@ -7,32 +7,25 @@
 - Network:       http://192.168.0.2:3000
 
 ✓ Starting...
-⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-✓ Ready in 1348ms
- GET /en 200 in 2.6s (compile: 1759ms, proxy.ts: 8ms, render: 838ms)
- GET /en/blog/llama-4.5-vs-gemini-3-pro 200 in 1331ms (compile: 910ms, generate-params: 725ms, render: 421ms)
- GET /en 200 in 498ms (compile: 43ms, proxy.ts: 6ms, render: 449ms)
- GET /en/blog/llama-4.5-vs-gemini-3-pro 200 in 389ms (compile: 25ms, generate-params: 21ms, render: 364ms)
- GET /en 200 in 315ms (compile: 27ms, proxy.ts: 4ms, render: 284ms)
- GET /en/blog/llama-4.5-vs-gemini-3-pro 200 in 482ms (compile: 24ms, generate-params: 21ms, render: 458ms)
- GET /en 200 in 422ms (compile: 35ms, proxy.ts: 7ms, render: 379ms)
- GET /en/blog/llama-4.5-vs-gemini-3-pro 200 in 275ms (compile: 25ms, generate-params: 21ms, render: 250ms)
- GET /en 200 in 513ms (compile: 38ms, proxy.ts: 9ms, render: 466ms)
- GET /en/blog/llama-4.5-vs-gemini-3-pro 200 in 440ms (compile: 27ms, generate-params: 21ms, render: 412ms)
-✓ Compiled in 75ms
- GET /en 200 in 1156ms (compile: 107ms, proxy.ts: 14ms, render: 1036ms)
- GET /en/blog/llama-4.5-vs-gemini-3-pro 200 in 937ms (compile: 270ms, generate-params: 22ms, render: 667ms)
-✓ Compiled in 67ms
- GET /en 200 in 431ms (compile: 33ms, proxy.ts: 5ms, render: 393ms)
- GET /en/blog/llama-4.5-vs-gemini-3-pro 200 in 1072ms (compile: 280ms, generate-params: 24ms, render: 791ms)
-✓ Compiled in 55ms
- GET /en 200 in 378ms (compile: 32ms, proxy.ts: 6ms, render: 340ms)
- GET /en/blog/llama-4.5-vs-gemini-3-pro 200 in 1016ms (compile: 259ms, generate-params: 21ms, render: 758ms)
-⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
-▲ Next.js 16.1.6 (Turbopack)
-- Local:         http://localhost:3000
-- Network:       http://192.168.0.2:3000
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
 
-✓ Starting...
 ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-✓ Ready in 1263ms
+✓ Ready in 2.3s
+○ Compiling /[locale]/compare/gemini-vs-claude-2026 ...
+ GET /en/compare/gemini-vs-claude-2026 200 in 5.5s (compile: 4.4s, proxy.ts: 135ms, render: 896ms)
+ GET /en/compare/gemini-vs-claude-2026 200 in 448ms (compile: 39ms, proxy.ts: 10ms, render: 399ms)
+ GET /en/tools/cursor 200 in 3.2s (compile: 2.5s, proxy.ts: 7ms, generate-params: 727ms, render: 718ms)
+ GET /en/compare/gemini-vs-claude-2026 200 in 316ms (compile: 37ms, proxy.ts: 7ms, render: 272ms)
+ GET /en/tools/cursor 200 in 617ms (compile: 60ms, proxy.ts: 14ms, generate-params: 43ms, render: 543ms)
+ GET /en/compare/gemini-vs-claude-2026 200 in 481ms (compile: 53ms, proxy.ts: 9ms, render: 420ms)
+ GET /en/tools/cursor 200 in 607ms (compile: 65ms, proxy.ts: 8ms, generate-params: 54ms, render: 534ms)
+ GET /en/compare/gemini-vs-claude-2026 200 in 593ms (compile: 57ms, proxy.ts: 6ms, render: 530ms)
+ GET /en/tools/cursor 200 in 496ms (compile: 48ms, proxy.ts: 13ms, generate-params: 36ms, render: 435ms)
+ GET /en/compare/gemini-vs-claude-2026 200 in 374ms (compile: 38ms, proxy.ts: 6ms, render: 330ms)
+✓ Compiled in 408ms
+ GET /en/tools/cursor 200 in 1026ms (compile: 111ms, proxy.ts: 184ms, generate-params: 90ms, render: 731ms)
+ GET /en/compare/gemini-vs-claude-2026 200 in 1137ms (compile: 219ms, proxy.ts: 7ms, render: 911ms)
+ GET /en/compare/gemini-vs-claude-2026 200 in 1155ms (compile: 107ms, proxy.ts: 23ms, render: 1025ms)

@@ -12,6 +12,7 @@ import { ArrowLeft } from "lucide-react";
 import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
+import { generatePlatformSchema } from "@/lib/schema";
 
 export async function generateMetadata({
   params
@@ -50,8 +51,14 @@ export default async function Home({
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 6);
 
+  const platformSchema = generatePlatformSchema(t('description'), locale);
+
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(platformSchema) }}
+      />
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl text-center mb-16">
           <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-6xl dark:text-zinc-50">

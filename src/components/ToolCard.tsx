@@ -9,7 +9,12 @@ import { MouseEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
-export function ToolCard({ tool }: { tool: ToolMetadata }) {
+interface ToolCardProps {
+  tool: ToolMetadata;
+  priority?: boolean;
+}
+
+export function ToolCard({ tool, priority = false }: ToolCardProps) {
   const { selectedSlugs, toggleTool } = useCompare();
   const isSelected = selectedSlugs.includes(tool.slug);
   const t = useTranslations('ToolCard');
@@ -35,6 +40,7 @@ export function ToolCard({ tool }: { tool: ToolMetadata }) {
             src={tool.image}
             alt={tool.title}
             fill
+            priority={priority}
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>

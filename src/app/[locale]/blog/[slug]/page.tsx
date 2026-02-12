@@ -18,7 +18,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { RelatedPost } from "@/components/RelatedPost";
 import { ComparisonTable } from "@/components/ComparisonTable";
-import { generateBlogPostSchema } from "@/lib/schema";
+import { generateBlogPostSchema, generateBreadcrumbSchema } from "@/lib/schema";
 import { getToolOfTheWeek, getToolBySlug, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
 
@@ -92,6 +92,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     { label: metadata.title },
   ];
 
+  const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems, locale);
+
   // Fetch recent posts
   const allPosts = getAllPosts(locale);
   const recentPosts = allPosts
@@ -138,6 +140,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <ReadingProgressBar />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

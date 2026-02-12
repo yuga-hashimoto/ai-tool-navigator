@@ -1,5 +1,6 @@
 import { Tool } from "@/lib/tools";
 import { Post } from "@/lib/posts";
+import { BreadcrumbItem } from "@/components/Breadcrumbs";
 
 const APPLICATION_CATEGORY_MAP: Record<string, string> = {
   "Video Generation": "MultimediaApplication",
@@ -121,4 +122,35 @@ export function generateBlogPostSchema(post: Post, url: string) {
   }
 
   return schema;
+}
+
+export function generateBreadcrumbSchema(items: BreadcrumbItem[], locale: string) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app';
+
+  const itemListElement = items.map((item, index) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const schemaItem: any = {
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.label,
+    };
+
+    if (item.href) {
+      // If href is present, construct full URL
+      const path = item.href === '/' ? '' : item.href;
+      // Ensure path starts with / if not empty
+      const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+      // Note: next-intl routing typically handles locale prefixing in Link component,
+      // but for schema URL we need absolute URL including locale.
+      schemaItem.item = `${siteUrl}/${locale}${normalizedPath === '/' ? '' : normalizedPath}`;
+    }
+
+    return schemaItem;
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement,
+  };
 }

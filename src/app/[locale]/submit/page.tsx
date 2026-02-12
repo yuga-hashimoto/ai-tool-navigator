@@ -1,5 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { SubmitForm } from '@/components/SubmitForm';
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { generateBreadcrumbSchema } from "@/lib/schema";
 
 export async function generateMetadata({
   params
@@ -24,10 +26,23 @@ export default async function SubmitPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'SubmitPage' });
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
+
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+    { label: tBreadcrumbs('submit') },
+  ];
+
+  const jsonLd = generateBreadcrumbSchema(breadcrumbItems, locale);
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-16 sm:py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <Breadcrumbs items={breadcrumbItems} />
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
             {t('title')}

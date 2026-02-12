@@ -1,5 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { generateBreadcrumbSchema } from "@/lib/schema";
 
 export async function generateMetadata({
   params
@@ -16,10 +19,25 @@ export async function generateMetadata({
   };
 }
 
-export default function AdvertisePage() {
+export default async function AdvertisePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const tBreadcrumbs = await getTranslations('Breadcrumbs');
+
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: tBreadcrumbs('home'), href: '/' },
+    { label: tBreadcrumbs('advertise') },
+  ];
+
+  const jsonLd = generateBreadcrumbSchema(breadcrumbItems, locale);
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-7xl mx-auto">
+        <Breadcrumbs items={breadcrumbItems} />
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
             Sponsor AI Tools Navigator

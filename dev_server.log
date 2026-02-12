@@ -1,0 +1,16 @@
+
+> ai-tool-navigator@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 2.2s
+○ Compiling /[locale]/blog/[slug] ...
+ HEAD /en/blog/test-code-copy 200 in 6.7s (compile: 5.5s, proxy.ts: 143ms, generate-params: 740ms, render: 982ms)
+ GET /en/blog/test-code-copy 200 in 268ms (compile: 46ms, proxy.ts: 11ms, generate-params: 32ms, render: 212ms)
+ GET /en/blog/test-code-copy 200 in 401ms (compile: 35ms, proxy.ts: 6ms, generate-params: 28ms, render: 360ms)
+ GET /en/blog/test-code-copy 200 in 432ms (compile: 33ms, proxy.ts: 6ms, generate-params: 26ms, render: 393ms)

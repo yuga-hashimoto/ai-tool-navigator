@@ -17,6 +17,31 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { RelatedPost } from "@/components/RelatedPost";
 import { generateBlogPostSchema } from "@/lib/schema";
+import { CopyCodeButton } from "@/components/CopyCodeButton";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Pre = ({ children, ...props }: any) => {
+  if (!children || typeof children !== 'object' || children.type !== 'code') {
+      return <pre {...props}>{children}</pre>;
+  }
+
+  const childProps = children.props;
+  let text = "";
+  if (typeof childProps.children === 'string') {
+      text = childProps.children;
+  } else if (Array.isArray(childProps.children)) {
+      text = childProps.children.join("");
+  } else {
+      text = String(childProps.children || "");
+  }
+
+  return (
+    <div className="relative group">
+       <pre {...props}>{children}</pre>
+       <CopyCodeButton text={text} />
+    </div>
+  )
+}
 
 export async function generateStaticParams() {
   const params = [];
@@ -105,6 +130,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     h3: ({node: _node, ...props}: any) => <h3 className="scroll-mt-24" {...props} />,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     h4: ({node: _node, ...props}: any) => <h4 className="scroll-mt-24" {...props} />,
+    pre: Pre,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     'related-post': (props: any) => {
       const { slug } = props;

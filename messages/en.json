@@ -127,6 +127,8 @@
     "title": "AI Insights & Reviews",
     "description": "Deep dives into the latest AI tools, comparisons, and industry trends.",
     "recentPosts": "Recent Posts",
+    "copyCode": "Copy Code",
+    "copied": "Copied!",
     "readingTime": "{minutes} min read"
   },
   "ShareButtons": {

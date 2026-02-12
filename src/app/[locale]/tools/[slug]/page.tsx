@@ -10,6 +10,7 @@ import { ArticleCard } from "@/components/ArticleCard";
 import { getTranslations } from "next-intl/server";
 import { generateToolSchema } from "@/lib/schema";
 import { ProsConsSection } from "@/components/ProsConsSection";
+import { RatingBreakdown } from "@/components/RatingBreakdown";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getCategorySlug } from "@/lib/breadcrumbs";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
@@ -145,6 +146,13 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                         cons: t('cons'),
                     }}
                 />
+
+                {metadata.rating_breakdown && (
+                    <RatingBreakdown
+                        breakdown={metadata.rating_breakdown}
+                        title={t('ratingBreakdown')}
+                    />
+                )}
 
                 <div className="mt-12 prose prose-zinc dark:prose-invert max-w-none">
                     <ReactMarkdown>{content}</ReactMarkdown>

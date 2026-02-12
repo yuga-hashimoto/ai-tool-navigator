@@ -10,6 +10,7 @@ export interface ToolMetadata {
   category: string;
   description: string;
   rating: number;
+  rating_breakdown?: Record<string, number>;
   image?: string;
   pros?: string[];
   cons?: string[];

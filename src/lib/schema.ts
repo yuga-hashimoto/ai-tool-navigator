@@ -154,3 +154,26 @@ export function generateBreadcrumbSchema(items: BreadcrumbItem[], locale: string
     itemListElement,
   };
 }
+
+export function generatePlatformSchema(description: string, locale: string) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app';
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AI Tool Navigator",
+    "url": `${siteUrl}/${locale}`,
+    "description": description,
+    "applicationCategory": "SearchApplication",
+    "operatingSystem": "Web",
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${siteUrl}/${locale}?search={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  };
+}

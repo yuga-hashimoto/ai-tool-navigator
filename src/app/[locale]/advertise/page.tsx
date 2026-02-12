@@ -1,4 +1,20 @@
 import React from 'react';
+import { Metadata } from 'next';
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Advertise - AI Tool Navigator",
+    description: "Sponsor AI Tools Navigator and reach thousands of developers.",
+    alternates: {
+      canonical: `/${locale}/advertise`,
+    }
+  };
+}
 
 export default function AdvertisePage() {
   return (

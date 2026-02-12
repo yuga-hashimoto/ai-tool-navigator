@@ -5,13 +5,28 @@ import Link from 'next/link';
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Compare AI Tools | AI Tool Navigator",
-  description: "Compare features, pricing, pros, and cons of top AI tools side-by-side.",
-};
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Compare AI Tools | AI Tool Navigator",
+    description: "Compare features, pricing, pros, and cons of top AI tools side-by-side.",
+    alternates: {
+      canonical: `/${locale}/compare`,
+    }
+  };
+}
 
-export default async function ComparePage() {
-  const tools = getAllTools();
+export default async function ComparePage({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params;
+  const tools = getAllTools(locale);
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
 
   const breadcrumbItems: BreadcrumbItem[] = [

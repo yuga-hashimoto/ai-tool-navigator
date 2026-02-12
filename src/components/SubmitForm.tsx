@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { sendGAEvent } from '@/lib/analytics';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -50,6 +51,7 @@ export function SubmitForm() {
       }
 
       setSubmitStatus('success');
+      sendGAEvent('generate_lead', { category: 'submission', method: 'form' });
       reset();
     } catch (error) {
       console.error('Submission error:', error);

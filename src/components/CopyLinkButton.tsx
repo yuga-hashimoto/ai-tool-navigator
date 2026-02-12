@@ -3,6 +3,7 @@
 import { Link as LinkIcon, Check } from "lucide-react";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { sendGAEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 export function CopyLinkButton({ className }: { className?: string }) {
@@ -13,6 +14,11 @@ export function CopyLinkButton({ className }: { className?: string }) {
     try {
       await navigator.clipboard.writeText(window.location.href);
       setCopied(true);
+      sendGAEvent("share", {
+        method: "copy_link",
+        content_type: "tool",
+        item_id: window.location.href,
+      });
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy: ", err);

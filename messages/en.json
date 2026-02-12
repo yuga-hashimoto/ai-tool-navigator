@@ -211,7 +211,14 @@
     "privacy": "Privacy",
     "sponsor": "Sponsor",
     "submit": "Submit Tool",
-    "terms": "Terms"
+    "terms": "Terms",
+    "support": "Support Us"
+  },
+  "SupportPage": {
+    "title": "Support Us",
+    "description": "Help us continue to provide unbiased AI tool reviews and comparisons.",
+    "intro": "If you find our content helpful, please consider supporting us. Your contributions help us cover server costs and dedicate more time to researching and testing new AI tools.",
+    "donate_button": "Donate via Stripe"
   },
   "AboutPage": {
     "title": "About AI Tool Navigator",

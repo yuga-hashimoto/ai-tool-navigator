@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkDirective from "remark-directive";
 import { remarkRelatedPost } from "@/lib/remark-related-post";
+import { remarkComparisonTable } from "@/lib/remark-comparison-table";
 import rehypeSlug from "rehype-slug";
 import { routing, Link } from "@/i18n/routing";
 import { Calendar, User, Clock } from "lucide-react";
@@ -16,8 +17,9 @@ import { TableOfContents } from "@/components/TableOfContents";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { RelatedPost } from "@/components/RelatedPost";
+import { ComparisonTable } from "@/components/ComparisonTable";
 import { generateBlogPostSchema } from "@/lib/schema";
-import { getToolOfTheWeek } from "@/lib/tools";
+import { getToolOfTheWeek, getToolBySlug, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
 
 export async function generateStaticParams() {
@@ -116,6 +118,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       if (!post) return null;
       return <RelatedPost post={post} />;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    'comparison-table': (props: any) => {
+      const { tools } = props;
+      if (!tools) return null;
+      const slugs = (tools as string).split(',').map(s => s.trim());
+      const toolsData = slugs
+        .map(slug => getToolBySlug(slug, locale)?.metadata)
+        .filter((t): t is ToolMetadata => t !== undefined);
+
+      if (toolsData.length === 0) return null;
+
+      return <ComparisonTable tools={toolsData} />;
+    },
   };
 
   return (
@@ -177,7 +192,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
                     <div className="prose prose-lg prose-zinc dark:prose-invert">
                         <ReactMarkdown
-                            remarkPlugins={[remarkGfm, remarkDirective, remarkRelatedPost]}
+                            remarkPlugins={[remarkGfm, remarkDirective, remarkRelatedPost, remarkComparisonTable]}
                             rehypePlugins={[rehypeSlug]}
                             components={components}
                         >

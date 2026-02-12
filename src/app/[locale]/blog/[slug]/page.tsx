@@ -17,6 +17,8 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { RelatedPost } from "@/components/RelatedPost";
 import { generateBlogPostSchema } from "@/lib/schema";
+import { getToolOfTheWeek } from "@/lib/tools";
+import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
 
 export async function generateStaticParams() {
   const params = [];
@@ -93,6 +95,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const recentPosts = allPosts
     .filter((p) => p.slug !== slug)
     .slice(0, 5);
+
+  const toolOfTheWeek = getToolOfTheWeek(locale);
 
   const dateLocale = locale === 'ja' ? 'ja-JP' : 'en-US';
 
@@ -198,6 +202,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             />
                         </div>
                     </div>
+
+                    <ToolOfTheWeekSidebar tool={toolOfTheWeek} />
 
                     <div>
                          <h3 className="text-xl font-semibold mb-6 text-zinc-900 dark:text-zinc-100">

@@ -4,6 +4,7 @@ import { ToolCard } from "@/components/ToolCard";
 import { FeaturedTools } from "@/components/FeaturedTools";
 import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { SponsoredTools } from "@/components/SponsoredTools";
+import { TopPicks } from "@/components/TopPicks";
 import { ToolOfTheWeek } from "@/components/ToolOfTheWeek";
 import { HeroSearchBar } from "@/components/HeroSearchBar";
 import { Link } from "@/i18n/routing";
@@ -43,6 +44,11 @@ export default async function Home({
   const toolOfTheWeek = getToolOfTheWeek(locale);
   const editorsChoiceSlugs = ['speechify', 'mixo', 'copy-ai', 'basedlabs', 'homesage'];
   const editorsChoiceTools = tools.filter(tool => editorsChoiceSlugs.includes(tool.slug));
+
+  const topPicks = tools
+    .filter(t => !t.sponsored && !t.promoted && !t.featured && t.slug !== toolOfTheWeek?.slug)
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 6);
 
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
@@ -99,6 +105,9 @@ export default async function Home({
 
             {/* Featured Tools Section */}
             <FeaturedTools tools={tools} />
+
+            {/* Top Picks Section */}
+            <TopPicks tools={topPicks} />
 
             {/* Editor's Choice Section */}
             {editorsChoiceTools.length > 0 && (

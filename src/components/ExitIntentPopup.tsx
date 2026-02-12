@@ -39,7 +39,12 @@ export default function ExitIntentPopup() {
 
     const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY <= 0) {
+        // Double check subscription status before showing
+        if (localStorage.getItem('newsletter_subscribed')) {
+          return;
+        }
         setIsVisible(true);
+        window.dispatchEvent(new CustomEvent('exit-intent-triggered'));
       }
     };
 

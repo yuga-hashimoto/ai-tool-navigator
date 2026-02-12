@@ -12,6 +12,7 @@ import ExitIntentPopup from "@/components/ExitIntentPopup";
 import { Navigation } from "@/components/Navigation";
 import StickyNotificationBar from "@/components/StickyNotificationBar";
 import BackToTop from "@/components/BackToTop";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,11 +53,17 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             <CompareProvider>
             <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-727KCHJ884"} />
             <div className="sticky top-0 z-50 flex flex-col">
@@ -70,6 +77,7 @@ export default async function RootLayout({
             <ExitIntentPopup />
             <BackToTop />
             </CompareProvider>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

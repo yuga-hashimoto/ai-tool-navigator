@@ -27,9 +27,9 @@ export function SponsoredTools({ tools }: SponsoredToolsProps) {
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {sponsoredTools.map((tool) => (
+        {sponsoredTools.map((tool, index) => (
           <div key={tool.slug} className="flex flex-col h-full">
-            <ToolCard tool={tool} />
+            <ToolCard tool={tool} priority={index < 3} />
           </div>
         ))}
       </div>

@@ -14,6 +14,7 @@ import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getCategorySlug } from "@/lib/breadcrumbs";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
+import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -120,14 +121,15 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                         <CopyLinkButton className="w-full sm:w-auto" />
-                        <a
+                        <AffiliateLinkButton
                             href={metadata.affiliate_link}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            toolSlug={metadata.slug}
+                            toolName={metadata.title}
+                            position="hero_section"
                             className="inline-flex w-full sm:w-auto items-center justify-center rounded-full bg-green-600 px-8 py-4 text-base font-semibold text-white shadow-sm hover:bg-green-500 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 transition-all transform hover:scale-105"
                         >
                             {t('tryThisTool')} <ExternalLink className="ml-2 h-4 w-4" />
-                        </a>
+                        </AffiliateLinkButton>
                     </div>
                 </div>
 

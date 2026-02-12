@@ -13,8 +13,6 @@ You can learn more, including how to opt-out if you'd not like to participate in
 https://nextjs.org/telemetry
 
 ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-✓ Ready in 2.2s
-○ Compiling /[locale] ...
- GET /en 200 in 10.4s (compile: 8.8s, proxy.ts: 19ms, render: 1606ms)
- GET /en/tools/kling-ai 200 in 3.1s (compile: 2.6s, proxy.ts: 5ms, generate-params: 1068ms, render: 507ms)
- GET /en/tools/sora-2 200 in 733ms (compile: 154ms, proxy.ts: 25ms, generate-params: 37ms, render: 554ms)
+✓ Ready in 2.1s
+○ Compiling /[locale]/tools/[slug] ...
+ GET /en/tools/chatgpt 200 in 9.3s (compile: 7.5s, proxy.ts: 187ms, generate-params: 1163ms, render: 1622ms)

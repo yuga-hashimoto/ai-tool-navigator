@@ -8,7 +8,7 @@ import { ToolCard } from "@/components/ToolCard";
 import { Rating } from "@/components/Rating";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getTranslations } from "next-intl/server";
-import { generateToolSchema } from "@/lib/schema";
+import { generateToolSchema, generateBreadcrumbSchema } from "@/lib/schema";
 import { ProsConsSection } from "@/components/ProsConsSection";
 import { RatingBreakdown } from "@/components/RatingBreakdown";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
@@ -87,11 +87,17 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   breadcrumbItems.push({ label: metadata.title });
 
+  const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems, locale);
+
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />

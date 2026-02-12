@@ -193,7 +193,13 @@
     "search": "検索",
     "security": "セキュリティ",
     "voice": "音声",
-    "design": "デザイン"
+    "design": "デザイン",
+    "about": "About",
+    "advertise": "広告",
+    "privacy": "プライバシー",
+    "sponsor": "スポンサー",
+    "submit": "ツールを送信",
+    "terms": "利用規約"
   },
   "AboutPage": {
     "title": "About AI Tool Navigator",

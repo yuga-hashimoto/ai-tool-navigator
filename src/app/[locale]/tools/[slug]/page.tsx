@@ -2,6 +2,9 @@ import { getToolBySlug, getToolSlugs, getRelatedTools } from "@/lib/tools";
 import { getRelatedPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkDirective from "remark-directive";
+import { remarkYoutube } from "@/lib/remark-youtube";
 import { ExternalLink, BadgeCheck, Calendar } from "lucide-react";
 import { Metadata } from "next";
 import { ToolCard } from "@/components/ToolCard";
@@ -16,6 +19,7 @@ import { getCategorySlug } from "@/lib/breadcrumbs";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
+import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -87,6 +91,13 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   breadcrumbItems.push({ label: metadata.title });
 
+  const components = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    'youtube-embed': (props: any) => {
+        return <YouTubeEmbed {...props} />;
+    },
+  };
+
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
       <script
@@ -155,7 +166,13 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                 )}
 
                 <div className="mt-12 prose prose-zinc dark:prose-invert max-w-none">
-                    <ReactMarkdown>{content}</ReactMarkdown>
+                    <ReactMarkdown
+                        remarkPlugins={[remarkGfm, remarkDirective, remarkYoutube]}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        components={components as any}
+                    >
+                        {content}
+                    </ReactMarkdown>
                 </div>
 
                 <div className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800">

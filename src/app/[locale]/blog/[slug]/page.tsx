@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import remarkDirective from "remark-directive";
 import { remarkRelatedPost } from "@/lib/remark-related-post";
 import { remarkComparisonTable } from "@/lib/remark-comparison-table";
+import { remarkYoutube } from "@/lib/remark-youtube";
 import rehypeSlug from "rehype-slug";
 import { routing, Link } from "@/i18n/routing";
 import { Calendar, User, Clock } from "lucide-react";
@@ -18,6 +19,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { RelatedPost } from "@/components/RelatedPost";
 import { ComparisonTable } from "@/components/ComparisonTable";
+import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { generateBlogPostSchema } from "@/lib/schema";
 import { getToolOfTheWeek, getToolBySlug, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
@@ -131,6 +133,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       return <ComparisonTable tools={toolsData} />;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    'youtube-embed': (props: any) => {
+        return <YouTubeEmbed {...props} />;
+    },
   };
 
   return (
@@ -192,7 +198,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
                     <div className="prose prose-lg prose-zinc dark:prose-invert">
                         <ReactMarkdown
-                            remarkPlugins={[remarkGfm, remarkDirective, remarkRelatedPost, remarkComparisonTable]}
+                            remarkPlugins={[remarkGfm, remarkDirective, remarkRelatedPost, remarkComparisonTable, remarkYoutube]}
                             rehypePlugins={[rehypeSlug]}
                             components={components}
                         >

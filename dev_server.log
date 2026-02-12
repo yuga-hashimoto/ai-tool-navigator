@@ -13,19 +13,9 @@ You can learn more, including how to opt-out if you'd not like to participate in
 https://nextjs.org/telemetry
 
 ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-✓ Ready in 2.3s
-○ Compiling /[locale]/compare/gemini-vs-claude-2026 ...
- GET /en/compare/gemini-vs-claude-2026 200 in 5.5s (compile: 4.4s, proxy.ts: 135ms, render: 896ms)
- GET /en/compare/gemini-vs-claude-2026 200 in 448ms (compile: 39ms, proxy.ts: 10ms, render: 399ms)
- GET /en/tools/cursor 200 in 3.2s (compile: 2.5s, proxy.ts: 7ms, generate-params: 727ms, render: 718ms)
- GET /en/compare/gemini-vs-claude-2026 200 in 316ms (compile: 37ms, proxy.ts: 7ms, render: 272ms)
- GET /en/tools/cursor 200 in 617ms (compile: 60ms, proxy.ts: 14ms, generate-params: 43ms, render: 543ms)
- GET /en/compare/gemini-vs-claude-2026 200 in 481ms (compile: 53ms, proxy.ts: 9ms, render: 420ms)
- GET /en/tools/cursor 200 in 607ms (compile: 65ms, proxy.ts: 8ms, generate-params: 54ms, render: 534ms)
- GET /en/compare/gemini-vs-claude-2026 200 in 593ms (compile: 57ms, proxy.ts: 6ms, render: 530ms)
- GET /en/tools/cursor 200 in 496ms (compile: 48ms, proxy.ts: 13ms, generate-params: 36ms, render: 435ms)
- GET /en/compare/gemini-vs-claude-2026 200 in 374ms (compile: 38ms, proxy.ts: 6ms, render: 330ms)
-✓ Compiled in 408ms
- GET /en/tools/cursor 200 in 1026ms (compile: 111ms, proxy.ts: 184ms, generate-params: 90ms, render: 731ms)
- GET /en/compare/gemini-vs-claude-2026 200 in 1137ms (compile: 219ms, proxy.ts: 7ms, render: 911ms)
- GET /en/compare/gemini-vs-claude-2026 200 in 1155ms (compile: 107ms, proxy.ts: 23ms, render: 1025ms)
+✓ Ready in 2.2s
+○ Compiling /[locale]/blog/[slug] ...
+ GET /ja/blog/how-to-use-deepseek-programming 200 in 9.2s (compile: 7.6s, proxy.ts: 187ms, generate-params: 1259ms, render: 1415ms)
+ GET /ja/blog/how-to-use-deepseek-programming 200 in 467ms (compile: 36ms, proxy.ts: 9ms, generate-params: 25ms, render: 422ms)
+ GET /ja/blog/how-to-use-deepseek-programming 200 in 524ms (compile: 36ms, proxy.ts: 8ms, generate-params: 26ms, render: 480ms)
+[?25h

@@ -61,7 +61,7 @@
       "sponsored": "Sponsored"
   },
   "FeaturedCarousel": {
-      "title": "Featured Tools",
+      "title": "Trending Tools",
       "viewDeal": "View Deal",
       "learnMore": "Learn More"
   },
@@ -70,8 +70,8 @@
       "sponsored": "Sponsored"
   },
   "FeaturedTools": {
-      "title": "Promoted Tools",
-      "promoted": "Promoted",
+      "title": "Featured Tools",
+      "promoted": "Featured",
       "checkItOut": "Check it out"
   },
   "ToolPage": {

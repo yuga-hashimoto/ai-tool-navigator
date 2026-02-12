@@ -85,10 +85,10 @@ export default async function Home({
           </Link>
         </div>
 
-        {/* Featured Tools Carousel */}
+        {/* Trending Tools Carousel */}
         <FeaturedCarousel tools={tools} />
 
-        {/* Featured Tools Section (Promoted) */}
+        {/* Featured Tools Section */}
         <FeaturedTools tools={tools} />
 
         {/* Editor's Choice Section */}

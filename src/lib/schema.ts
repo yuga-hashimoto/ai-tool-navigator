@@ -1,4 +1,5 @@
 import { Tool } from "@/lib/tools";
+import { Post } from "@/lib/posts";
 
 const APPLICATION_CATEGORY_MAP: Record<string, string> = {
   "Video Generation": "MultimediaApplication",
@@ -84,6 +85,39 @@ export function generateToolSchema(tool: Tool) {
       },
       reviewBody: metadata.description,
     };
+  }
+
+  return schema;
+}
+
+export function generateBlogPostSchema(post: Post, url: string) {
+  const { metadata } = post;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const schema: any = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: metadata.title,
+    description: metadata.excerpt,
+    datePublished: metadata.date,
+    dateModified: metadata.date,
+    author: {
+      "@type": "Person",
+      name: metadata.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "AI Tool Navigator",
+    },
+    url: url,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+  };
+
+  if (metadata.image) {
+    schema.image = metadata.image;
   }
 
   return schema;

@@ -22,6 +22,7 @@ import { generateBlogPostSchema, generateBreadcrumbSchema } from "@/lib/schema";
 import { getToolOfTheWeek, getToolBySlug, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
 import { GoogleAdsensePlaceholder } from "@/components/GoogleAdsensePlaceholder";
+import { MarkdownTable } from "@/components/MarkdownTable";
 
 export async function generateStaticParams() {
   const params = [];
@@ -134,6 +135,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       return <ComparisonTable tools={toolsData} />;
     },
+    table: MarkdownTable,
   };
 
   return (
@@ -197,7 +199,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         </div>
                     </header>
 
-                    <div className="prose prose-lg prose-zinc dark:prose-invert">
+                    <div className="prose lg:prose-lg prose-zinc dark:prose-invert">
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm, remarkDirective, remarkRelatedPost, remarkComparisonTable]}
                             rehypePlugins={[rehypeSlug]}

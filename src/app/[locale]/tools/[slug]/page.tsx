@@ -16,6 +16,7 @@ import { getCategorySlug } from "@/lib/breadcrumbs";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
+import { MarkdownTable } from "@/components/MarkdownTable";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -89,6 +90,10 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems, locale);
 
+  const components = {
+    table: MarkdownTable,
+  };
+
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
       <script
@@ -161,7 +166,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                 )}
 
                 <div className="mt-12 prose prose-zinc dark:prose-invert max-w-none">
-                    <ReactMarkdown>{content}</ReactMarkdown>
+                    <ReactMarkdown components={components}>{content}</ReactMarkdown>
                 </div>
 
                 <div className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800">

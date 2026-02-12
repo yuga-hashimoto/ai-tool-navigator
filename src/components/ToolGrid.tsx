@@ -49,7 +49,7 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
         <div className="mb-8 space-y-4">
              {/* Search Bar */}
             {!hideSearch && (
-              <div className="relative max-w-md mx-auto sm:mx-0">
+              <div className="relative w-full sm:max-w-md mx-auto sm:mx-0">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
                   <input
                       type="text"

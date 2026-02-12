@@ -26,7 +26,7 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string; locale: string }> }
 ): Promise<Metadata> {
   const { slug, locale } = await params;
-  const tool = getToolBySlug(slug, locale);
+  const tool = await getToolBySlug(slug, locale);
 
   if (!tool) {
     return {
@@ -59,7 +59,7 @@ export async function generateMetadata(
 
 export default async function ToolPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
   const { slug, locale } = await params;
-  const tool = getToolBySlug(slug, locale);
+  const tool = await getToolBySlug(slug, locale);
   const t = await getTranslations('ToolPage');
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
   const tShare = await getTranslations('ShareButtons');
@@ -70,8 +70,8 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   const { metadata, content } = tool;
   const { verified, last_updated } = metadata;
-  const relatedTools = getRelatedTools(metadata, 3, locale);
-  const relatedPosts = getRelatedPosts(metadata, 3, locale);
+  const relatedTools = await getRelatedTools(metadata, 3, locale);
+  const relatedPosts = await getRelatedPosts(metadata, 3, locale);
   const jsonLd = generateToolSchema(tool);
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/tools/${slug}`;
 

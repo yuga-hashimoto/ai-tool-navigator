@@ -29,7 +29,7 @@ export default async function DealsPage({
   const { locale } = await params;
   const t = await getTranslations('DealsPage');
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
-  const tools = getAllTools(locale);
+  const tools = await getAllTools(locale);
   const deals = tools.filter(tool => tool.discount);
 
   const breadcrumbItems: BreadcrumbItem[] = [

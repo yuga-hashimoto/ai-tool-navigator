@@ -27,7 +27,7 @@ export default async function ComparePage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params;
-  const tools = getAllTools(locale);
+  const tools = await getAllTools(locale);
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
 
   const breadcrumbItems: BreadcrumbItem[] = [

@@ -18,7 +18,7 @@ export default async function BlogPage({
   const { locale } = await params;
   const t = await getTranslations("BlogPage");
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
-  const posts = getAllPosts(locale);
+  const posts = await getAllPosts(locale);
 
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: tBreadcrumbs('home'), href: '/' },

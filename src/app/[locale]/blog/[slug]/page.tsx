@@ -21,6 +21,7 @@ import { ComparisonTable } from "@/components/ComparisonTable";
 import { generateBlogPostSchema } from "@/lib/schema";
 import { getToolOfTheWeek, getToolBySlug, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
+import { HeaderLinkButton } from "@/components/HeaderLinkButton";
 
 export async function generateStaticParams() {
   const params = [];
@@ -104,13 +105,33 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   const components = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-    h1: ({node: _node, ...props}: any) => <h1 className="scroll-mt-24" {...props} />,
+    h1: ({node: _node, children, id, ...props}: any) => (
+      <h1 id={id} className="scroll-mt-24 group relative flex items-center" {...props}>
+        <span>{children}</span>
+        {id && <HeaderLinkButton id={id} />}
+      </h1>
+    ),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-    h2: ({node: _node, ...props}: any) => <h2 className="scroll-mt-24" {...props} />,
+    h2: ({node: _node, children, id, ...props}: any) => (
+      <h2 id={id} className="scroll-mt-24 group relative flex items-center" {...props}>
+        <span>{children}</span>
+        {id && <HeaderLinkButton id={id} />}
+      </h2>
+    ),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-    h3: ({node: _node, ...props}: any) => <h3 className="scroll-mt-24" {...props} />,
+    h3: ({node: _node, children, id, ...props}: any) => (
+      <h3 id={id} className="scroll-mt-24 group relative flex items-center" {...props}>
+        <span>{children}</span>
+        {id && <HeaderLinkButton id={id} />}
+      </h3>
+    ),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-    h4: ({node: _node, ...props}: any) => <h4 className="scroll-mt-24" {...props} />,
+    h4: ({node: _node, children, id, ...props}: any) => (
+      <h4 id={id} className="scroll-mt-24 group relative flex items-center" {...props}>
+        <span>{children}</span>
+        {id && <HeaderLinkButton id={id} />}
+      </h4>
+    ),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     'related-post': (props: any) => {
       const { slug } = props;

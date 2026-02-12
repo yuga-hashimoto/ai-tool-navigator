@@ -1,6 +1,7 @@
 import { PostMetadata } from "@/lib/posts";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 interface ArticleCardProps {
   post: PostMetadata;
@@ -8,7 +9,8 @@ interface ArticleCardProps {
   priority?: boolean;
 }
 
-export function ArticleCard({ post, locale, priority }: ArticleCardProps) {
+export async function ArticleCard({ post, locale, priority }: ArticleCardProps) {
+  const t = await getTranslations({ locale, namespace: 'BlogPage' });
   const dateOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -31,9 +33,17 @@ export function ArticleCard({ post, locale, priority }: ArticleCardProps) {
       )}
       <div className="relative w-full">
          <div className="flex items-center gap-x-4 text-xs">
-          <time dateTime={post.date} className="text-zinc-500 dark:text-zinc-400">
-            {new Date(post.date).toLocaleDateString(dateLocale, dateOptions)}
-          </time>
+          <div className="flex items-center gap-x-2 text-zinc-500 dark:text-zinc-400">
+            <time dateTime={post.date}>
+              {new Date(post.date).toLocaleDateString(dateLocale, dateOptions)}
+            </time>
+            {post.readingTime > 0 && (
+              <>
+                <span>•</span>
+                <span>{t('readingTime', { minutes: post.readingTime })}</span>
+              </>
+            )}
+          </div>
           {post.tags && post.tags.length > 0 && (
               <span className="relative z-10 rounded-full bg-zinc-100 px-3 py-1.5 font-medium text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700">
                 {post.tags[0]}

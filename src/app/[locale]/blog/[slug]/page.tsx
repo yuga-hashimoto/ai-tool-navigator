@@ -2,6 +2,8 @@ import { getPostBySlug, getAllPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkDirective from "remark-directive";
+import { remarkRelatedPost } from "@/lib/remark-related-post";
 import rehypeSlug from "rehype-slug";
 import { routing, Link } from "@/i18n/routing";
 import { Calendar, User } from "lucide-react";
@@ -13,6 +15,7 @@ import { extractHeadings } from "@/lib/markdown";
 import { TableOfContents } from "@/components/TableOfContents";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ReadingProgressBar } from "@/components/ReadingProgressBar";
+import { RelatedPost } from "@/components/RelatedPost";
 import { generateBlogPostSchema } from "@/lib/schema";
 
 export async function generateStaticParams() {
@@ -102,6 +105,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     h3: ({node: _node, ...props}: any) => <h3 className="scroll-mt-24" {...props} />,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     h4: ({node: _node, ...props}: any) => <h4 className="scroll-mt-24" {...props} />,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    'related-post': (props: any) => {
+      const { slug } = props;
+      const post = allPosts.find((p) => p.slug === slug);
+      if (!post) return null;
+      return <RelatedPost post={post} />;
+    },
   };
 
   return (
@@ -150,7 +160,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
                     <div className="prose prose-lg prose-zinc dark:prose-invert">
                         <ReactMarkdown
-                            remarkPlugins={[remarkGfm]}
+                            remarkPlugins={[remarkGfm, remarkDirective, remarkRelatedPost]}
                             rehypePlugins={[rehypeSlug]}
                             components={components}
                         >

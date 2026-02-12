@@ -6,6 +6,7 @@ import remarkDirective from "remark-directive";
 import { remarkRelatedPost } from "@/lib/remark-related-post";
 import { remarkComparisonTable } from "@/lib/remark-comparison-table";
 import rehypeSlug from "rehype-slug";
+import rehypeGoogleAdsense from "@/lib/rehype-google-adsense";
 import { routing, Link } from "@/i18n/routing";
 import { Calendar, User, Clock } from "lucide-react";
 import { Metadata } from "next";
@@ -21,7 +22,7 @@ import { ComparisonTable } from "@/components/ComparisonTable";
 import { generateBlogPostSchema, generateBreadcrumbSchema } from "@/lib/schema";
 import { getToolOfTheWeek, getToolBySlug, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
-import { GoogleAdsensePlaceholder } from "@/components/GoogleAdsensePlaceholder";
+import { GoogleAdsense } from "@/components/GoogleAdsense";
 
 export async function generateStaticParams() {
   const params = [];
@@ -134,6 +135,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       return <ComparisonTable tools={toolsData} />;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    'google-adsense-slot': (props: any) => {
+      return <GoogleAdsense {...props} className="my-8" />;
+    },
   };
 
   return (
@@ -200,7 +205,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     <div className="prose prose-lg prose-zinc dark:prose-invert">
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm, remarkDirective, remarkRelatedPost, remarkComparisonTable]}
-                            rehypePlugins={[rehypeSlug]}
+                            rehypePlugins={[
+                              rehypeSlug,
+                              [rehypeGoogleAdsense, { slot: process.env.NEXT_PUBLIC_ADSENSE_SLOT_BLOG || 'blog' }]
+                            ]}
                             components={components}
                         >
                             {content}
@@ -225,7 +233,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         </div>
                     </div>
 
-                    <GoogleAdsensePlaceholder />
+                    <GoogleAdsense
+                      slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_SIDEBAR || 'sidebar'}
+                      className="w-full"
+                    />
 
                     <ToolOfTheWeekSidebar tool={toolOfTheWeek} />
 

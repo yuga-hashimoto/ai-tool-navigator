@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
+import { GoogleAdsense } from './GoogleAdsense';
 
 interface ToolGridProps {
   tools: ToolMetadata[];
@@ -81,11 +82,25 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredTools.map((tool, index) => (
-                <div key={tool.slug} className="flex flex-col h-full">
-                   <ToolCard tool={tool} priority={priority && index < 4} />
-                </div>
-            ))}
+            {filteredTools.flatMap((tool, index) => {
+                const elements = [
+                    <div key={tool.slug} className="flex flex-col h-full">
+                       <ToolCard tool={tool} priority={priority && index < 4} />
+                    </div>
+                ];
+
+                if ((index + 1) % 9 === 0) {
+                    elements.push(
+                        <div key={`ad-${index}`} className="flex flex-col h-full min-h-[250px] overflow-hidden rounded-2xl border border-zinc-200 bg-gray-50 dark:border-zinc-800 dark:bg-zinc-900/50">
+                             <GoogleAdsense
+                                slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_GRID || 'grid'}
+                                className="w-full h-full flex items-center justify-center"
+                             />
+                        </div>
+                    );
+                }
+                return elements;
+            })}
         </div>
         {filteredTools.length === 0 && (
             <div className="py-12 text-center">

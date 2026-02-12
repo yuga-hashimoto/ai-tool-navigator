@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import { notFound } from "next/navigation";
 import { CATEGORY_MAPPINGS } from "@/lib/categories";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { HeroSearchBar } from "@/components/HeroSearchBar";
 
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_MAPPINGS).map((slug) => ({
@@ -100,9 +101,10 @@ export default async function CategoryPage({
           <p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
             {description}
           </p>
+          <HeroSearchBar />
         </div>
 
-        <ToolGrid tools={filteredTools} />
+        <ToolGrid tools={filteredTools} hideSearch={true} />
       </div>
     </div>
   );

@@ -1,9 +1,20 @@
 import React from 'react';
+import { Metadata } from 'next';
 
-export const metadata = {
-  title: "Sponsorship - AI Tool Navigator",
-  description: "Promote your AI tool to our audience of developers and enthusiasts.",
-};
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Sponsorship - AI Tool Navigator",
+    description: "Promote your AI tool to our audience of developers and enthusiasts.",
+    alternates: {
+      canonical: `/${locale}/sponsor`,
+    }
+  };
+}
 
 export default function SponsorshipPage() {
   return (

@@ -53,8 +53,8 @@ export default function StickyNotificationBar() {
   return (
     <div className="relative z-50 bg-zinc-900 px-4 py-3 text-white dark:bg-zinc-50 dark:text-zinc-900 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
-        <p className="text-sm font-medium text-center sm:text-left">
-          {t('text')}
+        <p className={`text-sm font-medium text-center sm:text-left ${status === 'error' ? 'text-red-400 dark:text-red-600' : ''}`}>
+          {status === 'error' ? t('error') : t('text')}
         </p>
 
         {status === 'success' ? (
@@ -69,8 +69,13 @@ export default function StickyNotificationBar() {
                 required
                 placeholder={t('placeholder')}
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full min-w-0 rounded-md border-0 bg-white/10 px-3 py-1.5 text-sm text-white placeholder:text-white/60 focus:ring-2 focus:ring-inset focus:ring-white dark:bg-black/5 dark:text-zinc-900 dark:placeholder:text-zinc-500 dark:focus:ring-zinc-900 sm:w-64"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (status === 'error') setStatus('idle');
+                }}
+                className={`w-full min-w-0 rounded-md border-0 bg-white/10 px-3 py-1.5 text-sm text-white placeholder:text-white/60 focus:ring-2 focus:ring-inset focus:ring-white dark:bg-black/5 dark:text-zinc-900 dark:placeholder:text-zinc-500 dark:focus:ring-zinc-900 sm:w-64 ${
+                  status === 'error' ? 'ring-2 ring-red-400 dark:ring-red-600' : ''
+                }`}
               />
               <button
                 type="submit"

@@ -154,7 +154,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             </div>
                         )}
                         <div className="flex justify-center mt-6">
-                            <ShareButtons url={url} title={metadata.title} />
+                            <ShareButtons
+                                url={url}
+                                title={metadata.title}
+                                twitterText={tShare('twitterSharePost', { postTitle: metadata.title })}
+                            />
                         </div>
                     </header>
 
@@ -178,7 +182,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                             <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 mb-4 uppercase tracking-wider text-xs">
                                 {tShare('shareThisPost')}
                             </h3>
-                            <ShareButtons url={url} title={metadata.title} />
+                            <ShareButtons
+                                url={url}
+                                title={metadata.title}
+                                twitterText={tShare('twitterSharePost', { postTitle: metadata.title })}
+                            />
                         </div>
                     </div>
 

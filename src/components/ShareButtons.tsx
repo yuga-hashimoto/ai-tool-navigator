@@ -6,19 +6,23 @@ import { useTranslations } from "next-intl";
 interface ShareButtonsProps {
   url: string;
   title: string;
+  twitterText?: string;
 }
 
-export function ShareButtons({ url, title }: ShareButtonsProps) {
+export function ShareButtons({ url, title, twitterText }: ShareButtonsProps) {
   const t = useTranslations("ShareButtons");
 
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
+  const encodedTwitterText = twitterText
+    ? encodeURIComponent(twitterText)
+    : encodedTitle;
 
   const shareLinks = [
     {
       name: "X",
       icon: Twitter,
-      href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+      href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTwitterText}`,
       label: t("shareOnX"),
       color: "hover:text-black dark:hover:text-white",
     },

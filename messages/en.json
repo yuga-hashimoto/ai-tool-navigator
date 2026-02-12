@@ -131,7 +131,9 @@
     "shareOnLinkedIn": "Share on LinkedIn",
     "shareOnEmail": "Share via Email",
     "shareThisPost": "Share this post",
-    "shareThisTool": "Share this tool"
+    "shareThisTool": "Share this tool",
+    "twitterShareTool": "Check out {toolName} on AI Tool Navigator!",
+    "twitterSharePost": "{postTitle} on AI Tool Navigator"
   },
   "Breadcrumbs": {
     "home": "Home",

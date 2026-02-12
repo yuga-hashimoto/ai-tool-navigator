@@ -9,11 +9,22 @@ import { Link } from "@/i18n/routing";
 import { ArrowLeft } from "lucide-react";
 import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
+import { Metadata } from 'next';
 
-export const metadata = {
-  title: "AI Tool Navigator",
-  description: "Discover and compare the best AI tools for your workflow.",
-};
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "AI Tool Navigator",
+    description: "Discover and compare the best AI tools for your workflow.",
+    alternates: {
+      canonical: `/${locale}`,
+    }
+  };
+}
 
 export default async function Home({
   params

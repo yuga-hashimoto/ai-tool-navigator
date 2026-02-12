@@ -1,6 +1,6 @@
 ---
 title: "2026年最新：おすすめAI動画生成ツールTOP5 | テキストから映画が作れる時代へ"
-slug: "top-5-ai-video-generators-2026"
+slug: "best-ai-video-generators-2026"
 date: "2026-03-15"
 author: "AI Tool Navigator 編集部"
 excerpt: "Sora 2.0、Runway Gen-4、Pika 2.0など、2026年の動画制作シーンを支配するトップ5ツールを徹底レビュー。最もリアルな動画を作れるのはどれか？"

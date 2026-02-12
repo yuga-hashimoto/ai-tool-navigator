@@ -162,7 +162,11 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                     <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
                         {tShare('shareThisTool')}
                     </h3>
-                    <ShareButtons url={url} title={metadata.title} />
+                    <ShareButtons
+                        url={url}
+                        title={metadata.title}
+                        twitterText={tShare('twitterShareTool', { toolName: metadata.title })}
+                    />
                 </div>
             </div>
         </div>

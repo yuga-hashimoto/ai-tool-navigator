@@ -2,6 +2,7 @@
 
 import { Twitter, Facebook, Linkedin, Mail } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { sendGAEvent } from "@/lib/analytics";
 
 interface ShareButtonsProps {
   url: string;
@@ -59,6 +60,13 @@ export function ShareButtons({ url, title, twitterText }: ShareButtonsProps) {
           rel="noopener noreferrer"
           aria-label={link.label}
           className={`text-zinc-400 transition-colors duration-200 ${link.color}`}
+          onClick={() => {
+            sendGAEvent("share", {
+              method: link.name,
+              content_type: "tool",
+              item_id: title,
+            });
+          }}
         >
           <link.icon className="h-5 w-5" />
         </a>

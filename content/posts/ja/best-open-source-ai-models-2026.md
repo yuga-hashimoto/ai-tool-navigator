@@ -1,7 +1,7 @@
 ---
 title: '2026年版 最強オープンソースAIモデル（LLM）8選'
 slug: 'best-open-source-ai-models-2026'
-date: '2026-06-15'
+date: '2026-02-21'
 author: 'AI Tool Navigator 編集部'
 excerpt: '2026年、オープンソースAIはGPT-5に匹敵する性能へ。DeepSeek V4、Llama 5、Qwen 3など、ローカルで動作する最新の最強モデルを徹底比較します。'
 tags: ['AI', 'LLM', 'オープンソース', '機械学習', '生成AI', 'DeepSeek', 'Llama']

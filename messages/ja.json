@@ -85,7 +85,8 @@
     "relatedArticles": "関連記事",
     "toolNotFound": "ツールが見つかりません",
     "copyLink": "リンクをコピー",
-    "copied": "コピーしました"
+    "copied": "コピーしました",
+    "ratingBreakdown": "評価の内訳"
   },
   "CompareBar": {
       "selected": "選択済み",

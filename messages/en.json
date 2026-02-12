@@ -32,7 +32,16 @@
     "privacy": "Privacy",
     "terms": "Terms",
     "rights": "AI Tool Navigator. All rights reserved.",
-    "disclosure": "Affiliate Disclosure: We may earn a commission when you click on links and make a purchase. This helps support our independent reviews."
+    "disclosure": "Affiliate Disclosure: We may earn a commission when you click on links and make a purchase. This helps support our independent reviews.",
+    "newsletter": {
+      "title": "Subscribe to our newsletter",
+      "description": "Get the latest AI tools and news delivered to your inbox.",
+      "placeholder": "Enter your email",
+      "button": "Subscribe",
+      "submitting": "Subscribing...",
+      "success": "Thanks for subscribing!",
+      "error": "Something went wrong. Please try again."
+    }
   },
   "Navigation": {
     "home": "Home",

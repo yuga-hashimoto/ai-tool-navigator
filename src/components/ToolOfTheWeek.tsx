@@ -80,6 +80,7 @@ export function ToolOfTheWeek({ tool }: ToolOfTheWeekProps) {
                         src={tool.image}
                         alt={tool.title}
                         fill
+                        priority={true}
                         className="object-cover"
                     />
                  ) : (

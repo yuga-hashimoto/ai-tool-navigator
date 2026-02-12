@@ -19,14 +19,14 @@ import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { RelatedPost } from "@/components/RelatedPost";
 import { ComparisonTable } from "@/components/ComparisonTable";
 import { generateBlogPostSchema, generateBreadcrumbSchema } from "@/lib/schema";
-import { getToolOfTheWeek, getToolBySlug, ToolMetadata } from "@/lib/tools";
+import { getToolOfTheWeek, getAllTools, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
 import { GoogleAdsensePlaceholder } from "@/components/GoogleAdsensePlaceholder";
 
 export async function generateStaticParams() {
   const params = [];
   for (const locale of routing.locales) {
-    const posts = getAllPosts(locale);
+    const posts = await getAllPosts(locale);
     for (const post of posts) {
       params.push({ locale, slug: post.slug });
     }
@@ -38,7 +38,7 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string, locale: string }> }
 ): Promise<Metadata> {
   const { slug, locale } = await params;
-  const post = getPostBySlug(slug, locale);
+  const post = await getPostBySlug(slug, locale);
 
   if (!post) {
     return {
@@ -73,7 +73,7 @@ export async function generateMetadata(
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string, locale: string }> }) {
   const { slug, locale } = await params;
-  const post = getPostBySlug(slug, locale);
+  const post = await getPostBySlug(slug, locale);
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
   const tBlog = await getTranslations('BlogPage');
   const tShare = await getTranslations('ShareButtons');
@@ -96,12 +96,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems, locale);
 
   // Fetch recent posts
-  const allPosts = getAllPosts(locale);
+  const allPosts = await getAllPosts(locale);
   const recentPosts = allPosts
     .filter((p) => p.slug !== slug)
     .slice(0, 5);
 
-  const toolOfTheWeek = getToolOfTheWeek(locale);
+  const toolOfTheWeek = await getToolOfTheWeek(locale);
+  const allTools = await getAllTools(locale);
 
   const dateLocale = locale === 'ja' ? 'ja-JP' : 'en-US';
 
@@ -127,7 +128,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       if (!tools) return null;
       const slugs = (tools as string).split(',').map(s => s.trim());
       const toolsData = slugs
-        .map(slug => getToolBySlug(slug, locale)?.metadata)
+        .map(slug => allTools.find((t) => t.slug === slug))
         .filter((t): t is ToolMetadata => t !== undefined);
 
       if (toolsData.length === 0) return null;

@@ -40,8 +40,8 @@ export default async function Home({
   const hasSearch = !!search;
 
   const t = await getTranslations('HomePage');
-  const tools = getAllTools(locale);
-  const toolOfTheWeek = getToolOfTheWeek(locale);
+  const tools = await getAllTools(locale);
+  const toolOfTheWeek = await getToolOfTheWeek(locale);
   const editorsChoiceSlugs = ['speechify', 'mixo', 'copy-ai', 'basedlabs', 'homesage'];
   const editorsChoiceTools = tools.filter(tool => editorsChoiceSlugs.includes(tool.slug));
 

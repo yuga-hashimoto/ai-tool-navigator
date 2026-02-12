@@ -13,12 +13,10 @@ You can learn more, including how to opt-out if you'd not like to participate in
 https://nextjs.org/telemetry
 
 ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-✓ Ready in 2.8s
+✓ Ready in 2.2s
 ○ Compiling /[locale] ...
- GET /en 200 in 10.2s (compile: 8.6s, proxy.ts: 154ms, render: 1414ms)
- GET /en 200 in 421ms (compile: 45ms, proxy.ts: 12ms, render: 364ms)
- GET /en/deals 200 in 2.3s (compile: 2.0s, proxy.ts: 11ms, render: 230ms)
-✓ Compiled in 1043ms
- GET /en/deals 200 in 1799ms (compile: 805ms, proxy.ts: 32ms, render: 962ms)
- GET /en 200 in 465ms (compile: 52ms, proxy.ts: 13ms, render: 400ms)
- GET /en/category/video 200 in 3.9s (compile: 3.6s, proxy.ts: 10ms, render: 371ms)
+ GET /en 200 in 8.1s (compile: 6.9s, proxy.ts: 10ms, render: 1165ms)
+ GET /en?search=video 200 in 151ms (compile: 81ms, proxy.ts: 12ms, render: 58ms)
+ GET /en 200 in 469ms (compile: 36ms, proxy.ts: 7ms, render: 426ms)
+ GET /en?search=video 200 in 102ms (compile: 31ms, proxy.ts: 10ms, render: 61ms)
+ GET /en/category/writing 200 in 1810ms (compile: 1589ms, proxy.ts: 6ms, render: 215ms)

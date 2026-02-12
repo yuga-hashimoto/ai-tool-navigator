@@ -10,9 +10,10 @@ import { useSearchParams } from 'next/navigation';
 
 interface ToolGridProps {
   tools: ToolMetadata[];
+  hideSearch?: boolean;
 }
 
-export function ToolGrid({ tools }: ToolGridProps) {
+export function ToolGrid({ tools, hideSearch }: ToolGridProps) {
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('search') || '');
@@ -43,19 +44,21 @@ export function ToolGrid({ tools }: ToolGridProps) {
   });
 
   return (
-    <div>
+    <div id="tool-grid">
         <div className="mb-8 space-y-4">
              {/* Search Bar */}
-            <div className="relative max-w-md mx-auto sm:mx-0">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-                <input
-                    type="text"
-                    placeholder={t('searchPlaceholder')}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full rounded-full border border-zinc-200 bg-white py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
-                />
-            </div>
+            {!hideSearch && (
+              <div className="relative max-w-md mx-auto sm:mx-0">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+                  <input
+                      type="text"
+                      placeholder={t('searchPlaceholder')}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full rounded-full border border-zinc-200 bg-white py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
+                  />
+              </div>
+            )}
 
             {/* Categories */}
             <div className="flex flex-wrap gap-2 justify-center sm:justify-start">

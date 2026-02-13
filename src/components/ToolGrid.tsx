@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ToolMetadata } from '@/lib/tools';
 import { ToolCard } from './ToolCard';
 import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
+import { sendGAEvent } from '@/lib/analytics';
 
 interface ToolGridProps {
   tools: ToolMetadata[];
@@ -18,12 +19,36 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('search') || '');
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const query = searchParams.get('search');
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSearchQuery(query || '');
   }, [searchParams]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    searchTimeoutRef.current = setTimeout(() => {
+        if (value.trim()) {
+            sendGAEvent('search', { search_term: value });
+        }
+    }, 1000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const t = useTranslations('ToolGrid');
   const tHome = useTranslations('HomePage');
@@ -55,7 +80,7 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
                       type="text"
                       placeholder={t('searchPlaceholder')}
                       value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onChange={handleSearchChange}
                       className="w-full rounded-full border border-zinc-200 bg-white py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
                   />
               </div>
@@ -66,7 +91,13 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
                 {categories.map((category) => (
                     <button
                         key={category}
-                        onClick={() => setSelectedCategory(category)}
+                        onClick={() => {
+                            setSelectedCategory(category);
+                            sendGAEvent('select_content', {
+                                content_type: 'category',
+                                item_id: category
+                            });
+                        }}
                         className={cn(
                             "rounded-full px-4 py-2 text-sm font-medium transition-colors border",
                             selectedCategory === category

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { sendGAEvent } from '@/lib/analytics';
 
 export function HeroSearchBar() {
   const router = useRouter();
@@ -27,6 +28,10 @@ export function HeroSearchBar() {
     }
     // Update URL without page reload
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
+
+    if (query) {
+      sendGAEvent('search', { search_term: query });
+    }
 
     // Scroll to results if needed
     const toolGrid = document.getElementById('tool-grid');

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { X, Mail, CheckCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { sendGAEvent } from '@/lib/analytics';
 
 export default function ExitIntentPopup() {
   const [isVisible, setIsVisible] = useState(false);
@@ -79,6 +80,7 @@ export default function ExitIntentPopup() {
       }
 
       setSubmitted(true);
+      sendGAEvent('sign_up', { method: 'exit_intent_popup' });
       localStorage.setItem('newsletter_subscribed', 'true');
 
       // Auto-close after success message

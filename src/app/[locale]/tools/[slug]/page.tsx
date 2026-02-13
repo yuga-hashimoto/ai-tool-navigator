@@ -11,7 +11,7 @@ import { ToolCard } from "@/components/ToolCard";
 import { Rating } from "@/components/Rating";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getTranslations } from "next-intl/server";
-import { generateToolSchema, generateBreadcrumbSchema } from "@/lib/schema";
+import { generateProductSchema, generateToolSchema, generateBreadcrumbSchema } from "@/lib/schema";
 import { ProsConsSection } from "@/components/ProsConsSection";
 import { RatingBreakdown } from "@/components/RatingBreakdown";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
@@ -76,7 +76,8 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const { verified, last_updated } = metadata;
   const relatedTools = await getRelatedTools(metadata, 3, locale);
   const relatedPosts = await getRelatedPosts(metadata, 3, locale);
-  const jsonLd = generateToolSchema(tool);
+  const toolSchema = generateToolSchema(tool);
+  const productSchema = generateProductSchema(tool);
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/tools/${slug}`;
 
   const categorySlug = getCategorySlug(metadata.category);
@@ -104,7 +105,11 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
       <script
         type="application/ld+json"

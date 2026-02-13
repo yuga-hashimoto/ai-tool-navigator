@@ -13,6 +13,7 @@ import { Navigation } from "@/components/Navigation";
 import StickyNotificationBar from "@/components/StickyNotificationBar";
 import BackToTop from "@/components/BackToTop";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { generateOrganizationSchema, generateSearchBoxSchema } from "@/lib/schema";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,11 +56,22 @@ export default async function RootLayout({
   params: Promise<{locale: string}>;
 }>) {
   const {locale} = await params;
-
   const messages = await getMessages();
+  const organizationSchema = generateOrganizationSchema();
+  const searchBoxSchema = generateSearchBoxSchema(locale);
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(searchBoxSchema) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

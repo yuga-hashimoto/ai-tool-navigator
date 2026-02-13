@@ -88,6 +88,22 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
             <p className="leading-7 [&:not(:first-child)]:mt-6">
                 The materials appearing on AI Tool Navigator&apos;s website could include technical, typographical, or photographic errors. AI Tool Navigator does not warrant that any of the materials on its website are accurate, complete, or current. AI Tool Navigator may make changes to the materials contained on its website at any time without notice. AI Tool Navigator does not, however, make any commitment to update the materials.
             </p>
+
+            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight mt-10">
+                6. Affiliate Disclosure
+            </h2>
+            <p className="leading-7 [&:not(:first-child)]:mt-6">
+                AI Tool Navigator participates in affiliate marketing programs. This means we may earn commissions on qualifying purchases made through links on our website to third-party products or services.
+            </p>
+            <p className="leading-7 [&:not(:first-child)]:mt-6">
+                When you click on an affiliate link on our website and make a purchase, we may receive a commission from the affiliate partner. This comes at <strong>no additional cost to you</strong>.
+            </p>
+            <p className="leading-7 [&:not(:first-child)]:mt-6">
+                Our affiliate relationships do not influence our editorial content, product recommendations, or the products we choose to feature. We only recommend tools that we have personally used and believe will provide value to our users.
+            </p>
+            <p className="leading-7 [&:not(:first-child)]:mt-6">
+                The prices and availability of products may change. We strive to keep our information accurate and up-to-date, but we cannot guarantee the accuracy of all pricing information.
+            </p>
         </div>
       </div>
     </div>

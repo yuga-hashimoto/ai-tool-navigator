@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { CATEGORY_MAPPINGS } from "@/lib/categories";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { HeroSearchBar } from "@/components/HeroSearchBar";
-import { generateBreadcrumbSchema } from "@/lib/schema";
+import { generateBreadcrumbSchema, generateCollectionPageSchema } from "@/lib/schema";
 
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_MAPPINGS).map((slug) => ({
@@ -92,12 +92,22 @@ export default async function CategoryPage({
   ];
 
   const jsonLd = generateBreadcrumbSchema(breadcrumbItems, locale);
+  const collectionSchema = generateCollectionPageSchema({
+    name: title,
+    description: description,
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/category/${slug}`,
+    itemCount: filteredTools.length
+  });
 
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />

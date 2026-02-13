@@ -1,0 +1,137 @@
+{
+  "html-document": {
+    "original": 17968,
+    "brotli": {
+      "level6": {
+        "size": 697,
+        "ratio": 96.1
+      },
+      "level9": {
+        "size": 699,
+        "ratio": 96.1
+      },
+      "level11": {
+        "size": 604,
+        "ratio": 96.6
+      }
+    },
+    "gzip": {
+      "level6": {
+        "size": 1125,
+        "ratio": 93.7
+      },
+      "level9": {
+        "size": 1128,
+        "ratio": 93.7
+      }
+    }
+  },
+  "json-api-response": {
+    "original": 58270,
+    "brotli": {
+      "level6": {
+        "size": 4295,
+        "ratio": 92.6
+      },
+      "level9": {
+        "size": 4241,
+        "ratio": 92.7
+      },
+      "level11": {
+        "size": 3654,
+        "ratio": 93.7
+      }
+    },
+    "gzip": {
+      "level6": {
+        "size": 5354,
+        "ratio": 90.8
+      },
+      "level9": {
+        "size": 5079,
+        "ratio": 91.3
+      }
+    }
+  },
+  "css-stylesheet": {
+    "original": 6253,
+    "brotli": {
+      "level6": {
+        "size": 694,
+        "ratio": 88.9
+      },
+      "level9": {
+        "size": 683,
+        "ratio": 89.1
+      },
+      "level11": {
+        "size": 575,
+        "ratio": 90.8
+      }
+    },
+    "gzip": {
+      "level6": {
+        "size": 872,
+        "ratio": 86.1
+      },
+      "level9": {
+        "size": 822,
+        "ratio": 86.9
+      }
+    }
+  },
+  "javascript-module": {
+    "original": 16090,
+    "brotli": {
+      "level6": {
+        "size": 702,
+        "ratio": 95.6
+      },
+      "level9": {
+        "size": 700,
+        "ratio": 95.6
+      },
+      "level11": {
+        "size": 656,
+        "ratio": 95.9
+      }
+    },
+    "gzip": {
+      "level6": {
+        "size": 901,
+        "ratio": 94.4
+      },
+      "level9": {
+        "size": 901,
+        "ratio": 94.4
+      }
+    }
+  },
+  "mixed-content": {
+    "original": 7128,
+    "brotli": {
+      "level6": {
+        "size": 345,
+        "ratio": 95.2
+      },
+      "level9": {
+        "size": 343,
+        "ratio": 95.2
+      },
+      "level11": {
+        "size": 323,
+        "ratio": 95.5
+      }
+    },
+    "gzip": {
+      "level6": {
+        "size": 471,
+        "ratio": 93.4
+      },
+      "level9": {
+        "size": 471,
+        "ratio": 93.4
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
-import { generateBreadcrumbSchema } from "@/lib/schema";
+import { generateBreadcrumbSchema, generateAboutPageSchema } from "@/lib/schema";
 
 export async function generateMetadata({
   params
@@ -36,12 +36,17 @@ export default async function AboutPage({
   ];
 
   const jsonLd = generateBreadcrumbSchema(breadcrumbItems, locale);
+  const aboutSchema = generateAboutPageSchema();
 
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
       />
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />

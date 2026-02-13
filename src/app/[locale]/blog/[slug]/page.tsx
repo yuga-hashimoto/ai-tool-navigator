@@ -20,7 +20,7 @@ import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { RelatedPost } from "@/components/RelatedPost";
 import { ComparisonTable } from "@/components/ComparisonTable";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
-import { generateBlogPostSchema, generateBreadcrumbSchema } from "@/lib/schema";
+import { generateArticleSchema, generateBreadcrumbSchema } from "@/lib/schema";
 import { getToolOfTheWeek, getAllTools, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
 import { HeaderLinkButton } from "@/components/HeaderLinkButton";
@@ -89,7 +89,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { metadata, content } = post;
   const headings = extractHeadings(content);
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/blog/${slug}`;
-  const schema = generateBlogPostSchema(post, url);
+  const schema = generateArticleSchema({
+    title: metadata.title,
+    description: metadata.excerpt,
+    url: url,
+    image: metadata.image,
+    datePublished: metadata.date,
+    dateModified: metadata.date,
+    author: metadata.author,
+    readingTime: metadata.readingTime,
+    tags: metadata.tags
+  });
 
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: tBreadcrumbs('home'), href: '/' },

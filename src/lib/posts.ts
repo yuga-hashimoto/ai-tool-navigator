@@ -87,7 +87,7 @@ const _getAllPosts = async (locale: string = 'en'): Promise<PostMetadata[]> => {
 export const getAllPosts = unstable_cache(
   _getAllPosts,
   ['posts-all'],
-  { tags: ['posts'] }
+  { tags: ['posts'], revalidate: 3600 }
 );
 
 const _getPostBySlug = async (slug: string, locale: string = 'en'): Promise<Post | null> => {
@@ -118,7 +118,7 @@ const _getPostBySlug = async (slug: string, locale: string = 'en'): Promise<Post
 export const getPostBySlug = unstable_cache(
   _getPostBySlug,
   ['post-slug'],
-  { tags: ['posts'] }
+  { tags: ['posts'], revalidate: 3600 }
 );
 
 export function getPostSlugs() {
@@ -135,7 +135,7 @@ export function getPostSlugs() {
     });
 }
 
-export async function getRelatedPosts(tool: ToolMetadata, limit: number = 3, locale: string = 'en'): Promise<PostMetadata[]> {
+const _getRelatedPosts = async (tool: ToolMetadata, limit: number = 3, locale: string = 'en'): Promise<PostMetadata[]> => {
   const allPosts = await getAllPosts(locale);
 
   if (allPosts.length === 0) {
@@ -189,3 +189,9 @@ export async function getRelatedPosts(tool: ToolMetadata, limit: number = 3, loc
 
   return related.slice(0, limit);
 }
+
+export const getRelatedPosts = unstable_cache(
+  _getRelatedPosts,
+  ['related-posts'],
+  { tags: ['posts'], revalidate: 3600 }
+);

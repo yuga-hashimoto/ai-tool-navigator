@@ -62,6 +62,7 @@
     "menu": "Menu",
     "close": "Close",
     "categories": "Categories",
+    "tools": "All Tools",
     "video": "Video",
     "writing": "Writing",
     "coding": "Coding",
@@ -227,5 +228,32 @@
     "mission_text": "We are dedicated to helping users navigate the rapidly evolving landscape of artificial intelligence. Our goal is to provide unbiased, comprehensive reviews and comparisons to empower you to make informed decisions.",
     "values_title": "Our Values",
     "values_text": "Transparency, integrity, and community are at the core of everything we do. we believe in providing honest assessments and fostering a collaborative environment for AI enthusiasts."
+  },
+  "ToolsPage": {
+    "title": "Browse AI Tools",
+    "description": "Browse and discover the best AI tools for your workflow. Filter by category, rating, price, and more.",
+    "resultsCount": "{count, plural, =0 {No tools found} one {# tool found} other {# tools found}}",
+    "noTools": "No tools found matching your criteria.",
+    "searchPlaceholder": "Search tools...",
+    "filters": {
+      "category": "Category",
+      "rating": "Rating",
+      "price": "Price",
+      "year": "Year",
+      "platform": "Platform",
+      "allPrices": "All Prices",
+      "free": "Free",
+      "freemium": "Freemium",
+      "paid": "Paid",
+      "allCategories": "All Categories",
+      "clearAll": "Clear all",
+      "sortBy": "Sort by"
+    },
+    "sortOptions": {
+      "popularity": "Popularity",
+      "rating": "Rating",
+      "recent": "Most Recent",
+      "name": "Name (A-Z)"
+    }
   }
 }

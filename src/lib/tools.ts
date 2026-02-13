@@ -23,6 +23,10 @@ export interface ToolMetadata {
   last_updated?: string;
   verified?: boolean;
   discount?: string;
+  // Advanced search fields
+  pricing?: 'free' | 'freemium' | 'paid' | 'contact';
+  price?: string;
+  platform?: ('Web' | 'Mobile' | 'Desktop')[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }

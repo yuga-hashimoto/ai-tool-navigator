@@ -36,6 +36,9 @@ export function Navigation({ className }: { className?: string }) {
               <Link href="/" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('home')}
               </Link>
+              <Link href="/tools" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
+                {t('tools')}
+              </Link>
               <Link href="/deals" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('deals')}
               </Link>
@@ -95,6 +98,13 @@ export function Navigation({ className }: { className?: string }) {
                 onClick={() => setIsMenuOpen(false)}
               >
                 {t('home')}
+              </Link>
+              <Link
+                href="/tools"
+                className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t('tools')}
               </Link>
               <Link
                 href="/deals"

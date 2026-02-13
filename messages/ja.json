@@ -1,4 +1,31 @@
 {
+  "ToolsPage": {
+    "title": "AIツール一覧",
+    "description": "AIツールを閲覧・発見。カテゴリー、評価、価格などでフィルターできます。",
+    "resultsCount": "{count, plural, =0 {ツールが見つかりません} one {#件のツール} other {#件のツール}}",
+    "noTools": "条件に一致するツールは見つかりませんでした。",
+    "searchPlaceholder": "ツールを検索...",
+    "filters": {
+      "category": "カテゴリー",
+      "rating": "評価",
+      "price": "価格",
+      "year": "年",
+      "platform": "プラットフォーム",
+      "allPrices": "すべての価格",
+      "free": "無料",
+      "freemium": "フリーミアム",
+      "paid": "有料",
+      "allCategories": "すべてのカテゴリー",
+      "clearAll": "すべてクリア",
+      "sortBy": "並び替え"
+    },
+    "sortOptions": {
+      "popularity": "人気順",
+      "rating": "評価順",
+      "recent": "新着順",
+      "name": "名前順(A-Z)"
+    }
+  },
   "HomePage": {
     "title": "プレミアムAIツール比較",
     "description": "あなたのニーズに最適なAIツールを見つけましょう。公平なレビュー、長所と短所、そして詳細な比較を提供します。",
@@ -54,6 +81,7 @@
     "menu": "メニュー",
     "close": "閉じる",
     "categories": "カテゴリー",
+    "tools": "すべてのツール",
     "video": "動画",
     "writing": "ライティング",
     "coding": "コーディング",

@@ -129,7 +129,7 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
                             index={index}
                             type="grid"
                             className="flex flex-col h-full min-h-[300px]" // Ensure height for alignment
-                            slot="tool-grid-slot"
+                            slot="grid"
                         />
                     );
                 }

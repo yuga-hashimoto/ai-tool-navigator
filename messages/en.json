@@ -137,6 +137,33 @@
       "successTitle": "You're Subscribed!",
       "successSubtitle": "Thanks for joining. Watch your inbox for AI updates."
   },
+  "ExitIntentModal": {
+      "title": "Wait! Don't Go Yet",
+      "subtitle": "Join 10,000+ AI enthusiasts getting weekly updates.",
+      "placeholder": "Enter your email",
+      "button": "Get Free Updates",
+      "submitting": "Sending...",
+      "error": "Something went wrong. Please try again.",
+      "spam": "No spam. Unsubscribe anytime.",
+      "privacy": "We respect your privacy",
+      "successTitle": "You're In!",
+      "successSubtitle": "Welcome to the community. Check your inbox for confirmation.",
+      "close": "Close popup",
+      "variants": {
+        "default": {
+          "title": "Wait! Don't Go Yet",
+          "subtitle": "Join 10,000+ AI enthusiasts staying ahead of the curve."
+        },
+        "urgent": {
+          "title": "Wait! Last Chance to Join",
+          "subtitle": "Get exclusive AI tool updates before they're gone."
+        },
+        "bonus": {
+          "title": "Get Your Free AI Bonus",
+          "subtitle": "Subscribe now and receive our exclusive AI tools guide."
+        }
+      }
+  },
   "StickyNotificationBar": {
     "text": "Subscribe for AI Updates",
     "placeholder": "Enter your email",

@@ -5,6 +5,7 @@ import { ToolMetadata } from '@/lib/tools';
 import { ToolCard } from './ToolCard';
 import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
+import { DynamicAdUnit } from './DynamicAdUnit';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { sendGAEvent } from '@/lib/analytics';
@@ -112,11 +113,29 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredTools.map((tool, index) => (
-                <div key={tool.slug} className="flex flex-col h-full">
-                   <ToolCard tool={tool} priority={priority && index < 4} />
-                </div>
-            ))}
+            {filteredTools.flatMap((tool, index) => {
+                const elements = [
+                    <div key={tool.slug} className="flex flex-col h-full">
+                        <ToolCard tool={tool} priority={priority && index < 4} />
+                    </div>
+                ];
+
+                // Insert ad slot periodically (the component decides visibility based on user preference)
+                // We insert potentially every 3 items to allow for high-density configurations
+                if ((index + 1) % 3 === 0) {
+                    elements.push(
+                        <DynamicAdUnit
+                            key={`ad-${index}`}
+                            index={index}
+                            type="grid"
+                            className="flex flex-col h-full min-h-[300px]" // Ensure height for alignment
+                            slot="tool-grid-slot"
+                        />
+                    );
+                }
+
+                return elements;
+            })}
         </div>
         {filteredTools.length === 0 && (
             <div className="py-12 text-center">

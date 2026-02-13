@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getCDNUrl, isCDNEnabled } from './cdn';
+import { getCDNUrl, isCDNEnabled } from '@/lib/cdn';
 
 interface CDNImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -48,103 +48,11 @@ export function CDNImage({
   };
 
   return (
+    // eslint-disable-next-line jsx-a11y/alt-text
     <img
       {...props}
       src={currentSrc}
       onError={handleError}
-    />
-  );
-}
-
-interface CDNScriptProps {
-  src: string;
-  strategy?: 'afterInteractive' | 'beforeInteractive' | 'lazyOnload';
-  onLoad?: () => void;
-  onError?: () => void;
-}
-
-/**
- * CDN-aware Script loader
- * 
- * Loads scripts from CDN with fallback to local.
- * 
- * Usage:
- *   <CDNScript src="/js/analytics.js" strategy="afterInteractive" />
- */
-export function CDNScript({
-  src,
-  strategy = 'afterInteractive',
-  onLoad,
-  onError,
-}: CDNScriptProps) {
-  const [scriptSrc, setScriptSrc] = useState<string>('');
-  const [hasTriedFallback, setHasTriedFallback] = useState(false);
-  const cdnEnabled = isCDNEnabled();
-
-  useEffect(() => {
-    const url = cdnEnabled ? getCDNUrl(src) : src;
-    setScriptSrc(url);
-  }, [src, cdnEnabled]);
-
-  const handleError = () => {
-    if (!hasTriedFallback) {
-      setScriptSrc(src); // Try original
-      setHasTriedFallback(true);
-    } else {
-      onError?.();
-    }
-  };
-
-  if (!scriptSrc) {
-    return null;
-  }
-
-  return (
-    <script
-      src={scriptSrc}
-      strategy={strategy}
-      onLoad={onLoad}
-      onError={handleError}
-    />
-  );
-}
-
-interface CDNLinkProps {
-  href: string;
-  as?: string;
-  rel?: string;
-  onLoad?: () => void;
-}
-
-/**
- * CDN-aware Link prefetcher
- * 
- * Prefetches assets from CDN for faster page loads.
- * 
- * Usage:
- *   <CDNLink href="/css/styles.css" rel="stylesheet" />
- */
-export function CDNLink({ href, as, rel = 'stylesheet', onLoad }: CDNLinkProps) {
-  const cdnEnabled = isCDNEnabled();
-
-  useEffect(() => {
-    if (cdnEnabled) {
-      const cdnHref = getCDNUrl(href);
-      // Prefetch the resource
-      const link = document.createElement('link');
-      link.rel = 'prefetch';
-      link.as = as || (href.endsWith('.css') ? 'style' : 'script');
-      link.href = cdnHref;
-      document.head.appendChild(link);
-    }
-  }, [href, as, cdnEnabled]);
-
-  return (
-    <link
-      href={cdnEnabled ? getCDNUrl(href) : href}
-      rel={rel}
-      as={as}
-      onLoad={onLoad}
     />
   );
 }

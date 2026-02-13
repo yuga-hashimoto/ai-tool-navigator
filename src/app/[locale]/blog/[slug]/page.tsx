@@ -24,7 +24,6 @@ import { generateBlogPostSchema, generateBreadcrumbSchema } from "@/lib/schema";
 import { getToolOfTheWeek, getAllTools, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
 import { HeaderLinkButton } from "@/components/HeaderLinkButton";
-import { GoogleAdsensePlaceholder } from "@/components/GoogleAdsensePlaceholder";
 import { rehypeAdInjection } from "@/lib/rehype-ad-injection";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 
@@ -167,9 +166,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     'ad-slot': ({ index }: { index: number | string }) => (
       <DynamicAdUnit
-        index={Number(index)}
+        index={Number(index) - 1}
         type="content"
-        slot="blog-content"
+        slot="content"
         className="my-8"
       />
     ),
@@ -264,7 +263,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         </div>
                     </div>
 
-                    <GoogleAdsensePlaceholder />
+                    <DynamicAdUnit index={0} type="sidebar" slot="sidebar" />
 
                     <ToolOfTheWeekSidebar tool={toolOfTheWeek} />
 

@@ -1,38 +1,42 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import { AdNetwork } from '@/lib/ad-config';
 
 type AdDensity = 'low' | 'medium' | 'high';
 
-interface AdConfig {
-  density: AdDensity;
-}
-
 export function useAdOptimization() {
   const [density, setDensity] = useState<AdDensity>('medium'); // Default to medium before hydration
+  const [adNetwork, setAdNetwork] = useState<AdNetwork>('adsense'); // Default to adsense
 
   useEffect(() => {
-    // Check session storage
-    const stored = sessionStorage.getItem('ad_density') as AdDensity;
-    if (stored && ['low', 'medium', 'high'].includes(stored)) {
-      setDensity(stored);
+    // Check session storage for density
+    const storedDensity = sessionStorage.getItem('ad_density') as AdDensity;
+    if (storedDensity && ['low', 'medium', 'high'].includes(storedDensity)) {
+      setDensity(storedDensity);
     } else {
-      // Randomize
+      // Randomize density
       const densities: AdDensity[] = ['low', 'medium', 'high'];
-      const random = densities[Math.floor(Math.random() * densities.length)];
-      setDensity(random);
-      sessionStorage.setItem('ad_density', random);
+      const randomDensity = densities[Math.floor(Math.random() * densities.length)];
+      setDensity(randomDensity);
+      sessionStorage.setItem('ad_density', randomDensity);
+    }
+
+    // Check session storage for ad network
+    const storedNetwork = sessionStorage.getItem('ad_network') as AdNetwork;
+    if (storedNetwork && ['adsense', 'gam'].includes(storedNetwork)) {
+      setAdNetwork(storedNetwork);
+    } else {
+      // Randomize network (50/50 split)
+      const networks: AdNetwork[] = ['adsense', 'gam'];
+      const randomNetwork = networks[Math.floor(Math.random() * networks.length)];
+      setAdNetwork(randomNetwork);
+      sessionStorage.setItem('ad_network', randomNetwork);
     }
   }, []);
 
   const shouldShowAd = (index: number, type: 'grid' | 'content'): boolean => {
-    // Indexes are 1-based usually (passed from loop or count), but let's assume they are passed as 0-based index from map
-    // Wait, let's standardize.
-    // In ToolGrid map: index is 0, 1, 2...
-    // In Content (paragraphs): count starts at 1 usually.
-    // Let's assume input is 1-based count or we adjust.
-    // If input is 0-based index: (index + 1) % interval === 0.
-
+    // Indexes are 0-based index from map
     const count = index + 1;
 
     if (type === 'grid') {
@@ -52,5 +56,5 @@ export function useAdOptimization() {
     return false;
   };
 
-  return { density, shouldShowAd };
+  return { density, shouldShowAd, adNetwork };
 }

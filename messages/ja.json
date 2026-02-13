@@ -156,6 +156,33 @@
       "successTitle": "登録完了！",
       "successSubtitle": "ありがとうございます。受信トレイをご確認ください。"
   },
+  "ExitIntentModal": {
+      "title": "待って！まだ行かないで",
+      "subtitle": "10,000人以上のAI愛好家に参加しましょう。",
+      "placeholder": "メールアドレスを入力",
+      "button": "無料アップデートを受け取る",
+      "submitting": "送信中...",
+      "error": "エラーが発生しました。もう一度お試しください。",
+      "spam": "スパムはありません。いつでも解除可能。",
+      "privacy": "プライバシーを尊重します",
+      "successTitle": "ご登録ありがとうございます！",
+      "successSubtitle": "コミュニティへようこそ。受信トレイをご確認ください。",
+      "close": "ポップアップを閉じる",
+      "variants": {
+        "default": {
+          "title": "待って！まだ行かないで",
+          "subtitle": "10,000人以上のAI愛好家とともに、最先端の情報を入手しましょう。"
+        },
+        "urgent": {
+          "title": "待って！最後の機会です",
+          "subtitle": "AIツールの最新情報がなくなる前にご登録ください。"
+        },
+        "bonus": {
+          "title": "無料でAIボーナスを獲得",
+          "subtitle": "今すぐ登録して、AIツール独占ガイドを受け取る。"
+        }
+      }
+  },
   "StickyNotificationBar": {
     "text": "AIアップデートを購読する",
     "placeholder": "メールアドレス",

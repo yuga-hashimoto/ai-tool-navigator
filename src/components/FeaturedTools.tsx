@@ -44,6 +44,7 @@ export function FeaturedTools({ tools }: FeaturedToolsProps) {
                       src={tool.image}
                       alt={tool.title}
                       fill
+                      loading="lazy"
                       className="object-cover"
                    />
                 </div>

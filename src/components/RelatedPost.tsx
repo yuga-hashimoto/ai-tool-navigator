@@ -12,6 +12,7 @@ export function RelatedPost({ post }: { post: PostMetadata }) {
                     src={post.image}
                     alt={post.title}
                     fill
+                    loading="lazy"
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
              </div>

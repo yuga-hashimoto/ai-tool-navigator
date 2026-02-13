@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Play } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface YouTubeEmbedProps {
   videoId: string;
@@ -29,11 +30,13 @@ export function YouTubeEmbed({ videoId, title = "YouTube video", className }: Yo
           aria-label={`Play ${title}`}
         >
           {/* Thumbnail */}
-          <img
+          <Image
             src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
             alt={title}
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+            fill
+            priority={false}
             loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
           />
 
           {/* Play Button Overlay */}
@@ -46,7 +49,7 @@ export function YouTubeEmbed({ videoId, title = "YouTube video", className }: Yo
         </button>
       ) : (
         <iframe
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+          src={`https://www.youtube.com/vi/${videoId}/embed/${videoId}?autoplay=1`}
           title={title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen

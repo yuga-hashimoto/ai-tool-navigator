@@ -6,6 +6,18 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**', // Allow all external images for flexibility
+      },
+    ],
+  },
 };
 
 const withPWAConfig = withPWA({

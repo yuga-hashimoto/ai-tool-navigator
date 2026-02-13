@@ -34,6 +34,7 @@ export function ToolOfTheWeekSidebar({ tool }: ToolOfTheWeekSidebarProps) {
                 src={tool.image}
                 alt={tool.title}
                 fill
+                loading="lazy"
                 className="object-cover"
             />
         ) : (

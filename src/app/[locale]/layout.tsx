@@ -28,6 +28,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app'),
   title: "AI Tool Navigator | Best AI Tools Comparison",
   description: "Compare the best AI tools for writing, coding, image generation, and more. Find the perfect AI solution for your workflow.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "AI Tool Navigator",
+  },
   openGraph: {
     type: 'website',
     siteName: 'AI Tool Navigator',

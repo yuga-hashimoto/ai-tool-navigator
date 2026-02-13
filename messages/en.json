@@ -255,5 +255,18 @@
       "recent": "Most Recent",
       "name": "Name (A-Z)"
     }
+  },
+  "RecentToolsSidebar": {
+    "title": "Recently Viewed",
+    "viewAll": "View All",
+    "clear": "Clear",
+    "clearAll": "Clear all recent tools",
+    "remove": "Remove",
+    "justNow": "Just now",
+    "minutesAgo": "{count}m ago",
+    "hoursAgo": "{count}h ago",
+    "daysAgo": "{count}d ago",
+    "emptyTitle": "No recent tools yet",
+    "emptyDescription": "Tools you view will appear here for quick access"
   }
 }

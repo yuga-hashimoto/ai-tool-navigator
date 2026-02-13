@@ -1,12 +1,8 @@
 {
   "agent:monetize-agent:cron:bca36211-2f40-45f6-808e-9b20d47b6852": {
     "sessionId": "ea8157d4-9bbd-427c-b181-2b868ee176cc",
-    "updatedAt": 1770980400154,
+    "updatedAt": 1770980655063,
     "systemSent": true,
-    "model": "glm-4.7-flash",
-    "contextTokens": 200000,
-    "lastChannel": "discord",
-    "label": "Cron: Hourly Self-Action & Optimization",
     "skillsSnapshot": {
       "prompt": "\n\nThe following skills provide specialized instructions for specific tasks.\nUse the read tool to load a skill's file when the task matches its description.\nWhen a skill file references a relative path, resolve it against the skill directory (parent of SKILL.md / dirname of the path) and use that absolute path in tool commands.\n\n<available_skills>\n  <skill>\n    <name>clawhub</name>\n    <description>Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/clawhub/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>coding-agent</name>\n    <description>Run Codex CLI, Claude Code, OpenCode, or Pi Coding Agent via background process for programmatic control.</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/coding-agent/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>gemini</name>\n    <description>Gemini CLI for one-shot Q&amp;A, summaries, and generation.</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/gemini/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>github</name>\n    <description>Interact with GitHub using the `gh` CLI. Use `gh issue`, `gh pr`, `gh run`, and `gh api` for issues, PRs, CI runs, and advanced queries.</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/github/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>healthcheck</name>\n    <description>Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/healthcheck/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>nano-banana-pro</name>\n    <description>Generate or edit images via Gemini 3 Pro Image (Nano Banana Pro).</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/nano-banana-pro/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>obsidian</name>\n    <description>Work with Obsidian vaults (plain Markdown notes) and automate via obsidian-cli.</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/obsidian/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>openai-whisper</name>\n    <description>Local speech-to-text with the Whisper CLI (no API key).</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/openai-whisper/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>skill-creator</name>\n    <description>Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/skill-creator/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>video-frames</name>\n    <description>Extract frames or short clips from videos using ffmpeg.</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/video-frames/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>weather</name>\n    <description>Get current weather and forecasts (no API key required).</description>\n    <location>/Users/yu-ga/.gemini/antigravity/scratch/moltbot/skills/weather/SKILL.md</location>\n  </skill>\n</available_skills>",
       "skills": [
@@ -139,7 +135,10 @@
     },
     "deliveryContext": {
       "channel": "discord"
-    }
+    },
+    "lastChannel": "discord",
+    "label": "Cron: Hourly Self-Action & Optimization",
+    "channel": "discord"
   },
   "agent:monetize-agent:cron:bca36211-2f40-45f6-808e-9b20d47b6852:run:67158c35-9377-4846-8989-e5d810a1a3f5": {
     "sessionId": "67158c35-9377-4846-8989-e5d810a1a3f5",
@@ -1433,7 +1432,7 @@
   },
   "agent:monetize-agent:subagent:8bdf7de5-a592-4e27-8029-f76c4194a00f": {
     "sessionId": "e5836836-cf99-43aa-9f54-d73365087324",
-    "updatedAt": 1770980484424,
+    "updatedAt": 1770980654058,
     "deliveryContext": {
       "channel": "discord"
     },
@@ -1572,6 +1571,13 @@
         }
       ],
       "version": 0
-    }
+    },
+    "modelProvider": "minimax-portal",
+    "model": "MiniMax-M2.1",
+    "contextTokens": 204800,
+    "abortedLastRun": false,
+    "inputTokens": 231101,
+    "outputTokens": 9770,
+    "totalTokens": 204800
   }
 }

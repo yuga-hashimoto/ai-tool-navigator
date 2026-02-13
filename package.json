@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@swc/helpers": "^0.5.18",
     "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.6.0",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
+    "@types/mailchimp__mailchimp_marketing": "^3.0.22",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -41,6 +41,7 @@
     "terms": "Terms",
     "rights": "AI Tool Navigator. All rights reserved.",
     "disclosure": "Affiliate Disclosure: We may earn a commission when you click on links and make a purchase. This helps support our independent reviews.",
+    "newsletter_link": "Newsletter",
     "newsletter": {
       "title": "Subscribe to our newsletter",
       "description": "Get the latest AI tools and news delivered to your inbox.",
@@ -48,6 +49,7 @@
       "button": "Subscribe",
       "submitting": "Subscribing...",
       "success": "Thanks for subscribing!",
+      "check_email": "Please check your email to confirm your subscription.",
       "error": "Something went wrong. Please try again."
     }
   },
@@ -134,7 +136,7 @@
       "error": "Failed to subscribe. Please try again.",
       "spam": "No spam. Unsubscribe anytime.",
       "successTitle": "You're Subscribed!",
-      "successSubtitle": "Thanks for joining. Watch your inbox for AI updates."
+      "successSubtitle": "Thanks for joining. Please check your email to confirm your subscription."
   },
   "StickyNotificationBar": {
     "text": "Subscribe for AI Updates",
@@ -227,5 +229,19 @@
     "mission_text": "We are dedicated to helping users navigate the rapidly evolving landscape of artificial intelligence. Our goal is to provide unbiased, comprehensive reviews and comparisons to empower you to make informed decisions.",
     "values_title": "Our Values",
     "values_text": "Transparency, integrity, and community are at the core of everything we do. we believe in providing honest assessments and fostering a collaborative environment for AI enthusiasts."
+  },
+  "NewsletterManagement": {
+    "title": "Manage Subscription",
+    "description": "Enter your email address to unsubscribe from our newsletter.",
+    "emailLabel": "Email address",
+    "unsubscribeButton": "Unsubscribe",
+    "submitting": "Processing...",
+    "unsubscribedTitle": "Unsubscribed Successfully",
+    "unsubscribedMessage": "You have been removed from our mailing list.",
+    "error": "Failed to unsubscribe. Please try again later."
+  },
+  "NewsletterPage": {
+    "title": "Newsletter - AI Tool Navigator",
+    "description": "Stay updated with the latest AI tools and news."
   }
 }

@@ -33,6 +33,7 @@
     "terms": "利用規約",
     "rights": "AI Tool Navigator. All rights reserved.",
     "disclosure": "アフィリエイト開示: リンクをクリックして購入すると、コミッションが発生する場合があります。これは私たちの独立したレビューをサポートするのに役立ちます。",
+    "newsletter_link": "ニュースレター",
     "newsletter": {
       "title": "ニュースレターに登録",
       "description": "最新のAIツールやニュースを受信トレイにお届けします。",
@@ -40,6 +41,7 @@
       "button": "登録する",
       "submitting": "登録中...",
       "success": "登録ありがとうございます！",
+      "check_email": "確認メールを送信しました。メールをご確認ください。",
       "error": "エラーが発生しました。もう一度お試しください。"
     }
   },
@@ -126,7 +128,7 @@
       "error": "登録に失敗しました。もう一度お試しください。",
       "spam": "スパムはありません。いつでも解除可能。",
       "successTitle": "登録完了！",
-      "successSubtitle": "ありがとうございます。受信トレイをご確認ください。"
+      "successSubtitle": "登録ありがとうございます。確認メールをご確認ください。"
   },
   "StickyNotificationBar": {
     "text": "AIアップデートを購読する",
@@ -219,5 +221,19 @@
     "mission_text": "We are dedicated to helping users navigate the rapidly evolving landscape of artificial intelligence. Our goal is to provide unbiased, comprehensive reviews and comparisons to empower you to make informed decisions.",
     "values_title": "Our Values",
     "values_text": "Transparency, integrity, and community are at the core of everything we do. we believe in providing honest assessments and fostering a collaborative environment for AI enthusiasts."
+  },
+  "NewsletterManagement": {
+    "title": "登録情報の管理",
+    "description": "ニュースレターの配信停止をご希望の場合は、メールアドレスを入力してください。",
+    "emailLabel": "メールアドレス",
+    "unsubscribeButton": "配信停止",
+    "submitting": "処理中...",
+    "unsubscribedTitle": "配信停止しました",
+    "unsubscribedMessage": "ニュースレターの配信を停止しました。",
+    "error": "配信停止に失敗しました。後ほどもう一度お試しください。"
+  },
+  "NewsletterPage": {
+    "title": "ニュースレター - AI Tool Navigator",
+    "description": "最新のAIツールやニュースをお届けします。"
   }
 }

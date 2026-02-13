@@ -45,6 +45,9 @@ export function Footer() {
                     <Link href="/terms" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
                     {t('terms')}
                     </Link>
+                    <Link href="/newsletter" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+                    {t('newsletter_link')}
+                    </Link>
                 </div>
              </div>
           </div>

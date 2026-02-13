@@ -52,6 +52,9 @@ export default function FooterNewsletterForm() {
             <h3 className="text-sm font-medium text-green-800 dark:text-green-200">
               {t('success')}
             </h3>
+            <p className="mt-2 text-sm text-green-700 dark:text-green-300">
+              {t('check_email')}
+            </p>
           </div>
         </div>
       </div>

@@ -7,6 +7,11 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "prisma:seed": "npx ts-node prisma/seed.ts",
+    "db:setup": "npm run prisma:generate && npm run prisma:migrate && npm run prisma:seed",
     "backup:full": "bash backups/scripts/backup_full.sh",
     "backup:inc": "bash backups/scripts/backup_incremental.sh",
     "backup:run": "bash backups/scripts/run_backup.sh",
@@ -16,12 +21,15 @@
     "backup:latest": "bash backups/scripts/restore_database.sh --latest",
     "cdn:upload": "npx tsx scripts/cdn-upload.ts",
     "cdn:upload:dry": "npx tsx scripts/cdn-upload.ts --dry-run",
-    "test:compression": "npx tsx test-compression.ts"
+    "test:compression": "npx tsx test-compression.ts",
+    "subscription:seed": "npx tsx scripts/subscription-seed.ts",
+    "subscription:analytics": "curl http://localhost:3000/api/subscriptions/analytics?type=current"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
     "@fastify/compress": "^7.0.3",
     "@hookform/resolvers": "^5.2.2",
+    "@prisma/client": "^7.4.0",
     "@swc/helpers": "^0.5.18",
     "@upstash/redis": "^1.36.2",
     "clsx": "^2.1.1",

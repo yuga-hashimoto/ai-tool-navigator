@@ -1,0 +1,374 @@
+// =====================================================
+// LOYALTY POINTS & REWARD SYSTEM PRISMA SCHEMA
+// =====================================================
+// Database models for loyalty program functionality
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // Change to "postgresql" or "mysql" for production
+}
+
+// =====================================================
+// LOYALTY USER & MEMBERSHIP TABLES
+// =====================================================
+
+// User loyalty profile
+model LoyaltyUser {
+  id                  String          @id @default(cuid())
+  userId              String          @unique @map("user_id")
+  email               String          @unique
+  displayName         String?         @map("display_name")
+  currentPoints       Int             @default(0) @map("current_points")
+  lifetimePoints      Int             @default(0) @map("lifetime_points")
+  lifetimeSpent       Float           @default(0) @map("lifetime_spent")
+  totalPurchases      Int             @default(0) @map("total_purchases")
+  tier                LoyaltyTier     @default(BRONZE)
+  tierProgress        Float           @default(0) @map("tier_progress")
+  joinDate            DateTime        @default(now()) @map("join_date")
+  lastActivityDate    DateTime        @default(now()) @map("last_activity_date")
+  birthday            DateTime?       @map("birthday")
+  referralCode        String          @unique @map("referral_code")
+  referredBy          String?         @map("referred_by")
+  totalReferrals      Int             @default(0) @map("total_referrals")
+  referralEarnings    Float           @default(0) @map("referral_earnings")
+  totalReferralPoints Int             @default(0) @map("total_referral_points")
+  isActive            Boolean         @default(true) @map("is_active")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  pointTransactions   PointTransaction[]
+  pointRedemptions    PointRedemption[]
+  tierHistory         TierHistory[]
+  achievements        UserAchievement[]
+  loyaltyFlags        LoyaltyFlag[]
+
+  @@map("loyalty_users")
+}
+
+// Loyalty tier definitions
+model LoyaltyTier {
+  id                  String          @id @default(cuid())
+  name                String          @unique
+  displayName         String          @map("display_name")
+  minPoints           Int             @default(0) @map("min_points")
+  minSpend            Float           @default(0) @map("min_spend")
+  pointsMultiplier    Float           @default(1.0) @map("points_multiplier")
+  discountPercent    Int             @default(0) @map("discount_percent")
+  exclusiveBenefits   String?         @map("exclusive_benefits") // JSON string
+  color               String          @default("gray")
+  icon                String?         @map("icon")
+  isDefault           Boolean         @default(false) @map("is_default")
+  sortOrder           Int             @default(0) @map("sort_order")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  users               LoyaltyUser[]
+
+  @@map("loyalty_tiers")
+}
+
+// Tier upgrade/downgrade history
+model TierHistory {
+  id              String        @id @default(cuid())
+  userId          String        @map("user_id")
+  previousTier    LoyaltyTier   @map("previous_tier")
+  newTier         LoyaltyTier   @map("new_tier")
+  reason          String        // upgrade, downgrade, manual
+  pointsAtChange  Int           @map("points_at_change")
+  spendAtChange  Float         @map("spend_at_change")
+  createdAt      DateTime      @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@map("tier_history")
+}
+
+// =====================================================
+// POINT ACCUMULATION TABLES
+// =====================================================
+
+// Point transaction types
+enum PointTransactionType {
+  PURCHASE
+  PURCHASE_BONUS
+  DAILY_LOGIN
+  REFERRAL_SIGNUP
+  REFERRAL_PURCHASE
+  BIRTHDAY_BONUS
+  TIER_BONUS
+  FIRST_PURCHASE
+  REVIEW
+  SOCIAL_SHARE
+  PROFILE_COMPLETE
+  EVENT_BONUS
+  EXPIRATION
+  MANUAL_ADJUSTMENT
+  GAMIFICATION
+}
+
+// Point transactions
+model PointTransaction {
+  id              String                @id @default(cuid())
+  userId          String                @map("user_id")
+  type            PointTransactionType
+  points          Int                  // Positive for earned, negative for expired/adjusted
+  balanceBefore   Int                  @map("balance_before")
+  balanceAfter    Int                  @map("balance_after")
+  sourceId        String?               @map("source_id") // Purchase ID, referral ID, etc.
+  sourceType      String?              @map("source_type") // purchase, referral, login, etc.
+  description     String
+  expiresAt       DateTime?            @map("expires_at")
+  isExpiring      Boolean              @default(false) @map("is_expiring")
+  createdAt      DateTime              @default(now()) @map("created_at")
+
+  // Relations
+  user            LoyaltyUser          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("point_transactions")
+}
+
+// Point earning rules/configurations
+model PointRule {
+  id                  String    @id @default(cuid())
+  name                String    @unique
+  displayName         String    @map("display_name")
+  type                String    // purchase, action, bonus, referral
+  points              Int       @default(0)
+  pointsPerDollar     Float?    @map("points_per_dollar") // For purchase-based rules
+  maxPoints           Int?      @map("max_points") // Maximum points per action/day
+  dailyLimit          Int?      @map("daily_limit")
+  tierMultipliers     String?   @map("tier_multipliers") // JSON: { "GOLD": 1.5, "PLATINUM": 2.0 }
+  isActive            Boolean   @default(true) @map("is_active")
+  description         String?
+  startDate           DateTime? @map("start_date")
+  endDate             DateTime? @map("end_date")
+  createdAt          DateTime   @default(now()) @map("created_at")
+  updatedAt          DateTime   @updatedAt @map("updated_at")
+
+  @@map("point_rules")
+}
+
+// =====================================================
+// POINT REDEMPTION TABLES
+// =====================================================
+
+// Redemption status
+enum RedemptionStatus {
+  PENDING
+  APPROVED
+  PROCESSING
+  COMPLETED
+  CANCELLED
+  REJECTED
+}
+
+// Point redemptions
+model PointRedemption {
+  id              String            @id @default(cuid())
+  userId          String            @map("user_id")
+  rewardId        String            @map("reward_id")
+  pointsSpent     Int               @map("points_spent")
+  pointsCost      Int               @map("points_cost")
+  status          RedemptionStatus  @default(PENDING)
+  value           Float             // Real-world value of reward
+  currency        String            @default("USD")
+  code            String?           @map("redemption_code")
+  codeUsed        Boolean           @default(false) @map("code_used")
+  redemptionUrl  String?           @map("redemption_url")
+  expiresAt       DateTime?         @map("expires_at")
+  processedAt     DateTime?         @map("processed_at")
+  notes           String?
+  metadata        String?           // JSON for additional data
+  createdAt      DateTime           @default(now()) @map("created_at")
+  updatedAt      DateTime           @updatedAt @map("updated_at")
+
+  // Relations
+  user            LoyaltyUser       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reward          Reward            @relation(fields: [rewardId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@map("point_redemptions")
+}
+
+// Available rewards
+model Reward {
+  id                  String    @id @default(cuid())
+  name                String    @unique
+  displayName         String    @map("display_name")
+  description         String
+  category            String    // discount, gift_card, merchandise, experience, exclusive
+  pointsCost          Int       @map("points_cost")
+  monetaryValue       Float     @map("monetary_value") // Real dollar value
+  currency            String    @default("USD")
+  discountType        String?   @map("discount_type") // percentage, fixed
+  discountValue       Float?    @map("discount_value")
+  code                String?   @map("code") // Pre-generated code
+  maxRedemptions      Int?      @map("max_redemptions") // Total available
+  redemptionsRemaining Int?    @map("redemptions_remaining")
+  perUserLimit        Int?      @map("per_user_limit") // Per user limit
+  validDays           Int?      @map("valid_days") // Days valid after redemption
+  tierRequirement     String?   @map("tier_requirement") // Minimum tier required
+  imageUrl            String?   @map("image_url")
+  isActive            Boolean   @default(true) @map("is_active")
+  isFeatured          Boolean   @default(false) @map("is_featured")
+  sortOrder           Int       @default(0) @map("sort_order")
+  startDate           DateTime? @map("start_date")
+  endDate             DateTime? @map("end_date")
+  createdAt          DateTime   @default(now()) @map("created_at")
+  updatedAt          DateTime   @updatedAt @map("updated_at")
+
+  // Relations
+  redemptions         PointRedemption[]
+
+  @@map("rewards")
+}
+
+// =====================================================
+// GAMIFICATION TABLES
+// =====================================================
+
+// Achievement types
+model Achievement {
+  id                  String    @id @default(cuid())
+  code                String    @unique
+  name                String
+  displayName         String    @map("display_name")
+  description         String
+  category            String    // purchases, engagement, social, milestones
+  pointsReward        Int       @map("points_reward")
+  badgeIcon           String?   @map("badge_icon")
+  badgeColor          String?   @map("badge_color")
+  tierRequirement     String?   @map("tier_requirement") // Tier needed to unlock
+  requirement         String    // JSON with completion requirements
+  isHidden            Boolean   @default(false) @map("is_hidden")
+  isActive            Boolean   @default(true) @map("is_active")
+  createdAt          DateTime   @default(now()) @map("created_at")
+  updatedAt          DateTime   @updatedAt @map("updated_at")
+
+  // Relations
+  userAchievements    UserAchievement[]
+
+  @@map("achievements")
+}
+
+// User achievements
+model UserAchievement {
+  id              String        @id @default(cuid())
+  userId          String        @map("user_id")
+  achievementId   String        @map("achievement_id")
+  progress        Int           @default(0) @map("progress")
+  target          Int           @default(100) @map("target")
+  percentComplete Float         @default(0) @map("percent_complete")
+  isCompleted     Boolean       @default(false) @map("is_completed")
+  completedAt     DateTime?     @map("completed_at")
+  claimedAt       DateTime?     @map("claimed_at")
+  claimedPoints   Int           @default(0) @map("claimed_points")
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+
+  // Relations
+  user            LoyaltyUser   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement     Achievement   @relation(fields: [achievementId], references: [id])
+
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+}
+
+// =====================================================
+// LOYALTY FLAGS & SPECIAL STATUS
+// =====================================================
+
+model LoyaltyFlag {
+  id              String    @id @default(cuid())
+  userId          String    @map("user_id")
+  flagType        String    @map("flag_type") // vip, ambassador, early_adopter, lifetime, special
+  description     String
+  isActive        Boolean   @default(true) @map("is_active")
+  grantedAt       DateTime  @default(now()) @map("granted_at")
+  expiresAt       DateTime? @map("expires_at")
+  grantedBy       String?   @map("granted_by")
+  createdAt      DateTime   @default(now()) @map("created_at")
+
+  // Relations
+  user            LoyaltyUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("loyalty_flags")
+}
+
+// =====================================================
+// LEADERBOARD & CHALLENGES
+// =====================================================
+
+model LoyaltyChallenge {
+  id                  String    @id @default(cuid())
+  name                String    @unique
+  displayName         String    @map("display_name")
+  description         String
+  category            String    // weekly, monthly, seasonal, special
+  type                String    // points_earned, purchases, referrals, activities
+  target              Int       @default(100)
+  currentProgress     Int       @default(0) @map("current_progress")
+  pointsReward        Int       @map("points_reward")
+  bonusReward         Int?      @map("bonus_reward") // Bonus for top performers
+  tierRequirement     String?   @map("tier_requirement")
+  startDate           DateTime  @map("start_date")
+  endDate             DateTime  @map("end_date")
+  isActive            Boolean   @default(true) @map("is_active")
+  isGlobal            Boolean   @default(true) @map("is_global") // All users or select
+  participantCount    Int       @default(0) @map("participant_count")
+  createdAt          DateTime   @default(now()) @map("created_at")
+  updatedAt          DateTime   @updatedAt @map("updated_at")
+
+  @@map("loyalty_challenges")
+}
+
+model ChallengeParticipant {
+  id              String    @id @default(cuid())
+  challengeId     String    @map("challenge_id")
+  userId          String    @map("user_id")
+  progress        Int       @default(0) @map("progress")
+  rank            Int?      @map("rank")
+  isCompleted     Boolean   @default(false) @map("is_completed")
+  completedAt     DateTime? @map("completed_at")
+  claimedBonus    Boolean   @default(false) @map("claimed_bonus")
+  createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+
+  @@unique([challengeId, userId])
+  @@map("challenge_participants")
+}
+
+// =====================================================
+// LOYALTY SETTINGS & CONFIGURATIONS
+// =====================================================
+
+model LoyaltySettings {
+  id                  String    @id @default(cuid())
+  key                 String    @unique
+  value               String
+  description         String?
+  updatedAt          DateTime   @updatedAt @map("updated_at")
+
+  @@map("loyalty_settings")
+}
+
+// =====================================================
+// ENUMS
+// =====================================================
+
+enum LoyaltyTier {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  DIAMOND
+}

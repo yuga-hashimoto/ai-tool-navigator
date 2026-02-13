@@ -8,7 +8,7 @@ import { CompareProvider } from "@/context/CompareContext";
 import { Footer } from "@/components/Footer";
 import { CompareBar } from "@/components/CompareBar";
 import NewsletterPopup from "@/components/NewsletterPopup";
-import ExitIntentModal from "@/components/ExitIntentModal";
+import ExitIntentModalEnhanced from "@/components/ExitIntentModalEnhanced";
 import { Navigation } from "@/components/Navigation";
 import StickyNotificationBar from "@/components/StickyNotificationBar";
 import BackToTop from "@/components/BackToTop";
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Client component wrapper for ExitIntentModal
+// Client component wrapper for ExitIntentModalEnhanced
 function ExitIntentWrapper() {
   const { variant, isLoading } = useExitIntentABTest();
   
@@ -57,7 +57,7 @@ function ExitIntentWrapper() {
     return null;
   }
   
-  return <ExitIntentModal variant={variant} enabled={true} />;
+  return <ExitIntentModalEnhanced variant={variant} enabled={true} />;
 }
 
 export default async function RootLayout({

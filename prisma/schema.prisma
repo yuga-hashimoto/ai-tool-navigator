@@ -1,0 +1,237 @@
+// Live Chat Prisma Schema
+// Database models for chat functionality
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // Change to "postgresql" or "mysql" for production
+}
+
+// =====================================================
+// ABANDONED LINK RECOVERY TABLES
+// =====================================================
+
+// Abandoned link tracking
+model AbandonedLink {
+  id                  String          @id @default(cuid())
+  sessionId           String          @unique @map("session_id")
+  visitorId           String?         @map("visitor_id")
+  visitorEmail        String?         @map("visitor_email")
+  affiliateId         String          @map("affiliate_id")
+  toolSlug            String          @map("tool_slug")
+  toolName            String          @map("tool_name")
+  source              String          @default("direct")
+  medium              String          @default("referral")
+  campaign            String?
+  entryPage           String          @map("entry_page")
+  exitPage            String          @map("exit_page")
+  timeOnPage          Int             @default(0) @map("time_on_page")
+  scrollDepth         Int?            @map("scroll_depth")
+  clickPosition       String?         @map("click_position")
+  abandonmentType     String          @map("abandonment_type")
+  recoveryStatus      String          @default("pending") @map("recovery_status")
+  recoveryChannel    String?         @map("recovery_channel")
+  recoveryEmailSentAt DateTime?      @map("recovery_email_sent_at")
+  recoveryClickedAt  DateTime?       @map("recovery_clicked_at")
+  recoveryConvertedAt DateTime?      @map("recovery_converted_at")
+  recoveryAttempts   Int             @default(0) @map("recovery_attempts")
+  totalValue         Float           @default(0) @map("total_value")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+
+  @@map("abandoned_links")
+}
+
+// Abandoned cart tracking
+model AbandonedCart {
+  id              String    @id @default(cuid())
+  sessionId       String    @unique @map("session_id")
+  visitorId       String?   @map("visitor_id")
+  visitorEmail    String?   @map("visitor_email")
+  items           String    // JSON string of cart items
+  totalValue      Float     @map("total_value")
+  currency        String    @default("USD")
+  affiliateId     String?   @map("affiliate_id")
+  source          String    @default("direct")
+  recoveryStatus  String    @default("pending") @map("recovery_status")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("abandoned_carts")
+}
+
+// Recovery email sequences
+model RecoveryEmail {
+  id              String    @id @default(cuid())
+  abandonedLinkId String    @map("abandoned_link_id")
+  templateId      String    @map("template_id")
+  sentAt          DateTime  @default(now()) @map("sent_at")
+  openedAt        DateTime? @map("opened_at")
+  clickedAt       DateTime? @map("clicked_at")
+  status          String    @default("sent") // sent, opened, clicked, failed
+
+  @@map("recovery_emails")
+}
+
+// =====================================================
+// CHAT TABLES
+// =====================================================
+
+// Chat session model
+model ChatSession {
+  id              String          @id @default(cuid())
+  sessionId        String          @unique // Unique session identifier
+  visitorId        String?         @map("visitor_id") // Optional visitor ID
+  visitorName      String?         @map("visitor_name")
+  visitorEmail     String?         @map("visitor_email")
+  category        ChatCategory    @default(GENERAL)
+  status          ChatStatus      @default(WAITING)
+  priority        ChatPriority    @default(NORMAL)
+  assignedTo      String?         @map("assigned_to") // Admin user ID
+  subject         String?
+  isActive        Boolean         @default(true) @map("is_active")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  closedAt        DateTime?       @map("closed_at")
+  
+  // Relations
+  messages        Message[]
+  transcript     ChatTranscript?
+  supportTicket  SupportTicket?
+  
+  @@map("chat_sessions")
+}
+
+// Individual chat messages
+model Message {
+  id              String          @id @default(cuid())
+  chatSessionId  String          @map("chat_session_id")
+  senderType      SenderType
+  senderId        String?         @map("sender_id")
+  content         String
+  contentType     MessageContentType @default(TEXT)
+  isRead          Boolean         @default(false) @map("is_read")
+  metadata        String?         // JSON string for additional data (file attachments, etc.)
+  createdAt       DateTime        @default(now()) @map("created_at")
+  
+  // Relations
+  chatSession     ChatSession     @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+  
+  @@index([chatSessionId])
+  @@index([createdAt])
+  @@map("messages")
+}
+
+// Support tickets (for offline/inquiry cases)
+model SupportTicket {
+  id              String          @id @default(cuid())
+  ticketNumber    String          @unique @map("ticket_number")
+  chatSessionId  String?         @unique @map("chat_session_id")
+  visitorId       String?         @map("visitor_id")
+  visitorName     String?         @map("visitor_name")
+  visitorEmail    String?         @map("visitor_email")
+  category        ChatCategory
+  priority        ChatPriority    @default(NORMAL)
+  status          TicketStatus    @default(OPEN)
+  subject         String
+  description     String
+  assignedTo      String?         @map("assigned_to")
+  resolution      String?
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  resolvedAt      DateTime?       @map("resolved_at")
+  
+  // Relations
+  chatSession     ChatSession?    @relation(fields: [chatSessionId], references: [id])
+  
+  @@index([status])
+  @@index([createdAt])
+  @@map("support_tickets")
+}
+
+// Pre-defined canned responses for quick replies
+model CannedResponse {
+  id              String          @id @default(cuid())
+  title           String
+  content         String
+  category        ChatCategory    @default(GENERAL)
+  keywords        String?         // Comma-separated keywords for quick search
+  isActive        Boolean         @default(true) @map("is_active")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  
+  @@map("canned_responses")
+}
+
+// Chat transcripts for export/history
+model ChatTranscript {
+  id              String          @id @default(cuid())
+  chatSessionId  String          @unique @map("chat_session_id")
+  content         String         // Full transcript as JSON
+  exportedAt      DateTime        @default(now()) @map("exported_at")
+  exportedBy      String?         @map("exported_by")
+  
+  // Relations
+  chatSession     ChatSession     @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+  
+  @@map("chat_transcripts")
+}
+
+// Chat widget settings
+model ChatWidgetSettings {
+  id              String          @id @default(cuid())
+  key             String          @unique
+  value           String
+  description     String?
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  
+  @@map("chat_widget_settings")
+}
+
+// Enums
+enum ChatCategory {
+  GENERAL
+  TECHNICAL
+  BILLING
+  SALES
+  FEEDBACK
+  BUG_REPORT
+}
+
+enum ChatStatus {
+  WAITING
+  ACTIVE
+  ON_HOLD
+  CLOSED
+  TRANSFERRED
+}
+
+enum ChatPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum SenderType {
+  VISITOR
+  ADMIN
+  BOT
+}
+
+enum MessageContentType {
+  TEXT
+  FILE
+  IMAGE
+  SYSTEM
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  PENDING
+  RESOLVED
+  CLOSED
+}

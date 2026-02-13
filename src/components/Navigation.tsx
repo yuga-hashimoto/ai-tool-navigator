@@ -71,7 +71,7 @@ export function Navigation({ className }: { className?: string }) {
       <div
         className={cn(
           "md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white dark:bg-black",
-          isMenuOpen ? "max-h-screen opacity-100 border-b border-zinc-200 dark:border-zinc-800" : "max-h-0 opacity-0"
+          isMenuOpen ? "max-h-[calc(100vh-4rem)] overflow-y-auto opacity-100 border-b border-zinc-200 dark:border-zinc-800" : "max-h-0 opacity-0"
         )}
       >
         <div className="px-6 py-4 space-y-4">

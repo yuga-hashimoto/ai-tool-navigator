@@ -25,6 +25,7 @@ import { getToolOfTheWeek, getAllTools, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
 import { HeaderLinkButton } from "@/components/HeaderLinkButton";
 import { GoogleAdsensePlaceholder } from "@/components/GoogleAdsensePlaceholder";
+import { MarkdownTable } from "@/components/MarkdownTable";
 
 export async function generateStaticParams() {
   const params = [];
@@ -162,6 +163,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     'youtube-embed': (props: any) => {
         return <YouTubeEmbed {...props} />;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+    table: ({node: _node, ...props}: any) => <MarkdownTable {...props} />,
   };
 
   return (
@@ -225,7 +228,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         </div>
                     </header>
 
-                    <div className="prose prose-lg prose-zinc dark:prose-invert">
+                    <div className="prose lg:prose-lg prose-zinc dark:prose-invert">
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm, remarkDirective, remarkRelatedPost, remarkComparisonTable, remarkYoutube]}
                             rehypePlugins={[rehypeSlug]}

@@ -70,7 +70,7 @@ const _getAllTools = async (locale: string = 'en'): Promise<ToolMetadata[]> => {
 export const getAllTools = unstable_cache(
   _getAllTools,
   ['tools-all'],
-  { tags: ['tools'] }
+  { tags: ['tools'], revalidate: 3600 }
 );
 
 const _getToolBySlug = async (slug: string, locale: string = 'en'): Promise<Tool | null> => {
@@ -100,13 +100,19 @@ const _getToolBySlug = async (slug: string, locale: string = 'en'): Promise<Tool
 export const getToolBySlug = unstable_cache(
   _getToolBySlug,
   ['tool-slug'],
-  { tags: ['tools'] }
+  { tags: ['tools'], revalidate: 3600 }
 );
 
-export async function getToolOfTheWeek(locale: string = 'en'): Promise<ToolMetadata | null> {
+const _getToolOfTheWeek = async (locale: string = 'en'): Promise<ToolMetadata | null> => {
   const tools = await getAllTools(locale);
   return tools.find((tool) => tool.tool_of_the_week) || null;
 }
+
+export const getToolOfTheWeek = unstable_cache(
+  _getToolOfTheWeek,
+  ['tool-of-the-week'],
+  { tags: ['tools'], revalidate: 3600 }
+);
 
 export function getToolSlugs() {
   const locales = ['en', 'ja'];
@@ -130,7 +136,7 @@ export function getToolSlugs() {
   return allParams;
 }
 
-export async function getRelatedTools(currentTool: ToolMetadata, limit: number = 3, locale: string = 'en'): Promise<ToolMetadata[]> {
+const _getRelatedTools = async (currentTool: ToolMetadata, limit: number = 3, locale: string = 'en'): Promise<ToolMetadata[]> => {
   const allTools = await getAllTools(locale);
   const candidates = allTools.filter(
     (tool) => tool.category === currentTool.category && tool.slug !== currentTool.slug
@@ -144,3 +150,9 @@ export async function getRelatedTools(currentTool: ToolMetadata, limit: number =
 
   return candidates.slice(0, limit);
 }
+
+export const getRelatedTools = unstable_cache(
+  _getRelatedTools,
+  ['related-tools'],
+  { tags: ['tools'], revalidate: 3600 }
+);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Clock, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Clock, AlertTriangle } from 'lucide-react';
 
 interface UrgencyCountdownProps {
   endDate: Date;
@@ -21,12 +21,7 @@ export default function UrgencyCountdown({
   className = ''
 }: UrgencyCountdownProps) {
   const [timeRemaining, setTimeRemaining] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-    total: 0,
-    isExpired: false
+    days: 0, hours: 0, minutes: 0, seconds: 0, total: 0, isExpired: false
   });
 
   useEffect(() => {
@@ -34,14 +29,7 @@ export default function UrgencyCountdown({
       const total = endDate.getTime() - new Date().getTime();
       
       if (total <= 0) {
-        setTimeRemaining({
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0,
-          total: 0,
-          isExpired: true
-        });
+        setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0, total: 0, isExpired: true });
         onExpire?.();
         return;
       }
@@ -58,21 +46,18 @@ export default function UrgencyCountdown({
 
     calculateTimeRemaining();
     const interval = setInterval(calculateTimeRemaining, 1000);
-    
     return () => clearInterval(interval);
   }, [endDate, onExpire]);
 
-  // Size styles
   const sizeStyles = {
     sm: { container: 'gap-1', number: 'text-sm', label: 'text-xs' },
     md: { container: 'gap-2', number: 'text-lg', label: 'text-xs' },
     lg: { container: 'gap-3', number: 'text-2xl', label: 'text-sm' }
   };
 
-  // Urgency level based on time remaining
   const getUrgencyLevel = () => {
     const { days, hours, total } = timeRemaining;
-    if (total < 60 * 60 * 1000) return 'critical'; // Less than 1 hour
+    if (total < 60 * 60 * 1000) return 'critical';
     if (days === 0 && hours < 6) return 'high';
     if (days === 0) return 'medium';
     return 'low';
@@ -80,39 +65,15 @@ export default function UrgencyCountdown({
 
   const urgencyLevel = getUrgencyLevel();
 
-  // Color scheme based on urgency
   const colorScheme = {
-    critical: {
-      bg: 'bg-red-100',
-      border: 'border-red-500',
-      text: 'text-red-700',
-      number: 'text-red-800',
-      pulse: true
-    },
-    high: {
-      bg: 'bg-orange-100',
-      border: 'border-orange-500',
-      text: 'text-orange-700',
-      number: 'text-orange-800',
-      pulse: false
-    },
-    medium: {
-      bg: 'bg-yellow-100',
-      border: 'border-yellow-500',
-      text: 'text-yellow-700',
-      number: 'text-yellow-800',
-      pulse: false
-    },
-    low: {
-      bg: 'bg-blue-100',
-      border: 'border-blue-500',
-      text: 'text-blue-700',
-      number: 'text-blue-800',
-      pulse: false
-    }
+    critical: { bg: 'bg-red-100', border: 'border-red-500', text: 'text-red-700', number: 'text-red-800', pulse: true },
+    high: { bg: 'bg-orange-100', border: 'border-orange-500', text: 'text-orange-700', number: 'text-orange-800', pulse: false },
+    medium: { bg: 'bg-yellow-100', border: 'border-yellow-500', text: 'text-yellow-700', number: 'text-yellow-800', pulse: false },
+    low: { bg: 'bg-blue-100', border: 'border-blue-500', text: 'text-blue-700', number: 'text-blue-800', pulse: false }
   };
 
-  const colors = colorScheme[urgencyLevel];
+  const colors = colorScheme[urgencyLevel as keyof typeof colorScheme];
+  const styles = sizeStyles[size];
 
   if (timeRemaining.isExpired) {
     return (
@@ -145,62 +106,36 @@ export default function UrgencyCountdown({
         </div>
       )}
       
-      <div className={`flex items-center justify-center ${sizeStyles[size].container}`}>
+      <div className={`flex items-center justify-center ${styles.container}`}>
         {timeRemaining.days > 0 && (
           <div className={`flex flex-col items-center ${colors.bg} rounded-lg p-2 min-w-[60px]`}>
-            <span className={`${sizeStyles[size].number} font-bold ${colors.number}`}>
-              {timeRemaining.days}
-            </span>
-            {showLabels && (
-              <span className={`${sizeStyles[size].label} ${colors.text}`}>
-                Days
-              </span>
-            )}
+            <span className={`${styles.number} font-bold ${colors.number}`}>{timeRemaining.days}</span>
+            {showLabels && <span className={`${styles.label} ${colors.text}`}>Days</span>}
           </div>
         )}
         
         <div className={`flex flex-col items-center ${colors.bg} rounded-lg p-2 min-w-[60px]`}>
-          <span className={`${sizeStyles[size].number} font-bold ${colors.number}`}>
-            {String(timeRemaining.hours).padStart(2, '0')}
-          </span>
-          {showLabels && (
-            <span className={`${sizeStyles[size].label} ${colors.text}`}>
-              Hours
-            </span>
-          )}
+          <span className={`${styles.number} font-bold ${colors.number}`}>{String(timeRemaining.hours).padStart(2, '0')}</span>
+          {showLabels && <span className={`${styles.label} ${colors.text}`}>Hours</span>}
         </div>
         
         <span className={`${colors.text} text-xl font-bold`}>:</span>
         
         <div className={`flex flex-col items-center ${colors.bg} rounded-lg p-2 min-w-[60px]`}>
-          <span className={`${sizeStyles[size].number} font-bold ${colors.number}`}>
-            {String(timeRemaining.minutes).padStart(2, '0')}
-          </span>
-          {showLabels && (
-            <span className={`${sizeStyles[size].label} ${colors.text}`}>
-              Minutes
-            </span>
-          )}
+          <span className={`${styles.number} font-bold ${colors.number}`}>{String(timeRemaining.minutes).padStart(2, '0')}</span>
+          {showLabels && <span className={`${styles.label} ${colors.text}`}>Minutes</span>}
         </div>
         
         <span className={`${colors.text} text-xl font-bold`}>:</span>
         
         <div className={`flex flex-col items-center ${colors.bg} rounded-lg p-2 min-w-[60px]`}>
-          <span className={`${sizeStyles[size].number} font-bold ${colors.number}`}>
-            {String(timeRemaining.seconds).padStart(2, '0')}
-          </span>
-          {showLabels && (
-            <span className={`${sizeStyles[size].label} ${colors.text}`}>
-              Seconds
-            </span>
-          )}
+          <span className={`${styles.number} font-bold ${colors.number}`}>{String(timeRemaining.seconds).padStart(2, '0')}</span>
+          {showLabels && <span className={`${styles.label} ${colors.text}`}>Seconds</span>}
         </div>
       </div>
 
       {urgencyLevel === 'high' && (
-        <p className={`mt-2 text-center text-sm ${colors.text}`}>
-          Offer expires soon!
-        </p>
+        <p className={`mt-2 text-center text-sm ${colors.text}`}>Offer expires soon!</p>
       )}
     </div>
   );

@@ -107,8 +107,8 @@ export const TIME_SENSITIVE_TIERS: TimeSensitiveTier[] = [
     discountPercent: 30,
     originalPrice: 99.99,
     currentPrice: 69.99,
-    startDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Started 7 days ago
-    endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Ends in 7 days
+    startDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     isActive: true,
     maxPurchases: 100,
     currentPurchases: 67,
@@ -126,7 +126,7 @@ export const TIME_SENSITIVE_TIERS: TimeSensitiveTier[] = [
     originalPrice: 499.99,
     currentPrice: 374.99,
     startDate: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000),
-    endDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // Ends in 2 days
+    endDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
     isActive: true,
     maxPurchases: 50,
     currentPurchases: 43,
@@ -144,7 +144,7 @@ export const TIME_SENSITIVE_TIERS: TimeSensitiveTier[] = [
     originalPrice: 9.99,
     currentPrice: 4.99,
     startDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-    endDate: new Date(Date.now() + 6 * 60 * 60 * 1000), // Ends in 6 hours
+    endDate: new Date(Date.now() + 6 * 60 * 60 * 1000),
     isActive: true,
     maxPurchases: 25,
     currentPurchases: 18,
@@ -162,7 +162,7 @@ export const TIME_SENSITIVE_TIERS: TimeSensitiveTier[] = [
     originalPrice: 99.99,
     currentPrice: 79.99,
     startDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
-    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Ends in 30 days
+    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     isActive: true,
     maxPurchases: 500,
     currentPurchases: 234,
@@ -256,16 +256,10 @@ export const URGENCY_BUNDLES: UrgencyBundle[] = [
 
 export function calculateDynamicPrice(config: DynamicPriceConfig, conversionRate: number): number {
   const { basePrice, minPrice, maxPrice, adjustmentStrategy, adjustmentSpeed } = config;
-  
-  // Demand-based adjustment (higher conversion = higher price)
   const demandFactor = conversionRate > 0.05 ? 1 + (conversionRate - 0.05) * 0.5 : 0.95;
-  
-  // Time-based urgency (prices slightly higher when demand is high)
   const urgencyFactor = 1 + (config.urgencyMultiplier * 0.1);
-  
   let adjustedPrice = basePrice * demandFactor * urgencyFactor;
 
-  // Apply adjustment strategy
   switch (adjustmentStrategy) {
     case 'linear':
       adjustedPrice = basePrice + (adjustedPrice - basePrice) * adjustmentSpeed;
@@ -282,28 +276,20 @@ export function calculateDynamicPrice(config: DynamicPriceConfig, conversionRate
       break;
   }
 
-  // Clamp to min/max bounds
   return Math.round(Math.min(maxPrice, Math.max(minPrice, adjustedPrice)) * 100) / 100;
 }
 
 export function getTimeSensitivePrice(tierId: string): TimeSensitiveTier | null {
   const tier = TIME_SENSITIVE_TIERS.find(t => t.id === tierId);
   if (!tier || !tier.isActive) return null;
-  
-  // Check if offer has expired
-  if (new Date() > tier.endDate) {
-    return null;
-  }
-  
+  if (new Date() > tier.endDate) return null;
   return tier;
 }
 
 export function getActiveTimeSensitiveTiers(): TimeSensitiveTier[] {
   const now = new Date();
   return TIME_SENSITIVE_TIERS.filter(tier => 
-    tier.isActive && 
-    now >= tier.startDate && 
-    now <= tier.endDate
+    tier.isActive && now >= tier.startDate && now <= tier.endDate
   );
 }
 
@@ -347,7 +333,6 @@ export function generateCountdownMessage(endDate: Date): UrgencySignal {
 
 export function generateStockWarning(stockRemaining: number, maxStock: number): UrgencySignal {
   const stockPercent = (stockRemaining / maxStock) * 100;
-  
   let urgencyLevel: UrgencySignal['urgencyLevel'] = 'low';
   if (stockPercent <= 5) urgencyLevel = 'critical';
   else if (stockPercent <= 15) urgencyLevel = 'high';
@@ -361,23 +346,10 @@ export function generateStockWarning(stockRemaining: number, maxStock: number): 
   };
 }
 
-export function generatePriceIncreaseSignal(originalPrice: number, currentPrice: number): UrgencySignal {
-  const increaseAmount = originalPrice - currentPrice;
-  const increasePercent = ((increaseAmount / originalPrice) * 100).toFixed(0);
-  
-  return {
-    type: 'price_increase',
-    message: `Price increases by ${increasePercent}% when timer ends`,
-    urgencyLevel: 'high',
-    actionRequired: 'Lock in your savings now!'
-  };
-}
-
 export function getActiveUrgencySignals(): UrgencySignal[] {
   const signals: UrgencySignal[] = [];
-  
-  // Check time-sensitive tiers for countdown signals
   const activeTiers = getActiveTimeSensitiveTiers();
+  
   for (const tier of activeTiers) {
     const countdown = generateCountdownMessage(tier.endDate);
     if (countdown.urgencyLevel !== 'low') {
@@ -387,7 +359,6 @@ export function getActiveUrgencySignals(): UrgencySignal[] {
       });
     }
     
-    // Check stock warnings
     if (tier.maxPurchases && tier.currentPurchases >= tier.maxPurchases * 0.8) {
       signals.push(generateStockWarning(
         tier.maxPurchases - tier.currentPurchases,
@@ -396,7 +367,6 @@ export function getActiveUrgencySignals(): UrgencySignal[] {
     }
   }
   
-  // Check bundles for urgency signals
   for (const bundle of URGENCY_BUNDLES) {
     if (bundle.countdownEnd) {
       signals.push({
@@ -448,7 +418,6 @@ export function recordPriceChange(
     conversionRate,
     revenue
   };
-  
   priceChangeHistory.push(event);
   return event;
 }
@@ -465,8 +434,6 @@ export function calculateUrgencyConversionMetrics(
   period: 'day' | 'week' | 'month'
 ): UrgencyConversionMetrics {
   const tier = TIME_SENSITIVE_TIERS.find(t => t.id === tierId);
-  
-  // Calculate period bounds
   const now = new Date();
   let periodStart: Date;
   switch (period) {
@@ -475,17 +442,15 @@ export function calculateUrgencyConversionMetrics(
     case 'month': periodStart = new Date(now.setDate(now.getDate() - 30)); break;
   }
   
-  // Get relevant price changes
   const relevantChanges = getPriceChangeHistory(tierId)
     .filter(e => e.timestamp >= periodStart);
   
-  // Calculate metrics
-  const totalViews = Math.floor(Math.random() * 5000) + 1000; // Simulated data
+  const totalViews = Math.floor(Math.random() * 5000) + 1000;
   const addToCarts = Math.floor(totalViews * 0.15);
   const checkouts = Math.floor(addToCarts * 0.4);
   const conversions = Math.floor(checkouts * 0.7);
   const conversionRate = conversions / totalViews;
-  const avgTimeToPurchase = Math.floor(Math.random() * 30) + 5; // 5-35 minutes
+  const avgTimeToPurchase = Math.floor(Math.random() * 30) + 5;
   
   return {
     tierId,
@@ -496,7 +461,7 @@ export function calculateUrgencyConversionMetrics(
     conversions,
     conversionRate,
     avgTimeToPurchase,
-    urgencyImpact: conversionRate > 0.05 ? 25 : 0, // 25% improvement if conversion > 5%
+    urgencyImpact: conversionRate > 0.05 ? 25 : 0,
     revenue: conversions * (tier?.currentPrice || 0),
     arpu: conversions > 0 ? (conversions * (tier?.currentPrice || 0)) / conversions : 0
   };
@@ -507,7 +472,6 @@ export function trackConversionFunnel(
   event: 'view' | 'add_to_cart' | 'checkout_start' | 'purchase',
   revenue?: number
 ): void {
-  // In production, this would send to analytics
   console.log(`[Urgency Analytics] ${tierId}: ${event}${revenue ? ` - $${revenue}` : ''}`);
 }
 
@@ -516,7 +480,7 @@ export function trackConversionFunnel(
 // =====================================================
 
 export interface CheckoutCountdownConfig {
-  duration: number; // in minutes
+  duration: number;
   priceLock: boolean;
   discountGuaranteed: boolean;
   urgencyMessage: string;
@@ -576,7 +540,6 @@ export function generatePricingRecommendation(
   const basePrice = tier.originalPrice;
   const currentPrice = tier.currentPrice;
   
-  // Simple optimization logic
   if (currentConversionRate < 0.03) {
     return {
       tierId,
@@ -628,20 +591,6 @@ export function getTimeRemaining(endDate: Date): {
     total,
     isExpired: false
   };
-}
-
-export function isUrgencyEffective(
-  urgencyLevel: UrgencySignal['urgencyLevel'],
-  conversionRate: number
-): boolean {
-  // Urgency is effective if conversion rate improves
-  const targetConversion = 0.05; // 5% baseline
-  return conversionRate > targetConversion;
-}
-
-export function getTierUrgencyLevel(tierId: string): TimeSensitiveTier['urgencyLevel'] {
-  const tier = TIME_SENSITIVE_TIERS.find(t => t.id === tierId);
-  return tier?.urgencyLevel || 'low';
 }
 
 export function getPopularBundles(): UrgencyBundle[] {

@@ -62,6 +62,7 @@ fi
 echo "[INFO] Database connection OK"
 
 # Run full backup
+FULL_STATUS=0
 if [ "$RUN_FULL" = "true" ]; then
     echo ""
     echo "[INFO] Starting FULL backup..."
@@ -69,10 +70,12 @@ if [ "$RUN_FULL" = "true" ]; then
         echo "[INFO] Full backup completed successfully"
     else
         echo "[ERROR] Full backup failed!"
+        FULL_STATUS=1
     fi
 fi
 
 # Run incremental backup
+INC_STATUS=0
 if [ "$RUN_INCREMENTAL" = "true" ]; then
     echo ""
     if [ "$ENABLE_INCREMENTAL" = "true" ]; then
@@ -81,9 +84,19 @@ if [ "$RUN_INCREMENTAL" = "true" ]; then
             echo "[INFO] Incremental backup completed successfully"
         else
             echo "[ERROR] Incremental backup failed!"
+            INC_STATUS=1
         fi
     else
         echo "[INFO] Incremental backups are disabled, skipping"
+    fi
+fi
+
+# Send overall status notification
+if [ "$FULL_STATUS" -ne 0 ] || [ "$INC_STATUS" -ne 0 ]; then
+    echo ""
+    echo "[ERROR] Backup orchestration completed with errors!"
+    if [ -x "${SCRIPT_DIR}/notify.sh" ]; then
+        "${SCRIPT_DIR}/notify.sh" failure backup "One or more backup tasks failed"
     fi
 fi
 

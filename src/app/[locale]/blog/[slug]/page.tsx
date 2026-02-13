@@ -20,7 +20,7 @@ import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { RelatedPost } from "@/components/RelatedPost";
 import { ComparisonTable } from "@/components/ComparisonTable";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
-import { generateArticleSchema, generateBreadcrumbSchema } from "@/lib/schema";
+import { generateArticleSchema, generateBreadcrumbSchema, generatePersonSchema } from "@/lib/schema";
 import { getToolOfTheWeek, getAllTools, ToolMetadata } from "@/lib/tools";
 import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
 import { HeaderLinkButton } from "@/components/HeaderLinkButton";
@@ -109,6 +109,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems, locale);
 
+  // Generate Person schema for author
+  const personSchema = generatePersonSchema({
+    name: metadata.author,
+    url: `${SITE_URL}/about`,
+    jobTitle: "AI Writer",
+    worksFor: "AI Tool Navigator",
+    description: `Author profile for ${metadata.author}`
+  });
+
   // Fetch recent posts
   const allPosts = await getAllPosts(locale);
   const recentPosts = allPosts
@@ -193,6 +202,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
       <ReadingProgressBar />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

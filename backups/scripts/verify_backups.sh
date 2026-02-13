@@ -131,12 +131,21 @@ echo "Verification Result: ${VERIFICATION_STATUS}"
 echo "========================================"
 
 if [ "$VERIFICATION_STATUS" = "FAILED" ]; then
-    if [ -n "$SLACK_WEBHOOK_URL" ]; then
+    FAILED_COUNT=${#FAILED_BACKUPS[@]}
+    export CUSTOM_MESSAGE="*Status:* VERIFICATION FAILED\n*Failed backups:* ${FAILED_COUNT}"
+
+    if [ -x "${SCRIPT_DIR}/notify.sh" ]; then
+        "${SCRIPT_DIR}/notify.sh" failure backup "$CUSTOM_MESSAGE"
+    elif [ -n "$SLACK_WEBHOOK_URL" ]; then
         curl -s -X POST -H 'Content-type: application/json' \
             --data "{\"text\":\"🚨 BACKUP VERIFICATION FAILED!\nFailed backups:\n${FAILED_BACKUPS[*]}\"}" \
             "$SLACK_WEBHOOK_URL" 2>/dev/null || true
     fi
     exit 1
+elif [ "$VERIFICATION_STATUS" = "WARNING" ]; then
+    if [ -x "${SCRIPT_DIR}/notify.sh" ]; then
+        "${SCRIPT_DIR}/notify.sh" warning backup "Verification passed with warnings"
+    fi
 fi
 
 exit 0

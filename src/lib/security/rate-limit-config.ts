@@ -34,6 +34,34 @@ export const RATE_LIMITS = {
       windowSeconds: 300, // 3 subscriptions per 5 minutes
       daily: 10,
     },
+    subscriptionCheckout: {
+      requests: 5,
+      windowSeconds: 300, // 5 checkouts per 5 minutes
+    },
+    subscriptionStatus: {
+      requests: 30,
+      windowSeconds: 60, // 30 status checks per minute
+    },
+    subscriptionUpdate: {
+      requests: 10,
+      windowSeconds: 300, // 10 updates per 5 minutes
+    },
+    subscriptionPortal: {
+      requests: 5,
+      windowSeconds: 300, // 5 portal requests per 5 minutes
+    },
+    subscriptionPlans: {
+      requests: 100,
+      windowSeconds: 60, // 100 plan requests per minute (public data)
+    },
+  },
+
+  // Admin API rate limits
+  ADMIN: {
+    subscriptionAnalytics: {
+      requests: 30,
+      windowSeconds: 60, // 30 analytics requests per minute
+    },
   },
 
   // Authentication endpoints

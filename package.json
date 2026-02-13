@@ -15,7 +15,8 @@
     "backup:list": "bash backups/scripts/restore_database.sh --list-backups",
     "backup:latest": "bash backups/scripts/restore_database.sh --latest",
     "cdn:upload": "npx tsx scripts/cdn-upload.ts",
-    "cdn:upload:dry": "npx tsx scripts/cdn-upload.ts --dry-run"
+    "cdn:upload:dry": "npx tsx scripts/cdn-upload.ts --dry-run",
+    "test:compression": "npx tsx test-compression.ts"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
@@ -42,13 +43,18 @@
     "remark-directive": "^4.0.0",
     "remark-gfm": "^4.0.1",
     "remark-parse": "^11.0.0",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
+    "stripe": "^14.25.0",
     "tailwind-merge": "^3.4.0",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
+    "web-vitals": "^5.1.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.989.0",
+    "@prisma/client": "^7.4.0",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",
@@ -56,6 +62,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "prisma": "^7.4.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

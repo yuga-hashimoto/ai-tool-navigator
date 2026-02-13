@@ -29,6 +29,9 @@ const cdnConfig = {
 const nextConfig: NextConfig = {
   output: "standalone",
   
+  // Enable compression for static assets
+  compress: true,
+  
   // Configure CDN for static files
   async headers() {
     const headers: Array<{ source: string; headers: Array<{ key: string; value: string }> }> = [];

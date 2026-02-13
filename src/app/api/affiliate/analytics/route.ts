@@ -8,102 +8,135 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-
-// In-memory storage references (use database in production)
-// These would be shared with the track/conversion routes in a real implementation
-const clickStore: Array<{
-  id: string;
-  timestamp: string;
-  toolSlug: string;
-  toolName: string;
-  affiliateId: string;
-  source: string;
-  medium: string;
-  campaign: string;
-  pageUrl: string;
-}> = [];
-
-const conversionStore: Array<{
-  id: string;
-  timestamp: string;
-  affiliateId: string;
-  toolSlug: string;
-  conversionType: string;
-  value?: number;
-  currency: string;
-}> = [];
-
-// Aggregated metrics interface
-interface AffiliateMetrics {
-  affiliateId: string;
-  clicks: number;
-  conversions: number;
-  revenue: number;
-  conversionRate: number;
-  averageOrderValue: number;
-  topCampaigns: Array<{ campaign: string; clicks: number; conversions: number }>;
-  topTools: Array<{ toolSlug: string; clicks: number; conversions: number }>;
-  dailyBreakdown: Array<{ date: string; clicks: number; conversions: number; revenue: number }>;
-}
+import { 
+  getAffiliateMetrics, 
+  getOverviewMetrics, 
+  listAffiliates,
+  initializeDemoData 
+} from "@/lib/affiliate/database";
 
 export async function GET(request: NextRequest) {
   try {
+    // Initialize demo data
+    await initializeDemoData();
+    
     const { searchParams } = new URL(request.url);
     const affiliateId = searchParams.get("affiliateId");
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
     const groupBy = searchParams.get("groupBy") || "affiliate";
+    const format = searchParams.get("format") || "json";
     
-    // Filter clicks by date range
-    const filteredClicks = clickStore.filter(click => {
-      const clickDate = new Date(click.timestamp);
-      let include = true;
-      
-      if (startDate && clickDate < new Date(startDate)) include = false;
-      if (endDate && clickDate > new Date(endDate)) include = false;
-      if (affiliateId && click.affiliateId !== affiliateId) include = false;
-      
-      return include;
-    });
+    // Parse date range
+    const parsedStartDate = startDate ? new Date(startDate) : undefined;
+    const parsedEndDate = endDate ? new Date(endDate) : undefined;
     
-    // Filter conversions by date range
-    const filteredConversions = conversionStore.filter(conv => {
-      const convDate = new Date(conv.timestamp);
-      let include = true;
-      
-      if (startDate && convDate < new Date(startDate)) include = false;
-      if (endDate && convDate > new Date(endDate)) include = false;
-      if (affiliateId && conv.affiliateId !== affiliateId) include = false;
-      
-      return include;
-    });
-    
-    // Calculate metrics based on groupBy parameter
     if (groupBy === "affiliate" && affiliateId) {
       // Return specific affiliate metrics
-      const metrics = calculateAffiliateMetrics(affiliateId, filteredClicks, filteredConversions);
-      return NextResponse.json(metrics);
+      const metrics = await getAffiliateMetrics(affiliateId, parsedStartDate, parsedEndDate);
+      
+      if (!metrics) {
+        return NextResponse.json(
+          { error: "Affiliate not found" },
+          { status: 404 }
+        );
+      }
+      
+      if (format === "csv") {
+        // Export as CSV
+        const csv = convertMetricsToCSV(metrics);
+        return new NextResponse(csv, {
+          headers: {
+            "Content-Type": "text/csv",
+            "Content-Disposition": `attachment; filename="affiliate-${affiliateId}-metrics.csv"`,
+          },
+        });
+      }
+      
+      return NextResponse.json({
+        success: true,
+        data: metrics,
+        timestamp: new Date().toISOString(),
+      });
+      
+    } else if (groupBy === "overview") {
+      // Return overview metrics
+      const overview = await getOverviewMetrics(parsedStartDate, parsedEndDate);
+      
+      if (format === "csv") {
+        const csv = convertOverviewToCSV(overview);
+        return new NextResponse(csv, {
+          headers: {
+            "Content-Type": "text/csv",
+            "Content-Disposition": `attachment; filename="affiliate-overview.csv"`,
+          },
+        });
+      }
+      
+      return NextResponse.json({
+        success: true,
+        data: overview,
+        timestamp: new Date().toISOString(),
+      });
+      
+    } else if (groupBy === "affiliates") {
+      // Return all affiliates list with summary
+      const affiliates = await listAffiliates();
+      
+      const affiliateSummaries = await Promise.all(
+        affiliates.map(async (affiliate) => {
+          const metrics = await getAffiliateMetrics(affiliate.id, parsedStartDate, parsedEndDate);
+          return {
+            id: affiliate.id,
+            name: affiliate.name,
+            slug: affiliate.slug,
+            status: affiliate.status,
+            total_clicks: metrics?.total_clicks || 0,
+            total_conversions: metrics?.total_conversions || 0,
+            total_revenue: metrics?.total_revenue || 0,
+            total_commission: metrics?.total_commission || 0,
+            conversion_rate: metrics?.conversion_rate || 0,
+          };
+        })
+      );
+      
+      return NextResponse.json({
+        success: true,
+        data: affiliateSummaries,
+        count: affiliateSummaries.length,
+        timestamp: new Date().toISOString(),
+      });
+      
     } else if (groupBy === "tool") {
       // Return metrics grouped by tool
-      const toolMetrics = calculateToolMetrics(filteredClicks, filteredConversions);
+      const overview = await getOverviewMetrics(parsedStartDate, parsedEndDate);
+      const toolMetrics = aggregateByTool(overview);
+      
       return NextResponse.json({
+        success: true,
+        data: toolMetrics,
         groupBy: "tool",
-        tools: toolMetrics,
         timestamp: new Date().toISOString(),
       });
+      
     } else if (groupBy === "campaign") {
       // Return metrics grouped by campaign
-      const campaignMetrics = calculateCampaignMetrics(filteredClicks, filteredConversions);
+      const overview = await getOverviewMetrics(parsedStartDate, parsedEndDate);
+      const campaignMetrics = aggregateByCampaign(overview);
+      
       return NextResponse.json({
+        success: true,
+        data: campaignMetrics,
         groupBy: "campaign",
-        campaigns: campaignMetrics,
         timestamp: new Date().toISOString(),
       });
+      
     } else {
-      // Return overview metrics
-      const overview = calculateOverviewMetrics(filteredClicks, filteredConversions);
+      // Default: return overview
+      const overview = await getOverviewMetrics(parsedStartDate, parsedEndDate);
       return NextResponse.json({
-        ...overview,
+        success: true,
+        data: overview,
         timestamp: new Date().toISOString(),
       });
     }
@@ -117,222 +150,114 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function calculateAffiliateMetrics(
-  affiliateId: string,
-  clicks: typeof clickStore,
-  conversions: typeof conversionStore
-): AffiliateMetrics {
-  const affiliateClicks = clicks.filter(c => c.affiliateId === affiliateId);
-  const affiliateConversions = conversions.filter(c => c.affiliateId === affiliateId);
+// CSV conversion helpers
+function convertMetricsToCSV(metrics: Awaited<ReturnType<typeof getAffiliateMetrics>>): string {
+  if (!metrics) return "";
   
-  const totalRevenue = affiliateConversions.reduce((sum, c) => sum + (c.value || 0), 0);
-  const conversionRate = affiliateClicks.length > 0 
-    ? (affiliateConversions.length / affiliateClicks.length) * 100 
-    : 0;
-  const averageOrderValue = affiliateConversions.length > 0 
-    ? totalRevenue / affiliateConversions.length 
-    : 0;
+  const headers = [
+    "Affiliate ID",
+    "Affiliate Name",
+    "Total Clicks",
+    "Unique Clicks",
+    "Total Conversions",
+    "Conversion Rate (%)",
+    "Total Revenue",
+    "Total Commission",
+    "Average Order Value",
+    "Earnings Per Click",
+  ];
   
-  // Top campaigns
-  const campaignMap = new Map<string, { clicks: number; conversions: number }>();
-  affiliateClicks.forEach(c => {
-    const existing = campaignMap.get(c.campaign || "") || { clicks: 0, conversions: 0 };
-    existing.clicks++;
-    campaignMap.set(c.campaign || "", existing);
-  });
-  affiliateConversions.forEach(c => {
-    const campaign = ""; // Would need to link conversions to campaigns
-    const existing = campaignMap.get(campaign) || { clicks: 0, conversions: 0 };
-    existing.conversions++;
-    campaignMap.set(campaign, existing);
-  });
+  const row = [
+    metrics.affiliate_id,
+    metrics.affiliate_name,
+    metrics.total_clicks.toString(),
+    metrics.unique_clicks.toString(),
+    metrics.total_conversions.toString(),
+    metrics.conversion_rate.toFixed(2),
+    metrics.total_revenue.toFixed(2),
+    metrics.total_commission.toFixed(2),
+    metrics.average_order_value.toFixed(2),
+    metrics.earnings_per_click.toFixed(4),
+  ];
   
-  const topCampaigns = Array.from(campaignMap.entries())
-    .map(([campaign, data]) => ({ campaign, ...data }))
-    .sort((a, b) => b.clicks - a.clicks)
-    .slice(0, 10);
-  
-  // Top tools
-  const toolMap = new Map<string, { clicks: number; conversions: number }>();
-  affiliateClicks.forEach(c => {
-    const existing = toolMap.get(c.toolSlug) || { clicks: 0, conversions: 0 };
-    existing.clicks++;
-    toolMap.set(c.toolSlug, existing);
-  });
-  affiliateConversions.forEach(c => {
-    const existing = toolMap.get(c.toolSlug) || { clicks: 0, conversions: 0 };
-    existing.conversions++;
-    toolMap.set(c.toolSlug, existing);
-  });
-  
-  const topTools = Array.from(toolMap.entries())
-    .map(([toolSlug, data]) => ({ toolSlug, ...data }))
-    .sort((a, b) => b.clicks - a.clicks)
-    .slice(0, 10);
-  
-  // Daily breakdown
-  const dailyMap = new Map<string, { clicks: number; conversions: number; revenue: number }>();
-  affiliateClicks.forEach(c => {
-    const date = c.timestamp.split("T")[0];
-    const existing = dailyMap.get(date) || { clicks: 0, conversions: 0, revenue: 0 };
-    existing.clicks++;
-    dailyMap.set(date, existing);
-  });
-  affiliateConversions.forEach(c => {
-    const date = c.timestamp.split("T")[0];
-    const existing = dailyMap.get(date) || { clicks: 0, conversions: 0, revenue: 0 };
-    existing.conversions++;
-    existing.revenue += c.value || 0;
-    dailyMap.set(date, existing);
-  });
-  
-  const dailyBreakdown = Array.from(dailyMap.entries())
-    .map(([date, data]) => ({ date, ...data }))
-    .sort((a, b) => a.date.localeCompare(b.date));
-  
-  return {
-    affiliateId,
-    clicks: affiliateClicks.length,
-    conversions: affiliateConversions.length,
-    revenue: totalRevenue,
-    conversionRate: Math.round(conversionRate * 100) / 100,
-    averageOrderValue: Math.round(averageOrderValue * 100) / 100,
-    topCampaigns,
-    topTools,
-    dailyBreakdown,
-  };
+  return [headers.join(","), row.join(",")].join("\n");
 }
 
-function calculateToolMetrics(
-  clicks: typeof clickStore,
-  conversions: typeof conversionStore
-) {
-  const toolMap = new Map<string, AffiliateMetrics>();
+function convertOverviewToCSV(overview: Awaited<ReturnType<typeof getOverviewMetrics>>): string {
+  const headers = [
+    "Metric",
+    "Value",
+  ];
   
-  // Aggregate by tool
-  clicks.forEach(c => {
-    const metrics = toolMap.get(c.toolSlug) || {
-      affiliateId: "all",
-      clicks: 0,
-      conversions: 0,
-      revenue: 0,
-      conversionRate: 0,
-      averageOrderValue: 0,
-      topCampaigns: [],
-      topTools: [],
-      dailyBreakdown: [],
-    };
-    metrics.clicks++;
-    toolMap.set(c.toolSlug, metrics);
+  const rows = [
+    ["Total Affiliates", overview.total_affiliates.toString()],
+    ["Active Affiliates", overview.active_affiliates.toString()],
+    ["Total Clicks", overview.total_clicks.toString()],
+    ["Total Conversions", overview.total_conversions.toString()],
+    ["Total Revenue", overview.total_revenue.toFixed(2)],
+    ["Total Commission Paid", overview.total_commission_paid.toFixed(2)],
+    ["Pending Commission", overview.pending_commission.toFixed(2)],
+    ["Overall Conversion Rate (%)", overview.overall_conversion_rate.toFixed(2)],
+    ["Average Commission Rate (%)", overview.average_commission_rate.toFixed(2)],
+  ];
+  
+  return [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+}
+
+function aggregateByTool(overview: Awaited<ReturnType<typeof getOverviewMetrics>>) {
+  const toolMap = new Map<string, {
+    toolSlug: string;
+    clicks: number;
+    conversions: number;
+    revenue: number;
+    commission: number;
+  }>();
+  
+  // Aggregate from top performers
+  overview.top_performers.forEach(affiliate => {
+    affiliate.top_tools.forEach(tool => {
+      const existing = toolMap.get(tool.tool_slug) || {
+        toolSlug: tool.tool_slug,
+        clicks: 0,
+        conversions: 0,
+        revenue: 0,
+        commission: 0,
+      };
+      existing.clicks += tool.clicks;
+      existing.conversions += tool.conversions;
+      existing.revenue += tool.revenue;
+      toolMap.set(tool.tool_slug, existing);
+    });
   });
   
-  conversions.forEach(c => {
-    const metrics = toolMap.get(c.toolSlug);
-    if (metrics) {
-      metrics.conversions++;
-      metrics.revenue += c.value || 0;
-    }
-  });
-  
-  // Calculate rates
-  toolMap.forEach(metrics => {
-    metrics.conversionRate = metrics.clicks > 0 
-      ? Math.round((metrics.conversions / metrics.clicks) * 10000) / 100 
-      : 0;
-    metrics.averageOrderValue = metrics.conversions > 0 
-      ? Math.round((metrics.revenue / metrics.conversions) * 100) / 100 
-      : 0;
-  });
-  
-  return Array.from(toolMap.entries())
-    .map(([toolSlug, metrics]) => ({ toolSlug, ...metrics }))
+  return Array.from(toolMap.values())
+    .map(({ toolSlug, ...data }) => ({ tool_slug: toolSlug, ...data }))
     .sort((a, b) => b.clicks - a.clicks);
 }
 
-function calculateCampaignMetrics(
-  clicks: typeof clickStore,
-  conversions: typeof conversionStore
-) {
-  const campaignMap = new Map<string, { clicks: number; conversions: number; revenue: number }>();
+function aggregateByCampaign(overview: Awaited<ReturnType<typeof getOverviewMetrics>>) {
+  const campaignMap = new Map<string, {
+    campaign: string;
+    clicks: number;
+    conversions: number;
+    revenue: number;
+  }>();
   
-  clicks.forEach(c => {
-    const campaign = c.campaign || "(none)";
-    const existing = campaignMap.get(campaign) || { clicks: 0, conversions: 0, revenue: 0 };
-    existing.clicks++;
-    campaignMap.set(campaign, existing);
+  overview.top_performers.forEach(affiliate => {
+    affiliate.top_campaigns.forEach(campaign => {
+      const existing = campaignMap.get(campaign.campaign) || {
+        campaign: campaign.campaign,
+        clicks: 0,
+        conversions: 0,
+        revenue: 0,
+      };
+      existing.clicks += campaign.clicks;
+      existing.conversions += campaign.conversions;
+      existing.revenue += campaign.revenue;
+      campaignMap.set(campaign.campaign, existing);
+    });
   });
   
-  conversions.forEach(c => {
-    const campaign = ""; // Would need to link conversions to campaigns
-    const existing = campaignMap.get(campaign) || { clicks: 0, conversions: 0, revenue: 0 };
-    existing.conversions++;
-    existing.revenue += c.value || 0;
-    campaignMap.set(campaign, existing);
-  });
-  
-  return Array.from(campaignMap.entries())
-    .map(([campaign, data]) => ({ campaign, ...data }))
+  return Array.from(campaignMap.values())
     .sort((a, b) => b.clicks - a.clicks);
-}
-
-function calculateOverviewMetrics(
-  clicks: typeof clickStore,
-  conversions: typeof conversionStore
-) {
-  const totalRevenue = conversions.reduce((sum, c) => sum + (c.value || 0), 0);
-  const uniqueAffiliates = new Set(clicks.map(c => c.affiliateId)).size;
-  
-  // Daily trends
-  const dailyMap = new Map<string, { clicks: number; conversions: number; revenue: number }>();
-  clicks.forEach(c => {
-    const date = c.timestamp.split("T")[0];
-    const existing = dailyMap.get(date) || { clicks: 0, conversions: 0, revenue: 0 };
-    existing.clicks++;
-    dailyMap.set(date, existing);
-  });
-  conversions.forEach(c => {
-    const date = c.timestamp.split("T")[0];
-    const existing = dailyMap.get(date) || { clicks: 0, conversions: 0, revenue: 0 };
-    existing.conversions++;
-    existing.revenue += c.value || 0;
-    dailyMap.set(date, existing);
-  });
-  
-  const trends = Array.from(dailyMap.entries())
-    .map(([date, data]) => ({ date, ...data }))
-    .sort((a, b) => a.date.localeCompare(b.date));
-  
-  // Top performing affiliates
-  const affiliateMap = new Map<string, { clicks: number; conversions: number; revenue: number }>();
-  clicks.forEach(c => {
-    const existing = affiliateMap.get(c.affiliateId) || { clicks: 0, conversions: 0, revenue: 0 };
-    existing.clicks++;
-    affiliateMap.set(c.affiliateId, existing);
-  });
-  conversions.forEach(c => {
-    const existing = affiliateMap.get(c.affiliateId) || { clicks: 0, conversions: 0, revenue: 0 };
-    existing.conversions++;
-    existing.revenue += c.value || 0;
-    affiliateMap.set(c.affiliateId, existing);
-  });
-  
-  const topAffiliates = Array.from(affiliateMap.entries())
-    .map(([affiliateId, data]) => ({ affiliateId, ...data }))
-    .sort((a, b) => b.clicks - a.clicks)
-    .slice(0, 10);
-  
-  return {
-    totalClicks: clicks.length,
-    totalConversions: conversions.length,
-    totalRevenue,
-    uniqueAffiliates,
-    conversionRate: clicks.length > 0 
-      ? Math.round((conversions.length / clicks.length) * 10000) / 100 
-      : 0,
-    averageOrderValue: conversions.length > 0 
-      ? Math.round((totalRevenue / conversions.length) * 100) / 100 
-      : 0,
-    topAffiliates,
-    trends,
-  };
 }

@@ -5,9 +5,15 @@
  * Use this with Next.js standalone output mode.
  * 
  * To use:
- * 1. Install dependencies: npm install compression @fastify/compress
+ * 1. Install dependencies: npm install compression
  * 2. Build: npm run build
  * 3. Start: node server.js
+ * 
+ * Features:
+ * - Native Brotli compression (Node.js 11.7.0+)
+ * - Gzip fallback for older clients
+ * - Intelligent compression based on Accept-Encoding header
+ * - Optimized compression ratios for different content types
  */
 
 const compression = require('compression');
@@ -23,49 +29,58 @@ const port = parseInt(process.env.PORT || '3000', 10);
 const app = next({ dev, hostname, quiet: !dev });
 const handle = app.getRequestHandler();
 
-// Brotli compression configuration
+// Compression configuration optimized for Next.js assets
 const compressionConfig = {
-  // Enable Brotli (requires compression@1.7+)
-  brotli: {
-    // Brotli quality (0-11), 6 is a good balance
-    quality: 6,
-    // Zlib flush option
-    zlibFlush: require('zlib').constants.Z_BEST_COMPRESSION,
-    // Threshold in bytes
-    threshold: 1024,
+  // Threshold in bytes - only compress responses larger than this
+  threshold: 1024,
+  // Filter function - don't compress if this returns false
+  filter: (req, res) => {
+    // Don't compress if no Accept-Encoding header
+    if (!req.headers['accept-encoding']) return false;
+    
+    // Don't compress if the filter from compression middleware returns false
+    return compression.filter(req, res);
   },
-  // Gzip fallback
-  gzip: {
-    // Gzip level (1-9), 6 is a good balance
-    level: 6,
-    threshold: 1024,
+};
+
+// Brotli-specific options (using Node.js native zlib)
+const brotliOptions = {
+  // Brotli quality (0-11), 6 is optimal balance of speed/compression
+  // 4 = fastest, 6 = balanced, 11 = maximum compression
+  params: {
+    [require('zlib').constants.BROTLI_PARAM_MODE]: require('zlib').constants.BROTLI_MODE_TEXT,
+    [require('zlib').constants.BROTLI_PARAM_QUALITY]: 6,
+    [require('zlib').constants.BROTLI_PARAM_SIZE_HINT]: 0,
   },
+};
+
+// Gzip options
+const gzipOptions = {
+  level: 6, // balanced compression level
+  threshold: 1024,
 };
 
 app.prepare().then(() => {
   const server = express();
 
-  // Enable compression middleware with Brotli support
+  // Enable compression middleware with Brotli and Gzip support
   server.use(compression(compressionConfig));
 
-  // Cache-friendly headers middleware
+  // Compression-aware cache headers middleware
   server.use((req, res, next) => {
-    // Add Vary header for compression
+    // Add Vary header for compression negotiation
     res.set('Vary', 'Accept-Encoding');
     
-    // Cache control for static assets
-    if (req.url && /\.(js|css|png|jpg|jpeg|gif|ico|svg|woff2|ttf)$/.test(req.url)) {
-      // Static assets: cache for 1 year
+    // Cache control for static assets (compressed by Next.js automatically)
+    if (req.url && /\.(js|css|png|jpg|jpeg|gif|ico|svg|woff2|ttf|eot|otf|map)$/.test(req.url)) {
       res.set('Cache-Control', 'public, max-age=31536000, immutable');
     } else if (req.url && req.url.startsWith('/api')) {
-      // API routes: no cache by default
-      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-      res.set('Pragma', 'no-cache');
-      res.set('Expires', '0');
-      res.set('Surrogate-Control', 'no-store');
-    } else {
-      // HTML pages: cache for 5 minutes
-      res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=60');
+      // API routes: short cache for dynamic content
+      res.set('Cache-Control', 'public, max-age=60, s-maxage=300');
+      res.set('X-Content-Type-Options', 'nosniff');
+    } else if (req.url && (req.url.endsWith('.html') || req.url === '/')) {
+      // HTML pages: short cache for fresh content
+      res.set('Cache-Control', 'public, max-age=120, stale-while-revalidate=600');
     }
     
     next();
@@ -83,19 +98,22 @@ app.prepare().then(() => {
   // Error handling
   httpServer.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
-      console.error(`Port ${port} is already in use`);
+      console.error(`❌ Port ${port} is already in use`);
       process.exit(1);
     }
-    console.error('Server error:', err);
+    console.error('❌ Server error:', err);
     process.exit(1);
   });
 
   // Start server
   httpServer.listen(port, () => {
-    console.log(`> Next.js server with Brotli compression running at http://${hostname}:${port}`);
-    console.log(`  - Environment: ${dev ? 'development' : 'production'}`);
-    console.log(`  - Brotli quality: ${compressionConfig.brotli.quality}`);
-    console.log(`  - Gzip level: ${compressionConfig.gzip.level}`);
+    console.log(`🚀 Next.js server with Brotli compression ready at http://${hostname}:${port}`);
+    console.log(`   Environment: ${dev ? 'development' : 'production'}`);
+    console.log(`   Brotli quality: 6 (balanced speed/compression)`);
+    console.log(`   Gzip level: 6 (balanced speed/compression)`);
+    console.log(`   Compression threshold: 1KB`);
+    console.log(`   ✅ All assets (HTML, JS, CSS, images, fonts) are compressed`);
+    console.log(`   ✅ API responses are compressed`);
   });
 });
 

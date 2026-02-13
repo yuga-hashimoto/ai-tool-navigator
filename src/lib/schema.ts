@@ -731,6 +731,53 @@ export function generateNewsArticleSchema(article: {
 }
 
 // =====================================================
+// PERSON SCHEMA
+// =====================================================
+export function generatePersonSchema(person: {
+  name: string;
+  url?: string;
+  jobTitle?: string;
+  worksFor?: string;
+  description?: string;
+  image?: string;
+  sameAs?: string[];
+}) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const schema: any = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": person.name,
+    "url": person.url || SITE_URL
+  };
+
+  if (person.jobTitle) {
+    schema.jobTitle = person.jobTitle;
+  }
+
+  if (person.worksFor) {
+    schema.worksFor = {
+      "@type": "Organization",
+      "name": person.worksFor,
+      "url": SITE_URL
+    };
+  }
+
+  if (person.description) {
+    schema.description = person.description;
+  }
+
+  if (person.image) {
+    schema.image = `${SITE_URL}${person.image}`;
+  }
+
+  if (person.sameAs && person.sameAs.length > 0) {
+    schema.sameAs = person.sameAs;
+  }
+
+  return schema;
+}
+
+// =====================================================
 // AboutPage Organization Schema
 // =====================================================
 export function generateAboutPageSchema() {
@@ -753,4 +800,69 @@ export function generateAboutPageSchema() {
       ]
     }
   };
+}
+
+// =====================================================
+// DYNAMIC SCHEMA GENERATION HELPERS
+// =====================================================
+
+/**
+ * Generates all applicable schemas for a given page type
+ * Useful for comprehensive schema coverage
+ */
+export function generatePageSchemas(pageType: string, data: Record<string, unknown>, locale: string = 'en') {
+  switch (pageType) {
+    case 'homepage':
+      return [
+        generateOrganizationSchema(),
+        generateSearchBoxSchema(locale),
+        generatePlatformSchema(typeof data.description === 'string' ? data.description : '', locale)
+      ];
+    case 'tool':
+      return [
+        generateToolSchema(data.tool as Tool),
+        generateProductSchema(data.tool as Tool),
+        generateBreadcrumbSchema(data.breadcrumbItems as BreadcrumbItem[], locale)
+      ];
+    case 'blog':
+      return [
+        generateBlogPostSchema(data.post as Post, data.url as string),
+        generateBreadcrumbSchema(data.breadcrumbItems as BreadcrumbItem[], locale)
+      ];
+    case 'category':
+      return [
+        generateCollectionPageSchema(data.collection as { name: string; description: string; url: string; itemCount: number; image?: string }),
+        generateBreadcrumbSchema(data.breadcrumbItems as BreadcrumbItem[], locale)
+      ];
+    case 'about':
+      return [
+        generateAboutPageSchema(),
+        generateOrganizationSchema()
+      ];
+    default:
+      return [];
+  }
+}
+
+/**
+ * Validates basic schema structure
+ * Returns array of validation errors (empty if valid)
+ */
+export function validateSchema(schema: Record<string, unknown>): string[] {
+  const errors: string[] = [];
+
+  if (!schema['@context']) {
+    errors.push('Missing @context');
+  }
+
+  if (!schema['@type']) {
+    errors.push('Missing @type');
+  }
+
+  // Check for @context validity
+  if (schema['@context'] && schema['@context'] !== 'https://schema.org') {
+    errors.push('Invalid @context value');
+  }
+
+  return errors;
 }

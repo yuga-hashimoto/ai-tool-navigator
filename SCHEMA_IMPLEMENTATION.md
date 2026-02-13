@@ -13,7 +13,12 @@ All pages include structured data markup using Schema.org vocabulary to enhance 
 - **Purpose**: Defines the website organization for Google Knowledge Graph
 - **Fields**: name, url, logo, description, foundingDate, sameAs links, contactPoint
 
-### 2. WebSite + SearchAction Schema
+### 2. Person Schema
+- **Location**: Blog posts, author pages, reviews
+- **Purpose**: Structured data for individual authors and contributors
+- **Fields**: name, url, jobTitle, worksFor, description, image, sameAs
+
+### 3. WebSite + SearchAction Schema
 - **Location**: Global (layout.tsx)
 - **Purpose**: Enables sitelinks search box in search results
 - **Fields**: name, url, potentialAction for search
@@ -95,6 +100,24 @@ const reviewSchema = generateReviewSchema({
 });
 ```
 
+### Person Schema
+```typescript
+import { generatePersonSchema } from "@/lib/schema";
+
+const personSchema = generatePersonSchema({
+  name: "John Doe",
+  url: "https://example.com/about/john-doe",
+  jobTitle: "Senior AI Writer",
+  worksFor: "AI Tool Navigator",
+  description: "Expert in AI tools and automation",
+  image: "/images/authors/john-doe.jpg",
+  sameAs: [
+    "https://twitter.com/johndoe",
+    "https://github.com/johndoe"
+  ]
+});
+```
+
 ### AggregateReview Schema
 ```typescript
 import { generateAggregateReviewSchema } from "@/lib/schema";
@@ -163,6 +186,59 @@ export default async function ToolPage({ params }) {
 
 ### Schema.org Validator
 Use the [Schema.org Validator](https://validator.schema.org/) to verify your markup.
+
+### Local Validation
+Use the built-in validation function to catch common issues:
+```typescript
+import { validateSchema, generatePageSchemas } from "@/lib/schema";
+
+// Generate schemas for a page
+const schemas = generatePageSchemas('homepage', { description: 'My site' }, 'en');
+
+// Validate each schema
+for (const schema of schemas) {
+  const errors = validateSchema(schema);
+  if (errors.length > 0) {
+    console.error('Schema validation errors:', errors);
+  }
+}
+```
+
+## Dynamic Schema Generation
+
+### Using generatePageSchemas()
+The `generatePageSchemas()` function automatically generates all applicable schemas for common page types:
+
+```typescript
+import { generatePageSchemas } from "@/lib/schema";
+
+// Homepage schemas (Organization + SearchBox + WebApplication)
+const homepageSchemas = generatePageSchemas('homepage', { 
+  description: 'Discover AI tools' 
+}, 'en');
+
+// Tool page schemas (SoftwareApplication + Product + Breadcrumb)
+const toolSchemas = generatePageSchemas('tool', { 
+  tool: toolData, 
+  breadcrumbItems: breadcrumbItems 
+}, 'en');
+
+// Blog post schemas (Article + Breadcrumb)
+const blogSchemas = generatePageSchemas('blog', { 
+  post: postData, 
+  url: 'https://example.com/blog/post',
+  breadcrumbItems: breadcrumbItems 
+}, 'en');
+
+// Render all schemas
+{schemas.map((schema, index) => (
+  <script
+    key={index}
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+  />
+))}
+```
 
 ## Best Practices
 

@@ -135,11 +135,17 @@ echo "[INFO] Old backups cleaned up"
 # Send notification
 END_TIME=$(date +%s)
 DURATION=$((END_TIME - START_TIME))
+export DURATION="${DURATION}"
+export BACKUP_SIZE="${BACKUP_SIZE:-Unknown}"
 
-if [ -n "$SLACK_WEBHOOK_URL" ]; then
-    curl -s -X POST -H 'Content-type: application/json' \
-        --data "{\"text\":\"✅ Database backup completed successfully!\n*Database:* ${DB_NAME}\n*Size:* ${BACKUP_SIZE}\n*Duration:* ${DURATION}s\n*File:* ${FINAL_FILE}\"}" \
-        "$SLACK_WEBHOOK_URL" 2>/dev/null || true
+if [ -x "${SCRIPT_DIR}/notify.sh" ]; then
+    "${SCRIPT_DIR}/notify.sh" success full
+else
+    if [ -n "$SLACK_WEBHOOK_URL" ]; then
+        curl -s -X POST -H 'Content-type: application/json' \
+            --data "{\"text\":\"✅ Database backup completed successfully!\n*Database:* ${DB_NAME}\n*Size:* ${BACKUP_SIZE}\n*Duration:* ${DURATION}s\n*File:* ${FINAL_FILE}\"}" \
+            "$SLACK_WEBHOOK_URL" 2>/dev/null || true
+    fi
 fi
 
 echo "[INFO] Backup completed successfully!"

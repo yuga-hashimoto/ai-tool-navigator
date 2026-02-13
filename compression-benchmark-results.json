@@ -1,476 +1,94 @@
 {
-  "small-html": {
-    "brotli": [
-      {
-        "level": 1,
-        "originalSize": 114,
-        "compressedSize": 114,
-        "ratio": null,
-        "time": 2.707,
-        "throughput": 41.12
+  "HTML Document": {
+    "original": 705,
+    "brotli": {
+      "level6": {
+        "size": 236,
+        "ratio": 66.5
       },
-      {
-        "level": 4,
-        "originalSize": 114,
-        "compressedSize": 80,
-        "ratio": null,
-        "time": 0.399,
-        "throughput": 279.37
-      },
-      {
-        "level": 6,
-        "originalSize": 114,
-        "compressedSize": 79,
-        "ratio": null,
-        "time": 0.319,
-        "throughput": 348.54
-      },
-      {
-        "level": 9,
-        "originalSize": 114,
-        "compressedSize": 79,
-        "ratio": null,
-        "time": 0.482,
-        "throughput": 230.85
-      },
-      {
-        "level": 11,
-        "originalSize": 114,
-        "compressedSize": 73,
-        "ratio": null,
-        "time": 1.056,
-        "throughput": 105.37
+      "level11": {
+        "size": 206,
+        "ratio": 70.8
       }
-    ],
-    "gzip": [
-      {
-        "level": 1,
-        "originalSize": 114,
-        "compressedSize": 109,
-        "ratio": null,
-        "time": 0.869,
-        "throughput": 128.08
+    },
+    "gzip": {
+      "level6": {
+        "size": 306,
+        "ratio": 56.6
       },
-      {
-        "level": 4,
-        "originalSize": 114,
-        "compressedSize": 107,
-        "ratio": null,
-        "time": 0.194,
-        "throughput": 573.12
-      },
-      {
-        "level": 6,
-        "originalSize": 114,
-        "compressedSize": 107,
-        "ratio": null,
-        "time": 0.175,
-        "throughput": 636.01
-      },
-      {
-        "level": 9,
-        "originalSize": 114,
-        "compressedSize": 107,
-        "ratio": null,
-        "time": 0.131,
-        "throughput": 848.75
+      "level9": {
+        "size": 306,
+        "ratio": 56.6
       }
-    ],
-    "originalSize": 114
+    }
   },
-  "medium-json": {
-    "brotli": [
-      {
-        "level": 1,
-        "originalSize": 4073,
-        "compressedSize": 121,
-        "ratio": null,
-        "time": 0.215,
-        "throughput": 18471.57
+  "JSON API Response": {
+    "original": 17022,
+    "brotli": {
+      "level6": {
+        "size": 392,
+        "ratio": 97.7
       },
-      {
-        "level": 4,
-        "originalSize": 4073,
-        "compressedSize": 105,
-        "ratio": null,
-        "time": 0.689,
-        "throughput": 5772.57
-      },
-      {
-        "level": 6,
-        "originalSize": 4073,
-        "compressedSize": 104,
-        "ratio": null,
-        "time": 0.181,
-        "throughput": 21929.92
-      },
-      {
-        "level": 9,
-        "originalSize": 4073,
-        "compressedSize": 104,
-        "ratio": null,
-        "time": 0.34,
-        "throughput": 11698.64
-      },
-      {
-        "level": 11,
-        "originalSize": 4073,
-        "compressedSize": 97,
-        "ratio": null,
-        "time": 1.46,
-        "throughput": 2725.28
+      "level11": {
+        "size": 375,
+        "ratio": 97.8
       }
-    ],
-    "gzip": [
-      {
-        "level": 1,
-        "originalSize": 4073,
-        "compressedSize": 156,
-        "ratio": null,
-        "time": 0.205,
-        "throughput": 19410.49
+    },
+    "gzip": {
+      "level6": {
+        "size": 582,
+        "ratio": 96.6
       },
-      {
-        "level": 4,
-        "originalSize": 4073,
-        "compressedSize": 140,
-        "ratio": null,
-        "time": 0.143,
-        "throughput": 27750.14
-      },
-      {
-        "level": 6,
-        "originalSize": 4073,
-        "compressedSize": 140,
-        "ratio": null,
-        "time": 0.135,
-        "throughput": 29436
-      },
-      {
-        "level": 9,
-        "originalSize": 4073,
-        "compressedSize": 140,
-        "ratio": null,
-        "time": 0.139,
-        "throughput": 28666.95
+      "level9": {
+        "size": 582,
+        "ratio": 96.6
       }
-    ],
-    "originalSize": 4073
+    }
   },
-  "large-css": {
-    "brotli": [
-      {
-        "level": 1,
-        "originalSize": 200,
-        "compressedSize": 20,
-        "ratio": null,
-        "time": 0.09,
-        "throughput": 2169.15
+  "CSS Stylesheet": {
+    "original": 3879,
+    "brotli": {
+      "level6": {
+        "size": 392,
+        "ratio": 89.9
       },
-      {
-        "level": 4,
-        "originalSize": 200,
-        "compressedSize": 10,
-        "ratio": null,
-        "time": 0.072,
-        "throughput": 2700.19
-      },
-      {
-        "level": 6,
-        "originalSize": 200,
-        "compressedSize": 10,
-        "ratio": null,
-        "time": 0.079,
-        "throughput": 2481.48
-      },
-      {
-        "level": 9,
-        "originalSize": 200,
-        "compressedSize": 10,
-        "ratio": null,
-        "time": 0.072,
-        "throughput": 2695.53
-      },
-      {
-        "level": 11,
-        "originalSize": 200,
-        "compressedSize": 11,
-        "ratio": null,
-        "time": 0.564,
-        "throughput": 346.32
+      "level11": {
+        "size": 352,
+        "ratio": 90.9
       }
-    ],
-    "gzip": [
-      {
-        "level": 1,
-        "originalSize": 200,
-        "compressedSize": 24,
-        "ratio": null,
-        "time": 0.125,
-        "throughput": 1565.1
+    },
+    "gzip": {
+      "level6": {
+        "size": 476,
+        "ratio": 87.7
       },
-      {
-        "level": 4,
-        "originalSize": 200,
-        "compressedSize": 24,
-        "ratio": null,
-        "time": 0.136,
-        "throughput": 1433.06
-      },
-      {
-        "level": 6,
-        "originalSize": 200,
-        "compressedSize": 24,
-        "ratio": null,
-        "time": 0.086,
-        "throughput": 2266.7
-      },
-      {
-        "level": 9,
-        "originalSize": 200,
-        "compressedSize": 24,
-        "ratio": null,
-        "time": 0.088,
-        "throughput": 2218.43
+      "level9": {
+        "size": 474,
+        "ratio": 87.8
       }
-    ],
-    "originalSize": 200
+    }
   },
-  "large-js": {
-    "brotli": [
-      {
-        "level": 1,
-        "originalSize": 92499,
-        "compressedSize": 175,
-        "ratio": null,
-        "time": 0.16,
-        "throughput": 565601.31
+  "JavaScript Module": {
+    "original": 4500,
+    "brotli": {
+      "level6": {
+        "size": 706,
+        "ratio": 84.3
       },
-      {
-        "level": 4,
-        "originalSize": 92499,
-        "compressedSize": 152,
-        "ratio": null,
-        "time": 0.248,
-        "throughput": 363809.77
-      },
-      {
-        "level": 6,
-        "originalSize": 92499,
-        "compressedSize": 144,
-        "ratio": null,
-        "time": 0.335,
-        "throughput": 269981.01
-      },
-      {
-        "level": 9,
-        "originalSize": 92499,
-        "compressedSize": 142,
-        "ratio": null,
-        "time": 0.364,
-        "throughput": 247934.74
-      },
-      {
-        "level": 11,
-        "originalSize": 92499,
-        "compressedSize": 142,
-        "ratio": null,
-        "time": 5.298,
-        "throughput": 17051.37
+      "level11": {
+        "size": 654,
+        "ratio": 85.5
       }
-    ],
-    "gzip": [
-      {
-        "level": 1,
-        "originalSize": 92499,
-        "compressedSize": 924,
-        "ratio": null,
-        "time": 0.288,
-        "throughput": 313649.5
+    },
+    "gzip": {
+      "level6": {
+        "size": 798,
+        "ratio": 82.3
       },
-      {
-        "level": 4,
-        "originalSize": 92499,
-        "compressedSize": 549,
-        "ratio": null,
-        "time": 0.484,
-        "throughput": 186570.42
-      },
-      {
-        "level": 6,
-        "originalSize": 92499,
-        "compressedSize": 549,
-        "ratio": null,
-        "time": 0.49,
-        "throughput": 184380.32
-      },
-      {
-        "level": 9,
-        "originalSize": 92499,
-        "compressedSize": 549,
-        "ratio": null,
-        "time": 0.481,
-        "throughput": 187928.55
+      "level9": {
+        "size": 796,
+        "ratio": 82.3
       }
-    ],
-    "originalSize": 92499
-  },
-  "html-markdown": {
-    "brotli": [
-      {
-        "level": 1,
-        "originalSize": 14398,
-        "compressedSize": 139,
-        "ratio": null,
-        "time": 0.139,
-        "throughput": 101124.46
-      },
-      {
-        "level": 4,
-        "originalSize": 14398,
-        "compressedSize": 113,
-        "ratio": null,
-        "time": 0.174,
-        "throughput": 80730.26
-      },
-      {
-        "level": 6,
-        "originalSize": 14398,
-        "compressedSize": 112,
-        "ratio": null,
-        "time": 0.157,
-        "throughput": 89486.38
-      },
-      {
-        "level": 9,
-        "originalSize": 14398,
-        "compressedSize": 112,
-        "ratio": null,
-        "time": 0.267,
-        "throughput": 52677.6
-      },
-      {
-        "level": 11,
-        "originalSize": 14398,
-        "compressedSize": 109,
-        "ratio": null,
-        "time": 1.358,
-        "throughput": 10352.91
-      }
-    ],
-    "gzip": [
-      {
-        "level": 1,
-        "originalSize": 14398,
-        "compressedSize": 268,
-        "ratio": null,
-        "time": 0.174,
-        "throughput": 80749.73
-      },
-      {
-        "level": 4,
-        "originalSize": 14398,
-        "compressedSize": 206,
-        "ratio": null,
-        "time": 0.153,
-        "throughput": 91624.13
-      },
-      {
-        "level": 6,
-        "originalSize": 14398,
-        "compressedSize": 206,
-        "ratio": null,
-        "time": 0.145,
-        "throughput": 96857.74
-      },
-      {
-        "level": 9,
-        "originalSize": 14398,
-        "compressedSize": 206,
-        "ratio": null,
-        "time": 0.14,
-        "throughput": 100731.8
-      }
-    ],
-    "originalSize": 14398
-  },
-  "api-response": {
-    "brotli": [
-      {
-        "level": 1,
-        "originalSize": 18025,
-        "compressedSize": 130,
-        "ratio": null,
-        "time": 0.114,
-        "throughput": 154520.74
-      },
-      {
-        "level": 4,
-        "originalSize": 18025,
-        "compressedSize": 106,
-        "ratio": null,
-        "time": 0.117,
-        "throughput": 150180.78
-      },
-      {
-        "level": 6,
-        "originalSize": 18025,
-        "compressedSize": 103,
-        "ratio": null,
-        "time": 0.135,
-        "throughput": 130470.36
-      },
-      {
-        "level": 9,
-        "originalSize": 18025,
-        "compressedSize": 103,
-        "ratio": null,
-        "time": 0.227,
-        "throughput": 77515.54
-      },
-      {
-        "level": 11,
-        "originalSize": 18025,
-        "compressedSize": 116,
-        "ratio": null,
-        "time": 1.867,
-        "throughput": 9426.77
-      }
-    ],
-    "gzip": [
-      {
-        "level": 1,
-        "originalSize": 18025,
-        "compressedSize": 257,
-        "ratio": null,
-        "time": 0.163,
-        "throughput": 108018.87
-      },
-      {
-        "level": 4,
-        "originalSize": 18025,
-        "compressedSize": 204,
-        "ratio": null,
-        "time": 0.234,
-        "throughput": 75278.25
-      },
-      {
-        "level": 6,
-        "originalSize": 18025,
-        "compressedSize": 204,
-        "ratio": null,
-        "time": 0.183,
-        "throughput": 96364.62
-      },
-      {
-        "level": 9,
-        "originalSize": 18025,
-        "compressedSize": 204,
-        "ratio": null,
-        "time": 0.149,
-        "throughput": 118369.82
-      }
-    ],
-    "originalSize": 18025
+    }
   }
 }

@@ -5,6 +5,7 @@ import { validateHoneypot, HONEYPOT_FIELDS } from '@/lib/security/honeypot';
 import { logFormSubmission } from '@/lib/security/audit-log';
 import { getClientIP } from '@/lib/security/bot-detection';
 import { trackRequest } from '@/lib/security/anomaly-detection';
+import { setApiCompressionHeaders } from '@/lib/compression/headers';
 
 export async function POST(request: NextRequest) {
   const ip = getClientIP(request);

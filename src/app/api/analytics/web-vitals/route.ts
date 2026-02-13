@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { WebVitalsMetrics } from "@/hooks/useWebVitals";
+import { checkRateLimit } from "@/lib/security/rate-limiter";
+import { getClientIP } from "@/lib/security/bot-detection";
+import { ENDPOINT_CONFIGS } from "@/lib/security/rate-limit-config-v2";
 
 // In-memory storage for demo purposes
 // In production, use a database like Redis, PostgreSQL, or Upstash
@@ -19,7 +22,29 @@ const MAX_STORE_SIZE = 1000;
 const MAX_ALERTS_SIZE = 100;
 
 export async function POST(request: NextRequest) {
+  const ip = getClientIP(request);
+  
   try {
+    // Check rate limit
+    const config = ENDPOINT_CONFIGS['/api/analytics/web-vitals'];
+    const rateLimit = await checkRateLimit(
+      `analytics:web-vitals:${ip}`,
+      config?.limit || 100,
+      config?.windowSeconds || 60
+    );
+    
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: "Too many metric submissions", message: "Please try again later" },
+        { 
+          status: 429,
+          headers: {
+            'Retry-After': String(Math.ceil((rateLimit.resetTime - Date.now()) / 1000)),
+          }
+        }
+      );
+    }
+    
     const metric: WebVitalsMetrics = await request.json();
 
     // Validate required fields
@@ -63,6 +88,7 @@ export async function POST(request: NextRequest) {
       success: true,
       message: "Metric received",
       metricId: metric.id,
+      remaining: rateLimit.remaining,
     });
   } catch (error) {
     console.error("[Web Vitals API] Error:", error);

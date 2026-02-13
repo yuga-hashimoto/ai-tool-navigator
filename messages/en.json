@@ -295,5 +295,16 @@
     "daysAgo": "{count}d ago",
     "emptyTitle": "No recent tools yet",
     "emptyDescription": "Tools you view will appear here for quick access"
+  },
+  "admin": {
+    "nav": {
+      "security": "Security",
+      "performance": "Performance",
+      "affiliate": "Affiliate"
+    },
+    "status": {
+      "rateLimitingEnabled": "Rate limiting enabled",
+      "active": "Active"
+    }
   }
 }

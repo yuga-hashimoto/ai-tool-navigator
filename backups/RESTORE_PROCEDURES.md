@@ -10,15 +10,15 @@ This document describes the backup and restore procedures for the PostgreSQL dat
 
 | Type | Frequency | Retention | Use Case |
 |------|-----------|-----------|----------|
-| Full Backup | Daily (2:00 AM) | 30 days | Complete database snapshot |
+| Full Backup | Daily (2:00 AM) | 7 days | Complete database snapshot |
 | Incremental | Every 6 hours | 7 days | Point-in-time recovery |
-| WAL Archives | Continuous | 30 days | Point-in-time recovery |
+| WAL Archives | Continuous | 7 days | Point-in-time recovery |
 
 ### Retention Policy
 
-- **Daily backups**: Keep last 30 days
-- **Weekly backups**: Keep last 8 weeks
-- **Monthly backups**: Keep last 12 months
+- **Daily backups**: Keep last 7 days
+- **Weekly backups**: Keep last 4 weeks
+- **Monthly backups**: Keep last 3 months
 
 ## Prerequisites
 

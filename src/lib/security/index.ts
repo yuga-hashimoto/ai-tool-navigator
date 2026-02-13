@@ -5,6 +5,8 @@ export * from './rate-limit-config';
 
 // Rate limiting
 export * from './rate-limiter';
+export * from './rate-limit-middleware';
+export * from './rate-limit-config-v2';
 
 // Bot detection
 export * from './bot-detection';

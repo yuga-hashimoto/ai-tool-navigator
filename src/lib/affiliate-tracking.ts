@@ -2,11 +2,12 @@
  * Affiliate Tracking and Attribution Library
  * 
  * This module provides utilities for tracking affiliate link clicks,
- * attribution management, and conversion tracking.
+ * referrer tracking, attribution management, and conversion tracking.
  * 
  * Privacy Compliance:
  * - GDPR: Minimizes personal data, provides opt-out mechanisms
  * - CCPA: California consumer privacy considerations
+ * - Browser compatibility: Supports Safari ITP, Firefox ETP
  */
 
 import { sendGAEvent } from "./analytics";
@@ -19,6 +20,8 @@ export interface AffiliateConfig {
   contentParam: string;
   termParam: string;
   cookieRetentionDays: number;
+  sessionTimeoutMinutes: number;
+  referrerExcludedDomains: string[];
 }
 
 // Default configuration
@@ -29,6 +32,12 @@ export const defaultAffiliateConfig: AffiliateConfig = {
   contentParam: "utm_content",
   termParam: "utm_term",
   cookieRetentionDays: 90, // 90 days for affiliate attribution window
+  sessionTimeoutMinutes: 30, // Session timeout for tracking
+  referrerExcludedDomains: [
+    'localhost',
+    '127.0.0.1',
+    '',
+  ],
 };
 
 // Tracking event types
@@ -47,7 +56,7 @@ export type AttributionModel =
   | "time_decay"
   | "position_based";
 
-// Affiliate click event data
+// Enhanced click event data with referrer tracking
 export interface AffiliateClickData {
   toolSlug: string;
   toolName: string;
@@ -59,9 +68,19 @@ export interface AffiliateClickData {
   term?: string;
   timestamp: string;
   referrer?: string;
+  referrerDomain?: string;
+  referrerSearchTerm?: string;
+  referrerSocialPlatform?: string;
   userAgent?: string;
+  userAgentBrowser?: string;
+  userAgentOS?: string;
+  userAgentDevice?: string;
   pageUrl: string;
   position?: string;
+  sessionId?: string;
+  ipHash?: string;
+  country?: string;
+  language?: string;
 }
 
 // Conversion event data
@@ -74,9 +93,11 @@ export interface AffiliateConversionData {
   attributionModel: AttributionModel;
   attributedAffiliateId?: string;
   timestamp: string;
+  orderId?: string;
+  couponCode?: string;
 }
 
-// Attribution data stored in cookies
+// Attribution data stored in cookies/localStorage
 export interface AttributionData {
   affiliateId: string;
   source: string;
@@ -88,11 +109,25 @@ export interface AttributionData {
   lastTouchTimestamp: string;
   conversions: number;
   totalValue: number;
+  sessionId: string;
+  clickCount: number;
+}
+
+// Enhanced attribution with referrer data
+export interface EnhancedAttributionData extends AttributionData {
+  referrer?: string;
+  referrerDomain?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
 }
 
 // Cookie names
 const ATTRIBUTION_COOKIE_NAME = "affiliate_attribution";
 const CLICK_HISTORY_COOKIE_NAME = "affiliate_clicks";
+const SESSION_COOKIE_NAME = "affiliate_session";
 
 /**
  * Get attribution cookie name with locale prefix
@@ -106,6 +141,13 @@ export function getAttributionCookieName(locale?: string): string {
  */
 export function getClickHistoryCookieName(locale?: string): string {
   return locale ? `${CLICK_HISTORY_COOKIE_NAME}_${locale}` : CLICK_HISTORY_COOKIE_NAME;
+}
+
+/**
+ * Get session cookie name with locale prefix
+ */
+export function getSessionCookieName(locale?: string): string {
+  return locale ? `${SESSION_COOKIE_NAME}_${locale}` : SESSION_COOKIE_NAME;
 }
 
 /**
@@ -148,10 +190,161 @@ export function extractAffiliateId(url: string): string | null {
     const pathMatch = urlObj.pathname.match(/\/ref\/([^/?#]+)/);
     if (pathMatch) return pathMatch[1];
     
+    // Check for aff parameter
+    const aff = urlObj.searchParams.get("aff");
+    if (aff) return aff;
+    
     return null;
   } catch {
     return null;
   }
+}
+
+/**
+ * Parse and extract referrer information
+ */
+export function parseReferrer(referrer: string | undefined): {
+  referrer: string | undefined;
+  referrerDomain: string | undefined;
+  referrerSocialPlatform: string | undefined;
+  referrerSearchTerm: string | undefined;
+} {
+  if (!referrer) {
+    return {
+      referrer: undefined,
+      referrerDomain: undefined,
+      referrerSocialPlatform: undefined,
+      referrerSearchTerm: undefined,
+    };
+  }
+  
+  try {
+    const urlObj = new URL(referrer);
+    const domain = urlObj.hostname.toLowerCase();
+    
+    // Detect social platform
+    const socialPlatforms: Record<string, string[]> = {
+      'twitter': ['twitter.com', 't.co', 'x.com'],
+      'facebook': ['facebook.com', 'fb.me', 'fb.com'],
+      'linkedin': ['linkedin.com', 'lnkd.in'],
+      'instagram': ['instagram.com', 'instagr.am'],
+      'youtube': ['youtube.com', 'youtu.be'],
+      'pinterest': ['pinterest.com', 'pin.it'],
+      'reddit': ['reddit.com', 'redd.it'],
+      'tiktok': ['tiktok.com', 'tiktokapi.com'],
+      'discord': ['discord.gg', 'discord.com'],
+      'github': ['github.com', 'gh.io'],
+    };
+    
+    let socialPlatform: string | undefined;
+    for (const [platform, domains] of Object.entries(socialPlatforms)) {
+      if (domains.some(d => domain.includes(d))) {
+        socialPlatform = platform;
+        break;
+      }
+    }
+    
+    // Extract search term if from search engine
+    const searchEngines: Record<string, string[]> = {
+      'google': ['google.com', 'google.co', 'google.jp'],
+      'bing': ['bing.com', 'microsoft.com'],
+      'yahoo': ['yahoo.com'],
+      'duckduckgo': ['duckduckgo.com'],
+      'baidu': ['baidu.com'],
+      'yandex': ['yandex.ru'],
+    };
+    
+    let searchTerm: string | undefined;
+    for (const [engine, domains] of Object.entries(searchEngines)) {
+      if (domains.some(d => domain.includes(d))) {
+        const query = urlObj.searchParams.get('q');
+        if (query) {
+          searchTerm = query;
+        }
+        break;
+      }
+    }
+    
+    return {
+      referrer,
+      referrerDomain: domain,
+      referrerSocialPlatform: socialPlatform,
+      referrerSearchTerm: searchTerm,
+    };
+  } catch {
+    return {
+      referrer,
+      referrerDomain: undefined,
+      referrerSocialPlatform: undefined,
+      referrerSearchTerm: undefined,
+    };
+  }
+}
+
+/**
+ * Parse user agent for device/browser/OS information
+ */
+export function parseUserAgent(userAgent: string | undefined): {
+  browser: string | undefined;
+  os: string | undefined;
+  device: string | undefined;
+} {
+  if (!userAgent) {
+    return { browser: undefined, os: undefined, device: undefined };
+  }
+  
+  const ua = userAgent.toLowerCase();
+  
+  // Detect browser
+  let browser: string | undefined;
+  if (ua.includes('firefox')) browser = 'Firefox';
+  else if (ua.includes('chrome') && !ua.includes('chromium')) browser = 'Chrome';
+  else if (ua.includes('safari') && !ua.includes('chrome')) browser = 'Safari';
+  else if (ua.includes('edge')) browser = 'Edge';
+  else if (ua.includes('opera')) browser = 'Opera';
+  
+  // Detect OS
+  let os: string | undefined;
+  if (ua.includes('windows')) os = 'Windows';
+  else if (ua.includes('mac os')) os = 'macOS';
+  else if (ua.includes('iphone') || ua.includes('ipad')) os = 'iOS';
+  else if (ua.includes('android')) os = 'Android';
+  else if (ua.includes('linux')) os = 'Linux';
+  
+  // Detect device type
+  let device: string | undefined;
+  if (ua.includes('mobile') || ua.includes('android')) device = 'mobile';
+  else if (ua.includes('tablet') || ua.includes('ipad')) device = 'tablet';
+  else device = 'desktop';
+  
+  return { browser, os, device };
+}
+
+/**
+ * Generate or retrieve session ID
+ */
+export function getOrCreateSessionId(): string {
+  if (typeof document === "undefined") return '';
+  
+  const cookieName = getSessionCookieName();
+  const cookies = document.cookie.split(";");
+  
+  for (const cookie of cookies) {
+    const [name, value] = cookie.trim().split("=");
+    if (name === cookieName && value) {
+      return value;
+    }
+  }
+  
+  // Generate new session ID
+  const sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+  
+  // Store session ID
+  const expires = new Date();
+  expires.setMinutes(expires.getMinutes() + defaultAffiliateConfig.sessionTimeoutMinutes);
+  document.cookie = `${cookieName}=${sessionId};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+  
+  return sessionId;
 }
 
 /**
@@ -228,7 +421,7 @@ export function getAttribution(locale?: string): AttributionData | null {
 }
 
 /**
- * Record affiliate click
+ * Record affiliate click with full referrer tracking
  */
 export function recordAffiliateClick(
   data: Omit<AffiliateClickData, "timestamp">,
@@ -236,12 +429,22 @@ export function recordAffiliateClick(
 ): void {
   if (typeof document === "undefined") return;
   
+  // Parse referrer information
+  const referrerInfo = parseReferrer(data.referrer);
+  
+  // Parse user agent
+  const userAgentInfo = parseUserAgent(data.userAgent);
+  
+  // Get or create session ID
+  const sessionId = getOrCreateSessionId();
+  
   const clickData: AffiliateClickData = {
     ...data,
+    ...referrerInfo,
+    ...userAgentInfo,
     timestamp: new Date().toISOString(),
-    referrer: document.referrer || undefined,
-    userAgent: typeof navigator !== "undefined" ? navigator.userAgent : undefined,
     pageUrl: typeof window !== "undefined" ? window.location.href : "",
+    sessionId,
   };
   
   // Update or create attribution data
@@ -258,10 +461,13 @@ export function recordAffiliateClick(
     lastTouchTimestamp: clickData.timestamp,
     conversions: 0,
     totalValue: 0,
+    sessionId,
+    clickCount: 0,
   };
   
   // Update attribution data
   attributionData.lastTouchTimestamp = clickData.timestamp;
+  attributionData.clickCount += 1;
   
   // Store the attribution
   storeAttribution(attributionData, config);
@@ -276,6 +482,11 @@ export function recordAffiliateClick(
     campaign: data.campaign,
     location: data.pageUrl,
     position: data.position,
+    referrer_domain: referrerInfo.referrerDomain,
+    social_platform: referrerInfo.referrerSocialPlatform,
+    device: userAgentInfo.device,
+    browser: userAgentInfo.browser,
+    os: userAgentInfo.os,
   });
   
   // Log for debugging (remove in production)
@@ -314,6 +525,9 @@ export function clearAttribution(locale?: string): void {
   
   const historyCookieName = getClickHistoryCookieName(locale);
   document.cookie = `${historyCookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+  
+  const sessionCookieName = getSessionCookieName(locale);
+  document.cookie = `${sessionCookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
 }
 
 /**
@@ -324,10 +538,11 @@ export function hasTrackingOptOut(): boolean {
   
   // Check for common opt-out cookies
   const optOutCookies = [
-    "ga_optout",
-    "ads_prefs",
-    "marketing_optout",
-    "DoNotSell",
+    'ga_optout',
+    'ads_prefs',
+    'marketing_optout',
+    'DoNotSell',
+    'global_opt_out',
   ];
   
   const cookies = document.cookie.split(";");
@@ -337,6 +552,11 @@ export function hasTrackingOptOut(): boolean {
     if (optOutCookies.includes(name.toLowerCase())) {
       return true;
     }
+  }
+  
+  // Check for navigator.doNotTrack
+  if (typeof navigator !== "undefined" && navigator.doNotTrack === "1") {
+    return true;
   }
   
   return false;
@@ -362,6 +582,7 @@ export function getAttributionSummary(): Record<string, string | number | null> 
     conversions: attribution.conversions,
     totalValue: attribution.totalValue,
     daysSinceFirstTouch: daysSinceFirst,
+    clickCount: attribution.clickCount,
   };
 }
 
@@ -405,9 +626,54 @@ export function recordConversion(
     value: data.value,
     currency: data.currency || "USD",
     attribution_model: data.attributionModel,
+    order_id: data.orderId,
+    coupon_code: data.couponCode,
   });
   
   if (process.env.NODE_ENV === "development") {
     console.log("[Affiliate Tracking] Conversion recorded:", conversionData);
+  }
+}
+
+/**
+ * Get referrer type classification
+ */
+export function getReferrerType(referrer: string | undefined): string {
+  if (!referrer) return 'direct';
+  
+  try {
+    const urlObj = new URL(referrer);
+    const domain = urlObj.hostname.toLowerCase();
+    
+    // Social media
+    const socialDomains = [
+      'twitter.com', 'facebook.com', 'instagram.com', 'linkedin.com',
+      'pinterest.com', 'reddit.com', 'tiktok.com', 'youtube.com',
+      'discord.gg', 'mastodon.social', 'threads.net',
+    ];
+    
+    if (socialDomains.some(d => domain.includes(d))) {
+      return 'social';
+    }
+    
+    // Search engines
+    const searchDomains = [
+      'google.com', 'bing.com', 'yahoo.com', 'duckduckgo.com',
+      'baidu.com', 'yandex.ru',
+    ];
+    
+    if (searchDomains.some(d => domain.includes(d))) {
+      return 'search';
+    }
+    
+    // Email
+    if (domain.includes('mail') || urlObj.protocol === 'mailto:') {
+      return 'email';
+    }
+    
+    // Other websites
+    return 'referral';
+  } catch {
+    return 'unknown';
   }
 }

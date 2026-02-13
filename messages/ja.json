@@ -247,5 +247,18 @@
     "mission_text": "We are dedicated to helping users navigate the rapidly evolving landscape of artificial intelligence. Our goal is to provide unbiased, comprehensive reviews and comparisons to empower you to make informed decisions.",
     "values_title": "Our Values",
     "values_text": "Transparency, integrity, and community are at the core of everything we do. we believe in providing honest assessments and fostering a collaborative environment for AI enthusiasts."
+  },
+  "RecentToolsSidebar": {
+    "title": "最近見たツール",
+    "viewAll": "すべて表示",
+    "clear": "クリア",
+    "clearAll": "すべての最近見たツールを削除",
+    "remove": "削除",
+    "justNow": "今",
+    "minutesAgo": "{count}分前",
+    "hoursAgo": "{count}時間前",
+    "daysAgo": "{count}日前",
+    "emptyTitle": "まだ最近見たツールはありません",
+    "emptyDescription": "見たツールはここにクイックアクセスとして表示されます"
   }
 }

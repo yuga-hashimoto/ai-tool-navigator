@@ -1,0 +1,102 @@
+
+> ai-tool-navigator@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 3.3s
+○ Compiling /[locale]/admin/system-health ...
+ GET /en/admin/system-health 200 in 8.9s (compile: 7.4s, proxy.ts: 152ms, render: 1270ms)
+Health check failed - Database unreachable: Error [PrismaClientInitializationError]:
+Invalid `prisma.$queryRaw()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:10
+   |
+ 9 |   provider = "sqlite" // Change to "postgresql" or "mysql" for production
+10 |   url      = env("DATABASE_URL")
+   |
+
+Validation Error Count: 1
+    at <unknown> (-->  schema.prisma:10)
+    at async GET (src/app/api/health/metrics/route.ts:14:5)
+  12 |   try {
+  13 |     // Check database connection by running a simple query
+> 14 |     await prisma.$queryRaw`SELECT 1`;
+     |     ^
+  15 |     dbStatus = 'connected';
+  16 |     dbLatency = Date.now() - start;
+  17 |   } catch (e) { {
+  clientVersion: '5.10.2',
+  errorCode: undefined
+}
+Failed to fetch error counts: Error [PrismaClientInitializationError]:
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].errorLog.groupBy()` invocation in
+/app/.next/dev/server/chunks/[root-of-the-server]__2f08d7af._.js:98:169
+
+  95     critical: 0
+  96 };
+  97 try {
+→ 98     const counts = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].errorLog.groupBy(
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:10
+   |
+ 9 |   provider = "sqlite" // Change to "postgresql" or "mysql" for production
+10 |   url      = env("DATABASE_URL")
+   |
+
+Validation Error Count: 1
+    at <unknown> (src/app/api/health/metrics/route.ts:33:42)
+    at <unknown> (-->  schema.prisma:10)
+    at async GET (src/app/api/health/metrics/route.ts:33:20)
+  31 |
+  32 |   try {
+> 33 |     const counts = await prisma.errorLog.groupBy({
+     |                                          ^
+  34 |       by: ['severity'],
+  35 |       where: {
+  36 |         createdAt: { {
+  clientVersion: '5.10.2',
+  errorCode: undefined
+}
+Failed to fetch recent errors: Error [PrismaClientInitializationError]:
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].errorLog.findMany()` invocation in
+/app/.next/dev/server/chunks/[root-of-the-server]__2f08d7af._.js:126:169
+
+  123 // Fetch recent critical errors
+  124 let recentErrors = [];
+  125 try {
+→ 126     recentErrors = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].errorLog.findMany(
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:10
+   |
+ 9 |   provider = "sqlite" // Change to "postgresql" or "mysql" for production
+10 |   url      = env("DATABASE_URL")
+   |
+
+Validation Error Count: 1
+    at <unknown> (src/app/api/health/metrics/route.ts:62:44)
+    at <unknown> (-->  schema.prisma:10)
+    at async GET (src/app/api/health/metrics/route.ts:62:22)
+  60 |   let recentErrors: any[] = [];
+  61 |   try {
+> 62 |       recentErrors = await prisma.errorLog.findMany({
+     |                                            ^
+  63 |           where: {
+  64 |               severity: {
+  65 |                   in: ['HIGH', 'CRITICAL'] {
+  clientVersion: '5.10.2',
+  errorCode: undefined
+}
+ GET /api/health/metrics 200 in 2.7s (compile: 1753ms, render: 955ms)
+ GET /en/non-existent-page-123 404 in 817ms (compile: 713ms, proxy.ts: 9ms, render: 94ms)

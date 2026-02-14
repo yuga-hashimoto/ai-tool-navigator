@@ -414,5 +414,35 @@
     "progress": "{count} / {total} referrals",
     "rewardTitle": "Ultimate AI Guide",
     "rewardDesc": "Unlock our comprehensive guide to AI tools."
+  },
+  "Error": {
+    "title": "Something went wrong!",
+    "description": "We encountered an unexpected error. Please try again later.",
+    "retry": "Try Again",
+    "home": "Return Home",
+    "contactSupport": "Contact Support"
+  },
+  "NotFound": {
+    "title": "Page Not Found",
+    "description": "Sorry, we couldn't find the page you're looking for. It might have been moved or doesn't exist.",
+    "searchPlaceholder": "Search for tools...",
+    "home": "Return Home"
+  },
+  "SystemHealth": {
+    "title": "System Health Dashboard",
+    "status": "System Status",
+    "uptime": "Uptime",
+    "responseTime": "Response Time",
+    "errorRate": "Error Rate (24h)",
+    "database": "Database",
+    "memory": "Memory Usage",
+    "lastUpdated": "Last updated",
+    "healthy": "Healthy",
+    "degraded": "Degraded",
+    "critical": "Critical",
+    "recentErrors": "Recent Critical Errors",
+    "noErrors": "No critical errors found recently.",
+    "ms": "ms",
+    "mb": "MB"
   }
 }

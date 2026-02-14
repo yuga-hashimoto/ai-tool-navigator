@@ -1,5 +1,6 @@
 import { Tool } from "@/lib/tools";
 import { Post } from "@/lib/posts";
+import { VideoMetadata } from "@/lib/videos";
 import { BreadcrumbItem } from "@/components/Breadcrumbs";
 
 const APPLICATION_CATEGORY_MAP: Record<string, string> = {
@@ -803,6 +804,44 @@ export function generateAboutPageSchema() {
 }
 
 // =====================================================
+// VIDEO OBJECT SCHEMA
+// =====================================================
+export function generateVideoSchema(video: VideoMetadata) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const schema: any = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": video.title,
+    "description": video.description,
+    "thumbnailUrl": [
+      video.thumbnailUrl || `${SITE_URL}/og-image.png`
+    ],
+    "uploadDate": video.uploadDate,
+    "contentUrl": video.videoUrl,
+    "embedUrl": video.videoUrl.includes('youtube')
+       ? video.videoUrl.replace('watch?v=', 'embed/')
+       : video.videoUrl,
+  };
+
+  if (video.duration) {
+    schema.duration = video.duration;
+  }
+
+  if (video.transcripts && video.transcripts.length > 0) {
+    schema.transcript = video.transcripts[0].text;
+  }
+
+  if (video.author) {
+    schema.author = {
+        "@type": "Person",
+        "name": video.author
+    };
+  }
+
+  return schema;
+}
+
+// =====================================================
 // DYNAMIC SCHEMA GENERATION HELPERS
 // =====================================================
 
@@ -839,6 +878,11 @@ export function generatePageSchemas(pageType: string, data: Record<string, unkno
         generateAboutPageSchema(),
         generateOrganizationSchema()
       ];
+    case 'video':
+        return [
+          generateVideoSchema(data.video as VideoMetadata),
+          generateBreadcrumbSchema(data.breadcrumbItems as BreadcrumbItem[], locale)
+        ];
     default:
       return [];
   }

@@ -866,3 +866,35 @@ export function validateSchema(schema: Record<string, unknown>): string[] {
 
   return errors;
 }
+
+// =====================================================
+// VIDEO OBJECT SCHEMA
+// =====================================================
+export function generateVideoObjectSchema(video: {
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  uploadDate: string;
+  duration?: number; // seconds
+  contentUrl?: string; // URL to video file
+  embedUrl?: string; // URL to embed
+  transcript?: string;
+}) {
+  const durationISO = video.duration ? `PT${Math.floor(video.duration)}S` : undefined;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const schema: any = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": video.title,
+    "description": video.description,
+    "thumbnailUrl": [video.thumbnailUrl],
+    "uploadDate": video.uploadDate,
+    "duration": durationISO,
+    "contentUrl": video.contentUrl,
+    "embedUrl": video.embedUrl,
+    "transcript": video.transcript
+  };
+
+  return schema;
+}

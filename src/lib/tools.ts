@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { unstable_cache } from 'next/cache';
+import { getRelatedToolsAI } from './recommendation-engine';
 
 const toolsDirectory = path.join(process.cwd(), 'content/tools');
 
@@ -142,17 +143,7 @@ export function getToolSlugs() {
 
 const _getRelatedTools = async (currentTool: ToolMetadata, limit: number = 3, locale: string = 'en'): Promise<ToolMetadata[]> => {
   const allTools = await getAllTools(locale);
-  const candidates = allTools.filter(
-    (tool) => tool.category === currentTool.category && tool.slug !== currentTool.slug
-  );
-
-  // Shuffle the candidates array
-  for (let i = candidates.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
-  }
-
-  return candidates.slice(0, limit);
+  return getRelatedToolsAI(currentTool, allTools, limit);
 }
 
 export const getRelatedTools = unstable_cache(

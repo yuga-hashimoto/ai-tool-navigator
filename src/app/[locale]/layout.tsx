@@ -8,13 +8,12 @@ import { CompareProvider } from "@/context/CompareContext";
 import { Footer } from "@/components/Footer";
 import { CompareBar } from "@/components/CompareBar";
 import NewsletterPopup from "@/components/NewsletterPopup";
-import ExitIntentModalEnhanced from "@/components/ExitIntentModalEnhanced";
+import ExitIntentWrapper from "@/components/ExitIntentWrapper";
 import { Navigation } from "@/components/Navigation";
 import StickyNotificationBar from "@/components/StickyNotificationBar";
 import BackToTop from "@/components/BackToTop";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { generateOrganizationSchema, generateSearchBoxSchema } from "@/lib/schema";
-import { useExitIntentABTest } from "@/lib/ab-testing";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,17 +47,6 @@ export const metadata: Metadata = {
     description: "Compare the best AI tools for writing, coding, image generation, and more. Find the perfect AI solution for your workflow.",
   },
 };
-
-// Client component wrapper for ExitIntentModalEnhanced
-function ExitIntentWrapper() {
-  const { variant, isLoading } = useExitIntentABTest();
-  
-  if (isLoading) {
-    return null;
-  }
-  
-  return <ExitIntentModalEnhanced variant={variant} enabled={true} />;
-}
 
 export default async function RootLayout({
   children,

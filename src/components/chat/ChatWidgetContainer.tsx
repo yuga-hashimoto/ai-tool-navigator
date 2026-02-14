@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { MessageCircle, X, Minimize2 } from 'lucide-react';
-import { useChat } from '@/hooks/useChat';
-import { useProactiveChat } from '@/hooks/useProactiveChat';
+import { useChat } from '@/hooks/chat/useChat';
+import { useProactiveChat } from '@/hooks/chat/useProactiveChat';
 import { defaultAppearance, defaultQuickReplies } from '@/lib/chat-config';
 import ChatWindow from './ChatWindow';
 import ChatWidget from './ChatWidget';

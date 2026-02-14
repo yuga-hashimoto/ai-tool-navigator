@@ -372,5 +372,28 @@
     "proceedPayment": "購入手続きへ",
     "sslEncrypted": "SSL暗号化",
     "cartItems": "カート内のアイテム"
+  },
+  "SocialProof": {
+    "viewed": "Someone from {location} just viewed {tool}",
+    "watching": "{count} people are looking at this category",
+    "recent": "Recent activity",
+    "close": "Close notification"
+  },
+  "ReferralSystem": {
+    "trigger": "紹介して特典ゲット",
+    "title": "友達を紹介して特典をゲット",
+    "description": "独自のリンクを共有し、友達が訪問するとプレミアムガイドがアンロックされます。",
+    "yourLink": "あなたの紹介リンク",
+    "copy": "リンクをコピー",
+    "copied": "コピーしました！",
+    "stats": "あなたの統計",
+    "clicks": "クリック数",
+    "signups": "登録数",
+    "unlocked": "アンロック済み",
+    "locked": "ロック中",
+    "share": "シェア",
+    "progress": "{count} / {total} 紹介",
+    "rewardTitle": "究極のAIガイド",
+    "rewardDesc": "AIツールの包括的なガイドをアンロック。"
   }
 }

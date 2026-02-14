@@ -391,5 +391,28 @@
       "rateLimitingEnabled": "Rate limiting enabled",
       "active": "Active"
     }
+  },
+  "SocialProof": {
+    "viewed": "Someone from {location} just viewed {tool}",
+    "watching": "{count} people are looking at this category",
+    "recent": "Recent activity",
+    "close": "Close notification"
+  },
+  "ReferralSystem": {
+    "trigger": "Refer & Earn",
+    "title": "Refer Friends, Get Rewards",
+    "description": "Share your unique link and unlock premium guides when your friends visit.",
+    "yourLink": "Your Referral Link",
+    "copy": "Copy Link",
+    "copied": "Copied!",
+    "stats": "Your Stats",
+    "clicks": "Clicks",
+    "signups": "Signups",
+    "unlocked": "Unlocked",
+    "locked": "Locked",
+    "share": "Share",
+    "progress": "{count} / {total} referrals",
+    "rewardTitle": "Ultimate AI Guide",
+    "rewardDesc": "Unlock our comprehensive guide to AI tools."
   }
 }

@@ -391,5 +391,47 @@
       "rateLimitingEnabled": "Rate limiting enabled",
       "active": "Active"
     }
+  },
+  "Onboarding": {
+    "title": "Welcome to AI Tool Navigator",
+    "subtitle": "Let's personalize your experience.",
+    "steps": {
+      "welcome": {
+        "title": "Find the Best AI Tools",
+        "description": "Discover, compare, and master AI tools tailored to your needs.",
+        "cta": "Get Started"
+      },
+      "role": {
+        "title": "What describes you best?",
+        "options": {
+          "developer": "Developer",
+          "marketer": "Marketer",
+          "designer": "Designer",
+          "founder": "Founder / Entrepreneur",
+          "student": "Student",
+          "other": "Other"
+        }
+      },
+      "goal": {
+        "title": "What is your main goal?",
+        "options": {
+          "find_tools": "Find specific tools",
+          "compare_prices": "Compare prices & features",
+          "learn_ai": "Learn about AI trends",
+          "productivity": "Boost productivity"
+        }
+      },
+      "recommendations": {
+        "title": "We found some great tools for you!",
+        "description": "Based on your role as a {role}, check out these categories:",
+        "cta": "Explore Now"
+      }
+    },
+    "buttons": {
+      "next": "Next",
+      "back": "Back",
+      "skip": "Skip",
+      "finish": "Finish"
+    }
   }
 }

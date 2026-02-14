@@ -396,7 +396,8 @@
     "viewed": "Someone from {location} just viewed {tool}",
     "watching": "{count} people are looking at this category",
     "recent": "Recent activity",
-    "close": "Close notification"
+    "close": "Close notification",
+    "purchased": "Someone from {location} just purchased {tool}"
   },
   "ReferralSystem": {
     "trigger": "Refer & Earn",

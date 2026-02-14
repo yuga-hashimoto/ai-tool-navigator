@@ -210,3 +210,18 @@ model ErrorLog {
 
   @@map("error_logs")
 }
+
+// =====================================================
+// USER ACTIVITY TRACKING
+// =====================================================
+
+model UserActivity {
+  id          String   @id @default(cuid())
+  type        String   // VIEW, CHECKOUT, PURCHASE
+  details     String?  // JSON string
+  location    String?  // City, Country
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt])
+  @@map("user_activities")
+}

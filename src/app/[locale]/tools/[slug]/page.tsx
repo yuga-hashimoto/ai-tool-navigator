@@ -20,6 +20,7 @@ import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
+import { ActivityTracker } from "@/components/ActivityTracker";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -117,6 +118,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
       />
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
+        <ActivityTracker type="VIEW" details={{ slug, toolName: metadata.title }} />
 
         <div className="overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-900/5 dark:bg-zinc-900 dark:ring-white/10">
             <div className="px-6 py-8 sm:px-12 sm:py-12 lg:px-16">

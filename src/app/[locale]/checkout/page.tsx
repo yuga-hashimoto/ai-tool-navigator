@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { sendGAEvent } from '@/lib/analytics';
 import { ArrowLeft, CreditCard, Lock, Check, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { ActivityTracker } from '@/components/ActivityTracker';
 
 interface CartItem {
   slug: string;
@@ -18,7 +18,7 @@ interface CartItem {
 
 export default function CheckoutPage() {
   const searchParams = useSearchParams();
-  const t = useTranslations('Checkout');
+  // const t = useTranslations('Checkout');
   
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +39,7 @@ export default function CheckoutPage() {
     if (cartParam) {
       try {
         const decoded = JSON.parse(decodeURIComponent(cartParam));
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setCartData(decoded);
       } catch (error) {
         console.error('Failed to parse cart:', error);
@@ -127,6 +128,7 @@ export default function CheckoutPage() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
+        <ActivityTracker type="CHECKOUT" />
         {/* Progress Steps */}
         {step !== 'confirmation' && (
           <div className="flex items-center justify-center gap-2 mb-8">
@@ -166,6 +168,7 @@ export default function CheckoutPage() {
         {/* Confirmation Step */}
         {step === 'confirmation' ? (
           <div className="text-center py-12">
+            <ActivityTracker type="PURCHASE" details={{ items: cartData.length, value: total }} />
             <div className="w-20 h-20 mx-auto mb-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
               <Check className="w-10 h-10 text-green-600" />
             </div>

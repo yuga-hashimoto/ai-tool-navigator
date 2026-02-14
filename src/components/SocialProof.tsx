@@ -2,13 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { X, Eye, MapPin } from 'lucide-react';
+import { X, Eye, MapPin, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useParams } from 'next/navigation';
 
 const CITIES = ['London', 'New York', 'Tokyo', 'San Francisco', 'Berlin', 'Paris', 'Toronto', 'Sydney', 'Singapore', 'Mumbai'];
 const TOOLS = ['ChatGPT', 'Jasper', 'Midjourney', 'Claude', 'Copy.ai', 'Notion AI', 'Stable Diffusion', 'Runway', 'Synthesia'];
 
-type NotificationType = 'viewed' | 'watching';
+type NotificationType = 'viewed' | 'watching' | 'purchased';
 
 interface NotificationMessage {
   type: NotificationType;
@@ -23,34 +24,83 @@ export function SocialProof() {
   const [mounted, setMounted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const t = useTranslations('SocialProof');
+  const params = useParams();
+  const slug = params?.slug as string | undefined;
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
 
-    const showNotification = () => {
-      const isViewed = Math.random() > 0.4; // 60% chance of "Someone viewed..."
+    const showNotification = async () => {
+      try {
+        let newMessage: NotificationMessage | null = null;
 
-      let newMessage: NotificationMessage;
-      if (isViewed) {
-        const city = CITIES[Math.floor(Math.random() * CITIES.length)];
-        const tool = TOOLS[Math.floor(Math.random() * TOOLS.length)];
-        newMessage = { type: 'viewed', location: city, tool: tool };
-      } else {
-        const count = Math.floor(Math.random() * 50) + 15; // 15-65 people
-        newMessage = { type: 'watching', count };
+        // Fetch real activity
+        try {
+            const url = slug ? `/api/activity?slug=${slug}` : '/api/activity';
+            const res = await fetch(url);
+
+            if (res.ok) {
+                const data = await res.json();
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { activities, activeViewers, toolStats } = data;
+
+                const showActiveViewers = Math.random() > 0.5;
+
+                if (slug && toolStats?.activeViewers > 1 && showActiveViewers) {
+                     newMessage = { type: 'watching', count: toolStats.activeViewers };
+                } else if (activities && activities.length > 0) {
+                     // Pick a random recent activity
+                     const activity = activities[Math.floor(Math.random() * activities.length)];
+                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                     let details: any = {};
+                     try {
+                        details = activity.details ? JSON.parse(activity.details) : {};
+                     } catch {}
+
+                     const toolName = details.toolName || details.title || (details.pathname ? details.pathname.split('/').pop() : 'AI Tool');
+                     const location = activity.location || CITIES[Math.floor(Math.random() * CITIES.length)];
+
+                     if (activity.type === 'PURCHASE') {
+                         newMessage = { type: 'purchased', location, tool: toolName };
+                     } else if (activity.type === 'VIEW') {
+                         newMessage = { type: 'viewed', location, tool: toolName };
+                     }
+                }
+            }
+        } catch (e) {
+            console.error("Failed to fetch activity:", e);
+        }
+
+        // Fallback to mock
+        if (!newMessage) {
+            const isViewed = Math.random() > 0.4;
+            if (isViewed) {
+                const city = CITIES[Math.floor(Math.random() * CITIES.length)];
+                const tool = TOOLS[Math.floor(Math.random() * TOOLS.length)];
+                newMessage = { type: 'viewed', location: city, tool: tool };
+            } else {
+                const count = Math.floor(Math.random() * 50) + 15;
+                newMessage = { type: 'watching', count };
+            }
+        }
+
+        setMessage(newMessage);
+        setIsVisible(true);
+
+        // Hide after 5 seconds
+        timeoutRef.current = setTimeout(() => {
+            setIsVisible(false);
+
+            // Schedule next notification
+            const nextDelay = Math.random() * 30000 + 15000; // 15-45s
+            timeoutRef.current = setTimeout(showNotification, nextDelay);
+        }, 5000);
+
+      } catch {
+           // Retry
+           timeoutRef.current = setTimeout(showNotification, 20000);
       }
-
-      setMessage(newMessage);
-      setIsVisible(true);
-
-      // Hide after 5 seconds
-      timeoutRef.current = setTimeout(() => {
-        setIsVisible(false);
-
-        // Schedule next notification
-        const nextDelay = Math.random() * 30000 + 15000; // 15-45s
-        timeoutRef.current = setTimeout(showNotification, nextDelay);
-      }, 5000);
     };
 
     // Initial delay
@@ -59,9 +109,13 @@ export function SocialProof() {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, [slug]);
 
   if (!mounted || !message) return null;
+
+  let Icon = Eye;
+  if (message.type === 'viewed') Icon = MapPin;
+  if (message.type === 'purchased') Icon = ShoppingCart;
 
   return (
     <div
@@ -82,16 +136,14 @@ export function SocialProof() {
 
       <div className="flex items-start gap-3 pr-6">
         <div className="rounded-full bg-blue-100 p-2 dark:bg-blue-900/30">
-          {message.type === 'viewed' ? (
-            <MapPin className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-          ) : (
-            <Eye className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-          )}
+          <Icon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
         </div>
         <div>
           <p className="text-sm font-medium text-zinc-900 dark:text-white">
             {message.type === 'viewed'
               ? t('viewed', { location: message.location, tool: message.tool })
+              : message.type === 'purchased'
+              ? t('purchased', { location: message.location, tool: message.tool })
               : t('watching', { count: message.count })
             }
           </p>

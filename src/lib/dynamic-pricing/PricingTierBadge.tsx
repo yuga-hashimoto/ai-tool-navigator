@@ -128,7 +128,7 @@ interface SavingsDisplayProps {
   className?: string;
 }
 
-export default function SavingsDisplay({ originalPrice, salePrice, size = 'md', showPercent = true, showAmount = true, className = '' }: SavingsDisplayProps) {
+export function SavingsDisplay({ originalPrice, salePrice, size = 'md', showPercent = true, showAmount = true, className = '' }: SavingsDisplayProps) {
   const savingsAmount = originalPrice - salePrice;
   const savingsPercent = Math.round((savingsAmount / originalPrice) * 100);
 

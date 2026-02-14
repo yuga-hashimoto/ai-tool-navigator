@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useChat } from '@/hooks/useChat';
+import useChat from '@/hooks/chat/useChat';
 import AdminChatWindow from './AdminChatWindow';
 import './AdminChatStyles.css';
 

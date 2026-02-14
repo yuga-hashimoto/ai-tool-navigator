@@ -7,6 +7,7 @@ generator client {
 
 datasource db {
   provider = "sqlite" // Change to "postgresql" or "mysql" for production
+  url      = env("DATABASE_URL")
 }
 
 // =====================================================
@@ -86,9 +87,9 @@ model ChatSession {
   visitorId        String?         @map("visitor_id") // Optional visitor ID
   visitorName      String?         @map("visitor_name")
   visitorEmail     String?         @map("visitor_email")
-  category        ChatCategory    @default(GENERAL)
-  status          ChatStatus      @default(WAITING)
-  priority        ChatPriority    @default(NORMAL)
+  category        String          @default("GENERAL") // ChatCategory
+  status          String          @default("WAITING") // ChatStatus
+  priority        String          @default("NORMAL") // ChatPriority
   assignedTo      String?         @map("assigned_to") // Admin user ID
   subject         String?
   isActive        Boolean         @default(true) @map("is_active")
@@ -108,10 +109,10 @@ model ChatSession {
 model Message {
   id              String          @id @default(cuid())
   chatSessionId  String          @map("chat_session_id")
-  senderType      SenderType
+  senderType      String          // SenderType
   senderId        String?         @map("sender_id")
   content         String
-  contentType     MessageContentType @default(TEXT)
+  contentType     String          @default("TEXT") // MessageContentType
   isRead          Boolean         @default(false) @map("is_read")
   metadata        String?         // JSON string for additional data (file attachments, etc.)
   createdAt       DateTime        @default(now()) @map("created_at")
@@ -132,9 +133,9 @@ model SupportTicket {
   visitorId       String?         @map("visitor_id")
   visitorName     String?         @map("visitor_name")
   visitorEmail    String?         @map("visitor_email")
-  category        ChatCategory
-  priority        ChatPriority    @default(NORMAL)
-  status          TicketStatus    @default(OPEN)
+  category        String          // ChatCategory
+  priority        String          @default("NORMAL") // ChatPriority
+  status          String          @default("OPEN") // TicketStatus
   subject         String
   description     String
   assignedTo      String?         @map("assigned_to")
@@ -156,7 +157,7 @@ model CannedResponse {
   id              String          @id @default(cuid())
   title           String
   content         String
-  category        ChatCategory    @default(GENERAL)
+  category        String          @default("GENERAL") // ChatCategory
   keywords        String?         // Comma-separated keywords for quick search
   isActive        Boolean         @default(true) @map("is_active")
   createdAt       DateTime        @default(now()) @map("created_at")
@@ -190,48 +191,22 @@ model ChatWidgetSettings {
   @@map("chat_widget_settings")
 }
 
-// Enums
-enum ChatCategory {
-  GENERAL
-  TECHNICAL
-  BILLING
-  SALES
-  FEEDBACK
-  BUG_REPORT
-}
+// =====================================================
+// ERROR LOGGING & MONITORING
+// =====================================================
 
-enum ChatStatus {
-  WAITING
-  ACTIVE
-  ON_HOLD
-  CLOSED
-  TRANSFERRED
-}
+model ErrorLog {
+  id          String        @id @default(cuid())
+  severity    String        // ErrorSeverity
+  category    String        // ErrorCategory
+  message     String
+  stackTrace  String?
+  context     String?       // JSON string
+  userId      String?
+  url         String?
+  resolved    Boolean       @default(false)
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
 
-enum ChatPriority {
-  LOW
-  NORMAL
-  HIGH
-  URGENT
-}
-
-enum SenderType {
-  VISITOR
-  ADMIN
-  BOT
-}
-
-enum MessageContentType {
-  TEXT
-  FILE
-  IMAGE
-  SYSTEM
-}
-
-enum TicketStatus {
-  OPEN
-  IN_PROGRESS
-  PENDING
-  RESOLVED
-  CLOSED
+  @@map("error_logs")
 }

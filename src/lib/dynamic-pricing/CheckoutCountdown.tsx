@@ -122,7 +122,7 @@ export default function CheckoutCountdown({ variant = 'standard', size = 'md', s
             </div>
             <div className="flex items-center gap-4 mb-3">
               <span className={`${styles.time} font-mono font-bold ${colors.text}`}>{formatTime(timeRemaining)}</span>
-              <div className="flex-1">{showProgressBar && <div className="h-2 bg-white rounded-full overflow-hidden"><div className={`${colors.progress} h-full transition-all duration-1000`} style={{ width: `${progress}%` }} /></div>}</div>}
+              <div className="flex-1">{showProgressBar && <div className="h-2 bg-white rounded-full overflow-hidden"><div className={`${colors.progress} h-full transition-all duration-1000`} style={{ width: `${progress}%` }} /></div>}</div>
             </div>
             <p className={`text-sm ${colors.text} flex items-center gap-1`}>{config.discountGuaranteed && <><Check className="w-4 h-4" />{config.urgencyMessage}</>}</p>
           </div>

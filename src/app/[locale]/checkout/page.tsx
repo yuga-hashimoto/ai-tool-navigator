@@ -5,6 +5,10 @@ import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { sendGAEvent } from '@/lib/analytics';
+import { createPurchase } from '@/app/actions/purchase';
+import { getUpsells } from '@/app/actions/upsell';
+import { UpsellModal } from '@/components/upsell/UpsellModal';
+import { UpsellOffer } from '@/types/upsell';
 import { ArrowLeft, CreditCard, Lock, Check, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -33,6 +37,11 @@ export default function CheckoutPage() {
     cvv: '',
   });
 
+  const [upsellOffers, setUpsellOffers] = useState<UpsellOffer[]>([]);
+  const [currentUpsellIndex, setCurrentUpsellIndex] = useState(0);
+  const [showUpsellModal, setShowUpsellModal] = useState(false);
+  const [purchaseId, setPurchaseId] = useState<string>('');
+
   // Parse cart from URL
   useEffect(() => {
     const cartParam = searchParams.get('cart');
@@ -58,17 +67,46 @@ export default function CheckoutPage() {
   const handlePayment = async () => {
     setIsProcessing(true);
     
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsProcessing(false);
-    setStep('confirmation');
-    
-    sendGAEvent('purchase', {
-      value: total,
+    // Call server action to create purchase
+    const result = await createPurchase({
+      items: cartData.map(item => ({
+        slug: item.slug,
+        quantity: item.quantity,
+        title: item.title,
+        price: item.price
+      })),
+      totalAmount: total,
       currency: 'USD',
-      items: cartData.length,
+      email: formData.email,
+      paymentMethod,
     });
+
+    if (result?.success) {
+      // Fetch upsells
+      const offers = await getUpsells(result.purchaseId || '');
+      setPurchaseId(result.purchaseId || '');
+
+      setIsProcessing(false);
+
+      if (offers && offers.length > 0) {
+        setUpsellOffers(offers);
+        setCurrentUpsellIndex(0);
+        setShowUpsellModal(true);
+      } else {
+        setStep('confirmation');
+      }
+
+      sendGAEvent('purchase', {
+        value: total,
+        currency: 'USD',
+        items: cartData.length,
+        transaction_id: result.purchaseId
+      });
+    } else {
+      setIsProcessing(false);
+      // Handle error (alert for now)
+      alert('Payment failed. Please try again.');
+    }
   };
 
   if (isLoading) {
@@ -387,6 +425,33 @@ export default function CheckoutPage() {
           </div>
         )}
       </main>
+
+      {/* Upsell Modal */}
+      {showUpsellModal && upsellOffers.length > 0 && (
+        <UpsellModal
+          purchaseId={purchaseId}
+          offer={upsellOffers[currentUpsellIndex]}
+          isOpen={showUpsellModal}
+          onClose={() => {
+            // Move to next upsell or finish
+            if (currentUpsellIndex < upsellOffers.length - 1) {
+              setCurrentUpsellIndex(prev => prev + 1);
+            } else {
+              setShowUpsellModal(false);
+              setStep('confirmation');
+            }
+          }}
+          onComplete={() => {
+             // Move to next upsell or finish
+             if (currentUpsellIndex < upsellOffers.length - 1) {
+              setCurrentUpsellIndex(prev => prev + 1);
+            } else {
+              setShowUpsellModal(false);
+              setStep('confirmation');
+            }
+          }}
+        />
+      )}
     </div>
   );
 }

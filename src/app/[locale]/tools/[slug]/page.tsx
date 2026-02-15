@@ -19,8 +19,43 @@ import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
+<<<<<<< HEAD
 import { ProductTracker } from "@/components/ProductTracker";
 import { RecommendedTools } from "@/components/RecommendedTools";
+=======
+import { getContentBasedRecommendations } from "@/lib/recommendations";
+import { ViewTracker } from "@/components/ViewTracker";
+import { ToolMetadata } from "@/lib/tools";
+import { Product } from "@prisma/client";
+
+// Helper to map Product to ToolMetadata
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function mapProductToToolMetadata(product: Product): ToolMetadata {
+    let metadata = {};
+    try {
+        if (product.metadata) {
+            metadata = JSON.parse(product.metadata);
+        }
+    } catch (e) {
+        console.error("Error parsing product metadata", e);
+    }
+
+    return {
+        ...metadata,
+        slug: product.slug,
+        title: product.title,
+        category: product.category,
+        description: product.description || '',
+        image: product.image,
+        rating: product.rating || 0,
+        verified: product.verified,
+        last_updated: product.lastUpdated?.toISOString(),
+        tags: product.tags ? JSON.parse(product.tags) : [],
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        affiliate_link: (metadata as any).affiliate_link || '#',
+    } as ToolMetadata;
+}
+>>>>>>> 6fa1631 (Implement cross-sell recommendation engine)
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -75,6 +110,14 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   const { metadata, content } = tool;
   const { verified, last_updated } = metadata;
+<<<<<<< HEAD
+=======
+
+  // Use new recommendation engine
+  const recommendedProducts = await getContentBasedRecommendations(metadata.slug, { limit: 3 });
+  const relatedTools = recommendedProducts.map(mapProductToToolMetadata);
+
+>>>>>>> 6fa1631 (Implement cross-sell recommendation engine)
   const relatedPosts = await getRelatedPosts(metadata, 3, locale);
   const toolSchema = generateToolSchema(tool);
   const productSchema = generateProductSchema(tool);
@@ -103,6 +146,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
+      <ViewTracker slug={slug} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }}

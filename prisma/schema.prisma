@@ -212,88 +212,44 @@ model ErrorLog {
 }
 
 // =====================================================
-// COMMERCE & RECOMMENDATION ENGINE
+// RECOMMENDATION ENGINE TABLES
 // =====================================================
 
 model Product {
   id          String   @id @default(cuid())
   slug        String   @unique
-  name        String
+  title       String
   description String?
-  categoryId  String?  @map("category_id")
-  category    Category? @relation(fields: [categoryId], references: [id])
-  price       String?
-  currency    String?   @default("USD")
-  tags        String?   // JSON string of tags
-  metadata    String?   // JSON string for extra fields
-
-  interactions UserInteraction[]
-  orderItems   OrderItem[]
-
+  category    String
+  tags        String?  // JSON string
+  image       String?
+  rating      Float?
+  verified    Boolean  @default(false)
+  lastUpdated DateTime? @map("last_updated")
+  metadata    String?  // JSON string
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
+  // Relations
+  events      UserEvent[]
+
   @@map("products")
-  @@index([categoryId])
-  @@index([slug])
 }
 
-model Category {
-  id        String    @id @default(cuid())
-  name      String
-  slug      String    @unique
-  products  Product[]
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("categories")
-}
-
-model UserInteraction {
+model UserEvent {
   id        String   @id @default(cuid())
+  type      String   // VIEW, CLICK, SEARCH, etc.
   sessionId String   @map("session_id")
-  visitorId String?  @map("visitor_id")
   userId    String?  @map("user_id")
-  productId String   @map("product_id")
-  product   Product  @relation(fields: [productId], references: [id])
-  type      String   // VIEW, CLICK, ADD_TO_CART, PURCHASE
+  productId String?  @map("product_id")
   metadata  String?  // JSON string
   createdAt DateTime @default(now()) @map("created_at")
 
-  @@map("user_interactions")
+  // Relations
+  product   Product? @relation(fields: [productId], references: [id])
+
   @@index([sessionId])
   @@index([productId])
   @@index([type])
-  @@index([createdAt])
-}
-
-model Order {
-  id        String      @id @default(cuid())
-  sessionId String      @map("session_id")
-  userId    String?     @map("user_id")
-  total     Float
-  currency  String      @default("USD")
-  status    String      @default("PENDING") // PENDING, PAID, CANCELLED
-  items     OrderItem[]
-  createdAt DateTime    @default(now()) @map("created_at")
-  updatedAt DateTime    @updatedAt @map("updated_at")
-
-  @@map("orders")
-  @@index([sessionId])
-  @@index([userId])
-}
-
-model OrderItem {
-  id        String  @id @default(cuid())
-  orderId   String  @map("order_id")
-  order     Order   @relation(fields: [orderId], references: [id])
-  productId String  @map("product_id")
-  product   Product @relation(fields: [productId], references: [id])
-  quantity  Int
-  price     Float
-
-  @@map("order_items")
-  @@index([orderId])
-  @@index([productId])
+  @@map("user_events")
 }

@@ -42,10 +42,37 @@ model AbandonedLink {
   createdAt          DateTime        @default(now()) @map("created_at")
   updatedAt          DateTime        @updatedAt @map("updated_at")
 
+  // Relations
+  recoveryEmails      RecoveryEmail[]
+
   @@map("abandoned_links")
 }
 
-// Abandoned cart tracking
+// Cart tracking for both active and abandoned carts
+model Cart {
+  id              String    @id @default(cuid())
+  sessionId       String    @unique @map("session_id")
+  visitorId       String?   @map("visitor_id")
+  visitorEmail    String?   @map("visitor_email")
+  userId          String?   @map("user_id") // Optional link to User
+  items           String    // JSON string of cart items: { toolSlug, quantity, price, etc. }[]
+  totalValue      Float     @default(0) @map("total_value")
+  currency        String    @default("USD")
+  affiliateId     String?   @map("affiliate_id")
+  source          String    @default("direct")
+  status          String    @default("active") // active, abandoned, recovered, converted
+  recoveryStatus  String    @default("pending") @map("recovery_status") // pending, sent, failed
+  lastActiveAt    DateTime  @default(now()) @map("last_active_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  recoveryEmails  RecoveryEmail[]
+
+  @@map("carts")
+}
+
+// Abandoned cart tracking (Legacy/Deprecated - use Cart instead)
 model AbandonedCart {
   id              String    @id @default(cuid())
   sessionId       String    @unique @map("session_id")
@@ -66,12 +93,17 @@ model AbandonedCart {
 // Recovery email sequences
 model RecoveryEmail {
   id              String    @id @default(cuid())
-  abandonedLinkId String    @map("abandoned_link_id")
+  abandonedLinkId String?   @map("abandoned_link_id")
+  cartId          String?   @map("cart_id")
   templateId      String    @map("template_id")
   sentAt          DateTime  @default(now()) @map("sent_at")
   openedAt        DateTime? @map("opened_at")
   clickedAt       DateTime? @map("clicked_at")
   status          String    @default("sent") // sent, opened, clicked, failed
+
+  // Relations
+  abandonedLink   AbandonedLink? @relation(fields: [abandonedLinkId], references: [id])
+  cart            Cart?          @relation(fields: [cartId], references: [id])
 
   @@map("recovery_emails")
 }

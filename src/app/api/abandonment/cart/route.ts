@@ -7,19 +7,8 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { 
-  storeAbandonedCart, 
-  getAbandonedCart, 
-  generateCartRecoveryUrl 
-} from "@/lib/abandoned-link-recovery";
-
-interface CartItem {
-  toolSlug: string;
-  toolName: string;
-  price: number;
-  quantity: number;
-  discount?: number;
-}
+import { CartService } from "@/lib/cart-service";
+import { generateCartRecoveryUrl } from "@/lib/abandoned-link-recovery";
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,29 +24,20 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Store abandoned cart
-    const cart = await storeAbandonedCart(
-      sessionId,
-      items,
+    // Store abandoned cart using CartService
+    const cart = await CartService.saveCart(sessionId, items, {
       visitorEmail,
       affiliateId,
       source
-    );
-    
-    if (!cart) {
-      return NextResponse.json(
-        { error: "Failed to store cart" },
-        { status: 500 }
-      );
-    }
+    });
     
     // Generate recovery URL
     const recoveryUrl = generateCartRecoveryUrl(sessionId, items);
     
     return NextResponse.json({
       success: true,
-      cartId: cart.sessionId,
-      totalValue: cart.totalValue,
+      cartId: sessionId,
+      totalValue: cart.subtotal,
       recoveryUrl,
     });
     
@@ -82,9 +62,9 @@ export async function GET(request: NextRequest) {
       );
     }
     
-    const cart = await getAbandonedCart(sessionId);
+    const cart = await CartService.getCart(sessionId);
     
-    if (!cart) {
+    if (cart.itemCount === 0) {
       return NextResponse.json(
         { error: "Cart not found" },
         { status: 404 }
@@ -93,7 +73,13 @@ export async function GET(request: NextRequest) {
     
     return NextResponse.json({
       success: true,
-      data: cart,
+      data: {
+          ...cart,
+          sessionId,
+          currency: 'USD',
+          // Legacy format compatibility if needed, but CartSummary structure is clean
+          items: JSON.stringify(cart.items)
+      },
     });
     
   } catch (error) {

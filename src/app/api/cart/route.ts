@@ -9,33 +9,27 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { CartService } from '@/lib/cart-service';
+import crypto from 'crypto';
 
-// In-memory cart storage (use Redis/database in production)
-const carts = new Map<string, { items: Array<{ toolSlug: string; quantity: number }>; updatedAt: number }>();
-
-const CART_TTL = 24 * 60 * 60 * 1000; // 24 hours
+const CART_TTL = 24 * 60 * 60; // 24 hours in seconds
 
 export async function GET(request: NextRequest) {
-  const sessionId = request.cookies.get('cart_session')?.value || 'default';
+  const sessionId = request.cookies.get('cart_session')?.value;
 
-  try {
-    const cart = carts.get(sessionId);
-    
-    if (!cart || Date.now() - cart.updatedAt > CART_TTL) {
-      return NextResponse.json({
+  if (!sessionId) {
+     return NextResponse.json({
         items: [],
         itemCount: 0,
         subtotal: 0,
+        updatedAt: Date.now()
       });
-    }
+  }
 
-    // In production, fetch actual tool data and calculate totals
-    return NextResponse.json({
-      items: cart.items,
-      itemCount: cart.items.reduce((sum, item) => sum + item.quantity, 0),
-      subtotal: 0, // Calculate from tool data
-      updatedAt: cart.updatedAt,
-    });
+  try {
+    const cart = await CartService.getCart(sessionId);
+
+    return NextResponse.json(cart);
   } catch (error) {
     console.error('[Cart API] GET error:', error);
     return NextResponse.json({ error: 'Failed to get cart' }, { status: 500 });
@@ -43,44 +37,26 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const sessionId = request.cookies.get('cart_session')?.value || `cart_${Date.now()}`;
+  const sessionId = request.cookies.get('cart_session')?.value || `cart_${crypto.randomUUID()}`;
 
   try {
     const body = await request.json();
-    const { toolSlug, quantity = 1 } = body;
+    const { toolSlug, quantity = 1, toolName, price } = body;
 
     if (!toolSlug) {
       return NextResponse.json({ error: 'toolSlug is required' }, { status: 400 });
     }
 
-    // Get or create cart
-    let cart = carts.get(sessionId);
-    if (!cart || Date.now() - cart.updatedAt > CART_TTL) {
-      cart = { items: [], updatedAt: Date.now() };
-    }
+    const cart = await CartService.addToCart(sessionId, { toolSlug, quantity, toolName, price });
 
-    // Check if item already exists
-    const existingIndex = cart.items.findIndex(item => item.toolSlug === toolSlug);
-    
-    if (existingIndex !== -1) {
-      cart.items[existingIndex].quantity += quantity;
-    } else {
-      cart.items.push({ toolSlug, quantity });
-    }
-
-    // Save cart
-    cart.updatedAt = Date.now();
-    carts.set(sessionId, cart);
-
-    // Set cookie
     const response = NextResponse.json({
       success: true,
-      items: cart.items,
-      itemCount: cart.items.reduce((sum, item) => sum + item.quantity, 0),
+      ...cart
     });
     
+    // Refresh cookie
     response.cookies.set('cart_session', sessionId, {
-      maxAge: CART_TTL / 1000,
+      maxAge: CART_TTL,
       path: '/',
     });
 
@@ -106,29 +82,11 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'toolSlug and quantity are required' }, { status: 400 });
     }
 
-    const cart = carts.get(sessionId);
-    if (!cart) {
-      return NextResponse.json({ error: 'Cart not found' }, { status: 404 });
-    }
-
-    const itemIndex = cart.items.findIndex(item => item.toolSlug === toolSlug);
-    if (itemIndex === -1) {
-      return NextResponse.json({ error: 'Item not found' }, { status: 404 });
-    }
-
-    if (quantity <= 0) {
-      cart.items.splice(itemIndex, 1);
-    } else {
-      cart.items[itemIndex].quantity = quantity;
-    }
-
-    cart.updatedAt = Date.now();
-    carts.set(sessionId, cart);
+    const cart = await CartService.updateItem(sessionId, toolSlug, quantity);
 
     return NextResponse.json({
       success: true,
-      items: cart.items,
-      itemCount: cart.items.reduce((sum, item) => sum + item.quantity, 0),
+      ...cart
     });
   } catch (error) {
     console.error('[Cart API] PUT error:', error);
@@ -147,26 +105,16 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const toolSlug = searchParams.get('toolSlug');
 
-    const cart = carts.get(sessionId);
-    if (!cart) {
-      return NextResponse.json({ error: 'Cart not found' }, { status: 404 });
-    }
-
+    let cart;
     if (toolSlug) {
-      // Remove specific item
-      cart.items = cart.items.filter(item => item.toolSlug !== toolSlug);
+      cart = await CartService.removeItem(sessionId, toolSlug);
     } else {
-      // Clear entire cart
-      cart.items = [];
+      cart = await CartService.clearCart(sessionId);
     }
-
-    cart.updatedAt = Date.now();
-    carts.set(sessionId, cart);
 
     return NextResponse.json({
       success: true,
-      items: cart.items,
-      itemCount: 0,
+      ...cart
     });
   } catch (error) {
     console.error('[Cart API] DELETE error:', error);

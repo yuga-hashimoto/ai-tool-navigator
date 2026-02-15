@@ -5,8 +5,17 @@ import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { sendGAEvent } from '@/lib/analytics';
-import { ArrowLeft, CreditCard, Lock, Check, Loader2 } from 'lucide-react';
+import { ArrowLeft, CreditCard, Lock, Check, Loader2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+
+const UPSELL_OFFER = {
+  slug: 'premium-priority-support',
+  title: 'Premium Priority Support',
+  price: '$19.99',
+  description: 'Get 24/7 priority support and dedicated account manager.',
+  image: 'https://images.unsplash.com/photo-1534536281715-e28d76689b4d?w=200&h=200&fit=crop'
+};
 
 interface CartItem {
   slug: string;
@@ -22,9 +31,10 @@ export default function CheckoutPage() {
   
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [step, setStep] = useState<'cart' | 'payment' | 'confirmation'>('cart');
+  const [step, setStep] = useState<'cart' | 'payment' | 'upsell' | 'confirmation'>('cart');
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal' | 'apple'>('card');
+  const [upsellAccepted, setUpsellAccepted] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -60,15 +70,39 @@ export default function CheckoutPage() {
     
     // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsProcessing(false);
-    setStep('confirmation');
-    
+
+    // Track initial purchase
     sendGAEvent('purchase', {
       value: total,
       currency: 'USD',
       items: cartData.length,
     });
+    
+    setIsProcessing(false);
+    setStep('upsell');
+  };
+
+  const handleUpsellAccept = async () => {
+    setIsProcessing(true);
+    // Simulate payment processing for upsell
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    setUpsellAccepted(true);
+
+    // Track upsell purchase
+    const upsellPrice = parsePrice(UPSELL_OFFER.price);
+    sendGAEvent('purchase', {
+      value: upsellPrice,
+      currency: 'USD',
+      items: 1,
+    });
+
+    setIsProcessing(false);
+    setStep('confirmation');
+  };
+
+  const handleUpsellDecline = () => {
+    setStep('confirmation');
   };
 
   if (isLoading) {
@@ -116,6 +150,7 @@ export default function CheckoutPage() {
             <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
               {step === 'cart' && 'Review Cart'}
               {step === 'payment' && 'Payment'}
+              {step === 'upsell' && 'Special Offer'}
               {step === 'confirmation' && 'Thank You!'}
             </h1>
           </div>
@@ -128,7 +163,7 @@ export default function CheckoutPage() {
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Progress Steps */}
-        {step !== 'confirmation' && (
+        {step !== 'confirmation' && step !== 'upsell' && (
           <div className="flex items-center justify-center gap-2 mb-8">
             {['cart', 'payment'].map((s, idx) => (
               <div key={s} className="flex items-center">
@@ -163,6 +198,57 @@ export default function CheckoutPage() {
           </div>
         )}
 
+        {/* Upsell Step */}
+        {step === 'upsell' && (
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl border-2 border-blue-500 p-8 shadow-xl text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-semibold mb-6">
+                <Sparkles className="w-4 h-4" />
+                One-Time Offer
+              </div>
+
+              <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">
+                Wait! Before you go...
+              </h2>
+
+              <p className="text-zinc-600 dark:text-zinc-400 mb-8 max-w-md mx-auto">
+                Add <span className="font-semibold text-zinc-900 dark:text-zinc-100">{UPSELL_OFFER.title}</span> to your order for just <span className="font-semibold text-green-600">{UPSELL_OFFER.price}</span>.
+                {UPSELL_OFFER.description}
+              </p>
+
+              <div className="relative h-64 w-full mb-8 rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                <Image
+                  src={UPSELL_OFFER.image}
+                  alt={UPSELL_OFFER.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={handleUpsellAccept}
+                  disabled={isProcessing}
+                  className="w-full py-4 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-500 transition-all transform hover:scale-[1.02] shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2"
+                >
+                  {isProcessing ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <>Yes, Add to My Order - {UPSELL_OFFER.price}</>
+                  )}
+                </button>
+                <button
+                  onClick={handleUpsellDecline}
+                  disabled={isProcessing}
+                  className="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300 font-medium py-2 transition-colors"
+                >
+                  No thanks, I don't need priority support
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Confirmation Step */}
         {step === 'confirmation' ? (
           <div className="text-center py-12">
@@ -175,6 +261,15 @@ export default function CheckoutPage() {
             <p className="mt-4 text-zinc-500 max-w-md mx-auto">
               Thank you for your purchase. You will receive a confirmation email shortly with access details.
             </p>
+            {upsellAccepted && (
+              <div className="mt-6 max-w-md mx-auto bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 flex items-center gap-4">
+                <Sparkles className="w-6 h-6 text-blue-600" />
+                <div className="text-left">
+                  <p className="font-semibold text-zinc-900 dark:text-zinc-100">Plus Premium Support</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Has been added to your order.</p>
+                </div>
+              </div>
+            )}
             <div className="mt-8">
               <Link
                 href="/"
@@ -184,7 +279,7 @@ export default function CheckoutPage() {
               </Link>
             </div>
           </div>
-        ) : (
+        ) : step !== 'upsell' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-6">

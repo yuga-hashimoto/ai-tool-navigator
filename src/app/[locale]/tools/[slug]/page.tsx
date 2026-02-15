@@ -1,4 +1,8 @@
 import { getToolBySlug, getToolSlugs } from "@/lib/tools";
+<<<<<<< HEAD
+=======
+import { getRecommendations } from "@/lib/recommendations";
+>>>>>>> fc0697b (Implement Intelligent Cross-Sell Recommendations Engine)
 import { getRelatedPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
@@ -19,8 +23,12 @@ import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
+<<<<<<< HEAD
 import { ProductTracker } from "@/components/ProductTracker";
 import { RecommendedTools } from "@/components/RecommendedTools";
+=======
+import { InteractionTracker } from "@/components/InteractionTracker";
+>>>>>>> fc0697b (Implement Intelligent Cross-Sell Recommendations Engine)
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -75,6 +83,11 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   const { metadata, content } = tool;
   const { verified, last_updated } = metadata;
+<<<<<<< HEAD
+=======
+
+  const relatedTools = await getRecommendations(metadata, 3, locale);
+>>>>>>> fc0697b (Implement Intelligent Cross-Sell Recommendations Engine)
   const relatedPosts = await getRelatedPosts(metadata, 3, locale);
   const toolSchema = generateToolSchema(tool);
   const productSchema = generateProductSchema(tool);
@@ -115,6 +128,9 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+
+      <InteractionTracker toolSlug={metadata.slug} />
+
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
         <ProductTracker slug={slug} />
         <Breadcrumbs items={breadcrumbItems} />

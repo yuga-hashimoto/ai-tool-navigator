@@ -118,8 +118,12 @@
     "cons": "Cons",
     "prosConsTitle": "Pros & Cons",
     "ratingBreakdown": "Rating Breakdown",
+<<<<<<< HEAD
     "relatedTools": "Related Tools",
     "recommendedTools": "Recommended for You",
+=======
+    "relatedTools": "Recommended for You",
+>>>>>>> fc0697b (Implement Intelligent Cross-Sell Recommendations Engine)
     "relatedArticles": "Related Articles",
     "toolNotFound": "Tool Not Found",
     "copyLink": "Copy Link",

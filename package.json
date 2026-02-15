@@ -47,11 +47,11 @@
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
     "web-vitals": "^5.1.0",
-    "zod": "^4.3.6"
+    "zod": "^4.3.6",
+    "@prisma/client": "^5.10.2"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.989.0",
-    "@prisma/client": "^5.10.2",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",

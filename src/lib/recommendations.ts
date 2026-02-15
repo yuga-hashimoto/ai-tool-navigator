@@ -1,122 +1,93 @@
-import prisma from '@/lib/prisma';
-import { ToolMetadata, getToolBySlug, Tool } from '@/lib/tools';
+import { getAllTools, ToolMetadata } from './tools';
+
+const COMPLEMENTARY_CATEGORIES: Record<string, string[]> = {
+  'Video Generation': ['Audio Generation', 'Text-to-Speech', 'Writing', 'Marketing'],
+  'Writing': ['SEO', 'Marketing', 'Automation'],
+  'Coding': ['LLM', 'Productivity', 'Automation'],
+  'LLM': ['Coding', 'Writing', 'Search'],
+  'Marketing': ['Writing', 'Video Generation', 'Automation'],
+  'Automation': ['Marketing', 'Writing', 'Coding'],
+  'Real Estate': ['Marketing', 'Video Generation'],
+  'Search': ['LLM', 'Research'],
+  'Security': ['Coding', 'Automation'],
+  'Text-to-Speech': ['Video Generation', 'Writing'],
+  'Website Builder': ['Marketing', 'Design', 'Writing'],
+  'Design': ['Website Builder', 'Marketing'],
+  'Productivity': ['Coding', 'Writing'],
+  'Audio Generation': ['Video Generation', 'Text-to-Speech'],
+  'SEO': ['Writing', 'Marketing'],
+  'Business Automation': ['Marketing', 'Writing', 'Coding'],
+  'AI Coworker': ['Automation', 'Coding', 'Writing'],
+  'Coding Agent': ['Coding', 'LLM'],
+  'Coding Assistant': ['Coding', 'LLM'],
+  'Comparison': ['Search'],
+  'AI Comparisons': ['Search'],
+};
 
 export async function getRecommendations(
-  sessionId: string,
-  currentSlug: string,
+  currentTool: ToolMetadata,
   limit: number = 3,
   locale: string = 'en',
-  fetcher: (slug: string, locale?: string) => Promise<Tool | null> = getToolBySlug
+  visitorId?: string
 ): Promise<ToolMetadata[]> {
-  // 1. Collaborative Filtering: "Users who viewed this also viewed..."
-  // Find sessions that viewed the current product
-  // We need the product ID first
-  const currentProduct = await prisma.product.findUnique({
-    where: { slug: currentSlug },
-  });
+  // 1. Fetch all tools
+  const allTools = await getAllTools(locale);
 
-  if (!currentProduct) {
-    // If product not in DB, fallback to empty array (caller can handle fallback)
-    return [];
+  // 2. Filter out current tool
+  const candidates = allTools.filter(t => t.slug !== currentTool.slug);
+
+  // 3. Collaborative Filtering (Future Implementation)
+  // This placeholder indicates where we would fetch user interaction data
+  // using prisma and visitorId to adjust scores.
+
+  /*
+  let collaborativeScores: Record<string, number> = {};
+  if (visitorId) {
+      // Future: Fetch interactions from DB
+      // const userInteractions = await prisma.userInteraction.findMany({ ... });
   }
+  */
 
-  // Find sessions that interacted with this product
-  const sessions = await prisma.userInteraction.findMany({
-    where: {
-      productId: currentProduct.id,
-      type: 'VIEW', // Focus on views for now
-    },
-    select: { sessionId: true },
-    distinct: ['sessionId'],
-    take: 100, // Limit sample size for performance
-  });
+  // 4. Content-Based Scoring
+  const scoredCandidates = candidates.map(tool => {
+    let score = 0;
 
-  const sessionIds = sessions.map((s) => s.sessionId);
-
-  let recommendedProductIds: { productId: string; count: number }[] = [];
-
-  if (sessionIds.length > 0) {
-    // Find other products viewed by these sessions
-    const otherInteractions = await prisma.userInteraction.groupBy({
-      by: ['productId'],
-      where: {
-        sessionId: { in: sessionIds },
-        productId: { not: currentProduct.id },
-        type: 'VIEW',
-      },
-      _count: {
-        productId: true,
-      },
-      orderBy: {
-        _count: {
-          productId: 'desc',
-        },
-      },
-      take: limit,
-    });
-
-    recommendedProductIds = otherInteractions.map(i => ({
-        productId: i.productId,
-        count: i._count.productId
-    }));
-  }
-
-  // 2. Content-Based Filtering (Fallback)
-  // If we don't have enough collaborative recommendations, fill with same category
-  if (recommendedProductIds.length < limit) {
-    const categoryId = currentProduct.categoryId;
-    if (categoryId) {
-        const excludeIds = [currentProduct.id, ...recommendedProductIds.map(i => i.productId)];
-
-        const contentBased = await prisma.product.findMany({
-            where: {
-                categoryId: categoryId,
-                id: { notIn: excludeIds }
-            },
-            take: limit - recommendedProductIds.length
-        });
-
-        contentBased.forEach(p => {
-            recommendedProductIds.push({ productId: p.id, count: 0 });
-        });
+    // Same category: +5 (Strong signal for alternatives)
+    if (tool.category === currentTool.category) {
+      score += 5;
     }
-  }
 
-  // Fetch full product details
-  const productIds = recommendedProductIds.map(i => i.productId);
-  if (productIds.length === 0) return [];
+    // Complementary category: +3 (Cross-sell)
+    const complementary = COMPLEMENTARY_CATEGORIES[currentTool.category] || [];
+    if (complementary.includes(tool.category)) {
+      score += 3;
+    }
 
-  const products = await prisma.product.findMany({
-    where: { id: { in: productIds } },
+    // Rating: +Rating (0-10 usually)
+    if (tool.rating) {
+      score += tool.rating;
+    }
+
+    // Featured/Promoted: +2
+    if (tool.featured || tool.promoted) {
+      score += 2;
+    }
+
+    // Tool of the week: +3
+    if (tool.tool_of_the_week) {
+        score += 3;
+    }
+
+    // Verified: +1
+    if (tool.verified) {
+      score += 1;
+    }
+
+    return { tool, score };
   });
 
-  // Convert to ToolMetadata
-  // We can trust the DB metadata or fetch from markdown.
-  // Fetching from markdown ensures consistency with other parts of the app.
-  const tools: ToolMetadata[] = [];
+  // 5. Sort by score descending
+  scoredCandidates.sort((a, b) => b.score - a.score);
 
-  for (const product of products) {
-      const tool = await fetcher(product.slug, locale);
-      if (tool) {
-          tools.push(tool.metadata);
-      }
-  }
-
-  // Sort by the order in recommendedProductIds (which is by popularity)
-  // Create a map for quick lookup of order
-  const orderMap = new Map(productIds.map((id, index) => [id, index]));
-
-  // We need to map back from slug to ID to sort correctly, but we only have slugs in tools.
-  // Actually we have products list with slugs and IDs.
-  const slugToId = new Map(products.map(p => [p.slug, p.id]));
-
-  tools.sort((a, b) => {
-      const idA = slugToId.get(a.slug);
-      const idB = slugToId.get(b.slug);
-      const indexA = idA ? orderMap.get(idA) ?? 999 : 999;
-      const indexB = idB ? orderMap.get(idB) ?? 999 : 999;
-      return indexA - indexB;
-  });
-
-  return tools;
+  return scoredCandidates.slice(0, limit).map(item => item.tool);
 }

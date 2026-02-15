@@ -21,9 +21,9 @@
           "maxTokens": 8192
         },
         {
-          "id": "MiniMax-M2.1-lightning",
-          "name": "MiniMax M2.1 Lightning",
-          "reasoning": false,
+          "id": "MiniMax-M2.5",
+          "name": "MiniMax M2.5",
+          "reasoning": true,
           "input": [
             "text"
           ],
@@ -32,22 +32,6 @@
             "output": 0,
             "cacheRead": 0,
             "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192
-        },
-        {
-          "id": "MiniMax-M2.5",
-          "name": "MiniMax M2.5",
-          "reasoning": true,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 15,
-            "output": 60,
-            "cacheRead": 2,
-            "cacheWrite": 10
           },
           "contextWindow": 200000,
           "maxTokens": 8192

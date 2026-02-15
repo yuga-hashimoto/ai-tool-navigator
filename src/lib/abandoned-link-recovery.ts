@@ -10,6 +10,8 @@
  */
 
 import { PrismaClient } from '@prisma/client';
+import { sendEmail } from '@/lib/email';
+import { hashEmail } from '@/lib/security/email-hashing';
 
 // Types for abandoned link tracking
 export interface AbandonedLinkData {
@@ -642,6 +644,7 @@ function interpolateTemplate(
  * Cart abandonment data
  */
 export interface AbandonedCart {
+  id?: string;
   sessionId: string;
   visitorId?: string;
   visitorEmail?: string;
@@ -679,22 +682,38 @@ export async function storeAbandonedCart(
       return sum + (item.discount ? itemTotal - item.discount : itemTotal);
     }, 0);
 
-    const now = new Date().toISOString();
+    const visitorId = visitorEmail ? `visitor_${hashEmail(visitorEmail)}` : undefined;
+    const itemsJson = JSON.stringify(items);
 
-    const record = await prisma.$queryRaw<AbandonedCart[]>`
-      INSERT OR REPLACE INTO abandoned_carts (
-        session_id, visitor_id, visitor_email, items, total_value,
-        currency, affiliate_id, source, recovery_status, created_at, updated_at
-      ) VALUES (
-        ${sessionId}, ${visitorEmail ? `visitor_${visitorEmail.hash}` : null},
-        ${visitorEmail || null}, ${JSON.stringify(items)},
-        ${totalValue}, 'USD', ${affiliateId || null}, ${source},
-        'pending', ${now}, ${now}
-      )
-      RETURNING *
-    `;
+    const cart = await prisma.abandonedCart.upsert({
+      where: { sessionId },
+      create: {
+        sessionId,
+        visitorId,
+        visitorEmail,
+        items: itemsJson,
+        totalValue,
+        currency: 'USD',
+        affiliateId,
+        source,
+        recoveryStatus: 'pending',
+      },
+      update: {
+        visitorId,
+        visitorEmail,
+        items: itemsJson,
+        totalValue,
+        source,
+        // Reset recovery status on update as it's a "new" abandonment
+        recoveryStatus: 'pending',
+      }
+    });
 
-    return record[0] || null;
+    // Parse items back to CartItem[] for interface compatibility
+    return {
+      ...cart,
+      items: typeof cart.items === 'string' ? JSON.parse(cart.items) : cart.items
+    };
   } catch (error) {
     console.error('[Abandonment] Error storing cart:', error);
     return null;
@@ -744,6 +763,85 @@ export function generateCartRecoveryUrl(
 /**
  * Create default database tables for abandonment tracking
  */
+/**
+ * Process and send cart recovery emails
+ */
+export async function processCartRecoveryEmails(
+  batchSize: number = 50
+): Promise<{ sent: number; failed: number }> {
+  try {
+    // Get pending abandoned carts older than 15 minutes
+    const cutoffDate = new Date(Date.now() - 15 * 60 * 1000);
+
+    // Use Prisma Client for type safety and automatic mapping
+    const pendingCarts = await prisma.abandonedCart.findMany({
+      where: {
+        recoveryStatus: 'pending',
+        visitorEmail: { not: null },
+        updatedAt: { lt: cutoffDate }
+      },
+      take: batchSize
+    });
+
+    let sent = 0;
+    let failed = 0;
+
+    for (const cart of pendingCarts) {
+        // Parse items if string
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const items: CartItem[] = typeof cart.items === 'string' ? JSON.parse(cart.items) : cart.items;
+
+        // Select template (simple logic for now: just pick the first one)
+        const template = cartRecoveryTemplates[0];
+
+        try {
+            const recoveryLink = generateCartRecoveryUrl(cart.sessionId, items);
+
+            const emailBody = interpolateTemplate(template.body, {
+                visitor_name: cart.visitorEmail?.split('@')[0] || 'Shopper',
+                cart_items: items.map(i => i.toolName).join(', '),
+                recovery_link: recoveryLink,
+                discount_code: 'COMEBACK10'
+            });
+
+            await sendEmail({
+                to: cart.visitorEmail!,
+                subject: template.subject.replace('{cart_items}', items.length > 1 ? `${items.length} items` : items[0]?.toolName || 'items'),
+                html: emailBody
+            });
+
+            // Update cart status
+            await prisma.abandonedCart.update({
+              where: { id: cart.id },
+              data: {
+                recoveryStatus: 'email_sent'
+              }
+            });
+
+            // Create RecoveryEmail record
+            await prisma.recoveryEmail.create({
+              data: {
+                abandonedCartId: cart.id,
+                templateId: template.id,
+                status: 'sent'
+              }
+            });
+
+            sent++;
+        } catch (e) {
+            console.error(`Failed to process cart ${cart.sessionId}:`, e);
+            failed++;
+        }
+    }
+
+    return { sent, failed };
+
+  } catch (error) {
+    console.error('[Abandonment] Error processing cart emails:', error);
+    return { sent: 0, failed: 0 };
+  }
+}
+
 export async function createAbandonmentTables(): Promise<void> {
   // Create abandoned_links table
   await prisma.$queryRaw`

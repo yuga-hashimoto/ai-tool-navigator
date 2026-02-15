@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { ToolMetadata } from '@/lib/tools';
+import { useCartSync } from '@/hooks/useCartSync';
 
 interface CartItem {
   id: string;
@@ -66,6 +67,9 @@ export function useMiniCart(): UseMiniCartReturn {
       console.error('Failed to save mini cart:', error);
     }
   }, [miniCartItems]);
+
+  // Sync cart with server for abandonment recovery
+  useCartSync({ cartItems: miniCartItems });
 
   const itemCount = miniCartItems.reduce((sum, item) => sum + item.quantity, 0);
 

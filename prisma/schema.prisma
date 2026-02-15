@@ -66,7 +66,8 @@ model AbandonedCart {
 // Recovery email sequences
 model RecoveryEmail {
   id              String    @id @default(cuid())
-  abandonedLinkId String    @map("abandoned_link_id")
+  abandonedLinkId String?   @map("abandoned_link_id")
+  abandonedCartId String?   @map("abandoned_cart_id")
   templateId      String    @map("template_id")
   sentAt          DateTime  @default(now()) @map("sent_at")
   openedAt        DateTime? @map("opened_at")

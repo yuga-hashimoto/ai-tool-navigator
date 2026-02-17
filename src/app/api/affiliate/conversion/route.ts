@@ -19,7 +19,7 @@ import {
   rejectConversion,
   initializeDemoData
 } from "@/lib/affiliate/database";
-import { AttributionModel } from "@/lib/affiliate/schema";
+import { AttributionModel } from "@/lib/affiliate-tracking";
 import { checkRateLimit } from "@/lib/security/rate-limiter";
 import { getClientIP } from "@/lib/security/bot-detection";
 import { ENDPOINT_CONFIGS } from "@/lib/security/rate-limit-config-v2";
@@ -138,8 +138,8 @@ export async function POST(request: NextRequest) {
     
     // Update attribution cookie
     if (attributionData) {
-      attributionData.conversions = (attributionData.conversions || 0) + 1;
-      attributionData.totalValue = (attributionData.totalValue || 0) + (value || 0);
+      attributionData.conversions = ((attributionData.conversions as number) || 0) + 1;
+      attributionData.totalValue = ((attributionData.totalValue as number) || 0) + (value || 0);
       attributionData.lastTouchTimestamp = conversion.conversion_timestamp;
       
       cookieStore.set("affiliate_attribution", JSON.stringify(attributionData), {

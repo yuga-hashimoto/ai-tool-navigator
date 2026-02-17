@@ -5,7 +5,7 @@ export * from './rate-limit-config';
 
 // Rate limiting
 export * from './rate-limiter';
-export * from './rate-limit-middleware';
+// export * from './rate-limit-middleware'; // Removed missing module
 export * from './rate-limit-config-v2';
 
 // Bot detection
@@ -24,7 +24,14 @@ export * from './captcha';
 export * from './anomaly-detection';
 
 // Honeypot
-export * from './honeypot';
+export {
+  HoneypotField,
+  TimeHoneypot,
+  HoneyToken,
+  CombinedHoneypot,
+  validateHoneypot,
+  HONEYPOT_FIELD_NAMES
+} from './honeypot';
 
 // Security middleware
 export * from './security-middleware';

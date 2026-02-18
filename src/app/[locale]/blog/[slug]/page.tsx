@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   // Generate Person schema for author
   const personSchema = generatePersonSchema({
     name: metadata.author,
-    url: `${SITE_URL}/about`,
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/about`,
     jobTitle: "AI Writer",
     worksFor: "AI Tool Navigator",
     description: `Author profile for ${metadata.author}`

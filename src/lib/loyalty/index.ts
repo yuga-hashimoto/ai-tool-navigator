@@ -34,7 +34,4 @@ export {
 
 // React hooks
 export { useLoyalty } from './useLoyalty';
-export { useLoyaltyPoints } from './useLoyaltyPoints';
 export { useLoyaltyRewards } from './useLoyaltyRewards';
-export { useLoyaltyAchievements } from './useLoyaltyAchievements';
-export { useReferralProgram } from './useReferralProgram';

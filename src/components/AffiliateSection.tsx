@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { AffiliateLinkButton } from './AffiliateLinkButton';
 import affiliates from '../../data/affiliates.json';
@@ -48,7 +50,10 @@ const AffiliateSection = () => {
                   href={tool.url}
                   toolSlug={tool.id}
                   toolName={tool.name}
+                  affiliateId={tool.id}
                   position="recommended_tools"
+                  source="affiliate_section"
+                  campaign="tool_recommendations_2026"
                   className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                 >
                   {tool.cta}

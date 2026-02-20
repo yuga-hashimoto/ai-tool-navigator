@@ -1,7 +1,6 @@
 // Account Subscription Page
 // Customer portal for managing subscription
 
-import { headers } from 'next/headers';
 import CustomerPortal from '@/components/subscriptions/CustomerPortal';
 // import { getServerSession } from 'next-auth'; // Commented out to fix build
 

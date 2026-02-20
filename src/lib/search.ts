@@ -1,4 +1,5 @@
 import { getElasticClient } from './elasticsearch';
+import { AggregationsAggregate } from '@elastic/elasticsearch/lib/api/types';
 
 export interface SearchFilters {
   category?: string[];
@@ -25,6 +26,7 @@ export interface SearchResult<T> {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function searchTools(options: SearchOptions): Promise<SearchResult<any>> {
   const client = getElasticClient();
   if (!client) {
@@ -39,7 +41,9 @@ export async function searchTools(options: SearchOptions): Promise<SearchResult<
   const { q, filters, sort = 'relevance', page = 1, limit = 12 } = options;
   const from = (page - 1) * limit;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const must: any[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filter: any[] = [];
 
   // Full-text search with relevance boosting
@@ -78,6 +82,7 @@ export async function searchTools(options: SearchOptions): Promise<SearchResult<
   }
 
   // Sorting
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let sortQuery: any[] = [];
   if (sort === 'rating') {
     sortQuery = [{ rating: { order: 'desc' } }];
@@ -118,26 +123,42 @@ export async function searchTools(options: SearchOptions): Promise<SearchResult<
       }
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const hits = response.hits.hits.map((hit: any) => ({
       ...hit._source,
       score: hit._score
     }));
 
+    // Helper to safely extract buckets
+    const getBuckets = (agg: AggregationsAggregate | undefined) => {
+        if (!agg || !('buckets' in agg)) return [];
+        return Array.isArray(agg.buckets) ? agg.buckets : [];
+    };
+
     const facets = {
-      categories: (response.aggregations?.categories as any)?.buckets || [],
-      prices: (response.aggregations?.prices as any)?.buckets || [],
-      platforms: (response.aggregations?.platforms as any)?.buckets || []
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      categories: getBuckets((response.aggregations?.categories as any)),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      prices: getBuckets((response.aggregations?.prices as any)),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      platforms: getBuckets((response.aggregations?.platforms as any))
     };
 
     // Track analytics
     if (q) {
-      await trackSearch(q, response.hits.total ? (typeof response.hits.total === 'number' ? response.hits.total : response.hits.total.value) : 0);
+        const total = typeof response.hits.total === 'number' ? response.hits.total : response.hits.total?.value || 0;
+        await trackSearch(q, total);
     }
+
+    const totalHits = typeof response.hits.total === 'number' ? response.hits.total : response.hits.total?.value || 0;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const typedFacets = facets as any;
 
     return {
       hits,
-      total: response.hits.total ? (typeof response.hits.total === 'number' ? response.hits.total : response.hits.total.value) : 0,
-      facets
+      total: totalHits,
+      facets: typedFacets
     };
 
   } catch (error) {

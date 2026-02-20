@@ -229,6 +229,8 @@ model Product {
 
   interactions UserInteraction[]
   orderItems   OrderItem[]
+  inventoryItems Inventory[]
+  inventoryTransfers InventoryTransfer[]
 
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -296,4 +298,63 @@ model OrderItem {
   @@map("order_items")
   @@index([orderId])
   @@index([productId])
+}
+
+// =====================================================
+// INVENTORY & WAREHOUSE MANAGEMENT
+// =====================================================
+
+model Warehouse {
+  id          String      @id @default(cuid())
+  name        String
+  location    String?
+  priority    Int         @default(0)
+  isEnabled   Boolean     @default(true)
+
+  inventory   Inventory[]
+
+  outgoingTransfers InventoryTransfer[] @relation("SourceWarehouse")
+  incomingTransfers InventoryTransfer[] @relation("TargetWarehouse")
+
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  @@map("warehouses")
+}
+
+model Inventory {
+  id          String    @id @default(cuid())
+  productId   String    @map("product_id")
+  product     Product   @relation(fields: [productId], references: [id])
+
+  warehouseId String    @map("warehouse_id")
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+
+  quantity    Int       @default(0)
+
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@unique([productId, warehouseId])
+  @@map("inventory")
+}
+
+model InventoryTransfer {
+  id              String    @id @default(cuid())
+  productId       String    @map("product_id")
+  product         Product   @relation(fields: [productId], references: [id])
+
+  sourceWarehouseId String? @map("source_warehouse_id")
+  sourceWarehouse   Warehouse? @relation("SourceWarehouse", fields: [sourceWarehouseId], references: [id])
+
+  targetWarehouseId String  @map("target_warehouse_id")
+  targetWarehouse   Warehouse @relation("TargetWarehouse", fields: [targetWarehouseId], references: [id])
+
+  quantity        Int
+  status          String    @default("PENDING") // PENDING, COMPLETED, CANCELLED, FAILED
+  notes           String?
+
+  createdAt       DateTime  @default(now()) @map("created_at")
+  processedAt     DateTime? @map("processed_at")
+
+  @@map("inventory_transfers")
 }

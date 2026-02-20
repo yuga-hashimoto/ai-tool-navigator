@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { sendGAEvent } from '@/lib/analytics';
+import { submitOrder } from '@/actions/order';
 import { ArrowLeft, CreditCard, Lock, Check, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -58,17 +59,37 @@ export default function CheckoutPage() {
   const handlePayment = async () => {
     setIsProcessing(true);
     
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsProcessing(false);
-    setStep('confirmation');
-    
-    sendGAEvent('purchase', {
-      value: total,
-      currency: 'USD',
-      items: cartData.length,
-    });
+    try {
+      const orderItems = cartData.map(item => ({
+        slug: item.slug,
+        quantity: item.quantity,
+        price: parsePrice(item.price)
+      }));
+
+      const result = await submitOrder({
+        sessionId: 'mock-session-id', // In real app, get from cookie or auth
+        userId: 'mock-user-id', // In real app, get from auth
+        items: orderItems,
+        total: total,
+        currency: 'USD'
+      });
+
+      if (result.success) {
+        setStep('confirmation');
+        sendGAEvent('purchase', {
+          value: total,
+          currency: 'USD',
+          items: cartData.length,
+        });
+      } else {
+        alert('Order failed: ' + result.error);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('An unexpected error occurred processing your order.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (isLoading) {

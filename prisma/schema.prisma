@@ -297,3 +297,19 @@ model OrderItem {
   @@index([orderId])
   @@index([productId])
 }
+
+// =====================================================
+// SEARCH ANALYTICS
+// =====================================================
+
+model SearchLog {
+  id          String   @id @default(cuid())
+  sessionId   String?  @map("session_id")
+  query       String
+  resultsCount Int      @map("results_count")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("search_logs")
+  @@index([query])
+  @@index([createdAt])
+}

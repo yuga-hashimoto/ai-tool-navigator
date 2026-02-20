@@ -21,6 +21,7 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('search') || '');
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [searchResults, setSearchResults] = useState<ToolMetadata[] | null>(null);
 
   useEffect(() => {
     const query = searchParams.get('search');
@@ -51,14 +52,45 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
     };
   }, []);
 
+  useEffect(() => {
+    const fetchResults = async () => {
+      if (!searchQuery.trim()) {
+        setSearchResults(null);
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
+        if (res.ok) {
+            const data = await res.json();
+            // Casting to ToolMetadata since API returns a subset but ToolCard handles it
+            setSearchResults(data.hits as unknown as ToolMetadata[]);
+        } else {
+            setSearchResults(null);
+        }
+      } catch (error) {
+        console.error('Search error', error);
+        setSearchResults(null);
+      }
+    };
+
+    const debounce = setTimeout(fetchResults, 300);
+    return () => clearTimeout(debounce);
+  }, [searchQuery]);
+
   const t = useTranslations('ToolGrid');
   const tHome = useTranslations('HomePage');
 
   // Derive categories from tools
   const categories = ['All', ...Array.from(new Set(tools.map((tool) => tool.category)))];
 
-  const filteredTools = tools.filter((tool) => {
+  const filteredTools = (searchResults || tools).filter((tool) => {
     const matchesCategory = selectedCategory === 'All' || tool.category === selectedCategory;
+
+    if (searchResults) {
+        return matchesCategory;
+    }
+
     const searchLower = searchQuery.toLowerCase();
     const matchesSearch =
       (tool.title && tool.title.toLowerCase().includes(searchLower)) ||

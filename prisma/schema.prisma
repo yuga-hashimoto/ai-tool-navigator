@@ -297,3 +297,103 @@ model OrderItem {
   @@index([orderId])
   @@index([productId])
 }
+
+// =====================================================
+// USER & SUBSCRIPTION
+// =====================================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  role          String    @default("USER") // USER, ADMIN
+
+  // Subscription relation
+  subscription  Subscription?
+
+  // Win-back campaigns
+  winBackCampaigns WinBackCampaign[]
+
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Subscription {
+  id                String    @id @default(cuid())
+  userId            String    @unique @map("user_id")
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status            String    @default("ACTIVE") // ACTIVE, PAST_DUE, CANCELED, INCOMPLETE, INCOMPLETE_EXPIRED, TRIALING, UNPAID
+  isTrial           Boolean   @default(false) @map("is_trial")
+  trialEndsAt       DateTime? @map("trial_ends_at")
+  currentPeriodEnd  DateTime? @map("current_period_end")
+  cancelAtPeriodEnd Boolean   @default(false) @map("cancel_at_period_end")
+  canceledAt        DateTime? @map("canceled_at")
+  endedAt           DateTime? @map("ended_at")
+
+  tierId            String    @map("tier_id")
+  tier              SubscriptionTier @relation(fields: [tierId], references: [id])
+
+  billingHistory    BillingHistory[]
+
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  @@map("subscriptions")
+}
+
+model SubscriptionTier {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  price       Float
+  currency    String    @default("USD")
+  interval    String    @default("month") // month, year
+  features    String    // JSON string of features
+
+  subscriptions Subscription[]
+
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("subscription_tiers")
+}
+
+model BillingHistory {
+  id             String    @id @default(cuid())
+  subscriptionId String    @map("subscription_id")
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  type           String    // CHARGE, REFUND, INVOICE
+  amount         Float
+  currency       String    @default("USD")
+  status         String    // SUCCEEDED, PENDING, FAILED
+  description    String?
+
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  @@map("billing_history")
+}
+
+model WinBackCampaign {
+  id          String    @id @default(cuid())
+  userId      String    @map("user_id")
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status      String    @default("PENDING") // PENDING, ACTIVE, COMPLETED, STOPPED
+  stage       Int       @default(0) // Current stage in the re-engagement flow
+  lastSentAt  DateTime? @map("last_sent_at")
+  nextRunAt   DateTime? @map("next_run_at")
+
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("win_back_campaigns")
+  @@index([userId])
+  @@index([status])
+  @@index([nextRunAt])
+}

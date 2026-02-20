@@ -32,8 +32,7 @@ jobs:
           fi
 
           TITLE="Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
-          BODY_TRUNCATED=$(printf '%s' "${ISSUE_BODY:-}" | python3 -c 'import sys;print(sys.stdin.read()[:2000])')
-          PROMPT="Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\n\n${BODY_TRUNCATED}"
+          PROMPT="Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\n\n${ISSUE_BODY:-}"
 
           # Build JSON payload safely via jq
           jq -n \

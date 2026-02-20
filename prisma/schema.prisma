@@ -230,6 +230,15 @@ model Product {
   interactions UserInteraction[]
   orderItems   OrderItem[]
 
+  // Inventory fields
+  inventoryCount      Int       @default(0) @map("inventory_count")
+  allowBackorder      Boolean   @default(false) @map("allow_backorder")
+  preOrderReleaseDate DateTime? @map("pre_order_release_date")
+
+  // Relations
+  inventory           Inventory[]
+  transfers           InventoryTransfer[]
+
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
@@ -296,4 +305,65 @@ model OrderItem {
   @@map("order_items")
   @@index([orderId])
   @@index([productId])
+}
+
+// =====================================================
+// INVENTORY MANAGEMENT
+// =====================================================
+
+// Warehouse model
+model Warehouse {
+  id        String      @id @default(cuid())
+  name      String
+  location  String?
+  priority  Int         @default(0)
+  isActive  Boolean     @default(true) @map("is_active")
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
+
+  inventory Inventory[]
+  outgoingTransfers InventoryTransfer[] @relation("FromWarehouse")
+  incomingTransfers InventoryTransfer[] @relation("ToWarehouse")
+
+  @@map("warehouses")
+}
+
+// Inventory model
+model Inventory {
+  id          String    @id @default(cuid())
+  warehouseId String    @map("warehouse_id")
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+  productId   String    @map("product_id")
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity    Int       @default(0)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@unique([warehouseId, productId])
+  @@index([warehouseId])
+  @@index([productId])
+  @@map("inventory")
+}
+
+// Inventory Transfer model
+model InventoryTransfer {
+  id              String    @id @default(cuid())
+  fromWarehouseId String    @map("from_warehouse_id")
+  fromWarehouse   Warehouse @relation("FromWarehouse", fields: [fromWarehouseId], references: [id])
+  toWarehouseId   String    @map("to_warehouse_id")
+  toWarehouse     Warehouse @relation("ToWarehouse", fields: [toWarehouseId], references: [id])
+  productId       String    @map("product_id")
+  product         Product   @relation(fields: [productId], references: [id])
+  quantity        Int
+  status          String    @default("PENDING") // PENDING, COMPLETED, CANCELLED
+  notes           String?
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  completedAt     DateTime? @map("completed_at")
+
+  @@index([fromWarehouseId])
+  @@index([toWarehouseId])
+  @@index([productId])
+  @@index([status])
+  @@map("inventory_transfers")
 }

@@ -1,0 +1,15 @@
+
+> ai-tool-navigator@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 2.3s
+ GET /en/admin/inventory 200 in 2.2s (compile: 1132ms, proxy.ts: 148ms, render: 875ms)
+ GET /en/admin/inventory/warehouses 200 in 2.6s (compile: 2.4s, proxy.ts: 19ms, render: 261ms)
+ GET /en/admin/inventory/transfers 200 in 1602ms (compile: 1358ms, proxy.ts: 5ms, render: 238ms)
+[?25h

@@ -1,0 +1,108 @@
+
+> ai-tool-navigator@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 3.2s
+○ Compiling /[locale]/admin/inventory ...
+Failed to fetch warehouses: Error [PrismaClientInitializationError]:
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"].warehouse.findMany()` invocation in
+/app/.next/dev/server/chunks/ssr/_27fba657._.js:53:160
+
+  50 ;
+  51 async function getWarehouses() {
+  52     try {
+→ 53         return await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"].warehouse.findMany(
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:10
+   |
+ 9 |   provider = "sqlite" // Change to "postgresql" or "mysql" for production
+10 |   url      = env("DATABASE_URL")
+   |
+
+Validation Error Count: 1
+    at <unknown> (src/actions/inventory.ts:9:35)
+    at <unknown> (-->  schema.prisma:10)
+    at async getWarehouses (src/actions/inventory.ts:9:12)
+    at async InventoryDashboard (src/app/[locale]/admin/inventory/page.tsx:4:22)
+   7 | export async function getWarehouses() {
+   8 |   try {
+>  9 |     return await prisma.warehouse.findMany({
+     |                                   ^
+  10 |       orderBy: { priority: 'desc' },
+  11 |       include: {
+  12 |         _count: { {
+  clientVersion: '5.10.2',
+  errorCode: undefined
+}
+⨯ Error: Failed to fetch warehouses
+    at getWarehouses (src/actions/inventory.ts:19:11)
+    at async InventoryDashboard (src/app/[locale]/admin/inventory/page.tsx:4:22)
+  17 |   } catch (error) {
+  18 |     console.error('Failed to fetch warehouses:', error)
+> 19 |     throw new Error('Failed to fetch warehouses')
+     |           ^
+  20 |   }
+  21 | }
+  22 | {
+  digest: '328064192'
+}
+ GET /en/admin/inventory 500 in 7.9s (compile: 6.4s, proxy.ts: 145ms, render: 1329ms)
+[ErrorTracker] {
+  message: 'Failed to fetch warehouses',
+  severity: 'HIGH',
+  category: 'FRONTEND',
+  stackTrace: 'Error: Failed to fetch warehouses\n' +
+    '    at getWarehouses (about://React/Server/file:///app/.next/dev/server/chunks/ssr/_27fba657._.js?42:67:15)\n' +
+    '    at  InventoryDashboard (about://React/Server/file:///app/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__50e0ac10._.js?43:48:24)\n' +
+    '    at resolveErrorDev (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:1894:148)\n' +
+    '    at processFullStringRow (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2402:29)\n' +
+    '    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2361:9)\n' +
+    '    at processBinaryChunk (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2470:221)\n' +
+    '    at progress (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2640:13)',
+  context: { digest: '328064192', type: 'error-boundary' },
+  url: 'http://localhost:3000/en/admin/inventory',
+  userId: undefined
+}
+Failed to log error to database: Error [PrismaClientInitializationError]:
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].errorLog.create()` invocation in
+/app/.next/dev/server/chunks/[root-of-the-server]__b5a594df._.js:99:154
+
+  96 } else //TURBOPACK unreachable
+  97 ;
+  98 try {
+→ 99     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].errorLog.create(
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:10
+   |
+ 9 |   provider = "sqlite" // Change to "postgresql" or "mysql" for production
+10 |   url      = env("DATABASE_URL")
+   |
+
+Validation Error Count: 1
+    at <unknown> (src/lib/error-tracking.ts:52:27)
+    at <unknown> (-->  schema.prisma:10)
+    at async logError (src/lib/error-tracking.ts:52:5)
+    at async POST (src/app/api/log-error/route.ts:29:5)
+  50 |
+  51 |   try {
+> 52 |     await prisma.errorLog.create({
+     |                           ^
+  53 |       data: {
+  54 |         message,
+  55 |         severity, {
+  clientVersion: '5.10.2',
+  errorCode: undefined
+}
+ POST /api/log-error 200 in 1113ms (compile: 853ms, render: 259ms)
+[?25h

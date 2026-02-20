@@ -1,7 +1,9 @@
 import { getAllTools } from "@/lib/tools";
 import { ToolsPageContent } from "@/components/ToolsPageContent";
+import { AdvancedSearch } from "@/components/AdvancedSearch";
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { isElasticsearchConfigured } from "@/lib/elasticsearch";
 
 export async function generateMetadata({
   params
@@ -27,6 +29,9 @@ export default async function ToolsPage({
   const tools = await getAllTools(locale);
   const t = await getTranslations('ToolsPage');
 
+  // Check if Elasticsearch is configured
+  const useAdvancedSearch = isElasticsearchConfigured();
+
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
@@ -39,7 +44,11 @@ export default async function ToolsPage({
           </p>
         </div>
 
-        <ToolsPageContent tools={tools} />
+        {useAdvancedSearch ? (
+            <AdvancedSearch />
+        ) : (
+            <ToolsPageContent tools={tools} />
+        )}
       </div>
     </div>
   );

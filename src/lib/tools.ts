@@ -36,7 +36,7 @@ export interface Tool {
   content: string;
 }
 
-const _getAllTools = async (locale: string = 'en'): Promise<ToolMetadata[]> => {
+export const getAllToolsRaw = async (locale: string = 'en'): Promise<ToolMetadata[]> => {
   const enDirectory = path.join(toolsDirectory, 'en');
   // Ensure directory exists
   if (!fs.existsSync(enDirectory)) {
@@ -72,7 +72,7 @@ const _getAllTools = async (locale: string = 'en'): Promise<ToolMetadata[]> => {
 };
 
 export const getAllTools = unstable_cache(
-  _getAllTools,
+  getAllToolsRaw,
   ['tools-all'],
   { tags: ['tools'], revalidate: 3600 }
 );

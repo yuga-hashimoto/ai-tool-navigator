@@ -42,7 +42,7 @@ export interface Post {
   content: string;
 }
 
-const _getAllPosts = async (locale: string = 'en'): Promise<PostMetadata[]> => {
+export const getAllPostsRaw = async (locale: string = 'en'): Promise<PostMetadata[]> => {
   // Try to find posts for the requested locale
   const localeDirectory = path.join(postsDirectory, locale);
   
@@ -85,12 +85,12 @@ const _getAllPosts = async (locale: string = 'en'): Promise<PostMetadata[]> => {
 };
 
 export const getAllPosts = unstable_cache(
-  _getAllPosts,
+  getAllPostsRaw,
   ['posts-all'],
   { tags: ['posts'], revalidate: 3600 }
 );
 
-const _getPostBySlug = async (slug: string, locale: string = 'en'): Promise<Post | null> => {
+export const getPostBySlugRaw = async (slug: string, locale: string = 'en'): Promise<Post | null> => {
   let fullPath = path.join(postsDirectory, locale, `${slug}.md`);
 
   // Fallback to root or 'en'
@@ -116,7 +116,7 @@ const _getPostBySlug = async (slug: string, locale: string = 'en'): Promise<Post
 };
 
 export const getPostBySlug = unstable_cache(
-  _getPostBySlug,
+  getPostBySlugRaw,
   ['post-slug'],
   { tags: ['posts'], revalidate: 3600 }
 );

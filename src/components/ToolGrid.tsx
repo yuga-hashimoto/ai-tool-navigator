@@ -59,6 +59,13 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
 
   const filteredTools = tools.filter((tool) => {
     const matchesCategory = selectedCategory === 'All' || tool.category === selectedCategory;
+
+    // If hideSearch is true, we assume the parent component handled the search logic (server-side)
+    // or search is disabled. In this case, we don't filter by searchQuery again client-side.
+    if (hideSearch) {
+      return matchesCategory;
+    }
+
     const searchLower = searchQuery.toLowerCase();
     const matchesSearch =
       (tool.title && tool.title.toLowerCase().includes(searchLower)) ||

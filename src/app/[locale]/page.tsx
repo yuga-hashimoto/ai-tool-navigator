@@ -1,4 +1,5 @@
 import { getAllTools, getToolOfTheWeek } from "@/lib/tools";
+import { searchTools } from "@/lib/search";
 import { ToolGrid } from "@/components/ToolGrid";
 import { ToolCard } from "@/components/ToolCard";
 import { FeaturedTools } from "@/components/FeaturedTools";
@@ -41,7 +42,14 @@ export default async function Home({
   const hasSearch = !!search;
 
   const t = await getTranslations('HomePage');
-  const tools = await getAllTools(locale);
+
+  let tools;
+  if (hasSearch && typeof search === 'string') {
+    tools = await searchTools(search, locale);
+  } else {
+    tools = await getAllTools(locale);
+  }
+
   const toolOfTheWeek = await getToolOfTheWeek(locale);
   const editorsChoiceSlugs = ['speechify', 'mixo', 'copy-ai', 'basedlabs', 'homesage'];
   const editorsChoiceTools = tools.filter(tool => editorsChoiceSlugs.includes(tool.slug));

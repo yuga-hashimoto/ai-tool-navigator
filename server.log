@@ -1,0 +1,69 @@
+
+> ai-tool-navigator@0.1.0 dev
+> next dev -p 3000
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+- Environments: .env
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 2.1s
+ GET /en/account/dashboard 200 in 1883ms (compile: 976ms, proxy.ts: 141ms, render: 766ms)
+ GET /api/orders 200 in 263ms (compile: 132ms, render: 131ms)
+ GET /api/user/profile 200 in 274ms (compile: 232ms, render: 43ms)
+ GET /api/loyalty/dashboard 200 in 292ms (compile: 191ms, render: 100ms)
+ GET /en/account/orders 200 in 816ms (compile: 592ms, proxy.ts: 9ms, render: 216ms)
+ GET /api/orders 200 in 10ms (compile: 3ms, render: 7ms)
+ GET /en/account/loyalty 200 in 1900ms (compile: 1714ms, proxy.ts: 6ms, render: 179ms)
+ GET /api/loyalty/dashboard 200 in 25ms (compile: 4ms, render: 21ms)
+[ErrorTracker] {
+  message: "Cannot read properties of undefined (reading 'toString')",
+  severity: 'HIGH',
+  category: 'FRONTEND',
+  stackTrace: "TypeError: Cannot read properties of undefined (reading 'toString')\n" +
+    '    at formatPoints (http://localhost:3000/_next/static/chunks/src_e1e2d1d1._.js:1476:19)\n' +
+    '    at ChallengeCard (http://localhost:3000/_next/static/chunks/src_e1e2d1d1._.js:2706:189)\n' +
+    '    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:14826:24)\n' +
+    '    at renderWithHooks (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:4651:24)\n' +
+    '    at updateFunctionComponent (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:6112:21)\n' +
+    '    at beginWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:6708:24)\n' +
+    '    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:965:74)\n' +
+    '    at performUnitOfWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9562:97)\n' +
+    '    at workLoopSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9456:40)\n' +
+    '    at renderRootSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9440:13)\n' +
+    '    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9105:47)\n' +
+    '    at performWorkOnRootViaSchedulerTask (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:10230:9)\n' +
+    '    at MessagePort.performWorkUntilDeadline (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_a0e4c7b4._.js:2647:64)',
+  context: { type: 'error-boundary' },
+  url: 'http://localhost:3000/en/account/loyalty',
+  userId: undefined
+}
+[ErrorTracker] {
+  message: "Cannot read properties of undefined (reading 'toString')",
+  severity: 'HIGH',
+  category: 'FRONTEND',
+  stackTrace: "TypeError: Cannot read properties of undefined (reading 'toString')\n" +
+    '    at formatPoints (http://localhost:3000/_next/static/chunks/src_e1e2d1d1._.js:1476:19)\n' +
+    '    at ChallengeCard (http://localhost:3000/_next/static/chunks/src_e1e2d1d1._.js:2706:189)\n' +
+    '    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:14826:24)\n' +
+    '    at renderWithHooks (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:4651:24)\n' +
+    '    at updateFunctionComponent (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:6112:21)\n' +
+    '    at beginWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:6708:24)\n' +
+    '    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:965:74)\n' +
+    '    at performUnitOfWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9562:97)\n' +
+    '    at workLoopSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9456:40)\n' +
+    '    at renderRootSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9440:13)\n' +
+    '    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9105:47)\n' +
+    '    at performWorkOnRootViaSchedulerTask (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:10230:9)\n' +
+    '    at MessagePort.performWorkUntilDeadline (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_a0e4c7b4._.js:2647:64)',
+  context: { type: 'error-boundary' },
+  url: 'http://localhost:3000/en/account/loyalty',
+  userId: undefined
+}
+ POST /api/log-error 200 in 59ms (compile: 39ms, render: 20ms)
+ POST /api/log-error 200 in 62ms (compile: 53ms, render: 9ms)
+ GET /en/account/preferences 200 in 1422ms (compile: 1239ms, proxy.ts: 5ms, render: 178ms)
+ GET /api/user/profile 200 in 9ms (compile: 3ms, render: 6ms)
+ HEAD /en/account/loyalty 200 in 389ms (compile: 138ms, proxy.ts: 7ms, render: 244ms)

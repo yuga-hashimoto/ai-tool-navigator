@@ -255,6 +255,7 @@ model UserInteraction {
   sessionId String   @map("session_id")
   visitorId String?  @map("visitor_id")
   userId    String?  @map("user_id")
+  user      User?    @relation(fields: [userId], references: [id])
   productId String   @map("product_id")
   product   Product  @relation(fields: [productId], references: [id])
   type      String   // VIEW, CLICK, ADD_TO_CART, PURCHASE
@@ -272,6 +273,7 @@ model Order {
   id        String      @id @default(cuid())
   sessionId String      @map("session_id")
   userId    String?     @map("user_id")
+  user      User?       @relation(fields: [userId], references: [id])
   total     Float
   currency  String      @default("USD")
   status    String      @default("PENDING") // PENDING, PAID, CANCELLED
@@ -296,4 +298,341 @@ model OrderItem {
   @@map("order_items")
   @@index([orderId])
   @@index([productId])
+}
+
+// =====================================================
+// USER & SUBSCRIPTIONS
+// =====================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  image         String?
+  role          String    @default("USER") // USER, ADMIN
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  orders        Order[]
+  interactions  UserInteraction[]
+  subscription  UserSubscription?
+  loyalty       LoyaltyAccount?
+  billingHistory BillingHistory[]
+  invoices      Invoice[]
+  freeTrial     FreeTrial?
+  usageRecords  UsageRecord[]
+  portalSessions PortalSession[]
+  renewalReminders RenewalReminder[]
+  upgradeDowngradeLogs UpgradeDowngradeLog[]
+
+  @@map("users")
+}
+
+model UserSubscription {
+  id                String    @id @default(cuid())
+  userId            String    @unique @map("user_id")
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  email             String
+  stripeCustomerId  String?   @map("stripe_customer_id")
+  stripeSubscriptionId String? @map("stripe_subscription_id")
+  stripePriceId     String?   @map("stripe_price_id")
+  tierId            String    @map("tier_id")
+  tier              SubscriptionTier @relation(fields: [tierId], references: [id])
+  status            String    // SubscriptionStatus enum
+  isTrial           Boolean   @default(false) @map("is_trial")
+  trialEndsAt       DateTime? @map("trial_ends_at")
+  currentPeriodStart DateTime @map("current_period_start")
+  currentPeriodEnd  DateTime  @map("current_period_end")
+  cancelAtPeriodEnd Boolean   @default(false) @map("cancel_at_period_end")
+  canceledAt        DateTime? @map("canceled_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  billingHistory    BillingHistory[]
+  usageRecords      UsageRecord[]
+  renewalReminders  RenewalReminder[]
+  upgradeDowngradeLogs UpgradeDowngradeLog[]
+
+  @@map("user_subscriptions")
+}
+
+model SubscriptionTier {
+  id              String    @id @default(cuid())
+  name            String
+  slug            String    @unique
+  description     String?
+  price           Float
+  priceYearly     Float?    @map("price_yearly")
+  stripePriceId   String?   @map("stripe_price_id") // Monthly
+  stripeYearlyPriceId String? @map("stripe_yearly_price_id")
+  features        String?   // JSON string
+  limits          String?   // JSON string
+  isPopular       Boolean   @default(false) @map("is_popular")
+  trialDays       Int       @default(0) @map("trial_days")
+  sortOrder       Int       @default(0) @map("sort_order")
+  isActive        Boolean   @default(true) @map("is_active")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  subscriptions   UserSubscription[]
+  subscriptionPlans SubscriptionPlan[]
+  freeTrials      FreeTrial[]
+
+  @@map("subscription_tiers")
+}
+
+model SubscriptionPlan {
+  id              String    @id @default(cuid())
+  tierId          String    @map("tier_id")
+  tier            SubscriptionTier @relation(fields: [tierId], references: [id], onDelete: Cascade)
+  name            String
+  stripePriceId   String    @map("stripe_price_id")
+  billingCycle    String    // MONTHLY, YEARLY
+  price           Float
+  currency        String    @default("USD")
+  isActive        Boolean   @default(true) @map("is_active")
+  sortOrder       Int       @default(0) @map("sort_order")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("subscription_plans")
+}
+
+model BillingHistory {
+  id              String    @id @default(cuid())
+  subscriptionId  String?   @map("subscription_id")
+  subscription    UserSubscription? @relation(fields: [subscriptionId], references: [id])
+  userId          String    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id])
+  email           String
+  amount          Float
+  currency        String    @default("USD")
+  status          String    // BillingStatus
+  type            String    // BillingType
+  description     String?
+  invoiceUrl      String?   @map("invoice_url")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("billing_history")
+}
+
+model Invoice {
+  id              String    @id @default(cuid())
+  userId          String    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id])
+  stripeInvoiceId String    @unique @map("stripe_invoice_id")
+  amount          Float
+  currency        String    @default("USD")
+  status          String
+  invoiceUrl      String?   @map("invoice_url")
+  periodStart     DateTime  @map("period_start")
+  periodEnd       DateTime  @map("period_end")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("invoices")
+}
+
+model FreeTrial {
+  id              String    @id @default(cuid())
+  userId          String    @unique @map("user_id")
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  email           String
+  tierId          String    @map("tier_id")
+  tier            SubscriptionTier @relation(fields: [tierId], references: [id])
+  status          String    // TrialStatus
+  startsAt        DateTime  @default(now()) @map("starts_at")
+  endsAt          DateTime  @map("ends_at")
+  convertedAt     DateTime? @map("converted_at")
+  convertedToTierId String? @map("converted_to_tier_id")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("free_trials")
+}
+
+model UsageRecord {
+  id              String    @id @default(cuid())
+  subscriptionId  String    @map("subscription_id")
+  subscription    UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  userId          String    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id])
+  featureKey      String    @map("feature_key")
+  usageCount      Int       @default(0) @map("usage_count")
+  usageLimit      Int?      @map("usage_limit")
+  periodStart     DateTime  @map("period_start")
+  periodEnd       DateTime  @map("period_end")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@unique([subscriptionId, featureKey, periodStart])
+  @@map("usage_records")
+}
+
+model PortalSession {
+  id              String    @id @default(cuid())
+  userId          String    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripePortalSession String @unique @map("stripe_portal_session")
+  stripePortalUrl String    @map("stripe_portal_url")
+  expiresAt       DateTime  @map("expires_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("portal_sessions")
+}
+
+model RenewalReminder {
+  id              String    @id @default(cuid())
+  subscriptionId  String    @map("subscription_id")
+  subscription    UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  userId          String    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id])
+  reminderType    String    // ReminderType
+  scheduledFor    DateTime  @map("scheduled_for")
+  status          String    // ReminderStatus
+  channel         String    @default("email")
+  sentAt          DateTime? @map("sent_at")
+  messageId       String?   @map("message_id")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("renewal_reminders")
+}
+
+model UpgradeDowngradeLog {
+  id              String    @id @default(cuid())
+  subscriptionId  String    @map("subscription_id")
+  subscription    UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  userId          String    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id])
+  fromTierId      String?   @map("from_tier_id")
+  toTierId        String?   @map("to_tier_id")
+  changeType      String    // ChangeType
+  effectiveDate   DateTime  @map("effective_date")
+  stripeInvoiceId String?   @map("stripe_invoice_id")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("upgrade_downgrade_logs")
+}
+
+model SubscriptionAnalytics {
+  id              String    @id @default(cuid())
+  date            DateTime  @unique
+  mrr             Float     @default(0)
+  arr             Float     @default(0)
+  newSubscriptions Int      @default(0) @map("new_subscriptions")
+  cancellations   Int       @default(0)
+  churnRate       Float     @default(0) @map("churn_rate")
+  netRevenue      Float     @default(0) @map("net_revenue")
+  activeSubscriptions Int   @default(0) @map("active_subscriptions")
+  activeTrials    Int       @default(0) @map("active_trials")
+  totalUsers      Int       @default(0) @map("total_users")
+  arpu            Float     @default(0)
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("subscription_analytics")
+}
+
+model Coupon {
+  id              String    @id @default(cuid())
+  code            String    @unique
+  discountType    String    // percentage, fixed
+  discountValue   Float     @map("discount_value")
+  duration        String    // once, repeating, forever
+  durationInMonths Int?     @map("duration_in_months")
+  maxRedemptions  Int?      @map("max_redemptions")
+  timesRedeemed   Int       @default(0) @map("times_redeemed")
+  expiresAt       DateTime? @map("expires_at")
+  startsAt        DateTime? @map("starts_at")
+  appliesTo       String    @default("all") // all, tier_specific
+  excludedTierIds String?   @map("excluded_tier_ids") // JSON array
+  isActive        Boolean   @default(true) @map("is_active")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("coupons")
+}
+
+// =====================================================
+// LOYALTY PROGRAM
+// =====================================================
+
+model LoyaltyAccount {
+  id              String    @id @default(cuid())
+  userId          String    @unique @map("user_id")
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currentPoints   Int       @default(0) @map("current_points")
+  lifetimePoints  Int       @default(0) @map("lifetime_points")
+  tier            String    @default("BRONZE") // LoyaltyTier
+  tierProgress    Float     @default(0) @map("tier_progress")
+  totalSpent      Float     @default(0) @map("total_spent")
+  joinDate        DateTime  @default(now()) @map("join_date")
+  lastActivity    DateTime  @default(now()) @map("last_activity")
+  referralCode    String?   @unique @map("referral_code")
+  referredBy      String?   @map("referred_by") // Referral code of referrer
+
+  transactions    LoyaltyTransaction[]
+  rewards         UserReward[]
+  achievements    UserAchievement[]
+  challenges      UserChallenge[]
+
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("loyalty_accounts")
+}
+
+model LoyaltyTransaction {
+  id              String    @id @default(cuid())
+  accountId       String    @map("account_id")
+  account         LoyaltyAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  points          Int
+  type            String    // EARN, REDEEM, ADJUSTMENT, EXPIRE
+  description     String
+  referenceId     String?   @map("reference_id") // Order ID, etc.
+  expiresAt       DateTime? @map("expires_at")
+  isExpiring      Boolean   @default(false) @map("is_expiring")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("loyalty_transactions")
+}
+
+model UserReward {
+  id              String    @id @default(cuid())
+  accountId       String    @map("account_id")
+  account         LoyaltyAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  rewardId        String    @map("reward_id") // Maps to code constant or table if we make Reward a model
+  name            String
+  code            String?   // Redemption code
+  status          String    // ACTIVE, REDEEMED, EXPIRED
+  redeemedAt      DateTime? @map("redeemed_at")
+  expiresAt       DateTime? @map("expires_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("user_rewards")
+}
+
+model UserAchievement {
+  id              String    @id @default(cuid())
+  accountId       String    @map("account_id")
+  account         LoyaltyAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  achievementId   String    @map("achievement_id") // Maps to code constant
+  unlockedAt      DateTime  @default(now()) @map("unlocked_at")
+
+  @@unique([accountId, achievementId])
+  @@map("user_achievements")
+}
+
+model UserChallenge {
+  id              String    @id @default(cuid())
+  accountId       String    @map("account_id")
+  account         LoyaltyAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  challengeId     String    @map("challenge_id") // Maps to code constant
+  progress        Int       @default(0)
+  status          String    // ACTIVE, COMPLETED, FAILED
+  completedAt     DateTime? @map("completed_at")
+  joinedAt        DateTime  @default(now()) @map("joined_at")
+
+  @@unique([accountId, challengeId])
+  @@map("user_challenges")
 }

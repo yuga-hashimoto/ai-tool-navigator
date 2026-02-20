@@ -943,6 +943,7 @@ export function getExpiringPoints(transactions: PointTransaction[], daysAhead: n
 }
 
 export function formatPoints(points: number): string {
+  if (points === undefined || points === null) return '0';
   if (points >= 1000000) {
     return (points / 1000000).toFixed(1) + 'M';
   }

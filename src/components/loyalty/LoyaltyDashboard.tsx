@@ -318,7 +318,9 @@ interface ChallengeCardProps {
 }
 
 function ChallengeCard({ challenge }: ChallengeCardProps) {
-  const progress = Math.min(100, (challenge.currentProgress / challenge.target) * 100);
+  const currentProgress = challenge.currentProgress || 0;
+  const target = challenge.target || 100;
+  const progress = Math.min(100, (currentProgress / target) * 100);
   
   return (
     <div className="challenge-card">
@@ -337,7 +339,7 @@ function ChallengeCard({ challenge }: ChallengeCardProps) {
           />
         </div>
         <span className="progress-text">
-          {formatPoints(challenge.currentProgress)} / {formatPoints(challenge.target)}
+          {formatPoints(currentProgress)} / {formatPoints(target)}
         </span>
       </div>
       

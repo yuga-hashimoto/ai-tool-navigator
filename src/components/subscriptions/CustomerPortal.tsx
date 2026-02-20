@@ -4,19 +4,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getSubscription } from '@/actions/account';
 import { 
-  CreditCard, 
   Calendar, 
   ArrowUpRight, 
   ArrowDownRight,
   AlertTriangle,
   CheckCircle,
   Clock,
-  Download,
   ExternalLink,
   Loader2,
   RefreshCw
 } from 'lucide-react';
+import { Link } from '@/i18n/routing';
 
 interface Subscription {
   id: string;
@@ -67,15 +67,15 @@ export default function CustomerPortal({
 
   const fetchSubscription = async () => {
     try {
-      const response = await fetch(`/api/subscriptions/user?userId=${userId}&includeHistory=true`);
-      const data = await response.json();
+      // Use Server Action
+      const result = await getSubscription();
       
-      if (data.success) {
-        setSubscription(data.data);
+      if (result && result.success && result.data) {
+        setSubscription(result.data as Subscription);
       } else {
-        setError(data.error || 'Failed to load subscription');
+        setError('Failed to load subscription');
       }
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to load subscription');
     } finally {
       setLoading(false);
@@ -98,7 +98,7 @@ export default function CustomerPortal({
       } else {
         setError(data.error || 'Failed to open portal');
       }
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to open customer portal');
     } finally {
       setPortalLoading(false);
@@ -172,12 +172,12 @@ export default function CustomerPortal({
         <p className="text-gray-600 mb-6">
           Access your subscription dashboard to view plans, billing history, and more.
         </p>
-        <a
+        <Link
           href="/login"
           className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
         >
           Sign In
-        </a>
+        </Link>
       </div>
     );
   }
@@ -214,12 +214,12 @@ export default function CustomerPortal({
         <p className="text-gray-600 mb-6">
           Choose a plan that fits your needs.
         </p>
-        <a
+        <Link
           href="/pricing"
           className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
         >
           View Plans
-        </a>
+        </Link>
       </div>
     );
   }
@@ -336,12 +336,12 @@ export default function CustomerPortal({
           <p className="text-gray-600 text-sm mb-4">
             Changes take effect immediately. You&apos;ll be charged or credited a prorated amount.
           </p>
-          <a
+          <Link
             href="/pricing"
             className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             View Plans
-          </a>
+          </Link>
         </div>
       )}
 

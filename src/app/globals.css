@@ -81,3 +81,291 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Loyalty Dashboard Styles */
+.loyalty-dashboard {
+  @apply space-y-8;
+}
+
+.dashboard-header {
+  @apply rounded-xl p-8 text-white relative overflow-hidden shadow-lg;
+  background-size: cover;
+}
+
+.tier-badge {
+  @apply flex items-center gap-2 text-2xl font-bold mb-6;
+}
+
+.points-display {
+  @apply grid grid-cols-2 gap-8 mb-8;
+}
+
+.current-points .points-value {
+  @apply text-4xl font-bold block;
+}
+
+.lifetime-points .lifetime-value {
+  @apply text-2xl font-bold block opacity-90;
+}
+
+.tier-progress {
+  @apply bg-black/20 rounded-lg p-4 backdrop-blur-sm;
+}
+
+.progress-header {
+  @apply flex justify-between text-sm mb-2;
+}
+
+.progress-bar {
+  @apply h-2 bg-white/30 rounded-full overflow-hidden mb-2;
+}
+
+.progress-fill {
+  @apply h-full bg-white transition-all duration-500;
+}
+
+.tier-benefits-summary {
+  @apply mt-6 pt-6 border-t border-white/20;
+}
+
+.tier-benefits-summary ul {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-2 mt-2 text-sm;
+}
+
+.tier-benefits-summary li {
+  @apply flex items-center gap-2;
+}
+.tier-benefits-summary li::before {
+  content: "✓";
+  @apply font-bold;
+}
+
+.stats-grid {
+  @apply grid grid-cols-2 md:grid-cols-3 gap-4;
+}
+
+.stat-card {
+  @apply bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4;
+}
+
+.stat-icon {
+  @apply text-2xl bg-gray-50 w-12 h-12 rounded-full flex items-center justify-center;
+}
+
+.stat-info {
+  @apply flex flex-col;
+}
+
+.stat-value {
+  @apply font-bold text-gray-900;
+}
+
+.stat-label {
+  @apply text-xs text-gray-500;
+}
+
+.quick-actions h3, .recent-activity h3, .active-challenges h3, .recommended-rewards h3 {
+  @apply text-lg font-bold text-gray-900 mb-4;
+}
+
+.actions-grid {
+  @apply grid grid-cols-2 md:grid-cols-4 gap-4;
+}
+
+.action-btn {
+  @apply flex flex-col items-center justify-center gap-2 p-4 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-center;
+}
+
+.action-icon {
+  @apply text-2xl;
+}
+
+.activity-list {
+  @apply bg-white rounded-xl border border-gray-200 divide-y divide-gray-100;
+}
+
+.activity-item {
+  @apply p-4 flex items-center justify-between;
+}
+
+.activity-details {
+  @apply flex flex-col flex-1 px-4;
+}
+
+.activity-description {
+  @apply font-medium text-gray-900;
+}
+
+.activity-date {
+  @apply text-xs text-gray-500;
+}
+
+.activity-points {
+  @apply font-bold;
+}
+
+.activity-points.positive {
+  @apply text-green-600;
+}
+
+.activity-points.negative {
+  @apply text-red-600;
+}
+
+/* Rewards Catalog */
+.rewards-catalog {
+  @apply space-y-6;
+}
+
+.catalog-header {
+  @apply flex justify-between items-center;
+}
+
+.catalog-filters {
+  @apply flex flex-wrap gap-4 items-center bg-white p-4 rounded-xl border border-gray-200;
+}
+
+.search-box {
+  @apply relative flex-1 min-w-[200px];
+}
+
+.search-input {
+  @apply w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.search-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 text-gray-400;
+}
+
+.category-tabs {
+  @apply flex gap-2 overflow-x-auto pb-2 md:pb-0;
+}
+
+.category-tab {
+  @apply px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap transition-colors flex items-center gap-2;
+}
+
+.category-tab.active {
+  @apply bg-blue-600 text-white;
+}
+
+.rewards-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.reward-card {
+  @apply bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm flex flex-col transition-all hover:shadow-md;
+}
+
+.reward-card.locked {
+  @apply opacity-75 bg-gray-50;
+}
+
+.reward-image {
+  @apply h-40 bg-gray-100 flex items-center justify-center text-6xl;
+}
+
+.reward-content {
+  @apply p-5 flex flex-col flex-1;
+}
+
+.reward-header {
+  @apply flex justify-between items-start mb-2;
+}
+
+.category-badge {
+  @apply text-xs font-medium px-2 py-1 rounded-full bg-blue-50 text-blue-700 capitalize;
+}
+
+.tier-badge {
+  @apply text-xs font-medium px-2 py-1 rounded-full bg-yellow-50 text-yellow-700 ml-2;
+}
+
+.reward-title {
+  @apply font-bold text-gray-900 mb-1;
+}
+
+.reward-description {
+  @apply text-sm text-gray-600 mb-4 line-clamp-2;
+}
+
+.reward-value-breakdown {
+  @apply mt-auto space-y-2 mb-4;
+}
+
+.value-item {
+  @apply flex justify-between text-sm;
+}
+
+.value-amount.points {
+  @apply font-bold text-blue-600;
+}
+
+.redeem-btn {
+  @apply w-full py-3 font-medium text-center transition-colors;
+}
+
+.redeem-btn.available {
+  @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+
+.redeem-btn.disabled {
+  @apply bg-gray-200 text-gray-500 cursor-not-allowed;
+}
+
+/* Modal */
+.modal-overlay {
+  @apply fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm;
+}
+
+.redeem-modal {
+  @apply bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden;
+}
+
+.modal-header {
+  @apply p-6 border-b border-gray-100;
+}
+
+.modal-header h2 {
+  @apply text-xl font-bold text-gray-900;
+}
+
+.modal-body {
+  @apply p-6 space-y-6;
+}
+
+.reward-preview {
+  @apply text-center;
+}
+
+.reward-preview .reward-icon {
+  @apply text-6xl mb-4 block;
+}
+
+.redemption-details {
+  @apply bg-gray-50 rounded-xl p-4 space-y-2;
+}
+
+.detail-row {
+  @apply flex justify-between text-sm;
+}
+
+.detail-row.highlight {
+  @apply pt-2 border-t border-gray-200 font-bold text-gray-900;
+}
+
+.modal-footer {
+  @apply p-6 bg-gray-50 flex gap-3;
+}
+
+.cancel-btn {
+  @apply flex-1 py-2 px-4 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-100;
+}
+
+.confirm-btn {
+  @apply flex-1 py-2 px-4 bg-blue-600 rounded-lg text-white font-medium hover:bg-blue-700 disabled:opacity-50;
+}
+
+.modal-close {
+  @apply absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl leading-none;
+}

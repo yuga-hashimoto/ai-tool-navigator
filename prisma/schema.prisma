@@ -255,6 +255,7 @@ model UserInteraction {
   sessionId String   @map("session_id")
   visitorId String?  @map("visitor_id")
   userId    String?  @map("user_id")
+  user      User?    @relation(fields: [userId], references: [id])
   productId String   @map("product_id")
   product   Product  @relation(fields: [productId], references: [id])
   type      String   // VIEW, CLICK, ADD_TO_CART, PURCHASE
@@ -272,6 +273,7 @@ model Order {
   id        String      @id @default(cuid())
   sessionId String      @map("session_id")
   userId    String?     @map("user_id")
+  user      User?       @relation(fields: [userId], references: [id])
   total     Float
   currency  String      @default("USD")
   status    String      @default("PENDING") // PENDING, PAID, CANCELLED
@@ -296,4 +298,85 @@ model OrderItem {
   @@map("order_items")
   @@index([orderId])
   @@index([productId])
+}
+
+// =====================================================
+// USER & CUSTOMER PORTAL
+// =====================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  image         String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  orders        Order[]
+  loyaltyAccount LoyaltyAccount?
+  subscription  UserSubscription?
+  interactions  UserInteraction[]
+
+  @@map("users")
+}
+
+model LoyaltyAccount {
+  id            String    @id @default(cuid())
+  userId        String    @unique @map("user_id")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  points        Int       @default(0)
+  tier          String    @default("BRONZE") // BRONZE, SILVER, GOLD, PLATINUM
+  lifetimePoints Int      @default(0) @map("lifetime_points")
+  joinedAt      DateTime  @default(now()) @map("joined_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  activities    LoyaltyActivity[]
+  rewards       LoyaltyReward[]
+
+  @@map("loyalty_accounts")
+}
+
+model LoyaltyActivity {
+  id              String    @id @default(cuid())
+  loyaltyAccountId String   @map("loyalty_account_id")
+  loyaltyAccount  LoyaltyAccount @relation(fields: [loyaltyAccountId], references: [id], onDelete: Cascade)
+  type            String    // PURCHASE, REFERRAL, SOCIAL_SHARE, REVIEW, BONUS
+  points          Int
+  description     String?
+  metadata        String?   // JSON string
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("loyalty_activities")
+  @@index([loyaltyAccountId])
+}
+
+model LoyaltyReward {
+  id              String    @id @default(cuid())
+  loyaltyAccountId String   @map("loyalty_account_id")
+  loyaltyAccount  LoyaltyAccount @relation(fields: [loyaltyAccountId], references: [id], onDelete: Cascade)
+  name            String
+  description     String?
+  pointsCost      Int       @map("points_cost")
+  status          String    @default("AVAILABLE") // AVAILABLE, REDEEMED, EXPIRED
+  code            String?   // Redemption code
+  redeemedAt      DateTime? @map("redeemed_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("loyalty_rewards")
+  @@index([loyaltyAccountId])
+}
+
+model UserSubscription {
+  id            String    @id @default(cuid())
+  userId        String    @unique @map("user_id")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId        String    @map("plan_id") // FREE, PRO, ENTERPRISE
+  status        String    @default("ACTIVE") // ACTIVE, CANCELLED, PAST_DUE
+  startDate     DateTime  @default(now()) @map("start_date")
+  endDate       DateTime? @map("end_date")
+  autoRenew     Boolean   @default(true) @map("auto_renew")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("user_subscriptions")
 }

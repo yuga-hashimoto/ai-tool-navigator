@@ -16,49 +16,49 @@ datasource db {
 
 // Abandoned link tracking
 model AbandonedLink {
-  id                  String          @id @default(cuid())
-  sessionId           String          @unique @map("session_id")
-  visitorId           String?         @map("visitor_id")
-  visitorEmail        String?         @map("visitor_email")
-  affiliateId         String          @map("affiliate_id")
-  toolSlug            String          @map("tool_slug")
-  toolName            String          @map("tool_name")
-  source              String          @default("direct")
-  medium              String          @default("referral")
+  id                  String    @id @default(cuid())
+  sessionId           String    @unique @map("session_id")
+  visitorId           String?   @map("visitor_id")
+  visitorEmail        String?   @map("visitor_email")
+  affiliateId         String    @map("affiliate_id")
+  toolSlug            String    @map("tool_slug")
+  toolName            String    @map("tool_name")
+  source              String    @default("direct")
+  medium              String    @default("referral")
   campaign            String?
-  entryPage           String          @map("entry_page")
-  exitPage            String          @map("exit_page")
-  timeOnPage          Int             @default(0) @map("time_on_page")
-  scrollDepth         Int?            @map("scroll_depth")
-  clickPosition       String?         @map("click_position")
-  abandonmentType     String          @map("abandonment_type")
-  recoveryStatus      String          @default("pending") @map("recovery_status")
-  recoveryChannel    String?         @map("recovery_channel")
-  recoveryEmailSentAt DateTime?      @map("recovery_email_sent_at")
-  recoveryClickedAt  DateTime?       @map("recovery_clicked_at")
-  recoveryConvertedAt DateTime?      @map("recovery_converted_at")
-  recoveryAttempts   Int             @default(0) @map("recovery_attempts")
-  totalValue         Float           @default(0) @map("total_value")
-  createdAt          DateTime        @default(now()) @map("created_at")
-  updatedAt          DateTime        @updatedAt @map("updated_at")
+  entryPage           String    @map("entry_page")
+  exitPage            String    @map("exit_page")
+  timeOnPage          Int       @default(0) @map("time_on_page")
+  scrollDepth         Int?      @map("scroll_depth")
+  clickPosition       String?   @map("click_position")
+  abandonmentType     String    @map("abandonment_type")
+  recoveryStatus      String    @default("pending") @map("recovery_status")
+  recoveryChannel     String?   @map("recovery_channel")
+  recoveryEmailSentAt DateTime? @map("recovery_email_sent_at")
+  recoveryClickedAt   DateTime? @map("recovery_clicked_at")
+  recoveryConvertedAt DateTime? @map("recovery_converted_at")
+  recoveryAttempts    Int       @default(0) @map("recovery_attempts")
+  totalValue          Float     @default(0) @map("total_value")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
 
   @@map("abandoned_links")
 }
 
 // Abandoned cart tracking
 model AbandonedCart {
-  id              String    @id @default(cuid())
-  sessionId       String    @unique @map("session_id")
-  visitorId       String?   @map("visitor_id")
-  visitorEmail    String?   @map("visitor_email")
-  items           String    // JSON string of cart items
-  totalValue      Float     @map("total_value")
-  currency        String    @default("USD")
-  affiliateId     String?   @map("affiliate_id")
-  source          String    @default("direct")
-  recoveryStatus  String    @default("pending") @map("recovery_status")
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
+  id             String   @id @default(cuid())
+  sessionId      String   @unique @map("session_id")
+  visitorId      String?  @map("visitor_id")
+  visitorEmail   String?  @map("visitor_email")
+  items          String // JSON string of cart items
+  totalValue     Float    @map("total_value")
+  currency       String   @default("USD")
+  affiliateId    String?  @map("affiliate_id")
+  source         String   @default("direct")
+  recoveryStatus String   @default("pending") @map("recovery_status")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   @@map("abandoned_carts")
 }
@@ -82,44 +82,44 @@ model RecoveryEmail {
 
 // Chat session model
 model ChatSession {
-  id              String          @id @default(cuid())
-  sessionId        String          @unique // Unique session identifier
-  visitorId        String?         @map("visitor_id") // Optional visitor ID
-  visitorName      String?         @map("visitor_name")
-  visitorEmail     String?         @map("visitor_email")
-  category        String          @default("GENERAL") // ChatCategory
-  status          String          @default("WAITING") // ChatStatus
-  priority        String          @default("NORMAL") // ChatPriority
-  assignedTo      String?         @map("assigned_to") // Admin user ID
-  subject         String?
-  isActive        Boolean         @default(true) @map("is_active")
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
-  closedAt        DateTime?       @map("closed_at")
-  
+  id           String    @id @default(cuid())
+  sessionId    String    @unique // Unique session identifier
+  visitorId    String?   @map("visitor_id") // Optional visitor ID
+  visitorName  String?   @map("visitor_name")
+  visitorEmail String?   @map("visitor_email")
+  category     String    @default("GENERAL") // ChatCategory
+  status       String    @default("WAITING") // ChatStatus
+  priority     String    @default("NORMAL") // ChatPriority
+  assignedTo   String?   @map("assigned_to") // Admin user ID
+  subject      String?
+  isActive     Boolean   @default(true) @map("is_active")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  closedAt     DateTime? @map("closed_at")
+
   // Relations
-  messages        Message[]
-  transcript     ChatTranscript?
-  supportTicket  SupportTicket?
-  
+  messages      Message[]
+  transcript    ChatTranscript?
+  supportTicket SupportTicket?
+
   @@map("chat_sessions")
 }
 
 // Individual chat messages
 model Message {
-  id              String          @id @default(cuid())
-  chatSessionId  String          @map("chat_session_id")
-  senderType      String          // SenderType
-  senderId        String?         @map("sender_id")
-  content         String
-  contentType     String          @default("TEXT") // MessageContentType
-  isRead          Boolean         @default(false) @map("is_read")
-  metadata        String?         // JSON string for additional data (file attachments, etc.)
-  createdAt       DateTime        @default(now()) @map("created_at")
-  
+  id            String   @id @default(cuid())
+  chatSessionId String   @map("chat_session_id")
+  senderType    String // SenderType
+  senderId      String?  @map("sender_id")
+  content       String
+  contentType   String   @default("TEXT") // MessageContentType
+  isRead        Boolean  @default(false) @map("is_read")
+  metadata      String? // JSON string for additional data (file attachments, etc.)
+  createdAt     DateTime @default(now()) @map("created_at")
+
   // Relations
-  chatSession     ChatSession     @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
-  
+  chatSession ChatSession @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+
   @@index([chatSessionId])
   @@index([createdAt])
   @@map("messages")
@@ -127,26 +127,26 @@ model Message {
 
 // Support tickets (for offline/inquiry cases)
 model SupportTicket {
-  id              String          @id @default(cuid())
-  ticketNumber    String          @unique @map("ticket_number")
-  chatSessionId  String?         @unique @map("chat_session_id")
-  visitorId       String?         @map("visitor_id")
-  visitorName     String?         @map("visitor_name")
-  visitorEmail    String?         @map("visitor_email")
-  category        String          // ChatCategory
-  priority        String          @default("NORMAL") // ChatPriority
-  status          String          @default("OPEN") // TicketStatus
-  subject         String
-  description     String
-  assignedTo      String?         @map("assigned_to")
-  resolution      String?
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
-  resolvedAt      DateTime?       @map("resolved_at")
-  
+  id            String    @id @default(cuid())
+  ticketNumber  String    @unique @map("ticket_number")
+  chatSessionId String?   @unique @map("chat_session_id")
+  visitorId     String?   @map("visitor_id")
+  visitorName   String?   @map("visitor_name")
+  visitorEmail  String?   @map("visitor_email")
+  category      String // ChatCategory
+  priority      String    @default("NORMAL") // ChatPriority
+  status        String    @default("OPEN") // TicketStatus
+  subject       String
+  description   String
+  assignedTo    String?   @map("assigned_to")
+  resolution    String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  resolvedAt    DateTime? @map("resolved_at")
+
   // Relations
-  chatSession     ChatSession?    @relation(fields: [chatSessionId], references: [id])
-  
+  chatSession ChatSession? @relation(fields: [chatSessionId], references: [id])
+
   @@index([status])
   @@index([createdAt])
   @@map("support_tickets")
@@ -154,40 +154,40 @@ model SupportTicket {
 
 // Pre-defined canned responses for quick replies
 model CannedResponse {
-  id              String          @id @default(cuid())
-  title           String
-  content         String
-  category        String          @default("GENERAL") // ChatCategory
-  keywords        String?         // Comma-separated keywords for quick search
-  isActive        Boolean         @default(true) @map("is_active")
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
-  
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  category  String   @default("GENERAL") // ChatCategory
+  keywords  String? // Comma-separated keywords for quick search
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
   @@map("canned_responses")
 }
 
 // Chat transcripts for export/history
 model ChatTranscript {
-  id              String          @id @default(cuid())
-  chatSessionId  String          @unique @map("chat_session_id")
-  content         String         // Full transcript as JSON
-  exportedAt      DateTime        @default(now()) @map("exported_at")
-  exportedBy      String?         @map("exported_by")
-  
+  id            String   @id @default(cuid())
+  chatSessionId String   @unique @map("chat_session_id")
+  content       String // Full transcript as JSON
+  exportedAt    DateTime @default(now()) @map("exported_at")
+  exportedBy    String?  @map("exported_by")
+
   // Relations
-  chatSession     ChatSession     @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
-  
+  chatSession ChatSession @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+
   @@map("chat_transcripts")
 }
 
 // Chat widget settings
 model ChatWidgetSettings {
-  id              String          @id @default(cuid())
-  key             String          @unique
-  value           String
-  description     String?
-  updatedAt       DateTime        @updatedAt @map("updated_at")
-  
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
   @@map("chat_widget_settings")
 }
 
@@ -196,17 +196,17 @@ model ChatWidgetSettings {
 // =====================================================
 
 model ErrorLog {
-  id          String        @id @default(cuid())
-  severity    String        // ErrorSeverity
-  category    String        // ErrorCategory
-  message     String
-  stackTrace  String?
-  context     String?       // JSON string
-  userId      String?
-  url         String?
-  resolved    Boolean       @default(false)
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
+  id         String   @id @default(cuid())
+  severity   String // ErrorSeverity
+  category   String // ErrorCategory
+  message    String
+  stackTrace String?
+  context    String? // JSON string
+  userId     String?
+  url        String?
+  resolved   Boolean  @default(false)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   @@map("error_logs")
 }
@@ -216,33 +216,35 @@ model ErrorLog {
 // =====================================================
 
 model Product {
-  id          String   @id @default(cuid())
-  slug        String   @unique
+  id          String    @id @default(cuid())
+  slug        String    @unique
   name        String
   description String?
-  categoryId  String?  @map("category_id")
+  categoryId  String?   @map("category_id")
   category    Category? @relation(fields: [categoryId], references: [id])
   price       String?
   currency    String?   @default("USD")
-  tags        String?   // JSON string of tags
-  metadata    String?   // JSON string for extra fields
+  tags        String? // JSON string of tags
+  metadata    String? // JSON string for extra fields
 
   interactions UserInteraction[]
   orderItems   OrderItem[]
+  inventory    Inventory[]
+  transfers    InventoryTransfer[]
 
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("products")
   @@index([categoryId])
   @@index([slug])
+  @@map("products")
 }
 
 model Category {
-  id        String    @id @default(cuid())
-  name      String
-  slug      String    @unique
-  products  Product[]
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  products Product[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -257,15 +259,15 @@ model UserInteraction {
   userId    String?  @map("user_id")
   productId String   @map("product_id")
   product   Product  @relation(fields: [productId], references: [id])
-  type      String   // VIEW, CLICK, ADD_TO_CART, PURCHASE
-  metadata  String?  // JSON string
+  type      String // VIEW, CLICK, ADD_TO_CART, PURCHASE
+  metadata  String? // JSON string
   createdAt DateTime @default(now()) @map("created_at")
 
-  @@map("user_interactions")
   @@index([sessionId])
   @@index([productId])
   @@index([type])
   @@index([createdAt])
+  @@map("user_interactions")
 }
 
 model Order {
@@ -279,9 +281,9 @@ model Order {
   createdAt DateTime    @default(now()) @map("created_at")
   updatedAt DateTime    @updatedAt @map("updated_at")
 
-  @@map("orders")
   @@index([sessionId])
   @@index([userId])
+  @@map("orders")
 }
 
 model OrderItem {
@@ -293,7 +295,68 @@ model OrderItem {
   quantity  Int
   price     Float
 
-  @@map("order_items")
+  warehouseId String?    @map("warehouse_id")
+  warehouse   Warehouse? @relation("WarehouseOrderItems", fields: [warehouseId], references: [id])
+
   @@index([orderId])
   @@index([productId])
+  @@index([warehouseId])
+  @@map("order_items")
+}
+
+// =====================================================
+// INVENTORY & WAREHOUSE MANAGEMENT
+// =====================================================
+
+model Warehouse {
+  id        String   @id @default(cuid())
+  name      String
+  location  String // could be simple string or JSON address
+  type      String   @default("PHYSICAL") // PHYSICAL, VIRTUAL, DROPSHIPPER
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  inventory  Inventory[]
+  orderItems OrderItem[] @relation("WarehouseOrderItems")
+
+  // Relations for transfers
+  outgoingTransfers InventoryTransfer[] @relation("FromWarehouse")
+  incomingTransfers InventoryTransfer[] @relation("ToWarehouse")
+
+  @@map("warehouses")
+}
+
+model Inventory {
+  id          String    @id @default(cuid())
+  warehouseId String    @map("warehouse_id")
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+  productId   String    @map("product_id")
+  product     Product   @relation(fields: [productId], references: [id])
+  quantity    Int       @default(0)
+  reserved    Int       @default(0) // For orders pending fulfillment
+
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([warehouseId, productId])
+  @@index([productId])
+  @@map("inventory")
+}
+
+model InventoryTransfer {
+  id              String    @id @default(cuid())
+  fromWarehouseId String    @map("from_warehouse_id")
+  fromWarehouse   Warehouse @relation("FromWarehouse", fields: [fromWarehouseId], references: [id])
+  toWarehouseId   String    @map("to_warehouse_id")
+  toWarehouse     Warehouse @relation("ToWarehouse", fields: [toWarehouseId], references: [id])
+  productId       String    @map("product_id")
+  product         Product   @relation(fields: [productId], references: [id])
+  quantity        Int
+  status          String    @default("PENDING") // PENDING, IN_TRANSIT, COMPLETED, CANCELLED
+  requestedAt     DateTime  @default(now()) @map("requested_at")
+  completedAt     DateTime? @map("completed_at")
+
+  @@index([fromWarehouseId])
+  @@index([toWarehouseId])
+  @@map("inventory_transfers")
 }

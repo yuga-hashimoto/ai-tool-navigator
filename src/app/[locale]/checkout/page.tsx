@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { sendGAEvent } from '@/lib/analytics';
+import { submitOrder } from '@/actions/order';
 import { ArrowLeft, CreditCard, Lock, Check, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -24,6 +25,7 @@ export default function CheckoutPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [step, setStep] = useState<'cart' | 'payment' | 'confirmation'>('cart');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal' | 'apple'>('card');
   const [formData, setFormData] = useState({
     email: '',
@@ -57,6 +59,24 @@ export default function CheckoutPage() {
 
   const handlePayment = async () => {
     setIsProcessing(true);
+    setError('');
+
+    try {
+        await submitOrder({
+            sessionId: 'guest-session',
+            total: total,
+            items: cartData.map(i => ({
+                slug: i.slug,
+                quantity: i.quantity,
+                price: parsePrice(i.price)
+            }))
+        })
+    } catch (e) {
+        console.error('Order submission failed', e)
+        setError('Failed to process order. Please check your details and try again.');
+        setIsProcessing(false);
+        return;
+    }
     
     // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -127,6 +147,12 @@ export default function CheckoutPage() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
+        {error && (
+          <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-4 rounded-xl mb-6 text-center">
+            {error}
+          </div>
+        )}
+
         {/* Progress Steps */}
         {step !== 'confirmation' && (
           <div className="flex items-center justify-center gap-2 mb-8">

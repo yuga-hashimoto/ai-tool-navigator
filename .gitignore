@@ -59,3 +59,7 @@ public/workbox-*.js
 public/workbox-*.js.map
 agent/
 sessions/
+
+# database
+*.db
+*.db-journal

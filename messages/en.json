@@ -415,5 +415,19 @@
     "progress": "{count} / {total} referrals",
     "rewardTitle": "Ultimate AI Guide",
     "rewardDesc": "Unlock our comprehensive guide to AI tools."
+  },
+  "Inventory": {
+    "title": "Inventory Management",
+    "description": "Manage warehouses, stock levels, and transfers.",
+    "totalWarehouses": "Total Warehouses",
+    "totalProducts": "Total Products Tracked",
+    "pendingTransfers": "Pending Transfers",
+    "manageWarehouses": "Manage Warehouses",
+    "manageTransfers": "Inventory Transfers",
+    "backToAdmin": "Back to Admin",
+    "warehouses": "Warehouses",
+    "transfers": "Transfers",
+    "addWarehouse": "Add Warehouse",
+    "requestTransfer": "Request Transfer"
   }
 }

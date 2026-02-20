@@ -1,7 +1,6 @@
 // Account Subscription Page
 // Customer portal for managing subscription
 
-import { headers } from 'next/headers';
 import CustomerPortal from '@/components/subscriptions/CustomerPortal';
 // import { getServerSession } from 'next-auth'; // Commented out to fix build
 
@@ -28,14 +27,12 @@ export default async function AccountSubscriptionPage() {
   const isAuthenticated = !!session;
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4">
-        <CustomerPortal
-          userId={userId}
-          userEmail={userEmail}
-          isAuthenticated={isAuthenticated}
-        />
-      </div>
-    </main>
+    <div className="px-4 py-5 sm:p-6">
+      <CustomerPortal
+        userId={userId}
+        userEmail={userEmail}
+        isAuthenticated={isAuthenticated}
+      />
+    </div>
   );
 }

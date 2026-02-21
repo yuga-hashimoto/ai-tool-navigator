@@ -1,4 +1,4 @@
-import { getToolBySlug, getToolSlugs, getRelatedTools } from "@/lib/tools";
+import { getToolBySlug, getToolSlugs } from "@/lib/tools";
 import { getRelatedPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
@@ -7,7 +7,6 @@ import remarkDirective from "remark-directive";
 import { remarkYoutube } from "@/lib/remark-youtube";
 import { ExternalLink, BadgeCheck, Calendar } from "lucide-react";
 import { Metadata } from "next";
-import { ToolCard } from "@/components/ToolCard";
 import { Rating } from "@/components/Rating";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getTranslations } from "next-intl/server";
@@ -20,6 +19,8 @@ import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
+import { ProductTracker } from "@/components/ProductTracker";
+import { RecommendedTools } from "@/components/RecommendedTools";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -74,7 +75,6 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   const { metadata, content } = tool;
   const { verified, last_updated } = metadata;
-  const relatedTools = await getRelatedTools(metadata, 3, locale);
   const relatedPosts = await getRelatedPosts(metadata, 3, locale);
   const toolSchema = generateToolSchema(tool);
   const productSchema = generateProductSchema(tool);
@@ -116,6 +116,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
+        <ProductTracker slug={slug} />
         <Breadcrumbs items={breadcrumbItems} />
 
         <div className="overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-900/5 dark:bg-zinc-900 dark:ring-white/10">
@@ -199,18 +200,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
             </div>
         </div>
 
-        {relatedTools.length > 0 && (
-            <div className="mt-16">
-                <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
-                    {t('relatedTools')}
-                </h2>
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {relatedTools.map((relatedTool) => (
-                        <ToolCard key={relatedTool.slug} tool={relatedTool} />
-                    ))}
-                </div>
-            </div>
-        )}
+        <RecommendedTools currentSlug={slug} locale={locale} />
 
         {relatedPosts.length > 0 && (
             <div className="mt-16">

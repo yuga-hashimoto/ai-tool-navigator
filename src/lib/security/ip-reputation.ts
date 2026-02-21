@@ -253,3 +253,7 @@ export const recordSuccess = async (ip: string): Promise<void> => {
 export const recordFailure = async (ip: string, reason: string): Promise<void> => {
   await updateIPReputation(ip, -5, reason);
 };
+
+export const clearCaptchaRequirement = async (ip: string): Promise<void> => {
+  await boostIPReputationOnCaptchaSuccess(ip);
+};

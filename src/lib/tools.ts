@@ -77,7 +77,7 @@ export const getAllTools = unstable_cache(
   { tags: ['tools'], revalidate: 3600 }
 );
 
-const _getToolBySlug = async (slug: string, locale: string = 'en'): Promise<Tool | null> => {
+export const getToolBySlugRaw = async (slug: string, locale: string = 'en'): Promise<Tool | null> => {
   let fullPath = path.join(toolsDirectory, locale, `${slug}.md`);
 
   // Fallback to English
@@ -102,7 +102,7 @@ const _getToolBySlug = async (slug: string, locale: string = 'en'): Promise<Tool
 };
 
 export const getToolBySlug = unstable_cache(
-  _getToolBySlug,
+  getToolBySlugRaw,
   ['tool-slug'],
   { tags: ['tools'], revalidate: 3600 }
 );

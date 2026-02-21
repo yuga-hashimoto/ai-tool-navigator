@@ -15,7 +15,7 @@ import {
 import MessageBubble from './MessageBubble';
 import QuickReplies from './QuickReplies';
 import { defaultAppearance, QuickReply } from '@/lib/chat-config';
-import { useChat } from '@/hooks/useChat';
+import { useChat } from '@/hooks/chat/useChat';
 import './ChatStyles.css';
 
 interface ChatWindowProps {

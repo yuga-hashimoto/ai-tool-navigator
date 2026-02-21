@@ -27,14 +27,15 @@ jobs:
           set -euo pipefail
 
           if [ -z "${JULES_API_KEY_1:-}" ] && [ -z "${JULES_API_KEY_2:-}" ] && [ -z "${JULES_API_KEY_3:-}" ]; then
-            echo "error_message=No Jules API keys configured (JULES_API_KEY_1..3)." >> "$GITHUB_OUTPUT"
+            echo "error_message=No Jules API keys configured" >> "$GITHUB_OUTPUT"
             exit 1
           fi
 
           TITLE="Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
-          PROMPT="Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\n\n${ISSUE_BODY:-}"
+          PROMPT="Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}
 
-          # Build JSON payload safely via jq
+  ${ISSUE_BODY:-}"
+
           jq -n \
             --arg title "$TITLE" \
             --arg prompt "$PROMPT" \
@@ -69,7 +70,7 @@ jobs:
           done
 
           if [ "$SUCCESS" -ne 1 ]; then
-            ERROR_MSG=$(jq -r '.error.message // .error.status // "Unknown Jules API error"' "$RESP_FILE" 2>/dev/null || echo "Unknown Jules API error")
+            ERROR_MSG=$(jq -r '.error.message // .error.status // "Unknown error"' "$RESP_FILE" 2>/dev/null || echo "Unknown error")
             echo "error_message=${ERROR_MSG}" >> "$GITHUB_OUTPUT"
             exit 1
           fi
@@ -89,11 +90,11 @@ jobs:
           gh api "repos/${REPO_FULL}/issues/${ISSUE_NUMBER}/comments" \
             -f body="✅ Jules session created.
 
-- Session ID: \\`${SESSION_ID}\\`
-- Key used: ${KEY_USED}
-- automationMode: \\`AUTO_CREATE_PR\\`
+  - Session ID: \`${SESSION_ID}\`
+  - Key used: ${KEY_USED}
+  - automationMode: \`AUTO_CREATE_PR\`
 
-Jules will auto-create PR when ready." >/dev/null
+  Jules will auto-create PR when ready." >/dev/null
 
       - name: Comment failure on issue
         if: steps.jules.outcome == 'failure'
@@ -106,7 +107,5 @@ Jules will auto-create PR when ready." >/dev/null
           gh api "repos/${REPO_FULL}/issues/${ISSUE_NUMBER}/comments" \
             -f body="❌ Jules session creation failed.
 
-Reason: ${ERROR_MESSAGE}
-
-Check secrets \\`JULES_API_KEY_1..3\\` and API availability." >/dev/null
+  Reason: ${ERROR_MESSAGE}" >/dev/null
           exit 1

@@ -1,12 +1,8 @@
 name: Build and Deploy to Cloud Run
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
-      - main
 
 env:
   PROJECT_ID: project-ad4ba807-fc4c-4914-b2e

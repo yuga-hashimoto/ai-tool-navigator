@@ -64,7 +64,8 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           SESSION_ID: ${{ steps.jules.outputs.session_id }}
           KEY_USED: ${{ steps.jules.outputs.key_used }}
-        run: gh api "repos/${REPO_FULL}/issues/${ISSUE_NUMBER}/comments" -f body="✅ Jules session created. Session ID: ${SESSION_ID}, Key: ${KEY_USED}, automationMode: AUTO_CREATE_PR"
+        run: |
+          gh api "repos/${REPO_FULL}/issues/${ISSUE_NUMBER}/comments" -f body="✅ Jules session created. Session ID: ${SESSION_ID}, Key: ${KEY_USED}, automationMode: AUTO_CREATE_PR"
       - name: Comment failure
         if: steps.jules.outcome == 'failure'
         env:
@@ -72,4 +73,5 @@ jobs:
           REPO_FULL: ${{ github.repository }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ERROR_MESSAGE: ${{ steps.jules.outputs.error_message }}
-        run: gh api "repos/${REPO_FULL}/issues/${ISSUE_NUMBER}/comments" -f body="❌ Jules session failed: ${ERROR_MESSAGE}" && exit 1
+        run: |
+          gh api "repos/${REPO_FULL}/issues/${ISSUE_NUMBER}/comments" -f body="❌ Jules session failed: ${ERROR_MESSAGE}" && exit 1

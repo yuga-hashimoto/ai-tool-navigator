@@ -22,7 +22,7 @@ interface PurchaseData {
 export async function createPurchase(data: PurchaseData) {
   try {
     const session = await getServerSession();
-    const userId = session?.user?.id || session?.user?.email; // Fallback to email as ID if ID is missing but email exists, though usually ID is present.
+    const userId = (session?.user as any)?.id || session?.user?.email; // Fallback to email as ID if ID is missing but email exists, though usually ID is present.
     // Actually, schema has userId as String?. If guest, it's null.
 
     // Create the purchase record

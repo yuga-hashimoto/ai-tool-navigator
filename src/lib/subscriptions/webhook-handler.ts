@@ -7,8 +7,8 @@ import {
   constructWebhookEvent, 
   mapStripeStatus,
 } from './stripe-service';
-import { PrismaClient, SubscriptionStatus, BillingType, BillingStatus, TrialStatus } from '@prisma/client';
-import { updateUserSubscriptionFromWebhook } from './subscription-manager';
+import { PrismaClient } from '@prisma/client';
+import { SubscriptionStatus, BillingType, BillingStatus, TrialStatus } from '../prisma-enums';
 
 const prisma = new PrismaClient();
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -19,7 +19,8 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function handleStripeWebhook(request: Request) {
   const body = await request.text();
-  const signature = headers().get('stripe-signature');
+  const headersList = await headers();
+  const signature = headersList.get('stripe-signature');
   
   if (!signature) {
     return new Response('Missing stripe-signature header', { status: 400 });

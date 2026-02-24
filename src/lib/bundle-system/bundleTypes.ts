@@ -930,10 +930,3 @@ export const BUNDLE_RULES: BundleRule[] = [
     active: true
   }
 ];
-
-// =====================================================
-// TYPE EXPORTS
-// =====================================================
-
-export type {
-  BundleItem

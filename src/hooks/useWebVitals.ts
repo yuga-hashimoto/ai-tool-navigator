@@ -6,7 +6,7 @@
 "use client";
 
 import { useEffect, useCallback } from "react";
-import { onCLS, onFCP, onFID, onLCP, onTTFB, Metric } from "web-vitals";
+import { onCLS, onFCP, onINP, onLCP, onTTFB, Metric } from "web-vitals";
 
 export interface WebVitalsMetrics {
   id: string;
@@ -152,7 +152,7 @@ export const useWebVitals = (
       onFCP(handleMetric),
       onLCP(handleMetric),
       onCLS(handleMetric),
-      onFID(handleMetric),
+      onINP(handleMetric),
       onTTFB(handleMetric),
     ];
 

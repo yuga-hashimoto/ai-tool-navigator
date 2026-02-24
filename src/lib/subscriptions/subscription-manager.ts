@@ -1,7 +1,8 @@
 // Subscription Manager
 // Business logic for subscription management
 
-import { PrismaClient, SubscriptionStatus, BillingType, BillingStatus, TrialStatus, ChangeType, ReminderStatus, ReminderType } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import { SubscriptionStatus, BillingType, BillingStatus, TrialStatus, ChangeType, ReminderStatus, ReminderType } from '../prisma-enums';
 import { 
   createSubscription, 
   getSubscription, 
@@ -9,7 +10,6 @@ import {
   cancelSubscription as stripeCancelSubscription,
   createCheckoutSession,
   createPortalSession,
-  createCustomerPortalSession,
   mapStripeStatus,
   previewSubscriptionChange,
   createStripeCustomer,
@@ -246,7 +246,7 @@ export async function changeSubscriptionTier(
   }
   
   // Determine change type
-  const changeType = newTier.price > subscription.tier.price 
+  const changeType = newTier.price > (subscription as any).tier.price
     ? ChangeType.UPGRADE 
     : ChangeType.DOWNGRADE;
   
@@ -293,10 +293,10 @@ export async function changeSubscriptionTier(
       subscriptionId,
       userId: subscription.userId,
       email: subscription.email,
-      amount: newTier.price - subscription.tier.price,
+      amount: newTier.price - (subscription as any).tier.price,
       type: changeType === ChangeType.UPGRADE ? BillingType.UPGRADE : BillingType.DOWNGRADE,
       status: BillingStatus.SUCCEEDED,
-      description: `${changeType} from ${subscription.tier.name} to ${newTier.name}`,
+      description: `${changeType} from ${(subscription as any).tier.name} to ${newTier.name}`,
     },
   });
   
@@ -410,7 +410,7 @@ export async function previewTierChange(subscriptionId: string, newTierId: strin
   return {
     prorationAmount: preview.prorationAmount,
     newMonthlyPrice: newTier.price,
-    changeType: newTier.price > subscription.tier.price ? 'upgrade' : 'downgrade',
+    changeType: newTier.price > (subscription as any).tier.price ? 'upgrade' : 'downgrade',
   };
 }
 

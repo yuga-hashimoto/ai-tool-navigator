@@ -16,49 +16,49 @@ datasource db {
 
 // Abandoned link tracking
 model AbandonedLink {
-  id                  String          @id @default(cuid())
-  sessionId           String          @unique @map("session_id")
-  visitorId           String?         @map("visitor_id")
-  visitorEmail        String?         @map("visitor_email")
-  affiliateId         String          @map("affiliate_id")
-  toolSlug            String          @map("tool_slug")
-  toolName            String          @map("tool_name")
-  source              String          @default("direct")
-  medium              String          @default("referral")
+  id                  String    @id @default(cuid())
+  sessionId           String    @unique @map("session_id")
+  visitorId           String?   @map("visitor_id")
+  visitorEmail        String?   @map("visitor_email")
+  affiliateId         String    @map("affiliate_id")
+  toolSlug            String    @map("tool_slug")
+  toolName            String    @map("tool_name")
+  source              String    @default("direct")
+  medium              String    @default("referral")
   campaign            String?
-  entryPage           String          @map("entry_page")
-  exitPage            String          @map("exit_page")
-  timeOnPage          Int             @default(0) @map("time_on_page")
-  scrollDepth         Int?            @map("scroll_depth")
-  clickPosition       String?         @map("click_position")
-  abandonmentType     String          @map("abandonment_type")
-  recoveryStatus      String          @default("pending") @map("recovery_status")
-  recoveryChannel    String?         @map("recovery_channel")
-  recoveryEmailSentAt DateTime?      @map("recovery_email_sent_at")
-  recoveryClickedAt  DateTime?       @map("recovery_clicked_at")
-  recoveryConvertedAt DateTime?      @map("recovery_converted_at")
-  recoveryAttempts   Int             @default(0) @map("recovery_attempts")
-  totalValue         Float           @default(0) @map("total_value")
-  createdAt          DateTime        @default(now()) @map("created_at")
-  updatedAt          DateTime        @updatedAt @map("updated_at")
+  entryPage           String    @map("entry_page")
+  exitPage            String    @map("exit_page")
+  timeOnPage          Int       @default(0) @map("time_on_page")
+  scrollDepth         Int?      @map("scroll_depth")
+  clickPosition       String?   @map("click_position")
+  abandonmentType     String    @map("abandonment_type")
+  recoveryStatus      String    @default("pending") @map("recovery_status")
+  recoveryChannel     String?   @map("recovery_channel")
+  recoveryEmailSentAt DateTime? @map("recovery_email_sent_at")
+  recoveryClickedAt   DateTime? @map("recovery_clicked_at")
+  recoveryConvertedAt DateTime? @map("recovery_converted_at")
+  recoveryAttempts    Int       @default(0) @map("recovery_attempts")
+  totalValue          Float     @default(0) @map("total_value")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
 
   @@map("abandoned_links")
 }
 
 // Abandoned cart tracking
 model AbandonedCart {
-  id              String    @id @default(cuid())
-  sessionId       String    @unique @map("session_id")
-  visitorId       String?   @map("visitor_id")
-  visitorEmail    String?   @map("visitor_email")
-  items           String    // JSON string of cart items
-  totalValue      Float     @map("total_value")
-  currency        String    @default("USD")
-  affiliateId     String?   @map("affiliate_id")
-  source          String    @default("direct")
-  recoveryStatus  String    @default("pending") @map("recovery_status")
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
+  id             String   @id @default(cuid())
+  sessionId      String   @unique @map("session_id")
+  visitorId      String?  @map("visitor_id")
+  visitorEmail   String?  @map("visitor_email")
+  items          String // JSON string of cart items
+  totalValue     Float    @map("total_value")
+  currency       String   @default("USD")
+  affiliateId    String?  @map("affiliate_id")
+  source         String   @default("direct")
+  recoveryStatus String   @default("pending") @map("recovery_status")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   @@map("abandoned_carts")
 }
@@ -82,44 +82,44 @@ model RecoveryEmail {
 
 // Chat session model
 model ChatSession {
-  id              String          @id @default(cuid())
-  sessionId        String          @unique // Unique session identifier
-  visitorId        String?         @map("visitor_id") // Optional visitor ID
-  visitorName      String?         @map("visitor_name")
-  visitorEmail     String?         @map("visitor_email")
-  category        String          @default("GENERAL") // ChatCategory
-  status          String          @default("WAITING") // ChatStatus
-  priority        String          @default("NORMAL") // ChatPriority
-  assignedTo      String?         @map("assigned_to") // Admin user ID
-  subject         String?
-  isActive        Boolean         @default(true) @map("is_active")
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
-  closedAt        DateTime?       @map("closed_at")
-  
+  id           String    @id @default(cuid())
+  sessionId    String    @unique // Unique session identifier
+  visitorId    String?   @map("visitor_id") // Optional visitor ID
+  visitorName  String?   @map("visitor_name")
+  visitorEmail String?   @map("visitor_email")
+  category     String    @default("GENERAL") // ChatCategory
+  status       String    @default("WAITING") // ChatStatus
+  priority     String    @default("NORMAL") // ChatPriority
+  assignedTo   String?   @map("assigned_to") // Admin user ID
+  subject      String?
+  isActive     Boolean   @default(true) @map("is_active")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  closedAt     DateTime? @map("closed_at")
+
   // Relations
-  messages        Message[]
-  transcript     ChatTranscript?
-  supportTicket  SupportTicket?
-  
+  messages      Message[]
+  transcript    ChatTranscript?
+  supportTicket SupportTicket?
+
   @@map("chat_sessions")
 }
 
 // Individual chat messages
 model Message {
-  id              String          @id @default(cuid())
-  chatSessionId  String          @map("chat_session_id")
-  senderType      String          // SenderType
-  senderId        String?         @map("sender_id")
-  content         String
-  contentType     String          @default("TEXT") // MessageContentType
-  isRead          Boolean         @default(false) @map("is_read")
-  metadata        String?         // JSON string for additional data (file attachments, etc.)
-  createdAt       DateTime        @default(now()) @map("created_at")
-  
+  id            String   @id @default(cuid())
+  chatSessionId String   @map("chat_session_id")
+  senderType    String // SenderType
+  senderId      String?  @map("sender_id")
+  content       String
+  contentType   String   @default("TEXT") // MessageContentType
+  isRead        Boolean  @default(false) @map("is_read")
+  metadata      String? // JSON string for additional data (file attachments, etc.)
+  createdAt     DateTime @default(now()) @map("created_at")
+
   // Relations
-  chatSession     ChatSession     @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
-  
+  chatSession ChatSession @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+
   @@index([chatSessionId])
   @@index([createdAt])
   @@map("messages")
@@ -127,26 +127,26 @@ model Message {
 
 // Support tickets (for offline/inquiry cases)
 model SupportTicket {
-  id              String          @id @default(cuid())
-  ticketNumber    String          @unique @map("ticket_number")
-  chatSessionId  String?         @unique @map("chat_session_id")
-  visitorId       String?         @map("visitor_id")
-  visitorName     String?         @map("visitor_name")
-  visitorEmail    String?         @map("visitor_email")
-  category        String          // ChatCategory
-  priority        String          @default("NORMAL") // ChatPriority
-  status          String          @default("OPEN") // TicketStatus
-  subject         String
-  description     String
-  assignedTo      String?         @map("assigned_to")
-  resolution      String?
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
-  resolvedAt      DateTime?       @map("resolved_at")
-  
+  id            String    @id @default(cuid())
+  ticketNumber  String    @unique @map("ticket_number")
+  chatSessionId String?   @unique @map("chat_session_id")
+  visitorId     String?   @map("visitor_id")
+  visitorName   String?   @map("visitor_name")
+  visitorEmail  String?   @map("visitor_email")
+  category      String // ChatCategory
+  priority      String    @default("NORMAL") // ChatPriority
+  status        String    @default("OPEN") // TicketStatus
+  subject       String
+  description   String
+  assignedTo    String?   @map("assigned_to")
+  resolution    String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  resolvedAt    DateTime? @map("resolved_at")
+
   // Relations
-  chatSession     ChatSession?    @relation(fields: [chatSessionId], references: [id])
-  
+  chatSession ChatSession? @relation(fields: [chatSessionId], references: [id])
+
   @@index([status])
   @@index([createdAt])
   @@map("support_tickets")
@@ -154,40 +154,40 @@ model SupportTicket {
 
 // Pre-defined canned responses for quick replies
 model CannedResponse {
-  id              String          @id @default(cuid())
-  title           String
-  content         String
-  category        String          @default("GENERAL") // ChatCategory
-  keywords        String?         // Comma-separated keywords for quick search
-  isActive        Boolean         @default(true) @map("is_active")
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
-  
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  category  String   @default("GENERAL") // ChatCategory
+  keywords  String? // Comma-separated keywords for quick search
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
   @@map("canned_responses")
 }
 
 // Chat transcripts for export/history
 model ChatTranscript {
-  id              String          @id @default(cuid())
-  chatSessionId  String          @unique @map("chat_session_id")
-  content         String         // Full transcript as JSON
-  exportedAt      DateTime        @default(now()) @map("exported_at")
-  exportedBy      String?         @map("exported_by")
-  
+  id            String   @id @default(cuid())
+  chatSessionId String   @unique @map("chat_session_id")
+  content       String // Full transcript as JSON
+  exportedAt    DateTime @default(now()) @map("exported_at")
+  exportedBy    String?  @map("exported_by")
+
   // Relations
-  chatSession     ChatSession     @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
-  
+  chatSession ChatSession @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+
   @@map("chat_transcripts")
 }
 
 // Chat widget settings
 model ChatWidgetSettings {
-  id              String          @id @default(cuid())
-  key             String          @unique
-  value           String
-  description     String?
-  updatedAt       DateTime        @updatedAt @map("updated_at")
-  
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
   @@map("chat_widget_settings")
 }
 
@@ -196,58 +196,82 @@ model ChatWidgetSettings {
 // =====================================================
 
 model ErrorLog {
-  id          String        @id @default(cuid())
-  severity    String        // ErrorSeverity
-  category    String        // ErrorCategory
-  message     String
-  stackTrace  String?
-  context     String?       // JSON string
-  userId      String?
-  url         String?
-  resolved    Boolean       @default(false)
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
+  id         String   @id @default(cuid())
+  severity   String // ErrorSeverity
+  category   String // ErrorCategory
+  message    String
+  stackTrace String?
+  context    String? // JSON string
+  userId     String?
+  url        String?
+  resolved   Boolean  @default(false)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   @@map("error_logs")
 }
+
+// =====================================================
 
 // =====================================================
 // COMMERCE & RECOMMENDATION ENGINE
 // =====================================================
 
 model Product {
-  id          String   @id @default(cuid())
-  slug        String   @unique
+  id          String  @id @default(cuid())
+  slug        String  @unique
   name        String
   description String?
-  categoryId  String?  @map("category_id")
-  category    Category? @relation(fields: [categoryId], references: [id])
-  price       String?
-  currency    String?   @default("USD")
-  tags        String?   // JSON string of tags
-  metadata    String?   // JSON string for extra fields
 
+  // Merged Fields
+  categoryId  String?   @map("category_id")
+  categoryRel Category? @relation(fields: [categoryId], references: [id])
+  category    String? // Kept for backward compatibility
+
+  price    String?
+  currency String? @default("USD")
+  rating   Float   @default(0)
+  tags     String? // JSON string of tags
+  metadata String? // JSON string for extra fields
+
+  // Relations
   interactions UserInteraction[]
   orderItems   OrderItem[]
+  events       UserEvent[]
 
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("products")
   @@index([categoryId])
   @@index([slug])
+  @@map("products")
 }
 
 model Category {
-  id        String    @id @default(cuid())
-  name      String
-  slug      String    @unique
-  products  Product[]
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  products Product[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("categories")
+}
+
+model UserEvent {
+  id        String   @id @default(cuid())
+  sessionId String   @map("session_id")
+  eventType String   @map("event_type") // VIEW, CLICK
+  productId String?  @map("product_id")
+  metadata  String? // JSON for extra info
+  createdAt DateTime @default(now()) @map("created_at")
+
+  product Product? @relation(fields: [productId], references: [id])
+
+  @@index([sessionId])
+  @@index([eventType])
+  @@map("user_events")
 }
 
 model UserInteraction {
@@ -257,15 +281,15 @@ model UserInteraction {
   userId    String?  @map("user_id")
   productId String   @map("product_id")
   product   Product  @relation(fields: [productId], references: [id])
-  type      String   // VIEW, CLICK, ADD_TO_CART, PURCHASE
-  metadata  String?  // JSON string
+  type      String // VIEW, CLICK, ADD_TO_CART, PURCHASE
+  metadata  String? // JSON string
   createdAt DateTime @default(now()) @map("created_at")
 
-  @@map("user_interactions")
   @@index([sessionId])
   @@index([productId])
   @@index([type])
   @@index([createdAt])
+  @@map("user_interactions")
 }
 
 model Order {
@@ -279,9 +303,9 @@ model Order {
   createdAt DateTime    @default(now()) @map("created_at")
   updatedAt DateTime    @updatedAt @map("updated_at")
 
-  @@map("orders")
   @@index([sessionId])
   @@index([userId])
+  @@map("orders")
 }
 
 model OrderItem {
@@ -293,7 +317,676 @@ model OrderItem {
   quantity  Int
   price     Float
 
-  @@map("order_items")
   @@index([orderId])
   @@index([productId])
+  @@map("order_items")
 }
+
+// Subscription System Prisma Schema
+// Complete subscription, billing, and membership models
+
+// =====================================================
+// SUBSCRIPTION TIERS
+// =====================================================
+
+// Subscription tier definitions
+model SubscriptionTier {
+  id              String   @id @default(cuid())
+  name            String // e.g., "Free", "Pro", "Enterprise"
+  slug            String   @unique // e.g., "free", "pro", "enterprise"
+  description     String?
+  stripePriceId   String?  @map("stripe_price_id") // Stripe price ID
+  stripeProductId String?  @map("stripe_product_id") // Stripe product ID
+  price           Float // Monthly price in USD
+  priceYearly     Float?   @map("price_yearly") // Yearly price (usually discounted)
+  currency        String   @default("USD")
+  features        String? // JSON array of features
+  limits          String? // JSON object with usage limits
+  isPopular       Boolean  @default(false) @map("is_popular")
+  isActive        Boolean  @default(true) @map("is_active")
+  sortOrder       Int      @default(0) @map("sort_order")
+  trialDays       Int      @default(0) @map("trial_days") // Free trial days
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  subscriptions     UserSubscription[]
+  subscriptionPlans SubscriptionPlan[]
+
+  @@map("subscription_tiers")
+
+  freeTrials          FreeTrial[]
+}
+
+// =====================================================
+// USER SUBSCRIPTIONS
+// =====================================================
+
+// User subscription records
+model UserSubscription {
+  id                   String    @id @default(cuid())
+  userId               String    @map("user_id") // External user identifier
+  email                String    @map("user_email")
+  stripeCustomerId     String?   @map("stripe_customer_id")
+  stripeSubscriptionId String?   @map("stripe_subscription_id")
+  stripePriceId        String?   @map("stripe_price_id")
+  tierId               String    @map("tier_id")
+  status               String    @default("INACTIVE")
+  isTrial              Boolean   @default(false) @map("is_trial")
+  trialEndsAt          DateTime? @map("trial_ends_at")
+  currentPeriodStart   DateTime? @map("current_period_start")
+  currentPeriodEnd     DateTime? @map("current_period_end")
+  cancelAtPeriodEnd    Boolean   @default(false) @map("cancel_at_period_end")
+  canceledAt           DateTime? @map("canceled_at")
+  pausedAt             DateTime? @map("paused_at")
+  pauseResumeDate      DateTime? @map("pause_resume_date")
+  usage                String? // JSON usage data
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  tier                 SubscriptionTier      @relation(fields: [tierId], references: [id])
+  billingHistory       BillingHistory[]
+  invoices             Invoice[]
+  usageRecords         UsageRecord[]
+  upgradeDowngradeLogs UpgradeDowngradeLog[]
+
+  @@unique([userId, tierId])
+  @@index([stripeCustomerId])
+  @@index([stripeSubscriptionId])
+  @@index([status])
+  @@index([userId])
+  @@map("user_subscriptions")
+}
+
+// Subscription status enum
+
+// =====================================================
+// SUBSCRIPTION PLANS (Tier + Billing Cycle combinations)
+// =====================================================
+
+model SubscriptionPlan {
+  id              String   @id @default(cuid())
+  tierId          String   @map("tier_id")
+  name            String // e.g., "Pro Monthly", "Pro Yearly"
+  slug            String   @unique // e.g., "pro-monthly", "pro-yearly"
+  billingCycle    String   @map("billing_cycle") // monthly, yearly
+  stripePriceId   String?  @map("stripe_price_id")
+  price           Float
+  currency        String   @default("USD")
+  discountPercent Int?     @map("discount_percent") // e.g., 20 for 20% off
+  isDefault       Boolean  @default(false) @map("is_default")
+  isActive        Boolean  @default(true) @map("is_active")
+  sortOrder       Int      @default(0) @map("sort_order")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  tier SubscriptionTier @relation(fields: [tierId], references: [id])
+
+  @@map("subscription_plans")
+}
+
+// =====================================================
+// BILLING HISTORY
+// =====================================================
+
+// Billing events and transactions
+model BillingHistory {
+  id                  String    @id @default(cuid())
+  subscriptionId      String    @map("subscription_id")
+  userId              String    @map("user_id")
+  email               String    @map("user_email")
+  stripeInvoiceId     String?   @map("stripe_invoice_id")
+  stripePaymentIntent String?   @map("stripe_payment_intent")
+  amount              Float
+  currency            String    @default("USD")
+  type                String
+  status              String
+  description         String?
+  metadata            String? // JSON for additional data
+  paidAt              DateTime? @map("paid_at")
+  createdAt           DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  subscription UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([createdAt])
+  @@map("billing_history")
+}
+
+// =====================================================
+// INVOICES
+// =====================================================
+
+model Invoice {
+  id               String    @id @default(cuid())
+  subscriptionId   String    @map("subscription_id")
+  userId           String    @map("user_id")
+  stripeInvoiceId  String    @unique @map("stripe_invoice_id")
+  stripeInvoiceUrl String?   @map("stripe_invoice_url")
+  stripeInvoicePdf String?   @map("stripe_invoice_pdf")
+  amount           Float
+  currency         String    @default("USD")
+  status           String
+  periodStart      DateTime? @map("period_start")
+  periodEnd        DateTime? @map("period_end")
+  paidAt           DateTime? @map("paid_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  subscription UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@map("invoices")
+}
+
+// =====================================================
+// USAGE TRACKING
+// =====================================================
+
+// Track feature usage for usage-based tiers
+model UsageRecord {
+  id             String   @id @default(cuid())
+  subscriptionId String   @map("subscription_id")
+  featureKey     String   @map("feature_key") // e.g., "api_calls", "storage_gb"
+  usageCount     Int      @default(0) @map("usage_count")
+  usageLimit     Int?     @map("usage_limit")
+  periodStart    DateTime @map("period_start")
+  periodEnd      DateTime @map("period_end")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  subscription UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@unique([subscriptionId, featureKey, periodStart])
+  @@index([subscriptionId])
+  @@map("usage_records")
+}
+
+// =====================================================
+// UPGRADE/DOWNGRADE LOGS
+// =====================================================
+
+model UpgradeDowngradeLog {
+  id              String   @id @default(cuid())
+  subscriptionId  String   @map("subscription_id")
+  userId          String   @map("user_id")
+  fromTierId      String?  @map("from_tier_id")
+  toTierId            String?             @map("to_tier_id")
+  changeType      String
+  prorationAmount Float?   @map("proration_amount") // Proration credit/charge
+  effectiveDate   DateTime @map("effective_date")
+  stripeInvoiceId String?  @map("stripe_invoice_id")
+  notes           String?
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  // Relations
+  subscription UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@index([subscriptionId])
+  @@index([createdAt])
+  @@map("upgrade_downgrade_logs")
+}
+
+// =====================================================
+// RENEWAL REMINDERS
+// =====================================================
+
+model RenewalReminder {
+  id             String    @id @default(cuid())
+  subscriptionId String    @map("subscription_id")
+  userId         String    @map("user_id")
+  reminderType   String    @map("reminder_type") // email, push, sms
+  scheduledFor   DateTime  @map("scheduled_for")
+  sentAt         DateTime? @map("sent_at")
+  status         String    @default("PENDING")
+  channel        String? // e.g., "email", "slack"
+  messageId      String?   @map("message_id") // External message ID
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  @@index([subscriptionId])
+  @@index([scheduledFor])
+  @@index([status])
+  @@map("renewal_reminders")
+}
+
+// =====================================================
+// FREE TRIALS
+// =====================================================
+
+model FreeTrial {
+  id                String    @id @default(cuid())
+  userId            String    @unique @map("user_id")
+  email             String    @map("user_email")
+  tierId            String    @map("tier_id")
+  startedAt         DateTime  @default(now()) @map("started_at")
+  endsAt            DateTime  @map("ends_at")
+  convertedAt       DateTime? @map("converted_at")
+  convertedToTierId String?   @map("converted_to_tier_id")
+  status            String    @default("ACTIVE")
+  source            String? // Where they signed up from
+  utmSource         String?   @map("utm_source")
+  utmMedium         String?   @map("utm_medium")
+  utmCampaign       String?   @map("utm_campaign")
+  createdAt         DateTime  @default(now()) @map("created_at")
+
+  @@index([status])
+  @@index([endsAt])
+  @@map("free_trials")
+
+  stripeCustomerId    String?             @map("stripe_customer_id")
+
+  tier                SubscriptionTier    @relation(fields: [tierId], references: [id])
+}
+
+// =====================================================
+// CUSTOMER PORTAL SESSIONS
+// =====================================================
+
+model PortalSession {
+  id                  String   @id @default(cuid())
+  userId              String   @map("user_id")
+  stripePortalUrl     String?  @map("stripe_portal_url")
+  stripePortalSession String?  @map("stripe_portal_session")
+  expiresAt           DateTime @map("expires_at")
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@map("portal_sessions")
+}
+
+// =====================================================
+// SUBSCRIPTION ANALYTICS
+// =====================================================
+
+// Daily aggregated analytics data
+model SubscriptionAnalytics {
+  id                  String   @id @default(cuid())
+  date                DateTime @unique
+  mrr                 Float // Monthly Recurring Revenue
+  arr                 Float // Annual Recurring Revenue
+  newSubscriptions    Int      @default(0) @map("new_subscriptions")
+  reactivations       Int      @default(0) // Canceled subs that came back
+  upgrades            Int      @default(0)
+  downgrades          Int      @default(0)
+  cancellations       Int      @default(0)
+  trialSignups        Int      @default(0) @map("trial_signups")
+  trialConversions    Int      @default(0) @map("trial_conversions")
+  churnRate           Float    @default(0) @map("churn_rate")
+  netRevenue          Float    @default(0) @map("net_revenue")
+  activeSubscriptions Int      @default(0) @map("active_subscriptions")
+  activeTrials        Int      @default(0) @map("active_trials")
+  totalUsers          Int      @default(0) @map("total_users")
+  arpu                Float // Average Revenue Per User
+  ltv                 Float? // Lifetime Value estimate
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  @@map("subscription_analytics")
+}
+
+// =====================================================
+// COUPONS & PROMOTIONS
+// =====================================================
+
+model Coupon {
+  id               String    @id @default(cuid())
+  code             String    @unique
+  stripeCouponId   String?   @map("stripe_coupon_id")
+  discountType     String    @map("discount_type") // percent, fixed
+  discountValue    Float     @map("discount_value")
+  currency         String    @default("USD")
+  duration         String
+  durationInMonths Int?      @map("duration_in_months")
+  maxRedemptions   Int?      @map("max_redemptions")
+  timesRedeemed    Int       @default(0) @map("times_redeemed")
+  appliesTo        String?   @map("applies_to") // all, tier_ids (JSON)
+  excludedTierIds  String?   @map("excluded_tier_ids") // JSON array
+  startsAt         DateTime? @map("starts_at")
+  expiresAt        DateTime? @map("expires_at")
+  isActive         Boolean   @default(true) @map("is_active")
+  description      String?
+  createdAt        DateTime  @default(now()) @map("created_at")
+
+  @@map("coupons")
+}
+
+// =====================================================
+// LOYALTY POINTS & REWARD SYSTEM PRISMA SCHEMA
+// =====================================================
+// Database models for loyalty program functionality
+
+// =====================================================
+// LOYALTY USER & MEMBERSHIP TABLES
+// =====================================================
+
+// User loyalty profile
+model LoyaltyUser {
+  id                  String    @id @default(cuid())
+  userId              String    @unique @map("user_id")
+  email               String    @unique
+  displayName         String?   @map("display_name")
+  currentPoints       Int       @default(0) @map("current_points")
+  lifetimePoints      Int       @default(0) @map("lifetime_points")
+  lifetimeSpent       Float     @default(0) @map("lifetime_spent")
+  totalPurchases      Int       @default(0) @map("total_purchases")
+  tier                String    @default("BRONZE")
+  tierProgress        Float     @default(0) @map("tier_progress")
+  joinDate            DateTime  @default(now()) @map("join_date")
+  lastActivityDate    DateTime  @default(now()) @map("last_activity_date")
+  birthday            DateTime? @map("birthday")
+  referralCode        String    @unique @map("referral_code")
+  referredBy          String?   @map("referred_by")
+  totalReferrals      Int       @default(0) @map("total_referrals")
+  referralEarnings    Float     @default(0) @map("referral_earnings")
+  totalReferralPoints Int       @default(0) @map("total_referral_points")
+  isActive            Boolean   @default(true) @map("is_active")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  pointTransactions PointTransaction[]
+  pointRedemptions  PointRedemption[]
+  tierHistory       TierHistory[]
+  achievements      UserAchievement[]
+  loyaltyFlags      LoyaltyFlag[]
+
+  @@map("loyalty_users")
+}
+
+// Loyalty tier definitions
+model LoyaltyTier {
+  id                String   @id @default(cuid())
+  name              String   @unique
+  displayName       String   @map("display_name")
+  minPoints         Int      @default(0) @map("min_points")
+  minSpend          Float    @default(0) @map("min_spend")
+  pointsMultiplier  Float    @default(1.0) @map("points_multiplier")
+  discountPercent   Int      @default(0) @map("discount_percent")
+  exclusiveBenefits String?  @map("exclusive_benefits") // JSON string
+  color             String   @default("gray")
+  icon              String?  @map("icon")
+  isDefault         Boolean  @default(false) @map("is_default")
+  sortOrder         Int      @default(0) @map("sort_order")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  // users               LoyaltyUser[]
+
+  @@map("loyalty_tiers")
+}
+
+// Tier upgrade/downgrade history
+model TierHistory {
+  id             String   @id @default(cuid())
+  userId         String   @map("user_id")
+  previousTier   String   @map("previous_tier")
+  newTier        String   @map("new_tier")
+  reason         String // upgrade, downgrade, manual
+  pointsAtChange Int      @map("points_at_change")
+  spendAtChange  Float    @map("spend_at_change")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  user LoyaltyUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("tier_history")
+}
+
+// =====================================================
+// POINT ACCUMULATION TABLES
+// =====================================================
+
+// Point transaction types
+
+// Point transactions
+model PointTransaction {
+  id            String    @id @default(cuid())
+  userId        String    @map("user_id")
+  type          String
+  points        Int // Positive for earned, negative for expired/adjusted
+  balanceBefore Int       @map("balance_before")
+  balanceAfter  Int       @map("balance_after")
+  sourceId      String?   @map("source_id") // Purchase ID, referral ID, etc.
+  sourceType    String?   @map("source_type") // purchase, referral, login, etc.
+  description   String
+  expiresAt     DateTime? @map("expires_at")
+  isExpiring    Boolean   @default(false) @map("is_expiring")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  user LoyaltyUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("point_transactions")
+}
+
+// Point earning rules/configurations
+model PointRule {
+  id              String    @id @default(cuid())
+  name            String    @unique
+  displayName     String    @map("display_name")
+  type            String // purchase, action, bonus, referral
+  points          Int       @default(0)
+  pointsPerDollar Float?    @map("points_per_dollar") // For purchase-based rules
+  maxPoints       Int?      @map("max_points") // Maximum points per action/day
+  dailyLimit      Int?      @map("daily_limit")
+  tierMultipliers String?   @map("tier_multipliers") // JSON: { "GOLD": 1.5, "PLATINUM": 2.0 }
+  isActive        Boolean   @default(true) @map("is_active")
+  description     String?
+  startDate       DateTime? @map("start_date")
+  endDate         DateTime? @map("end_date")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("point_rules")
+}
+
+// =====================================================
+// POINT REDEMPTION TABLES
+// =====================================================
+
+// Redemption status
+
+// Point redemptions
+model PointRedemption {
+  id            String    @id @default(cuid())
+  userId        String    @map("user_id")
+  rewardId      String    @map("reward_id")
+  pointsSpent   Int       @map("points_spent")
+  pointsCost    Int       @map("points_cost")
+  status        String    @default("PENDING")
+  value         Float // Real-world value of reward
+  currency      String    @default("USD")
+  code          String?   @map("redemption_code")
+  codeUsed      Boolean   @default(false) @map("code_used")
+  redemptionUrl String?   @map("redemption_url")
+  expiresAt     DateTime? @map("expires_at")
+  processedAt   DateTime? @map("processed_at")
+  notes         String?
+  metadata      String? // JSON for additional data
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  user   LoyaltyUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reward Reward      @relation(fields: [rewardId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@map("point_redemptions")
+}
+
+// Available rewards
+model Reward {
+  id                   String    @id @default(cuid())
+  name                 String    @unique
+  displayName          String    @map("display_name")
+  description          String
+  category             String // discount, gift_card, merchandise, experience, exclusive
+  pointsCost           Int       @map("points_cost")
+  monetaryValue        Float     @map("monetary_value") // Real dollar value
+  currency             String    @default("USD")
+  discountType         String?   @map("discount_type") // percentage, fixed
+  discountValue        Float?    @map("discount_value")
+  code                 String?   @map("code") // Pre-generated code
+  maxRedemptions       Int?      @map("max_redemptions") // Total available
+  redemptionsRemaining Int?      @map("redemptions_remaining")
+  perUserLimit         Int?      @map("per_user_limit") // Per user limit
+  validDays            Int?      @map("valid_days") // Days valid after redemption
+  tierRequirement      String?   @map("tier_requirement") // Minimum tier required
+  imageUrl             String?   @map("image_url")
+  isActive             Boolean   @default(true) @map("is_active")
+  isFeatured           Boolean   @default(false) @map("is_featured")
+  sortOrder            Int       @default(0) @map("sort_order")
+  startDate            DateTime? @map("start_date")
+  endDate              DateTime? @map("end_date")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  redemptions PointRedemption[]
+
+  @@map("rewards")
+}
+
+// =====================================================
+// GAMIFICATION TABLES
+// =====================================================
+
+// Achievement types
+model Achievement {
+  id              String   @id @default(cuid())
+  code            String   @unique
+  name            String
+  displayName     String   @map("display_name")
+  description     String
+  category        String // purchases, engagement, social, milestones
+  pointsReward    Int      @map("points_reward")
+  badgeIcon       String?  @map("badge_icon")
+  badgeColor      String?  @map("badge_color")
+  tierRequirement String?  @map("tier_requirement") // Tier needed to unlock
+  requirement     String // JSON with completion requirements
+  isHidden        Boolean  @default(false) @map("is_hidden")
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  userAchievements UserAchievement[]
+
+  @@map("achievements")
+}
+
+// User achievements
+model UserAchievement {
+  id              String    @id @default(cuid())
+  userId          String    @map("user_id")
+  achievementId   String    @map("achievement_id")
+  progress        Int       @default(0) @map("progress")
+  target          Int       @default(100) @map("target")
+  percentComplete Float     @default(0) @map("percent_complete")
+  isCompleted     Boolean   @default(false) @map("is_completed")
+  completedAt     DateTime? @map("completed_at")
+  claimedAt       DateTime? @map("claimed_at")
+  claimedPoints   Int       @default(0) @map("claimed_points")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  user        LoyaltyUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id])
+
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+}
+
+// =====================================================
+// LOYALTY FLAGS & SPECIAL STATUS
+// =====================================================
+
+model LoyaltyFlag {
+  id          String    @id @default(cuid())
+  userId      String    @map("user_id")
+  flagType    String    @map("flag_type") // vip, ambassador, early_adopter, lifetime, special
+  description String
+  isActive    Boolean   @default(true) @map("is_active")
+  grantedAt   DateTime  @default(now()) @map("granted_at")
+  expiresAt   DateTime? @map("expires_at")
+  grantedBy   String?   @map("granted_by")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  user LoyaltyUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("loyalty_flags")
+}
+
+// =====================================================
+// LEADERBOARD & CHALLENGES
+// =====================================================
+
+model LoyaltyChallenge {
+  id               String   @id @default(cuid())
+  name             String   @unique
+  displayName      String   @map("display_name")
+  description      String
+  category         String // weekly, monthly, seasonal, special
+  type             String // points_earned, purchases, referrals, activities
+  target           Int      @default(100)
+  currentProgress  Int      @default(0) @map("current_progress")
+  pointsReward     Int      @map("points_reward")
+  bonusReward      Int?     @map("bonus_reward") // Bonus for top performers
+  tierRequirement  String?  @map("tier_requirement")
+  startDate        DateTime @map("start_date")
+  endDate          DateTime @map("end_date")
+  isActive         Boolean  @default(true) @map("is_active")
+  isGlobal         Boolean  @default(true) @map("is_global") // All users or select
+  participantCount Int      @default(0) @map("participant_count")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@map("loyalty_challenges")
+}
+
+model ChallengeParticipant {
+  id           String    @id @default(cuid())
+  challengeId  String    @map("challenge_id")
+  userId       String    @map("user_id")
+  progress     Int       @default(0) @map("progress")
+  rank         Int?      @map("rank")
+  isCompleted  Boolean   @default(false) @map("is_completed")
+  completedAt  DateTime? @map("completed_at")
+  claimedBonus Boolean   @default(false) @map("claimed_bonus")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  @@unique([challengeId, userId])
+  @@map("challenge_participants")
+}
+
+// =====================================================
+// LOYALTY SETTINGS & CONFIGURATIONS
+// =====================================================
+
+model LoyaltySettings {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("loyalty_settings")
+}
+
+// =====================================================
+// ENUMS
+// =====================================================

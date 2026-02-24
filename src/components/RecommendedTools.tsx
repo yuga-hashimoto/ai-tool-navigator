@@ -1,6 +1,5 @@
-import { getRecommendations } from '@/lib/recommendations';
-import { cookies } from 'next/headers';
-import { getSessionCookieName } from '@/lib/affiliate-tracking';
+import { getContentBasedRecommendations } from '@/lib/recommendations';
+import { getToolBySlug, getAllTools } from '@/lib/tools';
 import { ToolCard } from '@/components/ToolCard';
 import { getTranslations } from 'next-intl/server';
 
@@ -11,11 +10,14 @@ interface RecommendedToolsProps {
 }
 
 export async function RecommendedTools({ currentSlug, locale, limit = 3 }: RecommendedToolsProps) {
-  const cookieStore = await cookies();
-  const sessionCookieName = getSessionCookieName();
-  const sessionId = cookieStore.get(sessionCookieName)?.value || 'anonymous';
+  const currentTool = await getToolBySlug(currentSlug, locale);
 
-  const recommendations = await getRecommendations(sessionId, currentSlug, limit, locale);
+  if (!currentTool) {
+    return null;
+  }
+
+  const allTools = await getAllTools(locale);
+  const recommendations = getContentBasedRecommendations(currentTool.metadata, allTools, limit);
 
   if (recommendations.length === 0) {
     return null;

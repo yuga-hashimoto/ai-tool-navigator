@@ -65,8 +65,10 @@ jobs:
             MERGE_STATE=$(echo "$PR_JSON" | jq -r '.mergeStateStatus')
             REVIEW_DECISION=$(echo "$PR_JSON" | jq -r '.reviewDecision')
 
-            # Check CI status
-            CI_STATUS=$(echo "$PR_JSON" | jq -r '.statusCheckRollup.state // "PENDING"')
+            # Check CI status (statusCheckRollup can be array or object)
+            CI_STATUS=$(echo "$PR_JSON" | jq -r 'if (.statusCheckRollup | type) == "array" then (.statusCheckRollup | map(.conclusion // .status) | unique | .[0] // "PENDING") else (.statusCheckRollup.state // "PENDING") end')
+            MERGE_STATE=$(echo "$PR_JSON" | jq -r '.mergeStateStatus // "UNKNOWN"')
+            REVIEW_DECISION=$(echo "$PR_JSON" | jq -r '.reviewDecision // "NONE"')
             echo "  Title: $PR_TITLE"
             echo "  Branch: $PR_BRANCH -> $BASE_BRANCH"
             echo "  Merge State: $MERGE_STATE"

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { appendToolSubmission, ToolSubmissionData } from '@/lib/google-sheets';
 import { securityCheck, checkFormSecurity, createRateLimitHeaders } from '@/lib/security';
-import { validateHoneypot, HONEYPOT_FIELDS } from '@/lib/security/honeypot';
+import { validateHoneypot, HONEYPOT_FIELD_NAMES } from '@/lib/security/honeypot';
 import { logFormSubmission } from '@/lib/security/audit-log';
 import { getClientIP } from '@/lib/security/bot-detection';
 import { trackRequest } from '@/lib/security/anomaly-detection';
@@ -41,9 +41,9 @@ export async function POST(request: NextRequest) {
     
     // Check honeypot fields if present in body
     const honeypotResult = validateHoneypot(formData, {
-      websiteField: HONEYPOT_FIELDS.WEBSITE,
-      companyField: HONEYPOT_FIELDS.COMPANY,
-      tokenField: HONEYPOT_FIELDS.TOKEN,
+      websiteField: HONEYPOT_FIELD_NAMES.WEBSITE,
+      companyField: HONEYPOT_FIELD_NAMES.COMPANY,
+      tokenField: HONEYPOT_FIELD_NAMES.TOKEN,
     });
 
     if (!honeypotResult.isValid) {

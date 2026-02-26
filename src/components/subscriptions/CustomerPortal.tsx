@@ -48,7 +48,7 @@ interface CustomerPortalProps {
   isAuthenticated: boolean;
 }
 
-export default function CustomerPortal({
+export function CustomerPortal({
   userId,
   userEmail,
   isAuthenticated,

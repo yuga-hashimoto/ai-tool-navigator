@@ -71,7 +71,7 @@ Just a friendly reminder that your subscription will renew on {renewal_date}.
 
 Your next charge will be {amount}.
 
-If you'd like to make any changes to your subscription, you can do so from your account settings.
+If you have any questions, we're here to help!
 
 [Manage Subscription]
 

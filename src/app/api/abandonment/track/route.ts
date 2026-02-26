@@ -67,8 +67,8 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Check if abandonment already recorded for this session
-    const existing = await getAbandonmentBySession(sessionId);
+    // Check if abandonment already recorded    const existing = for this session
+ await getAbandonmentBySession(sessionId);
     
     if (existing) {
       // Update existing record instead of creating duplicate

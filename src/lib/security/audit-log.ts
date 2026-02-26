@@ -232,9 +232,6 @@ export const getSecurityStats = async (
     blockedRequests: 0,
     botDetections: 0,
     rateLimitExceeded: 0,
-    captchaChallenges: 0,
-    botScoreSum: 0,
-    botScoreCount: 0,
     uniqueIPs: new Set<string>(),
     topIPs: [] as Array<{ ip: string; count: number }>,
     topPaths: [] as Array<{ path: string; count: number }>,
@@ -249,12 +246,6 @@ export const getSecurityStats = async (
     if (entry.status === 'blocked') stats.blockedRequests++;
     if (entry.eventType === AUDIT_EVENTS.BOT_DETECTED) stats.botDetections++;
     if (entry.eventType === AUDIT_EVENTS.RATE_LIMIT_EXCEEDED) stats.rateLimitExceeded++;
-    if (entry.eventType === AUDIT_EVENTS.CAPTCHA_REQUIRED) stats.captchaChallenges++;
-
-    if (entry.botScore !== undefined) {
-      stats.botScoreSum += entry.botScore;
-      stats.botScoreCount++;
-    }
   }
   
   // Calculate top IPs
@@ -281,15 +272,8 @@ export const getSecurityStats = async (
   
   return {
     ...stats,
-    avgBotScore: stats.botScoreCount > 0 ? stats.botScoreSum / stats.botScoreCount : 0,
     uniqueIPs: stats.uniqueIPs.size,
   };
-};
-
-export const getSecurityStatsByPeriod = async (
-  periodHours: number = 24
-) => {
-  return getSecurityStats(periodHours);
 };
 
 // Helper function to log rate limit events
@@ -349,3 +333,5 @@ export const logFormSubmission = async (
     metadata: { formType },
   });
 };
+
+export const getSecurityStatsByPeriod = getSecurityStats;

@@ -1,8 +1,5 @@
 import { getToolBySlug, getToolSlugs } from "@/lib/tools";
-<<<<<<< HEAD
-=======
 import { getRecommendations } from "@/lib/recommendations";
->>>>>>> fc0697b (Implement Intelligent Cross-Sell Recommendations Engine)
 import { getRelatedPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
@@ -11,6 +8,7 @@ import remarkDirective from "remark-directive";
 import { remarkYoutube } from "@/lib/remark-youtube";
 import { ExternalLink, BadgeCheck, Calendar } from "lucide-react";
 import { Metadata } from "next";
+import { ToolCard } from "@/components/ToolCard";
 import { Rating } from "@/components/Rating";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getTranslations } from "next-intl/server";
@@ -23,12 +21,8 @@ import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
-<<<<<<< HEAD
-import { ProductTracker } from "@/components/ProductTracker";
-import { RecommendedTools } from "@/components/RecommendedTools";
-=======
 import { InteractionTracker } from "@/components/InteractionTracker";
->>>>>>> fc0697b (Implement Intelligent Cross-Sell Recommendations Engine)
+import { getServerSession } from "next-auth";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -83,11 +77,8 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   const { metadata, content } = tool;
   const { verified, last_updated } = metadata;
-<<<<<<< HEAD
-=======
 
   const relatedTools = await getRecommendations(metadata, 3, locale);
->>>>>>> fc0697b (Implement Intelligent Cross-Sell Recommendations Engine)
   const relatedPosts = await getRelatedPosts(metadata, 3, locale);
   const toolSchema = generateToolSchema(tool);
   const productSchema = generateProductSchema(tool);
@@ -113,6 +104,8 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   };
 
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems, locale);
+  const session = await getServerSession();
+  const userId = session?.user?.email || undefined; // Using email as ID for now if ID is not available, or adjust based on auth provider
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
@@ -129,10 +122,9 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <InteractionTracker toolSlug={metadata.slug} />
+      <InteractionTracker toolSlug={metadata.slug} userId={userId} />
 
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
-        <ProductTracker slug={slug} />
         <Breadcrumbs items={breadcrumbItems} />
 
         <div className="overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-900/5 dark:bg-zinc-900 dark:ring-white/10">
@@ -216,7 +208,18 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
             </div>
         </div>
 
-        <RecommendedTools currentSlug={slug} locale={locale} />
+        {relatedTools.length > 0 && (
+            <div className="mt-16">
+                <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
+                    {t('relatedTools')}
+                </h2>
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {relatedTools.map((relatedTool) => (
+                        <ToolCard key={relatedTool.slug} tool={relatedTool} />
+                    ))}
+                </div>
+            </div>
+        )}
 
         {relatedPosts.length > 0 && (
             <div className="mt-16">

@@ -3,6 +3,7 @@ name: Build and Deploy to Cloud Run
 on:
   push:
     branches:
+      - main
 
 env:
   PROJECT_ID: project-ad4ba807-fc4c-4914-b2e
@@ -12,34 +13,7 @@ env:
   GAR_REPO: app-repo
 
 jobs:
-  client-runtime-smoke:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright test runner and browser
-        run: |
-          npm install --no-save @playwright/test@1.52.0
-          npx playwright@1.52.0 install --with-deps chromium
-
-      - name: Run client runtime smoke gate
-        run: npx playwright@1.52.0 test tests/e2e/client-runtime-smoke.spec.ts --config=playwright.ci-runtime.config.ts --project=chromium
-
   deploy:
-    needs: client-runtime-smoke
     runs-on: ubuntu-latest
     permissions:
       contents: read

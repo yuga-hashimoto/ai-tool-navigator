@@ -990,10 +990,4 @@ export function getRewardsForTier(tier: LoyaltyTier): Reward[] {
 export function canRedeemReward(userPoints: number, reward: Reward, userTier: LoyaltyTier): boolean {
   if (userPoints < reward.pointsCost) return false;
   if (reward.tierRequirement) {
-    const tierOrder: LoyaltyTier[] = ['BRONZE', 'SILVER', 'GOLD', 'PLATINUM', 'DIAMOND'];
-    const rewardTierIndex = tierOrder.indexOf(reward.tierRequirement as LoyaltyTier);
-    const userTierIndex = tierOrder.indexOf(userTier);
-    if (userTierIndex < rewardTierIndex) return false;
-  }
-  return true;
-}
+    const tierOrder: LoyaltyTier[] = ['BRONZE', 'SILVER', 'GOLD', 'PL

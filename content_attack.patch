@@ -1,0 +1,242 @@
+diff --git a/content/tools/en/kling-ai.md b/content/tools/en/kling-ai.md
+new file mode 100644
+index 0000000..42a4290
+--- /dev/null
++++ b/content/tools/en/kling-ai.md
+@@ -0,0 +1,42 @@
++---
++title: "Kling AI"
++slug: "kling-ai"
++category: "Video Generation"
++description: "Review of Kling AI: A powerful video generation model known for producing long, coherent clips with high fidelity."
++rating: 4.7
++pros:
++  - "Capable of generating up to 10-second high-quality videos"
++  - "Strong temporal consistency and coherence"
++  - "Competitive pricing and credit system"
++cons:
++  - "Initially limited availability outside certain regions"
++  - "Web interface may have language barriers or specific regional requirements"
++affiliate_link: "https://kling.kuaishou.com"
++---
++
++## What is Kling AI?
++
++Developed by Kuaishou Technology, **Kling AI** has emerged as a serious contender in the global AI video space. It garnered significant attention for its ability to generate longer, more coherent video clips than many of its competitors, rivaling the quality of unreleased models like Sora.
++
++### Key Features for Commercial Use
++
++*   **Extended Duration:** One of Kling's standout features is the ability to generate videos up to 5 or even 10 seconds in a single pass with high consistency. This reduces the need for stitching multiple clips together.
++*   **Realistic Motion:** Kling handles complex motion (like walking, running, or interacting with objects) exceptionally well, minimizing the "dream-like" morphing often seen in early AI video.
++*   **Image-to-Video:** Strong performance in animating existing images while maintaining the original style and composition.
++
++### Monetization Potential
++
++Kling AI's realism opens doors for:
++1.  **Product Visualization:** Creating realistic product demos or lifestyle shots without expensive sets.
++2.  **Narrative Storytelling:** The longer clip duration allows for more complex scenes and interactions, making it viable for short films or narrative ads.
++3.  **Virtual Influencers:** Generating consistent character movements for virtual influencer accounts on platforms like Instagram and TikTok.
++
++### Pricing & Commercial Rights
++
++Access to Kling AI often involves a credit-based system.
++*   **Subscription Models:** Typically offer a set amount of credits per month.
++*   **Commercial License:** Ensure you are on a paid tier that explicitly grants commercial usage rights, as free tiers often come with non-commercial restrictions.
++
++### Verdict
++
++For users who need **longer, coherent shots** without constant regeneration, Kling AI is a powerhouse. Its ability to maintain object permanence over extended durations makes it a valuable asset for serious video production.
+diff --git a/content/tools/en/luma-dream-machine.md b/content/tools/en/luma-dream-machine.md
+new file mode 100644
+index 0000000..0847563
+--- /dev/null
++++ b/content/tools/en/luma-dream-machine.md
+@@ -0,0 +1,42 @@
++---
++title: "Luma Dream Machine"
++slug: "luma-dream-machine"
++category: "Video Generation"
++description: "Review of Luma Dream Machine: A highly accessible, fast, and realistic AI video generator perfect for rapid prototyping and production."
++rating: 4.8
++pros:
++  - "Incredibly fast generation times compared to competitors"
++  - "Keyframe control (start/end frame)"
++  - "High-quality realistic output and lighting"
++cons:
++  - "Queue times can be lengthy during peak hours"
++  - "Sometimes struggles with very complex physics"
++affiliate_link: "https://lumalabs.ai/dream-machine"
++---
++
++## What is Luma Dream Machine?
++
++Luma Labs, already famous for their 3D capture technology, disrupted the video AI market with the release of **Dream Machine**. It stands out for being not only high-quality but also **remarkably fast**, allowing creators to iterate on ideas in near real-time.
++
++### Key Features for Commercial Use
++
++*   **Speed:** Dream Machine is built for speed. While other tools might take minutes per clip, Luma often delivers results in under a minute, which is crucial for meeting tight deadlines.
++*   **Keyframe Control:** A major feature for professionals is the ability to define both the *start* and *end* frames of a video. This allows for precise transitions and looping videos, which are essential for seamless edits.
++*   **Realistic Lighting:** Leveraging their expertise in NeRF and 3D, Luma's model understands lighting and geometry exceptionally well.
++
++### Monetization Potential
++
++Dream Machine's speed and control make it ideal for:
++1.  **Rapid Prototyping:** Quickly generate storyboards or animatics for client pitches.
++2.  **Social Media Ads:** Create high-volume, variation-rich ad content to test what performs best.
++3.  **Visual Effects:** Use the generated clips as elements in larger VFX compositions, especially for background plates or specific texture movements.
++
++### Pricing & Commercial Rights
++
++Luma offers a straightforward pricing model.
++*   **Free Tier:** Generous daily limits, but often restricted to non-commercial use or watermarked.
++*   **Standard/Pro Plans:** Monthly subscriptions remove watermarks, offer faster generation (priority queue), and grant full commercial rights to the output.
++
++### Verdict
++
++Luma Dream Machine is the **speed demon** of the group. If your workflow demands rapid iteration and precise control over start/end points, it is an indispensable tool in your arsenal.
+diff --git a/content/tools/en/pika-art.md b/content/tools/en/pika-art.md
+new file mode 100644
+index 0000000..bb8287c
+--- /dev/null
++++ b/content/tools/en/pika-art.md
+@@ -0,0 +1,43 @@
++---
++title: "Pika Art"
++slug: "pika-art"
++category: "Video Generation"
++description: "Review of Pika Art: A user-friendly AI video generator excelling in animation and quick social media content creation."
++rating: 4.6
++pros:
++  - "Intuitive web interface and Discord integration"
++  - "Strong animation capabilities (anime/cartoon styles)"
++  - "Built-in lip sync and sound effects generation"
++cons:
++  - "Less photorealistic than Runway Gen-3"
++  - "Duration limits on lower tiers"
++affiliate_link: "https://pika.art"
++---
++
++## What is Pika Art?
++
++Pika Art (often referred to simply as Pika) has carved out a niche as the go-to tool for **animation** and **stylized video generation**. While it can produce realistic footage, its strengths lie in creative, artistic interpretations and ease of use via its web platform and Discord community.
++
++### Key Features for Commercial Use
++
++*   **Animation Focus:** Pika excels at turning static images into animated sequences, making it perfect for bringing artwork, logos, or character designs to life.
++*   **Lip Sync & Sound Effects:** The platform includes native tools to add voiceovers with lip sync and generate sound effects directly within the video creation workflow. This reduces the need for external audio tools.
++*   **Modify Region:** Allows you to select specific areas of a video to regenerate or modify, giving creators finer control over the final output without re-rolling the entire clip.
++
++### Monetization Potential
++
++Pika is particularly well-suited for high-volume, short-form content creation:
++
++1.  **YouTube Shorts / TikTok:** The speed and style of Pika generations align perfectly with the short-form video trend.
++2.  **Music Videos:** Independent musicians and artists use Pika to create visually stunning, psychedelic, or animated music videos at a fraction of traditional animation costs.
++3.  **NFT / Digital Art:** Artists can enhance their static digital art with subtle motion to increase value in marketplaces.
++
++### Pricing & Commercial Rights
++
++To use Pika commercially, you generally need a paid subscription.
++*   **Standard Plan:** Starts around $10/month, removing watermarks and granting commercial usage rights.
++*   **Unlimited Plan:** Available at higher tiers, crucial for businesses needing consistent output without daily limits.
++
++### Verdict
++
++Pika Art is less about strict photorealism and more about **creative expression and speed**. For social media managers and digital artists, it offers a compelling balance of features and cost.
+diff --git a/content/tools/en/runway-gen-3.md b/content/tools/en/runway-gen-3.md
+new file mode 100644
+index 0000000..ceae6d5
+--- /dev/null
++++ b/content/tools/en/runway-gen-3.md
+@@ -0,0 +1,43 @@
++---
++title: "Runway Gen-3 Alpha"
++slug: "runway-gen-3"
++category: "Video Generation"
++description: "Review of Runway Gen-3 Alpha: A powerhouse for cinematic AI video generation with commercial-grade control."
++rating: 4.8
++pros:
++  - "Exceptional photorealism and texture detail"
++  - "Precise camera controls and Motion Brush"
++  - "Supports up to 10-second generations (extendable)"
++cons:
++  - "High credit consumption for complex prompts"
++  - "Strict safety filters can limit creative freedom"
++affiliate_link: "https://runwayml.com"
++---
++
++## What is Runway Gen-3 Alpha?
++
++Runway Gen-3 Alpha represents a significant leap forward in AI video generation, focusing heavily on **photorealism**, **temporal consistency**, and **fine-grained control**. It is designed not just for casual experimentation but as a serious tool for filmmakers, advertisers, and content creators looking to monetize high-quality video content.
++
++### Key Features for Commercial Use
++
++*   **High-Fidelity Generation:** Gen-3 excels at creating video that looks indistinguishable from real footage, making it suitable for stock footage creation, B-roll, and high-end social media content.
++*   **Motion Brush & Camera Controls:** Unlike many competitors that offer random motion, Runway provides specific tools to direct camera movement (pan, tilt, zoom) and define motion for specific areas of the image using Motion Brush. This is critical for client work where precise direction is required.
++*   **Lip Sync:** The integrated lip-sync feature allows for the creation of talking head videos, which are highly valuable for marketing and educational content.
++
++### Monetization Potential
++
++For creators looking to monetize, Runway Gen-3 offers several avenues:
++
++1.  **Stock Footage Sales:** The high resolution and realism make Gen-3 outputs viable for stock video platforms (where AI content is permitted).
++2.  **Client Commercials:** The ability to control specific elements means you can create tailored ad content for products without expensive physical shoots.
++3.  **YouTube & Social Media:** High-quality, original visuals can drive engagement and ad revenue on platforms like YouTube and TikTok.
++
++### Pricing & Commercial Rights
++
++Runway's commercial terms are creator-friendly on their paid plans.
++*   **Standard Plan:** Starts around $12/month per user, granting commercial rights to generated assets.
++*   **Unlimited Plan:** Recommended for heavy users, offering unlimited generations at a relaxed rate, which is essential for iterating on client projects without fearing credit exhaustion.
++
++### Verdict
++
++Runway Gen-3 Alpha is currently one of the top choices for professionals. While it can be credit-intensive, the level of control and quality it provides justifies the cost for commercial projects.
+diff --git a/content/tools/en/sora-2.md b/content/tools/en/sora-2.md
+new file mode 100644
+index 0000000..aca17bd
+--- /dev/null
++++ b/content/tools/en/sora-2.md
+@@ -0,0 +1,42 @@
++---
++title: "OpenAI Sora 2"
++slug: "sora-2"
++category: "Video Generation"
++description: "Review of OpenAI Sora 2: The groundbreaking AI video model with native audio and flawless physics simulation."
++rating: 9.9
++pros:
++  - "Unmatched physics simulation and object permanence"
++  - "Native, spatially accurate audio generation"
++  - "Character consistency across multiple shots"
++cons:
++  - "High entry cost for the Pro plan ($200/mo)"
++  - "Generation times are longer than competitors"
++affiliate_link: "https://openai.com/sora"
++---
++
++## What is OpenAI Sora 2?
++
++Released in September 2025, **Sora 2** represents the pinnacle of generative video technology. Building on the foundation of the original Sora, this iteration solves the critical issues of **object permanence** and **audio integration**, making it less of a video generator and more of a reality simulator.
++
++### Key Features for Commercial Use
++
++*   **Native Audio:** Sora 2 doesn't just generate video; it generates the corresponding audio simultaneously. Footsteps on gravel sound like gravel, and dialogue (though still experimental) matches lip movements with surprising accuracy.
++*   **Physics Engine:** The model understands complex physical interactions. Liquids behave correctly, glass shatters realistically, and light reflects off surfaces based on material properties.
++*   **Character Consistency:** The new "Character Cameo" feature allows creators to define a character and reuse them across different scenes and shots, a game-changer for narrative filmmaking.
++
++### Monetization Potential
++
++Sora 2 is designed for high-end production:
++1.  **Filmmaking:** Indie filmmakers can now generate complex VFX shots or entire scenes that would previously require a dedicated team.
++2.  **Sound Design:** The integrated audio generation saves time and money on Foley artists and sound libraries.
++3.  **Virtual Production:** Create photorealistic backgrounds for LED volumes in real-time production environments.
++
++### Pricing & Commercial Rights
++
++Sora 2 operates on a tiered model.
++*   **ChatGPT Plus:** Includes limited access (standard generation, no commercial license for high-res).
++*   **Sora Pro ($200/mo):** The serious commercial tier. Unlocks unlimited generations, 4K resolution, and a comprehensive commercial license for all outputs.
++
++### Verdict
++
++Sora 2 is the **Physicist's Choice**. If you need absolute realism and integrated audio, there is simply no other tool that comes close. It is expensive, but for professional studios, it replaces tens of thousands of dollars in traditional production costs.

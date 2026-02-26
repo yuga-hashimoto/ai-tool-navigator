@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { toolSlug, type } = body;
+    const { toolSlug, type, userId } = body;
 
     // Get visitorId from cookie
     let visitorId: string | undefined;
@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
     await prisma.userInteraction.create({
       data: {
         visitorId,
+        userId,
         toolSlug,
         type,
       },

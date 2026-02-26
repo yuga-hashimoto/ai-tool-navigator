@@ -1,6 +1,3 @@
-// Subscription User API
-// Handles creation and updates of user subscriptions
-
 import { NextRequest, NextResponse } from 'next/server';
 import {
   createUserSubscription,

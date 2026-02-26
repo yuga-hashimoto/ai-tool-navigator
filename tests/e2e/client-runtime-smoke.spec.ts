@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test';
 
+// Use explicit full URLs to avoid "Cannot navigate to invalid URL" errors in CI
+// if baseURL resolution fails.
+const BASE_URL = 'http://127.0.0.1:3000';
 const ROUTES = ['/', '/en'];
 const CLIENT_EXCEPTION_TEXT = 'Application error: a client-side exception has occurred';
 
@@ -17,7 +20,11 @@ test('core routes have no client-side runtime exceptions', async ({ page }) => {
   });
 
   for (const route of ROUTES) {
-    const response = await page.goto(route, { waitUntil: 'networkidle' });
+    // Construct full URL to be safe
+    const fullUrl = `${BASE_URL}${route}`;
+    console.log(`Navigating to: ${fullUrl}`);
+
+    const response = await page.goto(fullUrl, { waitUntil: 'networkidle' });
     expect(response?.ok(), `route=${route}`).toBeTruthy();
 
     await expect(

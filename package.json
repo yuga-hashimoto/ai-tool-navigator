@@ -20,8 +20,8 @@
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
     "@fastify/compress": "^7.0.3",
-    "@prisma/client": "^5.22.0",
     "@hookform/resolvers": "^5.2.2",
+    "@prisma/client": "^5.22.0",
     "@swc/helpers": "^0.5.18",
     "@upstash/redis": "^1.36.2",
     "clsx": "^2.1.1",
@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.989.0",
+    "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",

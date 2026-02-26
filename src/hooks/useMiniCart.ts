@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { ToolMetadata } from '@/lib/tools';
+import { useProductTracking } from '@/hooks/useProductTracking';
 
 interface CartItem {
   id: string;
@@ -32,6 +33,7 @@ const CART_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
 export function useMiniCart(): UseMiniCartReturn {
   const [miniCartItems, setMiniCartItems] = useState<CartItem[]>([]);
   const [miniCartOpen, setMiniCartOpen] = useState(false);
+  const { trackEvent } = useProductTracking();
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -88,6 +90,7 @@ export function useMiniCart(): UseMiniCartReturn {
   }, []);
 
   const addToMiniCart = useCallback((tool: ToolMetadata) => {
+    trackEvent('ADD_TO_CART', undefined, tool.slug);
     setMiniCartItems(prev => {
       // Check if item already exists
       const existingIndex = prev.findIndex(item => item.tool.slug === tool.slug);
@@ -113,7 +116,7 @@ export function useMiniCart(): UseMiniCartReturn {
         addedAt: Date.now(),
       }];
     });
-  }, []);
+  }, [trackEvent]);
 
   const removeFromMiniCart = useCallback((itemId: string) => {
     setMiniCartItems(prev => prev.filter(item => item.id !== itemId));

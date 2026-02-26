@@ -415,5 +415,8 @@
     "progress": "{count} / {total} referrals",
     "rewardTitle": "Ultimate AI Guide",
     "rewardDesc": "Unlock our comprehensive guide to AI tools."
+  },
+  "CartRecommendations": {
+    "title": "You might also like"
   }
 }

@@ -5,6 +5,8 @@ import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { sendGAEvent } from '@/lib/analytics';
+import { useProductTracking } from '@/hooks/useProductTracking';
+import { CartRecommendations } from '@/components/CartRecommendations';
 import { ArrowLeft, CreditCard, Lock, Check, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -32,6 +34,8 @@ export default function CheckoutPage() {
     expiry: '',
     cvv: '',
   });
+
+  const { trackEvent } = useProductTracking();
 
   // Parse cart from URL
   useEffect(() => {
@@ -68,6 +72,15 @@ export default function CheckoutPage() {
       value: total,
       currency: 'USD',
       items: cartData.length,
+    });
+
+    // Track purchase for each item
+    cartData.forEach(item => {
+      trackEvent('PURCHASE', {
+        value: item.price ? parsePrice(item.price) * item.quantity : 0,
+        quantity: item.quantity,
+        currency: 'USD'
+      }, item.slug);
     });
   };
 
@@ -190,39 +203,43 @@ export default function CheckoutPage() {
             <div className="lg:col-span-2 space-y-6">
               {/* Cart Items (Cart Step) */}
               {step === 'cart' && (
-                <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-                  <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
-                    <h2 className="font-semibold text-zinc-900 dark:text-zinc-100">
-                      Cart Items ({cartData.length})
-                    </h2>
-                  </div>
-                  <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                    {cartData.map((item) => (
-                      <div key={item.slug} className="p-4 flex gap-4">
-                        {item.image && (
-                          <img
-                            src={item.image}
-                            alt={item.title || item.slug}
-                            className="w-16 h-16 rounded-lg object-cover"
-                          />
-                        )}
-                        <div className="flex-1">
-                          <h3 className="font-medium text-zinc-900 dark:text-zinc-100">
-                            {item.title || item.slug}
-                          </h3>
-                          <p className="text-sm text-zinc-500 mt-1">
-                            Qty: {item.quantity}
-                          </p>
+                <>
+                  <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+                    <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
+                      <h2 className="font-semibold text-zinc-900 dark:text-zinc-100">
+                        Cart Items ({cartData.length})
+                      </h2>
+                    </div>
+                    <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                      {cartData.map((item) => (
+                        <div key={item.slug} className="p-4 flex gap-4">
+                          {item.image && (
+                            <img
+                              src={item.image}
+                              alt={item.title || item.slug}
+                              className="w-16 h-16 rounded-lg object-cover"
+                            />
+                          )}
+                          <div className="flex-1">
+                            <h3 className="font-medium text-zinc-900 dark:text-zinc-100">
+                              {item.title || item.slug}
+                            </h3>
+                            <p className="text-sm text-zinc-500 mt-1">
+                              Qty: {item.quantity}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                              {item.price || 'Free'}
+                            </span>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <span className="font-medium text-zinc-900 dark:text-zinc-100">
-                            {item.price || 'Free'}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
+
+                  <CartRecommendations slugs={cartData.map(item => item.slug)} />
+                </>
               )}
 
               {/* Payment Step */}

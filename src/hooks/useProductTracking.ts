@@ -3,15 +3,21 @@
 import { useCallback } from 'react';
 import { getOrCreateSessionId } from '@/lib/affiliate-tracking';
 
-export function useProductTracking(productSlug: string) {
-  const trackEvent = useCallback(async (type: string, metadata?: Record<string, any>) => {
+export function useProductTracking(productSlug?: string) {
+  const trackEvent = useCallback(async (type: string, metadata?: Record<string, any>, slug?: string) => {
+    const targetSlug = slug || productSlug;
+    if (!targetSlug) {
+      console.warn('No product slug provided for tracking');
+      return;
+    }
+
     try {
       const sessionId = getOrCreateSessionId();
       await fetch('/api/analytics/track', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          productId: productSlug,
+          productId: targetSlug,
           type,
           sessionId,
           metadata,
@@ -30,5 +36,13 @@ export function useProductTracking(productSlug: string) {
     trackEvent('CLICK');
   }, [trackEvent]);
 
-  return { trackEvent, trackView, trackClick };
+  const trackAddToCart = useCallback(() => {
+    trackEvent('ADD_TO_CART');
+  }, [trackEvent]);
+
+  const trackPurchase = useCallback(() => {
+    trackEvent('PURCHASE');
+  }, [trackEvent]);
+
+  return { trackEvent, trackView, trackClick, trackAddToCart, trackPurchase };
 }

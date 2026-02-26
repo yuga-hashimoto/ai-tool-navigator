@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.989.0",
+    "@playwright/test": "^1.58.2",
     "@prisma/client": "^5.22.0",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",

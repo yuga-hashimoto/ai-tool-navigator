@@ -4,6 +4,7 @@ import matter from 'gray-matter';
 import { unstable_cache } from 'next/cache';
 
 const toolsDirectory = path.join(process.cwd(), 'content/tools');
+const isTest = process.env.NODE_ENV === 'test' || process.env.NEXT_RUNTIME === undefined;
 
 export interface ToolMetadata {
   title: string;
@@ -71,7 +72,7 @@ const _getAllTools = async (locale: string = 'en'): Promise<ToolMetadata[]> => {
   return allToolsData;
 };
 
-export const getAllTools = unstable_cache(
+export const getAllTools = isTest ? _getAllTools : unstable_cache(
   _getAllTools,
   ['tools-all'],
   { tags: ['tools'], revalidate: 3600 }
@@ -101,7 +102,7 @@ export const getToolBySlugRaw = async (slug: string, locale: string = 'en'): Pro
   };
 };
 
-export const getToolBySlug = unstable_cache(
+export const getToolBySlug = isTest ? getToolBySlugRaw : unstable_cache(
   getToolBySlugRaw,
   ['tool-slug'],
   { tags: ['tools'], revalidate: 3600 }
@@ -112,7 +113,7 @@ const _getToolOfTheWeek = async (locale: string = 'en'): Promise<ToolMetadata | 
   return tools.find((tool) => tool.tool_of_the_week) || null;
 }
 
-export const getToolOfTheWeek = unstable_cache(
+export const getToolOfTheWeek = isTest ? _getToolOfTheWeek : unstable_cache(
   _getToolOfTheWeek,
   ['tool-of-the-week'],
   { tags: ['tools'], revalidate: 3600 }
@@ -155,7 +156,7 @@ const _getRelatedTools = async (currentTool: ToolMetadata, limit: number = 3, lo
   return candidates.slice(0, limit);
 }
 
-export const getRelatedTools = unstable_cache(
+export const getRelatedTools = isTest ? _getRelatedTools : unstable_cache(
   _getRelatedTools,
   ['related-tools'],
   { tags: ['tools'], revalidate: 3600 }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { appendToolSubmission, ToolSubmissionData } from '@/lib/google-sheets';
 import { securityCheck, checkFormSecurity, createRateLimitHeaders } from '@/lib/security';
-import { validateHoneypot, HONEYPOT_FIELDS } from '@/lib/security/honeypot';
+import { validateHoneypot, HONEYPOT_FIELD_NAMES } from '@/lib/security/honeypot';
 import { logFormSubmission } from '@/lib/security/audit-log';
 import { getClientIP } from '@/lib/security/bot-detection';
 import { trackRequest } from '@/lib/security/anomaly-detection';

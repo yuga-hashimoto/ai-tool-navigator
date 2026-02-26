@@ -175,7 +175,7 @@ export const validateHoneypot = (
 };
 
 // Export field names for use in server-side validation
-export const HONEYPOT_FIELDS = {
+export const HONEYPOT_FIELD_NAMES = {
   WEBSITE: 'website_url',
   COMPANY: 'company_name',
   TOKEN: 'homepage',

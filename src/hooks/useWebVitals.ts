@@ -6,7 +6,7 @@
 "use client";
 
 import { useEffect, useCallback } from "react";
-import { onCLS, onFCP, onFID, onLCP, onTTFB, Metric } from "web-vitals";
+import { onCLS, onFCP, onINP, onLCP, onTTFB, Metric } from "web-vitals";
 
 export interface WebVitalsMetrics {
   id: string;
@@ -29,7 +29,7 @@ export const DEFAULT_ALERT_THRESHOLDS: AlertThreshold[] = [
   { metric: "LCP", warning: 2500, critical: 4000 },
   { metric: "FCP", warning: 1800, critical: 3000 },
   { metric: "CLS", warning: 0.1, critical: 0.25 },
-  { metric: "FID", warning: 100, critical: 300 },
+  { metric: "INP", warning: 200, critical: 500 },
   { metric: "TTI", warning: 3800, critical: 7300 },
   { metric: "TBT", warning: 300, critical: 600 },
   { metric: "TTFB", warning: 800, critical: 1800 },
@@ -40,7 +40,7 @@ export const getMetricRating = (name: string, value: number): "good" | "needs-im
     LCP: { good: 2500, poor: 4000 },
     FCP: { good: 1800, poor: 3000 },
     CLS: { good: 0.1, poor: 0.25 },
-    FID: { good: 100, poor: 300 },
+    INP: { good: 200, poor: 500 },
     TTI: { good: 3800, poor: 7300 },
     TBT: { good: 200, poor: 600 },
     TTFB: { good: 800, poor: 1800 },
@@ -152,12 +152,12 @@ export const useWebVitals = (
       onFCP(handleMetric),
       onLCP(handleMetric),
       onCLS(handleMetric),
-      onFID(handleMetric),
+      onINP(handleMetric),
       onTTFB(handleMetric),
     ];
 
     // TTI is not directly available in web-vitals, but we can approximate with TBT
-    // For now, we'll use FID as a proxy for interactivity
+    // For now, we'll use INP as a proxy for interactivity
 
     return () => {
       subscriptions.forEach((unsubscribe) => {

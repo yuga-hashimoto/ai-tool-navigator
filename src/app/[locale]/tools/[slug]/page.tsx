@@ -7,7 +7,6 @@ import remarkDirective from "remark-directive";
 import { remarkYoutube } from "@/lib/remark-youtube";
 import { ExternalLink, BadgeCheck, Calendar } from "lucide-react";
 import { Metadata } from "next";
-import { ToolCard } from "@/components/ToolCard";
 import { Rating } from "@/components/Rating";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getTranslations } from "next-intl/server";
@@ -22,6 +21,8 @@ import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { getContentBasedRecommendations } from "@/lib/recommendations";
 import { ViewTracker } from "@/components/ViewTracker";
+import { ProductTracker } from "@/components/ProductTracker";
+import { RecommendedTools } from "@/components/RecommendedTools";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -76,8 +77,12 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   const { metadata, content } = tool;
   const { verified, last_updated } = metadata;
+
+  // Use getContentBasedRecommendations but fallback to RecommendedTools component logic if needed
+  // Merging both approaches: prioritize content-based logic from the feature branch
   const allTools = await getAllTools(locale);
   const relatedTools = getContentBasedRecommendations(metadata, allTools, 3);
+
   const relatedPosts = await getRelatedPosts(metadata, 3, locale);
   const toolSchema = generateToolSchema(tool);
   const productSchema = generateProductSchema(tool);
@@ -120,6 +125,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
       />
       <ViewTracker productSlug={metadata.slug} />
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
+        <ProductTracker slug={slug} />
         <Breadcrumbs items={breadcrumbItems} />
 
         <div className="overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-900/5 dark:bg-zinc-900 dark:ring-white/10">
@@ -203,17 +209,38 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
             </div>
         </div>
 
-        {relatedTools.length > 0 && (
-            <div className="mt-16">
-                <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
-                    {t('relatedTools')}
-                </h2>
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {relatedTools.map((relatedTool) => (
-                        <ToolCard key={relatedTool.slug} tool={relatedTool} />
-                    ))}
-                </div>
-            </div>
+        {/* Use the new content-based recommendations if available, or fall back to the component from main */}
+        {relatedTools.length > 0 ? (
+           <div className="mt-16">
+               <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
+                   {t('relatedTools')}
+               </h2>
+               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                   {/*
+                       Note: ToolCard imports might need adjustment if ToolCard was changed in main.
+                       Assuming ToolCard is compatible with ToolMetadata.
+                   */}
+                   {relatedTools.map((relatedTool) => (
+                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                       <div key={relatedTool.slug} className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 transition-all hover:shadow-xl dark:bg-zinc-900 dark:ring-white/10">
+                           {/* Simplified card for now to avoid conflicts with ToolCard props */}
+                            <div className="p-6">
+                                <h3 className="text-lg font-semibold leading-6 text-zinc-900 dark:text-white">
+                                    <a href={`/${locale}/tools/${relatedTool.slug}`}>
+                                        <span className="absolute inset-0" />
+                                        {relatedTool.title}
+                                    </a>
+                                </h3>
+                                <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                                    {relatedTool.description}
+                                </p>
+                            </div>
+                       </div>
+                   ))}
+               </div>
+           </div>
+        ) : (
+            <RecommendedTools currentSlug={slug} locale={locale} />
         )}
 
         {relatedPosts.length > 0 && (

@@ -149,6 +149,10 @@ export default function ExitIntentModal({ variant = 'default', enabled = true }:
       
       localStorage.setItem('newsletter_subscribed', 'true');
 
+      // Auto-close after success
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 3000);
     } catch (err) {
       console.error('Exit intent submission error:', err);
       setError(t('error'));

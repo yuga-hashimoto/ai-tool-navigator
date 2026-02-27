@@ -1,18 +1,9 @@
-// Subscription User API
-// Handles creation and updates of user subscriptions
-
-import { NextRequest, NextResponse } from 'next/server';
-import {
-  createUserSubscription,
-  changeSubscriptionTier,
-  cancelSubscription,
-  reactivateSubscription,
-  previewTierChange,
-  getUserSubscription
-} from '@/lib/subscriptions/subscription-manager';
-
 // POST /api/subscriptions/user
 // Create new subscription or start trial
+
+import { NextRequest, NextResponse } from 'next/server';
+import { createUserSubscription } from '@/lib/subscriptions/subscription-manager';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -54,6 +45,15 @@ export async function POST(request: NextRequest) {
 
 // PATCH /api/subscriptions/user
 // Update subscription (upgrade/downgrade/cancel)
+
+import { NextRequest, NextResponse } from 'next/server';
+import {
+  changeSubscriptionTier,
+  cancelSubscription,
+  reactivateSubscription,
+  previewTierChange,
+} from '@/lib/subscriptions/subscription-manager';
+
 export async function PATCH(request: NextRequest) {
   try {
     const body = await request.json();
@@ -67,6 +67,7 @@ export async function PATCH(request: NextRequest) {
     }
     
     // Get user's subscription
+    const { getUserSubscription } = await import('@/lib/subscriptions/subscription-manager');
     const currentSub = await getUserSubscription(userId);
     
     if (!currentSub) {

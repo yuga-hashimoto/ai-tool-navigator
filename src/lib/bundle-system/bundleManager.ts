@@ -1098,12 +1098,4 @@ export class BundleManager {
       })),
       customerSegments: [
         { segment: 'new', count: Math.floor(bundle.currentPurchases * 0.4), revenue: bundle.revenue * 0.35 },
-        { segment: 'returning', count: Math.floor(bundle.currentPurchases * 0.5), revenue: bundle.revenue * 0.55 }
-      ],
-      timeToPurchase: 86400, // 24 hours average
-      cartAbandonmentRate: 0.65,
-      bundleVsStandalone: 1.25,
-      upliftPercentage: 15
-    };
-  }
-}
+        { segment: 'returning', count: Math.floor(bundle.currentPurchases * 0.5), revenue: bundle.revenue * 0.55 },

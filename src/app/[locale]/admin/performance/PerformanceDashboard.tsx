@@ -178,8 +178,7 @@ export function PerformanceDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         {Object.entries(METRIC_CONFIG).map(([key, config]) => {
           const stats = data?.stats[key];
-          const goodRate = stats?.goodRate ?? 0;
-          const rating = goodRate >= 75 ? "good" : goodRate >= 50 ? "needs-improvement" : "poor";
+          const rating = stats?.goodRate >= 75 ? "good" : stats?.goodRate >= 50 ? "needs-improvement" : "poor";
           
           return (
             <button

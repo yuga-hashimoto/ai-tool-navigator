@@ -75,8 +75,8 @@ export interface LoyaltyUser {
   lastActivityDate: Date;
   birthday: Date | null;
   referralCode: string;
-  referredBy: string | null;
-  totalReferrals: number;
+ string | null;
+  totalReferrals  referredBy:: number;
   referralEarnings: number;
   totalReferralPoints: number;
   isActive: boolean;

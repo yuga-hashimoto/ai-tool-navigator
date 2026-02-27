@@ -8,11 +8,9 @@ import { useCompare } from '@/context/CompareContext';
 import { MouseEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useProductTracking } from '@/hooks/useProductTracking';
 
 export function ToolCard({ tool, priority }: { tool: ToolMetadata; priority?: boolean }) {
   const { selectedSlugs, toggleTool } = useCompare();
-  const { trackClick } = useProductTracking(tool.slug);
   const isSelected = selectedSlugs.includes(tool.slug);
   const t = useTranslations('ToolCard');
 
@@ -82,7 +80,7 @@ export function ToolCard({ tool, priority }: { tool: ToolMetadata; priority?: bo
           </div>
           <div className="mt-4">
               <h3 className="text-lg font-semibold leading-6 text-zinc-900 group-hover:text-blue-600 dark:text-zinc-100 dark:group-hover:text-blue-400">
-                  <Link href={`/tools/${tool.slug}`} onClick={() => trackClick()}>
+                  <Link href={`/tools/${tool.slug}`}>
                       <span className="absolute inset-0" />
                       {tool.title}
                   </Link>

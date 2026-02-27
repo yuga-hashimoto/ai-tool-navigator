@@ -6,7 +6,7 @@ import {
   markReminderSent,
   expireTrials,
   recordDailyAnalytics,
-} from '../subscription-manager';
+} from './subscription-manager';
 
 // =====================================================
 // RENEWAL REMINDER SYSTEM
@@ -176,7 +176,7 @@ export async function processReminders() {
     for (const reminder of reminders) {
       try {
         // Get user email from subscription
-        const { getUserSubscription } = await import('../subscription-manager');
+        const { getUserSubscription } = await import('./subscription-manager');
         const subscription = await getUserSubscription(reminder.userId);
         
         if (!subscription) {
@@ -292,7 +292,7 @@ export async function runScheduledTasks() {
 0 * * * * node -e "require('./scheduler').processReminders()"
 
 # Run trial expiration check every 15 minutes
-*\/15 * * * * node -e "require('./scheduler').processExpiredTrials()"
+*/15 * * * * node -e "require('./scheduler').processExpiredTrials()"
 
 # Record analytics once per day at midnight
 0 0 * * * node -e "require('./scheduler').recordAnalytics()"

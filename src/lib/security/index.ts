@@ -12,26 +12,32 @@ export * from './rate-limit-config-v2';
 export * from './bot-detection';
 
 // IP reputation
-export * from './ip-reputation';
+// Exclude conflicting clearCaptchaRequirement from ip-reputation re-export
+export {
+  getIPReputation,
+  updateIPReputation,
+  blockIP,
+  unblockIP,
+  isIPBlockedFunc,
+  getBlockedIPs,
+  recordSuccess,
+  recordFailure,
+  type IPReputationResult
+} from './ip-reputation';
 
 // Audit logging
 export * from './audit-log';
 
 // CAPTCHA
+// Explicitly re-export clearCaptchaRequirement from captcha
 export * from './captcha';
 
 // Anomaly detection
 export * from './anomaly-detection';
 
 // Honeypot
-export {
-  HoneypotField,
-  TimeHoneypot,
-  HoneyToken,
-  CombinedHoneypot,
-  validateHoneypot,
-  HONEYPOT_FIELD_NAMES
-} from './honeypot';
+// Export HONEYPOT_FIELD_NAMES explicitly if it's not exported by default
+export * from './honeypot';
 
 // Security middleware
 export * from './security-middleware';

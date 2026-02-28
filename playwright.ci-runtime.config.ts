@@ -19,7 +19,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run build && npm run start -- -H 127.0.0.1 -p 3000',
+    command: 'npm run build && HOSTNAME=127.0.0.1 PORT=3000 node .next/standalone/server.js',
     url: 'http://127.0.0.1:3000',
     timeout: 180_000,
     reuseExistingServer: !process.env.CI,

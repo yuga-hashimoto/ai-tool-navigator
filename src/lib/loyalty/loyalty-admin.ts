@@ -12,8 +12,7 @@ import type {
   RedemptionStatus,
   Reward,
   Achievement,
-  LoyaltyChallenge,
-  UserAchievement
+  LoyaltyChallenge
 } from './loyalty-types';
 
 // =====================================================
@@ -274,7 +273,7 @@ export async function updateAchievement(
 export async function awardAchievement(
   userId: string,
   achievementCode: string
-): Promise<UserAchievement> {
+): Promise<any> {
   const response = await fetch('/api/loyalty/admin/achievements/award', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

@@ -1,16 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { trackABTestVariant } from '@/lib/analytics';
-
-// Placeholder functions for missing analytics exports
-const trackABTestImpression = (testName: string, variant: string) => {
-  console.log('[A/B Test] Impression:', testName, variant);
-};
-
-const trackABTestConversion = (testName: string, variant: string, goal?: string) => {
-  console.log('[A/B Test] Conversion:', testName, variant, goal);
-};
+import { trackABTestVariant, trackABTestImpression, trackABTestConversion } from '@/lib/analytics';
 
 export type OfferType = 'discount' | 'bonus' | 'urgency' | 'value' | 'social';
 
@@ -128,7 +119,7 @@ export function useOfferABTest(
 
   const recordConversion = useCallback(() => {
     if (!variant || isLoading) return;
-    trackABTestConversion(testConfig.testName, variant, testConfig.conversionGoal);
+    trackABTestConversion(testConfig.testName, variant, 1);
   }, [variant, isLoading, testConfig]);
 
   return {

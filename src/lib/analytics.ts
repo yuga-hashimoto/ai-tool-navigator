@@ -62,6 +62,21 @@ export function trackABTestVariant(testName: string, variant: string): void {
   });
 }
 
+export function trackABTestImpression(testName: string, variant: string): void {
+  sendGAEvent('ab_test_impression', {
+    test_name: testName,
+    variant,
+  });
+}
+
+export function trackABTestConversion(testName: string, variant: string, value?: number): void {
+  sendGAEvent('ab_test_conversion', {
+    test_name: testName,
+    variant,
+    value: value || 0,
+  });
+}
+
 /**
  * Track conversion rate metrics
  */

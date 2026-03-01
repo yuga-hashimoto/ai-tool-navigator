@@ -31,19 +31,20 @@ export function SortDropdown({ value, onChange }: SortDropdownProps) {
     [onChange]
   );
 
-  const handleClickOutside = useCallback((event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
-    }
-  }, []);
-
-  // Handle click outside
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
       window.addEventListener('click', handleClickOutside);
-      return () => window.removeEventListener('click', handleClickOutside);
     }
-  }, [handleClickOutside]);
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <div ref={dropdownRef} className="relative inline-block">

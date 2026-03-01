@@ -1,4 +1,4 @@
-import { Redis } from '@upstash/redis';
+import { Redis } from '@upstash/redis/cloudflare';
 import { CLEANUP_INTERVALS } from './rate-limit-config';
 
 let redis: Redis | null = null;

@@ -125,7 +125,7 @@ export function useAffiliate(options: UseAffiliateOptions = {}): UseAffiliateRet
         conversionType: conversionOptions.conversionType,
         value: conversionOptions.value,
         currency: conversionOptions.currency,
-        attributionModel: attr ? "last_touch" : "first_touch",
+        attributionModel: (attr ? "last_touch" : "first_touch") as any,
         attributedAffiliateId: id,
       });
     },
@@ -243,8 +243,8 @@ export function useAffiliateEvent(
  * Hook for reading URL tracking parameters
  */
 export function useAffiliateParams() {
-  const [params, setParams] = useState<{ affiliateId: string | null; hasTracking: boolean; utm_source?: string; utm_medium?: string; utm_campaign?: string } | null>(null);
-  
+  const [params, setParams] = useState<any>(null);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -257,6 +257,6 @@ export function useAffiliateParams() {
       hasTracking: !!(utmParams.utm_source || affiliateId),
     });
   }, []);
-  
+
   return params;
 }

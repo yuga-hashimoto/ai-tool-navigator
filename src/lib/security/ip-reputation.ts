@@ -1,4 +1,4 @@
-import { Redis } from '@upstash/redis';
+import { Redis } from '@upstash/redis/cloudflare';
 import { IP_REPUTATION, CLEANUP_INTERVALS } from './rate-limit-config';
 
 let redis: Redis | null = null;
@@ -96,7 +96,7 @@ export const getIPReputation = async (ip: string): Promise<IPReputationResult> =
   // Check thresholds
   const isBlocked = finalScore <= IP_REPUTATION.BLOCK_THRESHOLD;
   const isSuspicious = finalScore <= IP_REPUTATION.SUSPICIOUS_THRESHOLD;
-  const requiresCaptcha = finalScore < 30 || isDatacenter;
+  const requiresCaptcha = finalScore < 30; // Don't block based solely on being a datacenter
 
   return {
     score: finalScore,
@@ -165,7 +165,7 @@ const getStoredReputation = async (ip: string): Promise<IPReputation | null> => 
 export const updateIPReputation = async (
   ip: string,
   adjustment: number,
-  reason?: string,
+  reason: string,
   flag?: string
 ): Promise<void> => {
   const redisClient = getRedisClient();
@@ -247,7 +247,7 @@ export const getBlockedIPs = (): string[] => {
 
 // Record a successful request (improves reputation)
 export const recordSuccess = async (ip: string): Promise<void> => {
-  await updateIPReputation(ip, 1, undefined);
+  await updateIPReputation(ip, 1, 'Successful request');
 };
 
 // Record a failed attempt (decreases reputation)
@@ -255,7 +255,6 @@ export const recordFailure = async (ip: string, reason: string): Promise<void> =
   await updateIPReputation(ip, -5, reason);
 };
 
-export const clearCaptchaRequirement = async (ip: string): Promise<void> => {
-  // Boost reputation when user completes CAPTCHA successfully
-  await updateIPReputation(ip, 10, 'CAPTCHA completed successfully');
+export const clearIPReputationCaptchaRequirement = async (ip: string): Promise<void> => {
+  await updateIPReputation(ip, 10, 'Captcha solved successfully');
 };

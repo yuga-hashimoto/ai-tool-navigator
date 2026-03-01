@@ -140,10 +140,10 @@ export default function PricingCards({
     return Math.max(0, price - validatedCoupon.discountValue);
   };
 
-  const getFeatures = (featuresJson: string | null): string[] => {
+  const getFeatures = (featuresJson: string | null) => {
     if (!featuresJson) return [];
     try {
-      return JSON.parse(featuresJson) as string[];
+      return JSON.parse(featuresJson);
     } catch {
       return [];
     }
@@ -306,7 +306,7 @@ export default function PricingCards({
 
                 {/* Features List */}
                 <ul className="mt-6 space-y-3">
-                  {features.map((feature, index) => (
+                  {(features as string[]).map((feature, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                       <span className="text-gray-600 text-sm">{feature}</span>

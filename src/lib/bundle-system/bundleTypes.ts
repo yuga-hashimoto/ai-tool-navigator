@@ -930,9 +930,3 @@ export const BUNDLE_RULES: BundleRule[] = [
     active: true
   }
 ];
-
-// =====================================================
-// TYPE EXPORTS
-// =====================================================
-
-// BundleItem is already exported as interface above

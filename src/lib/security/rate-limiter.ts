@@ -1,4 +1,4 @@
-import { Redis } from '@upstash/redis';
+import { Redis } from '@upstash/redis/cloudflare';
 import { RATE_LIMITS, CLEANUP_INTERVALS } from './rate-limit-config';
 
 // Redis client configuration - uses environment variables
@@ -64,9 +64,9 @@ export const checkRateLimit = async (
       
       if (count >= limit) {
         // Get oldest entry to calculate reset time
-        const oldest = await redisClient.zrange(redisKey, 0, 0, { withScores: true });
-        const resetTime = oldest.length > 1 
-          ? parseInt(oldest[1] as string) + windowMs 
+        const oldest = await redisClient.zrange<any[]>(redisKey, 0, 0, { withScores: true, rev: false });
+        const resetTime = oldest.length > 0
+          ? (typeof oldest[0] === 'object' && oldest[0].score ? Number(oldest[0].score) : now) + windowMs
           : now + windowMs;
         
         return {

@@ -148,12 +148,24 @@ export const useWebVitals = (
     if (typeof window === "undefined") return;
 
     // Subscribe to all Web Vitals metrics
-    // web-vitals v5+ does not return unsubscribe functions
-    onFCP(handleMetric);
-    onLCP(handleMetric);
-    onCLS(handleMetric);
-    onINP(handleMetric);
-    onTTFB(handleMetric);
+    const subscriptions = [
+      onFCP(handleMetric),
+      onLCP(handleMetric),
+      onCLS(handleMetric),
+      onINP(handleMetric),
+      onTTFB(handleMetric),
+    ];
+
+    // TTI is not directly available in web-vitals, but we can approximate with TBT
+    // For now, we'll use INP as a proxy for interactivity
+
+    return () => {
+      subscriptions.forEach((unsubscribe) => {
+        if (typeof unsubscribe === "function") {
+          (unsubscribe as any)();
+        }
+      });
+    };
   }, [handleMetric]);
 };
 

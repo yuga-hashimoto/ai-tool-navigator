@@ -206,7 +206,7 @@ const DEFAULT_ALERT_THRESHOLDS = [
   { metric: "LCP", warning: 2500, critical: 4000 },
   { metric: "FCP", warning: 1800, critical: 3000 },
   { metric: "CLS", warning: 0.1, critical: 0.25 },
-  { metric: "FID", warning: 100, critical: 300 },
+  { metric: "INP", warning: 200, critical: 500 },
   { metric: "TTI", warning: 3800, critical: 7300 },
   { metric: "TBT", warning: 300, critical: 600 },
   { metric: "TTFB", warning: 800, critical: 1800 },

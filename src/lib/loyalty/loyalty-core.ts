@@ -97,7 +97,7 @@ export const LOYALTY_TIERS: Record<LoyaltyTier, {
 // POINT ACCUMULATION RULES
 // =====================================================
 
-export const POINT_RULES: Record<string, Omit<PointRule, 'id' | 'createdAt' | 'updatedAt'>> = {
+export const POINT_RULES: Record<string, any> = {
   PURCHASE: {
     name: 'purchase',
     displayName: 'Purchase Points',
@@ -236,14 +236,16 @@ export const POINT_RULES: Record<string, Omit<PointRule, 'id' | 'createdAt' | 'u
 // REWARD CATALOG
 // =====================================================
 
-export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
+export const REWARDS: Reward[] = [
   {
+    id: 'reward_1',
     name: 'discount_5_percent',
     displayName: '5% Off Your Next Purchase',
     description: 'Get 5% off any purchase',
     category: 'discount',
     pointsCost: 500,
     monetaryValue: 5,
+    currency: 'USD',
     discountType: 'percentage',
     discountValue: 5,
     code: 'LOYAL5',
@@ -252,17 +254,24 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     perUserLimit: 5,
     validDays: 30,
     tierRequirement: null,
+    imageUrl: null,
     isActive: true,
     isFeatured: false,
-    sortOrder: 1
+    sortOrder: 1,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_2',
     name: 'discount_10_percent',
     displayName: '10% Off Your Next Purchase',
     description: 'Get 10% off any purchase',
     category: 'discount',
     pointsCost: 1000,
     monetaryValue: 10,
+    currency: 'USD',
     discountType: 'percentage',
     discountValue: 10,
     code: 'LOYAL10',
@@ -271,17 +280,24 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     perUserLimit: 3,
     validDays: 30,
     tierRequirement: null,
+    imageUrl: null,
     isActive: true,
     isFeatured: true,
-    sortOrder: 2
+    sortOrder: 2,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_3',
     name: 'discount_20_percent',
     displayName: '20% Off Premium Items',
     description: 'Get 20% off premium tools and subscriptions',
     category: 'discount',
     pointsCost: 2500,
     monetaryValue: 20,
+    currency: 'USD',
     discountType: 'percentage',
     discountValue: 20,
     code: 'LOYAL20',
@@ -290,17 +306,24 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     perUserLimit: 2,
     validDays: 30,
     tierRequirement: 'SILVER',
+    imageUrl: null,
     isActive: true,
     isFeatured: true,
-    sortOrder: 3
+    sortOrder: 3,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_4',
     name: 'free_shipping',
     displayName: 'Free Expedited Shipping',
     description: 'Free expedited shipping on any order',
     category: 'discount',
     pointsCost: 750,
     monetaryValue: 15,
+    currency: 'USD',
     discountType: 'fixed',
     discountValue: 15,
     code: 'FREESHIP',
@@ -309,17 +332,24 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     perUserLimit: 10,
     validDays: 60,
     tierRequirement: null,
+    imageUrl: null,
     isActive: true,
     isFeatured: false,
-    sortOrder: 4
+    sortOrder: 4,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_5',
     name: 'gift_card_25',
     displayName: '$25 Gift Card',
     description: '$25 gift card for any purchase',
     category: 'gift_card',
     pointsCost: 2500,
     monetaryValue: 25,
+    currency: 'USD',
     discountType: 'fixed',
     discountValue: 25,
     code: 'GC25',
@@ -328,17 +358,24 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     perUserLimit: 5,
     validDays: 365,
     tierRequirement: 'GOLD',
+    imageUrl: null,
     isActive: true,
     isFeatured: true,
-    sortOrder: 5
+    sortOrder: 5,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_6',
     name: 'gift_card_50',
     displayName: '$50 Gift Card',
     description: '$50 gift card for any purchase',
     category: 'gift_card',
     pointsCost: 4500,
     monetaryValue: 50,
+    currency: 'USD',
     discountType: 'fixed',
     discountValue: 50,
     code: 'GC50',
@@ -347,117 +384,170 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     perUserLimit: 3,
     validDays: 365,
     tierRequirement: 'GOLD',
+    imageUrl: null,
     isActive: true,
     isFeatured: true,
-    sortOrder: 6
+    sortOrder: 6,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_7',
     name: 'exclusive_webinar',
     displayName: 'Exclusive VIP Webinar',
     description: 'Access to exclusive AI tools webinar with Q&A',
     category: 'experience',
     pointsCost: 3000,
     monetaryValue: 100,
+    currency: 'USD',
     discountType: null,
     discountValue: null,
+    code: null,
     maxRedemptions: 50,
     redemptionsRemaining: 40,
     perUserLimit: 1,
     validDays: null,
     tierRequirement: 'PLATINUM',
+    imageUrl: null,
     isActive: true,
     isFeatured: true,
-    sortOrder: 7
+    sortOrder: 7,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_8',
     name: 'early_access',
     displayName: 'Early Access Pass',
     description: 'Early access to new AI tools before public launch',
     category: 'exclusive',
     pointsCost: 5000,
     monetaryValue: 150,
+    currency: 'USD',
     discountType: null,
     discountValue: null,
+    code: null,
     maxRedemptions: 25,
     redemptionsRemaining: 20,
     perUserLimit: 1,
     validDays: null,
     tierRequirement: 'PLATINUM',
+    imageUrl: null,
     isActive: true,
     isFeatured: true,
-    sortOrder: 8
+    sortOrder: 8,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_9',
     name: 'custom_consultation',
     displayName: '1-on-1 Consultation',
     description: '30-minute personal consultation on AI tool selection',
     category: 'experience',
     pointsCost: 7500,
     monetaryValue: 200,
+    currency: 'USD',
     discountType: null,
     discountValue: null,
+    code: null,
     maxRedemptions: 10,
     redemptionsRemaining: 8,
     perUserLimit: 1,
     validDays: null,
     tierRequirement: 'PLATINUM',
+    imageUrl: null,
     isActive: true,
     isFeatured: true,
-    sortOrder: 9
+    sortOrder: 9,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_10',
     name: 'founding_member',
     displayName: 'Founding Member Status',
     description: 'Lifetime founding member badge and exclusive perks',
     category: 'exclusive',
     pointsCost: 15000,
     monetaryValue: 500,
+    currency: 'USD',
     discountType: null,
     discountValue: null,
+    code: null,
     maxRedemptions: 100,
     redemptionsRemaining: 85,
     perUserLimit: 1,
     validDays: null,
     tierRequirement: 'DIAMOND',
+    imageUrl: null,
     isActive: true,
     isFeatured: true,
-    sortOrder: 10
+    sortOrder: 10,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_11',
     name: 'swag_pack',
     displayName: 'Exclusive Swag Pack',
     description: 'Branded merchandise pack (t-shirt, mug, stickers)',
     category: 'merchandise',
     pointsCost: 4000,
     monetaryValue: 50,
+    currency: 'USD',
     discountType: null,
     discountValue: null,
+    code: null,
     maxRedemptions: 75,
     redemptionsRemaining: 60,
     perUserLimit: 2,
     validDays: null,
     tierRequirement: 'GOLD',
+    imageUrl: null,
     isActive: true,
     isFeatured: false,
-    sortOrder: 11
+    sortOrder: 11,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
+    id: 'reward_12',
     name: 'free_month_pro',
     displayName: 'Free 1-Month Pro Subscription',
     description: 'Complimentary Pro subscription for one month',
     category: 'exclusive',
     pointsCost: 5000,
     monetaryValue: 99.99,
+    currency: 'USD',
     discountType: null,
     discountValue: null,
+    code: null,
     maxRedemptions: 100,
     redemptionsRemaining: 80,
     perUserLimit: 1,
     validDays: null,
     tierRequirement: 'SILVER',
+    imageUrl: null,
     isActive: true,
     isFeatured: true,
-    sortOrder: 12
+    sortOrder: 12,
+    startDate: null,
+    endDate: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   }
 ];
 
@@ -465,7 +555,7 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
 // ACHIEVEMENTS & GAMIFICATION
 // =====================================================
 
-export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[] = [
+export const ACHIEVEMENTS: any[] = [
   {
     code: 'first_purchase',
     name: 'First Steps',
@@ -710,7 +800,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
 // LOYALTY CHALLENGES
 // =====================================================
 
-export const LOYALTY_CHALLENGES: Omit<LoyaltyChallenge, 'id' | 'createdAt' | 'updatedAt'>[] = [
+export const LOYALTY_CHALLENGES: any[] = [
   {
     name: 'weekly_points_rush',
     displayName: 'Weekly Points Rush',
@@ -903,7 +993,7 @@ export function isBirthdayThisMonth(birthday: Date | null): boolean {
 }
 
 export function getBirthdayBonusPoints(userTier: LoyaltyTier): number {
-  const basePoints = POINT_RULES.BIRTHDAY_BONUS.points || 0;
+  const basePoints = POINT_RULES.BIRTHDAY_BONUS.points;
   return Math.round(basePoints * LOYALTY_TIERS[userTier].pointsMultiplier);
 }
 
@@ -967,15 +1057,15 @@ export function getTierColor(tier: LoyaltyTier): string {
   return LOYALTY_TIERS[tier].color;
 }
 
-export function getRewardsByCategory(category: string): Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] {
+export function getRewardsByCategory(category: string): Reward[] {
   return REWARDS.filter(r => r.category === category && r.isActive);
 }
 
-export function getFeaturedRewards(): Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] {
+export function getFeaturedRewards(): Reward[] {
   return REWARDS.filter(r => r.isFeatured && r.isActive).slice(0, 6);
 }
 
-export function getRewardsForTier(tier: LoyaltyTier): Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] {
+export function getRewardsForTier(tier: LoyaltyTier): Reward[] {
   const tierOrder: LoyaltyTier[] = ['BRONZE', 'SILVER', 'GOLD', 'PLATINUM', 'DIAMOND'];
   const tierIndex = tierOrder.indexOf(tier);
   

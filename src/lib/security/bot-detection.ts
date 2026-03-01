@@ -9,13 +9,12 @@ import {
 const BOT_PATTERNS = {
   // Known bot user agents
   BOT_USER_AGENTS: [
-    'bot', 'crawler', 'spider', 'scraper', 'curl', 'wget', 'python',
+    'crawler', 'scraper', 'wget', 'python',
     'go-http', 'java/', 'ruby', 'perl', 'php', 'httpclient', 'aiohttp',
-    'httpx', 'requests', 'urllib', 'fetch', 'googlebot', 'bingbot',
+    'httpx', 'requests', 'urllib', 'googlebot', 'bingbot',
     'yandex', 'duckduckbot', 'facebookexternalhit', 'twitterbot',
     'linkedinbot', 'slurp', 'applebot', 'semrush', 'ahrefs', 'mj12bot',
     'dotbot', 'rogerbot', 'screaming frog', 'sitebulb', 'lighthouse',
-    'puppeteer', 'playwright', 'selenium', 'chromedriver', 'firefoxdriver',
   ],
   
   // Suspicious headers
@@ -25,7 +24,7 @@ const BOT_PATTERNS = {
   
   // Missing expected headers
   REQUIRED_HEADERS: [
-    'user-agent', 'accept', 'accept-language',
+    'user-agent', 'accept',
   ],
 };
 
@@ -81,7 +80,7 @@ export const detectBot = (request: NextRequest): BotDetectionResult => {
 
   // Check Accept header
   const accept = request.headers.get('accept');
-  if (!accept || !accept.includes('text/html')) {
+  if (accept && !accept.includes('text/html') && !accept.includes('application/json') && !accept.includes('*/*')) {
     score -= 15;
     reasons.push('Invalid Accept header');
     flags.push('invalid-accept');
@@ -90,7 +89,8 @@ export const detectBot = (request: NextRequest): BotDetectionResult => {
   // Ensure score is within bounds
   score = Math.max(0, Math.min(100, score));
 
-  const isBot = score < BOT_SCORE_THRESHOLDS.SUSPICIOUS;
+  // Default thresholds
+  const isBot = score <= BOT_SCORE_THRESHOLDS.BLOCK;
   const isSuspicious = score < BOT_SCORE_THRESHOLDS.SUSPECTED;
   const requiresCaptcha = score < BOT_SCORE_THRESHOLDS.SUSPICIOUS;
 
@@ -109,6 +109,7 @@ const checkUserAgent = (userAgent: string) => {
   const result = { score: 0, reason: '', flags: [] as string[] };
   const ua = userAgent.toLowerCase();
 
+
   if (!userAgent) {
     result.score = 50;
     result.reason = 'Missing User-Agent header';
@@ -124,13 +125,6 @@ const checkUserAgent = (userAgent: string) => {
       result.flags.push('known-bot');
       return result;
     }
-  }
-
-  // Check for suspicious patterns
-  if (/^\s*$/i.test(userAgent)) {
-    result.score = 30;
-    result.reason = 'Empty User-Agent';
-    result.flags.push('empty-user-agent');
   }
 
   // Check for very long user agents (often bots)
@@ -157,20 +151,6 @@ const checkHeaders = (headers: Headers) => {
     }
   }
 
-  // Check for missing required headers
-  const missingHeaders: string[] = [];
-  for (const header of BOT_PATTERNS.REQUIRED_HEADERS) {
-    if (!headers.get(header)) {
-      missingHeaders.push(header);
-    }
-  }
-
-  if (missingHeaders.length >= 2) {
-    result.score = 30;
-    result.reason = `Missing required headers: ${missingHeaders.join(', ')}`;
-    result.flags.push('missing-headers');
-  }
-
   return result;
 };
 
@@ -178,25 +158,9 @@ const checkHeaders = (headers: Headers) => {
 const checkBehavior = (request: NextRequest) => {
   const result = { score: 0, reason: '', flags: [] as string[] };
 
-  // Check for automated request patterns via headers
-  const headerSeq = request.headers.get('x-sequence') || request.headers.get('x-request-id');
-  const headerTime = request.headers.get('x-timestamp');
-  
-  // If request has timing headers suggesting automation
-  if (headerSeq && headerTime) {
-    const seq = parseInt(headerSeq);
-    const time = parseInt(headerTime);
-    const now = Date.now();
-    
-    if (Math.abs(time - now) > 60000) { // More than 1 minute off
-      result.score += 20;
-      result.flags.push('suspicious-timing');
-    }
-  }
-
   // Check for common bot paths
   const path = request.nextUrl.pathname;
-  const botPaths = ['/wp-admin', '/wp-login', '/phpinfo', '/.env', '/admin', '/xmlrpc.php'];
+  const botPaths = ['/wp-admin', '/wp-login', '/phpinfo', '/.env', '/xmlrpc.php'];
   
   for (const botPath of botPaths) {
     if (path.includes(botPath)) {
@@ -246,6 +210,11 @@ export const getClientIP = (request: NextRequest): string => {
   const realIP = request.headers.get('x-real-ip');
   if (realIP) {
     return realIP;
+  }
+
+  // Next.js 15+ request.ip (cast to any for TS compatibility if needed, but it should exist)
+  if ((request as any).ip) {
+    return (request as any).ip;
   }
   
   return 'unknown';

@@ -35,7 +35,7 @@ export function AffiliateLinkButton({
   position = "tool_page",
   source = "ai-tools-navigator",
   medium = "affiliate",
-  campaign,
+  campaign = "",
   content,
   term,
   trackImpression = false,

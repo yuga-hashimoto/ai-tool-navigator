@@ -1,4 +1,4 @@
-import { Redis } from '@upstash/redis';
+import { Redis } from '@upstash/redis/cloudflare';
 import { CLEANUP_INTERVALS } from './rate-limit-config';
 
 let redis: Redis | null = null;
@@ -168,14 +168,20 @@ export const queryAuditLogs = async (
         key,
         start,
         end,
-        { byScore: true, withScores: true }
+        {
+          byScore: true,
+          offset,
+          count: limit * 2,
+        }
       );
       
       const results: AuditLogEntry[] = [];
       
-      for (let i = 0; i < entries.length; i += 2) {
+      for (let i = 0; i < entries.length; i++) {
         try {
-          const entry = JSON.parse(entries[i] as string) as AuditLogEntry;
+          const entry = typeof entries[i] === 'string'
+            ? JSON.parse(entries[i] as string) as AuditLogEntry
+            : entries[i] as unknown as AuditLogEntry;
           
           // Apply filters
           if (ip && entry.ip !== ip) continue;
@@ -220,6 +226,7 @@ export const getSecurityStats = async (
   topIPs: Array<{ ip: string; count: number }>;
   topPaths: Array<{ path: string; count: number }>;
   eventCounts: Record<string, number>;
+  avgBotScore: number;
 }> => {
   const startTime = Date.now() - (periodHours * 60 * 60 * 1000);
   const entries = await queryAuditLogs({ startTime, limit: 10000 });
@@ -280,17 +287,6 @@ export const getSecurityStats = async (
     ...stats,
     avgBotScore: stats.botScoreCount > 0 ? stats.botScoreSum / stats.botScoreCount : 0,
     uniqueIPs: stats.uniqueIPs.size,
-  } as {
-    totalRequests: number;
-    blockedRequests: number;
-    botDetections: number;
-    rateLimitExceeded: number;
-    captchaChallenges: number;
-    avgBotScore: number;
-    uniqueIPs: number;
-    topIPs: Array<{ ip: string; count: number }>;
-    topPaths: Array<{ path: string; count: number }>;
-    eventCounts: Record<string, number>;
   };
 };
 

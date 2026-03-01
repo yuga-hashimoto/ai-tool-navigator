@@ -31,12 +31,10 @@ jobs:
         run: npm ci
 
       - name: Install Playwright test runner and browser
-        run: |
-          npm install --no-save @playwright/test@1.52.0
-          npx playwright@1.52.0 install --with-deps chromium
+        run: npx playwright install --with-deps chromium
 
       - name: Run client runtime smoke gate
-        run: npx playwright@1.52.0 test tests/e2e/client-runtime-smoke.spec.ts --config=playwright.ci-runtime.config.ts --project=chromium
+        run: npx playwright test tests/e2e/client-runtime-smoke.spec.ts --config=playwright.ci-runtime.config.ts
 
   deploy:
     needs: client-runtime-smoke

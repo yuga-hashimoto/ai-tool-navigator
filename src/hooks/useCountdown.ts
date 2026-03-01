@@ -21,6 +21,8 @@ interface UseCountdownReturn {
   formatted: string;
 }
 
+export { useConversionTracking } from './useConversionTracking';
+
 export function useCountdown(
   expirationDate: Date,
   options: UseCountdownOptions = {}

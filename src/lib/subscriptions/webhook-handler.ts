@@ -8,13 +8,7 @@ import {
   mapStripeStatus,
 } from './stripe-service';
 import { PrismaClient } from '@prisma/client';
-
-type SubscriptionStatus = 'ACTIVE' | 'CANCELED' | 'PAST_DUE' | 'UNPAID' | 'TRIALING' | 'PAUSED' | 'INACTIVE';
-type BillingType = 'MONTHLY' | 'YEARLY' | 'ONE_TIME' | 'TRIAL_CONVERSION' | 'RENEWAL' | 'SUBSCRIPTION' | 'UPGRADE' | 'DOWNGRADE';
-type BillingStatus = 'PAID' | 'UNPAID' | 'PENDING' | 'FAILED' | 'SUCCEEDED';
-type TrialStatus = 'ACTIVE' | 'EXPIRED' | 'CANCELLED' | 'CONVERTED';
-// import { updateUserSubscriptionFromWebhook } from './subscription-manager';
-// TODO: Implement updateUserSubscriptionFromWebhook function
+import { SubscriptionStatus, BillingType, BillingStatus, TrialStatus } from './subscription-manager';
 
 const prisma = new PrismaClient();
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -25,7 +19,8 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function handleStripeWebhook(request: Request) {
   const body = await request.text();
-  const signature = (await headers()).get('stripe-signature');
+  const headersList = await headers();
+  const signature = headersList.get('stripe-signature');
   
   if (!signature) {
     return new Response('Missing stripe-signature header', { status: 400 });
@@ -137,13 +132,20 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   if (subscription.status === 'trialing') {
     const trialEndsAt = new Date(subscription.trial_end! * 1000);
     
-    await (prisma as any).freeTrial?.updateMany({
-      where: { stripeCustomerId: customerId },
-      data: {
-        status: "ACTIVE",
-        endsAt: trialEndsAt,
-      },
+    // Find user by stripe customer id first
+    const userSub = await prisma.userSubscription.findFirst({
+      where: { stripeCustomerId: customerId }
     });
+
+    if (userSub) {
+      await prisma.freeTrial.update({
+        where: { userId: userSub.userId },
+        data: {
+          status: TrialStatus.ACTIVE,
+          endsAt: trialEndsAt,
+        },
+      });
+    }
   }
 }
 
@@ -154,7 +156,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   const status = mapStripeStatus(subscription.status);
   
   // Find subscription by Stripe customer ID
-  const existingSub = await (prisma as any).userSubscription?.findFirst({
+  const existingSub = await prisma.userSubscription.findFirst({
     where: { stripeCustomerId: customerId },
   });
   
@@ -166,7 +168,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   const periodStart = new Date(subscription.current_period_start * 1000);
   const periodEnd = new Date(subscription.current_period_end * 1000);
   
-  await (prisma as any).userSubscription?.update({
+  await prisma.userSubscription.update({
     where: { id: existingSub.id },
     data: {
       status: status as SubscriptionStatus,
@@ -183,10 +185,10 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   
   // Update trial record if trial ended
   if (subscription.status === 'active' && existingSub.isTrial) {
-    await (prisma as any).freeTrial?.updateMany({
-      where: { stripeCustomerId: customerId },
+    await prisma.freeTrial.update({
+      where: { userId: existingSub.userId },
       data: {
-        status: "CONVERTED",
+        status: TrialStatus.CONVERTED,
         convertedAt: new Date(),
         convertedToTierId: existingSub.tierId,
       },
@@ -199,20 +201,26 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   
   const customerId = subscription.customer as string;
   
-  await (prisma as any).userSubscription?.updateMany({
-    where: { stripeCustomerId: customerId },
-    data: {
-      status: "CANCELED",
-      canceledAt: new Date(),
-      cancelAtPeriodEnd: false,
-    },
+  const userSub = await prisma.userSubscription.findFirst({
+    where: { stripeCustomerId: customerId }
   });
-  
-  // Update trial record
-  await (prisma as any).freeTrial?.updateMany({
-    where: { stripeCustomerId: customerId },
-    data: { status: "CANCELLED" },
-  });
+
+  if (userSub) {
+    await prisma.userSubscription.update({
+      where: { id: userSub.id },
+      data: {
+        status: SubscriptionStatus.CANCELED,
+        canceledAt: new Date(),
+        cancelAtPeriodEnd: false,
+      },
+    });
+
+    // Update trial record
+    await prisma.freeTrial.update({
+      where: { userId: userSub.userId },
+      data: { status: 'CANCELED' }, // Use string if enum not in type
+    });
+  }
 }
 
 async function handleTrialWillEnd(subscription: Stripe.Subscription) {
@@ -224,18 +232,18 @@ async function handleTrialWillEnd(subscription: Stripe.Subscription) {
   const customerId = subscription.customer as string;
   
   // Find the user and send a reminder
-  const userSub = await (prisma as any).userSubscription?.findFirst({
+  const userSub = await prisma.userSubscription.findFirst({
     where: { stripeCustomerId: customerId },
   });
   
   if (userSub) {
-    await (prisma as any).renewalReminder?.create({
+    await prisma.renewalReminder.create({
       data: {
         subscriptionId: userSub.id,
         userId: userSub.userId,
-        reminderType: 'TRIAL_EXPIRING' as any,
+        reminderType: 'TRIAL_EXPIRING',
         scheduledFor: new Date(),
-        status: 'PENDING' as any,
+        status: 'PENDING',
         channel: 'email',
       },
     });
@@ -259,14 +267,14 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
   const amountPaid = invoice.amount_paid / 100; // Convert from cents
   
   // Find subscription
-  const subscription = await (prisma as any).userSubscription?.findFirst({
+  const subscription = await prisma.userSubscription.findFirst({
     where: { stripeCustomerId: customerId },
   });
   
   if (!subscription) return;
   
   // Create or update invoice record
-  await (prisma as any).invoice?.upsert({
+  await prisma.invoice.upsert({
     where: { stripeInvoiceId: invoice.id },
     create: {
       subscriptionId: subscription.id,
@@ -287,15 +295,15 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
   });
   
   // Create billing history entry
-  await (prisma as any).billingHistory?.create({
+  await prisma.billingHistory.create({
     data: {
       subscriptionId: subscription.id,
       userId: subscription.userId,
       email: subscription.email,
       stripeInvoiceId: invoice.id,
       amount: amountPaid,
-      type: subscription.isTrial ? "TRIAL_CONVERSION" : "RENEWAL",
-      status: "SUCCEEDED",
+      type: subscription.isTrial ? BillingType.TRIAL_CONVERSION : BillingType.RENEWAL,
+      status: BillingStatus.SUCCEEDED,
       description: subscription.isTrial 
         ? 'Trial converted to paid subscription' 
         : 'Subscription renewal',
@@ -303,13 +311,13 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
   });
   
   // Mark any pending reminders as handled
-  await (prisma as any).renewalReminder?.updateMany({
+  await prisma.renewalReminder.updateMany({
     where: {
       subscriptionId: subscription.id,
       reminderType: { in: ['TRIAL_EXPIRING', 'SUBSCRIPTION_EXPIRING'] },
-      status: 'PENDING' as any,
+      status: 'PENDING',
     },
-    data: { status: 'CANCELED' as any },
+    data: { status: 'CANCELED' },
   });
 }
 
@@ -318,40 +326,40 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
   
   const customerId = invoice.customer as string;
   
-  const subscription = await (prisma as any).userSubscription?.findFirst({
+  const subscription = await prisma.userSubscription.findFirst({
     where: { stripeCustomerId: customerId },
   });
   
   if (!subscription) return;
   
   // Update subscription status
-  await (prisma as any).userSubscription?.update({
+  await prisma.userSubscription.update({
     where: { id: subscription.id },
-    data: { status: "PAST_DUE" },
+    data: { status: SubscriptionStatus.PAST_DUE },
   });
   
   // Create billing history entry
-  await (prisma as any).billingHistory?.create({
+  await prisma.billingHistory.create({
     data: {
       subscriptionId: subscription.id,
       userId: subscription.userId,
       email: subscription.email,
       stripeInvoiceId: invoice.id,
       amount: invoice.amount_due / 100,
-      type: "SUBSCRIPTION",
-      status: "FAILED",
+      type: BillingType.SUBSCRIPTION,
+      status: BillingStatus.FAILED,
       description: 'Payment failed',
     },
   });
   
   // Create payment failed reminder
-  await (prisma as any).renewalReminder?.create({
+  await prisma.renewalReminder.create({
     data: {
       subscriptionId: subscription.id,
       userId: subscription.userId,
-      reminderType: 'PAYMENT_FAILED' as any,
+      reminderType: 'PAYMENT_FAILED',
       scheduledFor: new Date(),
-      status: 'PENDING' as any,
+      status: 'PENDING',
       channel: 'email',
     },
   });
@@ -391,12 +399,12 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
   console.log('Payment succeeded:', paymentIntent.id);
   
   // Update billing history with successful payment
-  await (prisma as any).billingHistory?.updateMany({
+  await prisma.billingHistory.updateMany({
     where: {
       stripePaymentIntent: paymentIntent.id,
     },
     data: {
-      status: "SUCCEEDED",
+      status: BillingStatus.SUCCEEDED,
     },
   });
 }
@@ -405,12 +413,12 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
   console.log('Payment failed:', paymentIntent.id);
   
   // Update billing history with failed payment
-  await (prisma as any).billingHistory?.updateMany({
+  await prisma.billingHistory.updateMany({
     where: {
       stripePaymentIntent: paymentIntent.id,
     },
     data: {
-      status: "FAILED",
+      status: BillingStatus.FAILED,
     },
   });
 }

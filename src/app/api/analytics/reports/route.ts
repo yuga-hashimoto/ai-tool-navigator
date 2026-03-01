@@ -155,7 +155,7 @@ function calculateHealthScore(stats: Record<string, { goodRate: number; p75: num
     LCP: 0.35,
     FCP: 0.15,
     CLS: 0.25,
-    FID: 0.15,
+    INP: 0.15,
     TTFB: 0.10,
   };
 
@@ -182,7 +182,7 @@ function getThreshold(metric: string, level: string): number {
     LCP: { good: 2500, warning: 4000 },
     FCP: { good: 1800, warning: 3000 },
     CLS: { good: 0.1, warning: 0.25 },
-    FID: { good: 100, warning: 300 },
+    INP: { good: 200, warning: 500 },
     TTFB: { good: 800, warning: 1800 },
   };
   return thresholds[metric]?.[level] || 0;
@@ -204,8 +204,8 @@ function generateRecommendations(stats: Record<string, { p75: number; goodRate: 
   if (stats.CLS?.p75 > 0.1) {
     recommendations.push("CLS is above 0.1. Ensure images have dimensions and avoid dynamic content injection.");
   }
-  if (stats.FID?.p75 > 100) {
-    recommendations.push("FID is above 100ms. Reduce JavaScript execution time and break up long tasks.");
+  if (stats.INP?.p75 > 200) {
+    recommendations.push("INP is above 200ms. Reduce JavaScript execution time and break up long tasks.");
   }
   if (stats.TTFB?.p75 > 800) {
     recommendations.push("TTFB is above 800ms. Consider caching strategies, CDN usage, or server upgrades.");

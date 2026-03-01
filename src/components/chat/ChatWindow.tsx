@@ -190,12 +190,12 @@ export default function ChatWindow({
 
       {/* Messages Area */}
       <div className="chat-messages">
-        {Object.entries(groupedMessages).map(([date, dateMessages]) => (
+        {(Object.entries(groupedMessages) as [string, any[]][]).map(([date, dateMessages]) => (
           <div key={date} className="message-date-group">
             <div className="date-divider">
               <span>{date}</span>
             </div>
-            {(dateMessages as any[]).map((message: any) => (
+            {dateMessages.map((message: any) => (
               <MessageBubble
                 key={message.id}
                 message={message}

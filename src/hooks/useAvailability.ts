@@ -48,7 +48,7 @@ export function useAvailability() {
         if (available !== undefined) {
           toSave[key] = {
             timestamp: Date.now(),
-            available,
+            available: available as boolean,
           };
         }
       });

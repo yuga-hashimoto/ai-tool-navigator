@@ -3,16 +3,17 @@ import prisma from '@/lib/prisma'
 import StockAdjustmentForm from './_components/StockAdjustmentForm'
 import TransferForm from './_components/TransferForm'
 
-export default async function ProductDetailPage({ params }: { params: { id: string } }) {
+export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const product = await prisma.product.findUnique({
-    where: { id: params.id },
+    where: { id },
   })
 
   if (!product) {
     return <div>Product not found</div>
   }
 
-  const inventory = await getInventoryByProduct(params.id)
+  const inventory = await getInventoryByProduct(id)
   const warehouses = await getWarehouses()
 
   // Map inventory to warehouses to show 0 for empty ones

@@ -1099,3 +1099,11 @@ export class BundleManager {
       customerSegments: [
         { segment: 'new', count: Math.floor(bundle.currentPurchases * 0.4), revenue: bundle.revenue * 0.35 },
         { segment: 'returning', count: Math.floor(bundle.currentPurchases * 0.5), revenue: bundle.revenue * 0.55 },
+      ],
+      timeToPurchase: 3600,
+      cartAbandonmentRate: 0.1,
+      bundleVsStandalone: 1.5,
+      upliftPercentage: 20
+    };
+  }
+}

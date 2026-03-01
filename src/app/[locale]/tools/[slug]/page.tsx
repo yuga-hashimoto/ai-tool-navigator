@@ -22,7 +22,6 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { InteractionTracker } from "@/components/InteractionTracker";
-import { getServerSession } from "next-auth";
 
 export async function generateStaticParams() {
   const slugs = getToolSlugs();
@@ -104,8 +103,6 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   };
 
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems, locale);
-  const session = await getServerSession();
-  const userId = session?.user?.email || undefined; // Using email as ID for now if ID is not available, or adjust based on auth provider
 
   return (
     <div className="bg-white dark:bg-black min-h-screen py-12 transition-colors duration-300">
@@ -122,7 +119,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <InteractionTracker toolSlug={metadata.slug} userId={userId} />
+      <InteractionTracker toolSlug={metadata.slug} />
 
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />

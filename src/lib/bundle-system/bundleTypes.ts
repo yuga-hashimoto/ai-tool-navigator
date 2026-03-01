@@ -936,4 +936,5 @@ export const BUNDLE_RULES: BundleRule[] = [
 // =====================================================
 
 export type {
-  BundleItem
+  // exported individually above
+};

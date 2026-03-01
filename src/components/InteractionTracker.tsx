@@ -5,10 +5,9 @@ import { getOrCreateSessionId } from '@/lib/affiliate-tracking';
 
 interface InteractionTrackerProps {
   toolSlug: string;
-  userId?: string;
 }
 
-export function InteractionTracker({ toolSlug, userId }: InteractionTrackerProps) {
+export function InteractionTracker({ toolSlug }: InteractionTrackerProps) {
   const trackedRef = useRef(false);
 
   useEffect(() => {
@@ -29,7 +28,6 @@ export function InteractionTracker({ toolSlug, userId }: InteractionTrackerProps
             toolSlug,
             type: 'VIEW',
             visitorId, // Pass explicitly just in case cookies aren't sent or parsed correctly
-            userId,
           }),
         });
 

@@ -36,21 +36,55 @@ export async function getRecommendations(
   // 2. Filter out current tool
   const candidates = allTools.filter(t => t.slug !== currentTool.slug);
 
-  // 3. Collaborative Filtering (Future Implementation)
-  // This placeholder indicates where we would fetch user interaction data
-  // using prisma and visitorId to adjust scores.
+  // 3. Behavioral / Collaborative Filtering
+  // Look up user interaction data (views, clicks, etc.)
+  const collaborativeScores: Record<string, number> = {};
 
-  /*
-  let collaborativeScores: Record<string, number> = {};
   if (visitorId) {
-      // Future: Fetch interactions from DB
-      // const userInteractions = await prisma.userInteraction.findMany({ ... });
+    try {
+      const { PrismaClient } = await import('@prisma/client');
+      const prisma = new PrismaClient();
+
+      // Get tools the user has interacted with
+      const userInteractions = await prisma.userInteraction.findMany({
+        where: { visitorId },
+        select: { toolSlug: true, type: true }
+      });
+
+      // Calculate scores based on interaction types
+      // Provide higher weights for clicks/conversions than mere views
+      userInteractions.forEach(interaction => {
+        const slug = interaction.toolSlug;
+        if (!collaborativeScores[slug]) collaborativeScores[slug] = 0;
+
+        switch (interaction.type) {
+          case 'CONVERSION':
+          case 'PURCHASE':
+             collaborativeScores[slug] += 10;
+             break;
+          case 'CLICK':
+             collaborativeScores[slug] += 5;
+             break;
+          case 'VIEW':
+          default:
+             collaborativeScores[slug] += 1;
+             break;
+        }
+      });
+    } catch (e) {
+      // Ignore prisma errors (e.g. if db is not reachable during build)
+      console.error("Failed to fetch user interactions for recommendations", e);
+    }
   }
-  */
 
   // 4. Content-Based Scoring
   const scoredCandidates = candidates.map(tool => {
     let score = 0;
+
+    // Add collaborative score if available
+    if (collaborativeScores[tool.slug]) {
+        score += collaborativeScores[tool.slug];
+    }
 
     // Same category: +5 (Strong signal for alternatives)
     if (tool.category === currentTool.category) {

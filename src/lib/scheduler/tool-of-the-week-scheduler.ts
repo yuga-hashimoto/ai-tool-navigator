@@ -279,7 +279,7 @@ export async function runToolOfTheWeekScheduler(
 }
 
 // TypeScript interface for Tool
-export interface Tool {
+interface Tool {
   slug: string;
   title: string;
   category: string;

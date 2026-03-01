@@ -375,6 +375,7 @@ export async function previewSubscriptionChange(
         price: newPriceId,
       },
     ],
+    subscription_proration_date: prorationDate,
   });
   
   return {

@@ -85,9 +85,9 @@ export function AffiliateLinkButton({
       affiliateId: id,
       source,
       medium,
-      campaign,
-      content,
-      term,
+      campaign: campaign || "",
+      content: content || "",
+      term: term || "",
       pageUrl: typeof window !== "undefined" ? window.location.href : "",
       position,
     });

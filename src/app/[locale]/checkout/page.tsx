@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { sendGAEvent } from '@/lib/analytics';
 import { ArrowLeft, CreditCard, Lock, Check, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { createOrder } from '@/actions/order';
 
 interface CartItem {
   slug: string;
@@ -58,17 +59,38 @@ export default function CheckoutPage() {
   const handlePayment = async () => {
     setIsProcessing(true);
     
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsProcessing(false);
-    setStep('confirmation');
-    
-    sendGAEvent('purchase', {
-      value: total,
-      currency: 'USD',
-      items: cartData.length,
-    });
+    try {
+      // Create order via server action
+      const result = await createOrder({
+        cart: cartData,
+        paymentDetails: {
+          method: paymentMethod,
+          ...formData
+        },
+        sessionId: 'guest-' + Date.now(), // Simple mock session ID
+        userId: undefined
+      });
+
+      if (result.success) {
+        setIsProcessing(false);
+        setStep('confirmation');
+
+        sendGAEvent('purchase', {
+          value: total,
+          currency: 'USD',
+          items: cartData.length,
+          transaction_id: result.orderId
+        });
+      } else {
+        setIsProcessing(false);
+        // In a real app, show a nice error message
+        alert(`Order failed: ${result.error}`);
+      }
+    } catch (error) {
+      setIsProcessing(false);
+      console.error('Payment error:', error);
+      alert('An unexpected error occurred. Please try again.');
+    }
   };
 
   if (isLoading) {

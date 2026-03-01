@@ -53,7 +53,7 @@ model UserSubscription {
   stripeSubscriptionId    String?             @map("stripe_subscription_id")
   stripePriceId           String?             @map("stripe_price_id")
   tierId                  String              @map("tier_id")
-  status                  SubscriptionStatus  @default(INACTIVE)
+  status                  String  @default("INACTIVE")
   isTrial                 Boolean             @default(false) @map("is_trial")
   trialEndsAt             DateTime?           @map("trial_ends_at")
   currentPeriodStart      DateTime?           @map("current_period_start")
@@ -82,15 +82,7 @@ model UserSubscription {
 }
 
 // Subscription status enum
-enum SubscriptionStatus {
-  INACTIVE
-  TRIALING
-  ACTIVE
-  PAST_DUE
-  CANCELED
-  PAUSED
-  UNPAID
-}
+
 
 // =====================================================
 // SUBSCRIPTION PLANS (Tier + Billing Cycle combinations)
@@ -101,7 +93,7 @@ model SubscriptionPlan {
   tierId              String              @map("tier_id")
   name                String              // e.g., "Pro Monthly", "Pro Yearly"
   slug                String              @unique // e.g., "pro-monthly", "pro-yearly"
-  billingCycle        BillingCycle        @map("billing_cycle") // monthly, yearly
+  billingCycle        String        @map("billing_cycle") // monthly, yearly
   stripePriceId       String?             @map("stripe_price_id")
   price               Float
   currency            String              @default("USD")
@@ -118,10 +110,7 @@ model SubscriptionPlan {
   @@map("subscription_plans")
 }
 
-enum BillingCycle {
-  MONTHLY
-  YEARLY
-}
+
 
 // =====================================================
 // BILLING HISTORY
@@ -137,8 +126,8 @@ model BillingHistory {
   stripePaymentIntent String?             @map("stripe_payment_intent")
   amount              Float
   currency            String              @default("USD")
-  type                BillingType
-  status              BillingStatus
+  type                String
+  status              String
   description         String?
   metadata            String?             // JSON for additional data
   paidAt              DateTime?           @map("paid_at")
@@ -153,24 +142,9 @@ model BillingHistory {
   @@map("billing_history")
 }
 
-enum BillingType {
-  SUBSCRIPTION
-  UPGRADE
-  DOWNGRADE
-  RENEWAL
-  REFUND
-  CREDIT
-  TRIAL_CONVERSION
-  ONE_TIME
-}
 
-enum BillingStatus {
-  PENDING
-  SUCCEEDED
-  FAILED
-  CANCELED
-  REFUNDED
-}
+
+
 
 // =====================================================
 // INVOICES
@@ -185,7 +159,7 @@ model Invoice {
   stripeInvoicePdf    String?             @map("stripe_invoice_pdf")
   amount              Float
   currency            String              @default("USD")
-  status              InvoiceStatus
+  status              String
   periodStart         DateTime?           @map("period_start")
   periodEnd           DateTime?           @map("period_end")
   paidAt              DateTime?           @map("paid_at")
@@ -199,14 +173,7 @@ model Invoice {
   @@map("invoices")
 }
 
-enum InvoiceStatus {
-  DRAFT
-  OPEN
-  PAID
-  VOID
-  UNCOLLECTIBLE
-  FORGIVEN
-}
+
 
 // =====================================================
 // USAGE TRACKING
@@ -242,7 +209,7 @@ model UpgradeDowngradeLog {
   userId              String              @map("user_id")
   fromTierId          String?             @map("from_tier_id")
   toTierId            String              @map("to_tier_id")
-  changeType          ChangeType
+  changeType          String
   prorationAmount    Float?              @map("proration_amount") // Proration credit/charge
   effectiveDate       DateTime            @map("effective_date")
   stripeInvoiceId     String?             @map("stripe_invoice_id")
@@ -257,13 +224,7 @@ model UpgradeDowngradeLog {
   @@map("upgrade_downgrade_logs")
 }
 
-enum ChangeType {
-  UPGRADE
-  DOWNGRADE
-  CROSSGRADE
-  CANCELLATION
-  REACTIVATION
-}
+
 
 // =====================================================
 // RENEWAL REMINDERS
@@ -273,10 +234,10 @@ model RenewalReminder {
   id                  String              @id @default(cuid())
   subscriptionId      String              @map("subscription_id")
   userId              String              @map("user_id")
-  reminderType        ReminderType        @map("reminder_type") // email, push, sms
+  reminderType        String        @map("reminder_type") // email, push, sms
   scheduledFor        DateTime            @map("scheduled_for")
   sentAt              DateTime?           @map("sent_at")
-  status              ReminderStatus      @default(PENDING)
+  status              String      @default("PENDING")
   channel             String?             // e.g., "email", "slack"
   messageId           String?             @map("message_id") // External message ID
   createdAt           DateTime            @default(now()) @map("created_at")
@@ -287,23 +248,9 @@ model RenewalReminder {
   @@map("renewal_reminders")
 }
 
-enum ReminderType {
-  TRIAL_EXPIRING
-  TRIAL_EXPIRED
-  SUBSCRIPTION_EXPIRING
-  SUBSCRIPTION_RENEWED
-  PAYMENT_FAILED
-  PAYMENT_SUCCEEDED
-  UPGRADE_SUGGESTION
-  WINBACK
-}
 
-enum ReminderStatus {
-  PENDING
-  SENT
-  FAILED
-  CANCELED
-}
+
+
 
 // =====================================================
 // FREE TRIALS
@@ -318,7 +265,7 @@ model FreeTrial {
   endsAt              DateTime            @map("ends_at")
   convertedAt         DateTime?           @map("converted_at")
   convertedToTierId   String?             @map("converted_to_tier_id")
-  status              TrialStatus         @default(ACTIVE)
+  status              String         @default("ACTIVE")
   source              String?             // Where they signed up from
   utmSource           String?             @map("utm_source")
   utmMedium           String?             @map("utm_medium")
@@ -330,12 +277,7 @@ model FreeTrial {
   @@map("free_trials")
 }
 
-enum TrialStatus {
-  ACTIVE
-  CONVERTED
-  EXPIRED
-  CANCELED
-}
+
 
 // =====================================================
 // CUSTOMER PORTAL SESSIONS
@@ -390,10 +332,10 @@ model Coupon {
   id                  String              @id @default(cuid())
   code                String              @unique
   stripeCouponId      String?             @map("stripe_coupon_id")
-  discountType        DiscountType        @map("discount_type") // percent, fixed
+  discountType        String        @map("discount_type") // percent, fixed
   discountValue       Float               @map("discount_value")
   currency            String              @default("USD")
-  duration            CouponDuration
+  duration            String
   durationInMonths    Int?                @map("duration_in_months")
   maxRedemptions      Int?                @map("max_redemptions")
   timesRedeemed       Int                 @default(0) @map("times_redeemed")
@@ -408,13 +350,4 @@ model Coupon {
   @@map("coupons")
 }
 
-enum DiscountType {
-  PERCENT
-  FIXED
-}
 
-enum CouponDuration {
-  ONCE
-  REPEATING
-  FOREVER
-}

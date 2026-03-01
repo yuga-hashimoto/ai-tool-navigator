@@ -2,7 +2,7 @@
 // Get current user's subscription
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getUserSubscription, getBillingHistory, getUserInvoices as getInvoices } from '@/lib/subscriptions/subscription-manager';
+import { getUserSubscription, getBillingHistory, getInvoices } from '@/lib/subscriptions/subscription-manager';
 
 export async function GET(request: NextRequest) {
   try {

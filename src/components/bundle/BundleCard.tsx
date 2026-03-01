@@ -6,8 +6,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+
+
 import { Bundle } from '@/lib/bundle-system/bundleTypes';
 import { 
   ShoppingCart, 
@@ -45,8 +45,7 @@ export function BundleCard({
 
     const interval = setInterval(() => {
       const now = new Date();
-      const end = bundle.countdownEnd ? new Date(bundle.countdownEnd) : null;
-      if (!end) return;
+      const end = bundle.countdownEnd ? new Date(bundle.countdownEnd) : now;
       const diff = end.getTime() - now.getTime();
 
       if (diff <= 0) {

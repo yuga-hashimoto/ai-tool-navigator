@@ -98,7 +98,7 @@ export function useExitIntentMetrics(): {
       averageTimeToExit: calculateAverageTime(prev.averageTimeToExit, prev.totalExits, timeOnPage),
     }));
 
-    trackExitIntentEvent('closed', {
+    trackExitIntentEvent('exit', {
       time_on_page: timeOnPage,
       total_exits: stateRef.current.exitsCount,
     });

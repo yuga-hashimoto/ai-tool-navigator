@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
  * Manually set a specific tool as Tool of the Week
  */
 async function manualRotation(slug: string, locale: string) {
-  const { getAllTools } = await import('@/lib/tools');
+  const { getAllTools, ToolMetadata } = await import('@/lib/tools');
   const fs = await import('fs');
   const path = await import('path');
   

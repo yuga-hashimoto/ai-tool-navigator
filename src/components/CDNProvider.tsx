@@ -52,6 +52,7 @@ export function CDNImage({
     <img
       {...props}
       src={currentSrc}
+      loading="lazy"
       onError={handleError}
     />
   );

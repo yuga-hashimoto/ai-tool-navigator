@@ -12,16 +12,23 @@ export * from './rate-limit-config-v2';
 export * from './bot-detection';
 
 // IP reputation
-export * from './ip-reputation';
+export {
+  getIPReputation,
+  updateIPReputation,
+  blockIP,
+  unblockIP,
+  isIPBlockedFunc,
+  getBlockedIPs,
+  recordSuccess,
+  recordFailure,
+  clearCaptchaRequirement as clearIPCaptchaRequirement
+} from './ip-reputation';
 
 // Audit logging
 export * from './audit-log';
 
-// CAPTCHA (clearCaptchaRequirement is also in ip-reputation, export from there only)
+// CAPTCHA
 export {
-  type CaptchaType,
-  type CaptchaChallenge,
-  type TurnstileResult,
   generateCaptcha,
   storeCaptcha,
   getCaptcha,
@@ -29,21 +36,22 @@ export {
   invalidateCaptcha,
   requiresCaptcha,
   recordFailedCaptcha,
-  verifyTurnstile,
+  clearCaptchaRequirement,
+  verifyTurnstile
 } from './captcha';
 
 // Anomaly detection
 export * from './anomaly-detection';
 
-// Honeypot - module temporarily disabled due to missing file
-// export {
-//   HoneypotField,
-//   TimeHoneypot,
-//   HoneyToken,
-//   CombinedHoneypot,
-//   validateHoneypot,
-//   HONEYPOT_FIELD_NAMES
-// } from './honeypot';
+// Honeypot
+export {
+  HoneypotField,
+  TimeHoneypot,
+  HoneyToken,
+  CombinedHoneypot,
+  validateHoneypot,
+  HONEYPOT_FIELDS
+} from './honeypot';
 
 // Security middleware
 export * from './security-middleware';

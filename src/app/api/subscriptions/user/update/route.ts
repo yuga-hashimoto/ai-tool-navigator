@@ -5,8 +5,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import {
   createUserSubscription,
   changeSubscriptionTier,
-  cancelSubscriptionByManager as cancelSubscription,
-  reactivateSubscriptionByManager as reactivateSubscription,
+  cancelSubscription,
+  reactivateSubscription,
   previewTierChange,
   getUserSubscription
 } from '@/lib/subscriptions/subscription-manager';

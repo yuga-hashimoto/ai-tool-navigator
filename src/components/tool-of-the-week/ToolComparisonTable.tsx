@@ -10,6 +10,7 @@ import { ToolMetadata } from '@/lib/tools';
 import { Star, Check, X, Minus } from 'lucide-react';
 import { Rating } from '@/components/Rating';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface ComparisonFeature {
   label: string;
@@ -103,9 +104,11 @@ export function ToolComparisonTable({
                 <div className="flex flex-col items-center gap-2">
                   {tool.image && (
                     <div className="relative w-12 h-12 rounded-lg overflow-hidden">
-                      <img
+                      <Image
                         src={tool.image}
                         alt={tool.title}
+                        width={48}
+                        height={48}
                         className="object-cover w-full h-full"
                       />
                     </div>

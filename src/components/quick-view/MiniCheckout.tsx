@@ -6,6 +6,7 @@ import { useMiniCart } from '@/hooks/useMiniCart';
 import { cn } from '@/lib/utils';
 import { sendGAEvent } from '@/lib/analytics';
 import { X, Plus, Minus, Trash2, ShoppingCart, ArrowRight, CreditCard, Lock, Check, Loader2, Zap } from 'lucide-react';
+import Image from 'next/image';
 
 interface MiniCheckoutProps {
   onClose?: () => void;
@@ -139,9 +140,11 @@ export function MiniCheckout({ onClose }: MiniCheckoutProps) {
             className="flex gap-3 p-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl"
           >
             {item.tool.image && (
-              <img
+              <Image
                 src={item.tool.image}
                 alt={item.tool.title}
+                width={64}
+                height={64}
                 className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
               />
             )}

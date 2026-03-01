@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from 'react';
+import { useMemo, useId } from 'react';
 import { useAdOptimization } from '@/hooks/useAdOptimization';
 import { GoogleAdsense } from './GoogleAdsense';
 import { GoogleAdManager } from './GoogleAdManager';
@@ -18,6 +18,13 @@ interface DynamicAdUnitProps {
 
 export function DynamicAdUnit({ index, type, slot: propSlot, format, layoutKey, className, style }: DynamicAdUnitProps) {
   const { shouldShowAd, adNetwork } = useAdOptimization();
+  const reactId = useId();
+
+  // Always call hooks at the top level of the component
+  const divId = useMemo(() =>
+    `div-gpt-ad-${type}-${index}-${reactId.replace(/:/g, '')}`,
+    [type, index, reactId]
+  );
 
   // Sidebar always shows, others check density via shouldShowAd
   if (type !== 'sidebar' && !shouldShowAd(index, type as 'grid' | 'content')) {
@@ -28,7 +35,6 @@ export function DynamicAdUnit({ index, type, slot: propSlot, format, layoutKey, 
     const gamConfig = AD_CONFIG.gam;
     const path = gamConfig.slots[type];
     const size = gamConfig.sizes[type];
-    const divId = useMemo(() => `div-gpt-ad-${type}-${index}-${Math.random().toString(36).substring(7)}`, [type, index]);
 
     if (!path) return null;
 

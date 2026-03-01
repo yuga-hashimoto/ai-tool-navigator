@@ -7,6 +7,7 @@ import { useAvailability } from '@/hooks/useAvailability';
 import { sendGAEvent } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 import { X, Check, Star, ArrowRight, ArrowLeft, Loader2, Zap } from 'lucide-react';
+import Image from 'next/image';
 
 interface CompareViewProps {
   tools: ToolMetadata[];
@@ -66,7 +67,7 @@ export function CompareView({ tools }: CompareViewProps) {
     if (selectedTools.length > 0) {
       sendGAEvent('compare_view', {
         tool_count: selectedTools.length,
-        tool_slugs: selectedTools.map(t => t.slug).join(','),
+        tool_slugs: selectedTools.map(t => t.slug),
       });
     }
   }, [selectedTools]);
@@ -105,7 +106,7 @@ export function CompareView({ tools }: CompareViewProps) {
   // Feature comparison keys
   const features = [
     { key: 'rating', label: 'Rating', getValue: (t: ToolMetadata) => `${t.rating}/5.0` },
-    { key: 'pricing', label: 'Pricing', getValue: (t: ToolMetadata) => t.pricing ? (t.pricing.charAt(0).toUpperCase() + t.pricing.slice(1)) : '-' },
+    { key: 'pricing', label: 'Pricing', getValue: (t: ToolMetadata) => t.pricing?.charAt(0).toUpperCase() + t.pricing?.slice(1) || '-' },
     { key: 'price', label: 'Price', getValue: (t: ToolMetadata) => t.price || 'Free' },
     { key: 'platform', label: 'Platform', getValue: (t: ToolMetadata) => t.platform?.join(', ') || '-' },
   ];
@@ -215,9 +216,11 @@ export function CompareView({ tools }: CompareViewProps) {
               {/* Header */}
               <div className="text-center mb-4">
                 {tool.image && (
-                  <img
+                  <Image
                     src={tool.image}
                     alt={tool.title}
+                    width={80}
+                    height={80}
                     className="w-20 h-20 mx-auto rounded-xl object-cover mb-3"
                   />
                 )}
@@ -296,7 +299,13 @@ export function CompareView({ tools }: CompareViewProps) {
                   <th key={tool.slug} className="text-center py-3 px-4">
                     <div className="flex flex-col items-center">
                       {tool.image && (
-                        <img src={tool.image} alt={tool.title} className="w-12 h-12 rounded-lg object-cover mb-2" />
+                        <Image
+                          src={tool.image}
+                          alt={tool.title}
+                          width={48}
+                          height={48}
+                          className="w-12 h-12 rounded-lg object-cover mb-2"
+                        />
                       )}
                       <span className="font-semibold text-zinc-900 dark:text-zinc-100">{tool.title}</span>
                     </div>
@@ -377,9 +386,11 @@ export function CompareView({ tools }: CompareViewProps) {
               className="flex items-center gap-4 p-3 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800"
             >
               {tool.image && (
-                <img
+                <Image
                   src={tool.image}
                   alt={tool.title}
+                  width={64}
+                  height={64}
                   className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
                 />
               )}

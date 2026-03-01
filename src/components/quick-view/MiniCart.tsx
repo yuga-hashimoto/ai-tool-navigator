@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useMiniCart } from '@/hooks/useMiniCart';
 import { cn } from '@/lib/utils';
 import { X, Plus, Minus, ShoppingCart, ArrowRight, Trash2 } from 'lucide-react';
+import Image from 'next/image';
 
 export function MiniCart() {
   const {
@@ -117,9 +118,11 @@ export function MiniCart() {
                 >
                   {/* Image */}
                   {item.tool.image && (
-                    <img
+                    <Image
                       src={item.tool.image}
                       alt={item.tool.title}
+                      width={80}
+                      height={80}
                       className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
                     />
                   )}

@@ -44,7 +44,8 @@ const METRIC_CONFIG = {
   LCP: { name: "Largest Contentful Paint", unit: "ms", description: "Time until largest content is visible" },
   FCP: { name: "First Contentful Paint", unit: "ms", description: "Time until first content is visible" },
   CLS: { name: "Cumulative Layout Shift", unit: "", description: "Visual stability metric" },
-  FID: { name: "First Input Delay", unit: "ms", description: "Interactivity measurement" },
+  INP: { name: "Interaction to Next Paint", unit: "ms", description: "Interactivity measurement" },
+  FID: { name: "First Input Delay", unit: "ms", description: "Legacy interactivity measurement" },
   TTFB: { name: "Time to First Byte", unit: "ms", description: "Server response time" },
 };
 

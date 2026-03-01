@@ -49,7 +49,7 @@ export function YouTubeEmbed({ videoId, title = "YouTube video", className }: Yo
         </button>
       ) : (
         <iframe
-          src={`https://www.youtube.com/vi/${videoId}/embed/${videoId}?autoplay=1`}
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
           title={title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen

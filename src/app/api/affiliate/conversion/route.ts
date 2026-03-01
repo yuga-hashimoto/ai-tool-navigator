@@ -84,8 +84,11 @@ export async function POST(request: NextRequest) {
     
     if (attributionCookie) {
       try {
-        attributionData = JSON.parse(attributionCookie.value);
-        attributedAffiliateId = attributionData?.affiliateId as string;
+        const data = JSON.parse(attributionCookie.value);
+        if (data && typeof data === 'object') {
+          attributionData = data as Record<string, unknown>;
+          attributedAffiliateId = attributionData.affiliateId as string;
+        }
       } catch {
         console.warn("[Affiliate Conversion] Failed to parse attribution cookie");
       }

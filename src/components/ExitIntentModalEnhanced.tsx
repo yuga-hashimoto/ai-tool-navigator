@@ -98,7 +98,7 @@ export default function ExitIntentModalEnhanced({
       });
 
       setTimeout(() => {
-        hideModal();
+        setIsVisible(false);
       }, 3000);
     } catch (err) {
       console.error('Exit intent submission error:', err);

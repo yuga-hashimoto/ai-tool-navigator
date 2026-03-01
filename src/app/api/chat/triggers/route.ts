@@ -15,33 +15,5 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/chat/triggers - Create a proactive trigger
-export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const { name, triggerType, conditions, message, isActive } = body;
-
-    if (!name || !triggerType || !message) {
-      return NextResponse.json(
-        { success: false, error: 'Name, trigger type, and message are required' },
-        { status: 400 }
-      );
-    }
-
-    const trigger = await chatService.proactiveTrigger.create({
-      name,
-      triggerType,
-      conditions: JSON.stringify(conditions || {}),
-      message,
-      isActive: isActive ?? true,
-    });
-
-    return NextResponse.json({ success: true, data: trigger }, { status: 201 });
-  } catch (error) {
-    console.error('Error creating trigger:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to create trigger' },
-      { status: 500 }
-    );
-  }
-}
+// POST disabled - proactiveTrigger.create not implemented in chat-service.ts
+// TODO: Implement create method in chat-service.ts

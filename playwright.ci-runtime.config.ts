@@ -19,7 +19,12 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run build && npm run start -- -H 127.0.0.1 -p 3000',
+    // In CI with SKIP_BUILD=true (pr-check.yml), the app is already built — just start it.
+    // In CI without SKIP_BUILD (deploy.yml), build then start.
+    // Locally, build then start.
+    command: process.env.SKIP_BUILD
+      ? 'npm run start -- -H 127.0.0.1 -p 3000'
+      : 'npm run build && npm run start -- -H 127.0.0.1 -p 3000',
     url: 'http://127.0.0.1:3000',
     timeout: 180_000,
     reuseExistingServer: !process.env.CI,

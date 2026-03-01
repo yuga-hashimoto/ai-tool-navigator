@@ -5,16 +5,48 @@ on:
     branches: [main]
 
 jobs:
-  client-runtime-smoke:
+  # Fast static checks: catch lint/type errors before building
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Lint (ESLint — catches React hook violations, type issues)
+        run: npm run lint
+
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Generate Prisma client
+        run: npx prisma generate
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+  # Full integration smoke test (build → start → Playwright)
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Generate Prisma client
+        run: npx prisma generate
       - name: Build
         run: npm run build
       - name: Install Playwright browsers
@@ -22,17 +54,6 @@ jobs:
       - name: Run client runtime smoke test
         run: npx playwright test tests/e2e/client-runtime-smoke.spec.ts --config=playwright.ci-runtime.config.ts
         env:
-          CI: true
-
-  build-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build
+          CI: 'true'
+          # Tell webServer to skip rebuild — app is already built above
+          SKIP_BUILD: 'true'

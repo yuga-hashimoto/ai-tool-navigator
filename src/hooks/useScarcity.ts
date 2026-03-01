@@ -40,7 +40,7 @@ async function fetchCurrentStock(productId: string): Promise<number> {
 export function useProductScarcity(
   productId: string,
   initialStock: number,
-  options: UseScarcityOptions = {}
+  options: UseScarcityOptions = { maxStock: 100 }
 ): UseScarcityReturn {
   const { 
     maxStock, 
@@ -288,10 +288,4 @@ export function useUrgencyDeal(
     urgencyLevel,
     purchase
   };
-}
-
-// Mock fetch function
-async function fetchCurrentStock(_dealId: string): Promise<number> {
-  // Simulate API call
-  return Promise.resolve(Math.floor(Math.random() * 50));
 }

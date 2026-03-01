@@ -54,7 +54,8 @@ export type AttributionModel =
   | "last_touch"
   | "linear"
   | "time_decay"
-  | "position_based";
+  | "position_based"
+  | "direct";
 
 // Enhanced click event data with referrer tracking
 export interface AffiliateClickData {

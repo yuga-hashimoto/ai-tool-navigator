@@ -84,7 +84,12 @@ export function RewardsCatalog({
       rewards = rewards.slice(0, maxItems);
     }
 
-    return rewards;
+    return rewards.map(r => ({
+      ...r,
+      id: r.name,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })) as Reward[];
   }, [selectedCategory, sortBy, searchQuery, userTierIndex, maxItems, userPoints]);
 
   const categories: { key: RewardCategory; label: string; icon: string }[] = [
@@ -187,7 +192,12 @@ export function RewardsCatalog({
       {/* Redeem Confirmation Modal */}
       {showRedeemModal && (
         <RedeemModal 
-          reward={REWARDS.find(r => r.name === showRedeemModal)!}
+          reward={{
+            ...REWARDS.find(r => r.name === showRedeemModal)!,
+            id: showRedeemModal,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          } as Reward}
           userPoints={userPoints}
           onClose={() => setShowRedeemModal(null)}
           onConfirm={() => {

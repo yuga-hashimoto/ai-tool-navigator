@@ -160,6 +160,15 @@ export function trackComment(toolSlug: string): void {
 }
 
 /**
+ * Track tool click (alias for trackClick)
+ */
+export function trackToolClick(toolSlug: string): void {
+  trackClick(toolSlug);
+}
+
+export { trackToolClick as ToolClick };
+
+/**
  * Initialize metrics for a tool
  */
 function initializeMetricsForTool(toolSlug: string): PerformanceMetrics {

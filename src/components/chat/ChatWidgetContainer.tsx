@@ -27,7 +27,7 @@ export default function ChatWidgetContainer({
   appearance = {},
 }: ChatWidgetContainerProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [sessionId, setSessionId] = useState(initialSessionId);
+  const [sessionId, setSessionId] = useState(initialSessionId || '');
   const [showWidget, setShowWidget] = useState(true);
 
   // Initialize or get session ID

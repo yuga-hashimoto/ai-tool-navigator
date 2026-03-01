@@ -33,17 +33,15 @@ export async function GET(request: NextRequest) {
       data: {
         id: subscription.id,
         status: subscription.status,
-        isTrial: subscription.isTrial,
-        trialEndsAt: subscription.trialEndsAt,
         currentPeriodEnd: subscription.currentPeriodEnd,
         cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
-        tier: {
-          id: subscription.tier.id,
-          name: subscription.tier.name,
-          slug: subscription.tier.slug,
-          price: subscription.tier.price,
-          features: subscription.tier.features ? JSON.parse(subscription.tier.features) : [],
-        },
+        tier: (subscription as any).tier ? {
+          id: (subscription as any).tier.id,
+          name: (subscription as any).tier.name,
+          slug: (subscription as any).tier.slug,
+          price: (subscription as any).tier.price,
+          features: (subscription as any).tier.features ? JSON.parse((subscription as any).tier.features) : [],
+        } : null,
       },
     };
     

@@ -31,7 +31,7 @@ interface IPReputation {
 const memoryReputation: Map<string, IPReputation> = new Map();
 
 // Known IP blocklist (VPNs, proxies, datacenters)
-const BLOCKED_IP_RANGES = [
+const BLOCKED_IP_RANGES: string[] = [
   // Example ranges - in production, use a proper IP reputation service
   // '10.0.0.0/8',    // Private
   // '172.16.0.0/12', // Private
@@ -102,7 +102,7 @@ export const getIPReputation = async (ip: string): Promise<IPReputationResult> =
     isBlocked,
     isSuspicious,
     requiresCaptcha,
-    reasons: [...reasons, ...(stored?.reasons || [])],
+    reasons: [...reasons, ...(stored?.violations || [])],
     isDatacenter,
   };
 };
@@ -246,7 +246,7 @@ export const getBlockedIPs = (): string[] => {
 
 // Record a successful request (improves reputation)
 export const recordSuccess = async (ip: string): Promise<void> => {
-  await updateIPReputation(ip, 1, undefined);
+  await updateIPReputation(ip, 1, 'Success');
 };
 
 // Record a failed attempt (decreases reputation)
@@ -254,6 +254,10 @@ export const recordFailure = async (ip: string, reason: string): Promise<void> =
   await updateIPReputation(ip, -5, reason);
 };
 
-export const clearCaptchaRequirement = async (ip: string): Promise<void> => {
+export const boostIPReputationOnCaptchaSuccess = async (ip: string): Promise<void> => {
+  await updateIPReputation(ip, 10, 'Captcha solved');
+};
+
+export const recordCaptchaSuccess = async (ip: string): Promise<void> => {
   await boostIPReputationOnCaptchaSuccess(ip);
 };

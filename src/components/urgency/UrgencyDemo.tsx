@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { CountdownTimer, StockIndicator, FomoBadge, UrgencyBanner, UrgencyPricing } from './index';
-import { useConversionTracking } from '@/hooks/useCountdown';
+import { useConversionTracking } from '@/hooks/useConversionTracking';
 
 export function UrgencyDemo() {
   const { trackPageView, trackCtaClick, trackPurchase } = useConversionTracking();

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyCaptcha } from '@/lib/security/captcha';
+import { verifyCaptcha, clearCaptchaRequirement } from '@/lib/security/captcha';
 import { getClientIP } from '@/lib/security/bot-detection';
-import { recordSuccess, recordFailure, clearCaptchaRequirement } from '@/lib/security/ip-reputation';
+import { recordFailure, recordCaptchaSuccess } from '@/lib/security/ip-reputation';
 
 export async function POST(request: NextRequest) {
   const ip = getClientIP(request);
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       // Clear CAPTCHA requirement for this IP
       await clearCaptchaRequirement(ip);
       // Improve IP reputation
-      await recordSuccess(ip);
+      await recordCaptchaSuccess(ip);
       
       return NextResponse.json({
         valid: true,

@@ -30,7 +30,7 @@ export {
   HoneyToken,
   CombinedHoneypot,
   validateHoneypot,
-  HONEYPOT_FIELD_NAMES
+  HONEYPOT_FIELDS as HONEYPOT_FIELD_NAMES
 } from './honeypot';
 
 // Security middleware

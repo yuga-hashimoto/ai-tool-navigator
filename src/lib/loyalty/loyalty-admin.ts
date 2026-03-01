@@ -12,7 +12,8 @@ import type {
   RedemptionStatus,
   Reward,
   Achievement,
-  LoyaltyChallenge
+  LoyaltyChallenge,
+  UserAchievement
 } from './loyalty-types';
 
 // =====================================================
@@ -175,6 +176,19 @@ export async function rejectRedemption(
     body: JSON.stringify({ reason })
   });
   if (!response.ok) throw new Error('Failed to reject redemption');
+  return response.json();
+}
+
+export async function createRedemption(
+  userId: string,
+  rewardId: string
+): Promise<PointRedemption> {
+  const response = await fetch('/api/loyalty/redeem', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId, rewardId })
+  });
+  if (!response.ok) throw new Error('Failed to create redemption');
   return response.json();
 }
 

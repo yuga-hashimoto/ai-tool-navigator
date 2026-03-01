@@ -10,6 +10,7 @@
  */
 
 import { PrismaClient } from '@prisma/client';
+import { hashEmail } from '@/lib/security/email-hashing';
 
 // Types for abandoned link tracking
 export interface AbandonedLinkData {
@@ -686,7 +687,7 @@ export async function storeAbandonedCart(
         session_id, visitor_id, visitor_email, items, total_value,
         currency, affiliate_id, source, recovery_status, created_at, updated_at
       ) VALUES (
-        ${sessionId}, ${visitorEmail ? `visitor_${visitorEmail.hash}` : null},
+        ${sessionId}, ${visitorEmail ? `visitor_${hashEmail(visitorEmail)}` : null},
         ${visitorEmail || null}, ${JSON.stringify(items)},
         ${totalValue}, 'USD', ${affiliateId || null}, ${source},
         'pending', ${now}, ${now}
@@ -711,7 +712,7 @@ export async function getAbandonedCart(sessionId: string): Promise<AbandonedCart
     `;
 
     if (records[0]?.items) {
-      records[0].items = JSON.parse(records[0].items);
+      records[0].items = JSON.parse(records[0].items as unknown as string);
     }
 
     return records[0] || null;

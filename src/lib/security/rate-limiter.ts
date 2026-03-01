@@ -64,10 +64,28 @@ export const checkRateLimit = async (
       
       if (count >= limit) {
         // Get oldest entry to calculate reset time
-        const oldest = await redisClient.zrange(redisKey, 0, 0, 'WITHSCORES');
-        const resetTime = oldest.length > 1 
-          ? parseInt(oldest[1]) + windowMs 
-          : now + windowMs;
+        const oldest = await redisClient.zrange(redisKey, 0, 0, {
+          withScores: true
+        });
+
+        // When withScores is true, result is formatted differently depending on client version
+        // Assuming array of objects { member, score } based on typical Upstash client behavior for zrange with options object
+        // Or could be [member, score] flat array. Let's handle flat array case which is what the original code seemed to expect
+
+        // Safely extract score
+        let resetTime = now + windowMs;
+
+        if (Array.isArray(oldest) && oldest.length > 0) {
+          // If it's an object with score property
+          const first = oldest[0];
+          if (first && typeof first === 'object' && 'score' in first) {
+            resetTime = (first as { score: number }).score + windowMs;
+          }
+          // If it's a flat array [member, score] - though zrange with obj options usually returns objects
+          else if (oldest.length > 1 && typeof oldest[1] === 'number') {
+             resetTime = (oldest[1] as number) + windowMs;
+          }
+        }
         
         return {
           allowed: false,

@@ -172,7 +172,9 @@ class PointRulesEngine {
       case 'month_end':
         return now.getDate() > 25;
       case 'year_anniversary':
-        return now.getMonth() === now.getFullYear().getMonth(); // Simplified
+        // Simplified check: if it's the same month as join date (would need join date in userContext)
+        // For now, just return false as placeholder
+        return false;
       default:
         return false;
     }
@@ -279,4 +281,5 @@ class PointRulesEngine {
   }
 }
 
-export { PointEarningRule, Reward, TierDefinition, BadgeDefinition, PointRulesEngine };
+export type { PointEarningRule, Reward, TierDefinition, BadgeDefinition };
+export { PointRulesEngine };

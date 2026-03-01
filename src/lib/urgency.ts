@@ -146,6 +146,7 @@ export interface UrgencyBadgeConfig {
   variant: 'success' | 'warning' | 'danger' | 'info';
   pulse: boolean;
   icon?: string;
+  className?: string;
 }
 
 export function getUrgencyBadgeConfig(metrics: UrgencyMetrics): UrgencyBadgeConfig {
@@ -155,28 +156,32 @@ export function getUrgencyBadgeConfig(metrics: UrgencyMetrics): UrgencyBadgeConf
         text: '🔥 Selling Fast',
         variant: 'danger',
         pulse: true,
-        icon: 'fire'
+        icon: 'fire',
+        className: 'bg-red-100 text-red-800 animate-pulse'
       };
     case 'high':
       return {
         text: '⚡ Limited Stock',
         variant: 'warning',
         pulse: true,
-        icon: 'lightning'
+        icon: 'lightning',
+        className: 'bg-orange-100 text-orange-800'
       };
     case 'medium':
       return {
         text: '⏰ Limited Time',
         variant: 'info',
         pulse: false,
-        icon: 'clock'
+        icon: 'clock',
+        className: 'bg-blue-100 text-blue-800'
       };
     default:
       return {
         text: '✨ Best Value',
         variant: 'success',
         pulse: false,
-        icon: 'star'
+        icon: 'star',
+        className: 'bg-green-100 text-green-800'
       };
   }
 }

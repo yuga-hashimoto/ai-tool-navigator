@@ -38,8 +38,6 @@ export async function POST(request: NextRequest) {
       data: {
         id: subscription.id,
         status: subscription.status,
-        isTrial: subscription.isTrial,
-        trialEndsAt: subscription.trialEndsAt,
         tier: subscription.tier.name,
       },
     });

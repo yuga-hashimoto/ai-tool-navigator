@@ -15,7 +15,7 @@ export const sendGAEvent = (eventName: string, params?: Record<string, string | 
 };
 
 // Exit Intent Event Tracking
-export type ExitIntentEventType = 'triggered' | 'shown' | 'closed' | 'conversion' | 'error';
+export type ExitIntentEventType = 'triggered' | 'shown' | 'closed' | 'conversion' | 'error' | 'exit';
 
 export interface ExitIntentEventParams {
   variant?: string;
@@ -59,6 +59,21 @@ export function trackABTestVariant(testName: string, variant: string): void {
   sendGAEvent('ab_test_assignment', {
     test_name: testName,
     variant,
+  });
+}
+
+export function trackABTestImpression(testName: string, variant: string): void {
+  sendGAEvent('ab_test_impression', {
+    test_name: testName,
+    variant,
+  });
+}
+
+export function trackABTestConversion(testName: string, variant: string, goal?: string): void {
+  sendGAEvent('ab_test_conversion', {
+    test_name: testName,
+    variant,
+    conversion_goal: goal || 'conversion',
   });
 }
 

@@ -297,3 +297,125 @@ model OrderItem {
   @@index([orderId])
   @@index([productId])
 }
+
+// =====================================================
+// UPSELL & PURCHASE TRACKING TABLES
+// =====================================================
+
+// Track purchases
+model Purchase {
+  id            String         @id @default(cuid())
+  userId        String?        @map("user_id") // Optional for guest checkout
+  email         String         @map("email")
+  totalAmount   Float          @map("total_amount")
+  currency      String         @default("USD")
+  status        String         @default("completed") // completed, refunded
+  createdAt     DateTime       @default(now()) @map("created_at")
+  items         PurchaseItem[]
+  upsellLogs    UpsellLog[]
+  emailLogs     PurchaseEmailLog[]
+
+  @@map("purchases")
+}
+
+// Track individual items in a purchase
+model PurchaseItem {
+  id            String   @id @default(cuid())
+  purchaseId    String   @map("purchase_id")
+  productId     String   @map("product_id") // Slug or ID
+  name          String
+  quantity      Int
+  price         Float
+  purchase      Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+
+  @@map("purchase_items")
+}
+
+// Upsell campaigns configuration
+model UpsellCampaign {
+  id            String        @id @default(cuid())
+  name          String
+  description   String?
+  isActive      Boolean       @default(true) @map("is_active")
+  triggerRules  String        @map("trigger_rules") // JSON: { minAmount, products: [], ... }
+  offers        String        @map("offers") // JSON: [{ id, title, price, ... }]
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+  logs          UpsellLog[]
+
+  @@map("upsell_campaigns")
+}
+
+// Track upsell interactions
+model UpsellLog {
+  id            String         @id @default(cuid())
+  purchaseId    String         @map("purchase_id")
+  campaignId    String         @map("campaign_id")
+  offerId       String         @map("offer_id")
+  action        String         // view, click, accept, reject
+  createdAt     DateTime       @default(now()) @map("created_at")
+  purchase      Purchase       @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  campaign      UpsellCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@map("upsell_logs")
+}
+
+// Track post-purchase emails sent
+model PurchaseEmailLog {
+  id          String   @id @default(cuid())
+  purchaseId  String   @map("purchase_id")
+  emailType   String   // upsell_1h, upsell_24h, upsell_72h
+  sentAt      DateTime @default(now()) @map("sent_at")
+  status      String   // sent, failed
+  purchase    Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+
+  @@map("purchase_email_logs")
+}
+
+// =====================================================
+// SUBSCRIPTION TABLES
+// =====================================================
+
+model SubscriptionTier {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  description   String?
+  price         Float
+  priceYearly   Float?   @map("price_yearly")
+  features      String?  // JSON array of features
+  isPopular     Boolean  @default(false) @map("is_popular")
+  trialDays     Int      @default(0) @map("trial_days")
+  isActive      Boolean  @default(true) @map("is_active")
+  sortOrder     Int      @default(0) @map("sort_order")
+  stripePriceId String?  @map("stripe_price_id")
+  stripeYearlyPriceId String? @map("stripe_yearly_price_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  subscriptions Subscription[]
+
+  @@map("subscription_tiers")
+}
+
+model Subscription {
+  id              String    @id @default(cuid())
+  userId          String    @map("user_id")
+  tierId          String    @map("tier_id")
+  status          String    @default("INACTIVE") // ACTIVE, INACTIVE, CANCELED, PAST_DUE, UNPAID, TRIALS
+  billingCycle    String    @default("monthly") @map("billing_cycle") // monthly, yearly
+  currentPeriodStart DateTime @map("current_period_start")
+  currentPeriodEnd   DateTime @map("current_period_end")
+  cancelAtPeriodEnd  Boolean  @default(false) @map("cancel_at_period_end")
+  canceledAt         DateTime? @map("canceled_at")
+  stripeSubscriptionId String? @unique @map("stripe_subscription_id")
+  stripeCustomerId     String? @map("stripe_customer_id")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  tier            SubscriptionTier @relation(fields: [tierId], references: [id])
+
+  @@map("subscriptions")
+  @@index([userId])
+  @@index([status])
+}

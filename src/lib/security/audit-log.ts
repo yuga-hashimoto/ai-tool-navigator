@@ -164,21 +164,26 @@ export const queryAuditLogs = async (
       const key = eventType ? `audit:${eventType}` : 'audit:all';
       
       // Get entries in time range
-      const entries = await redisClient.zrangebyscore(
+      const entries = await redisClient.zrange(
         key,
         start,
         end,
-        'WITHSCORES',
-        'LIMIT',
-        offset,
-        limit * 2 // Get more to filter
+        {
+          byScore: true,
+          withScores: true,
+          offset,
+          count: limit * 2 // Get more to filter
+        }
       );
       
       const results: AuditLogEntry[] = [];
       
-      for (let i = 0; i < entries.length; i += 2) {
+      for (let i = 0; i < entries.length; i++) {
         try {
-          const entry = JSON.parse(entries[i]) as AuditLogEntry;
+          // upstash-redis returns entries as objects with member and score when withScores: true
+          // but we are iterating over the array, where each element is an object like { member: string, score: number }
+          const item = entries[i] as unknown as { member: string; score: number };
+          const entry = JSON.parse(item.member) as AuditLogEntry;
           
           // Apply filters
           if (ip && entry.ip !== ip) continue;
@@ -280,9 +285,14 @@ export const getSecurityStats = async (
     .map(([path, count]) => ({ path, count }));
   
   return {
-    ...stats,
-    avgBotScore: stats.botScoreCount > 0 ? stats.botScoreSum / stats.botScoreCount : 0,
+    totalRequests: stats.totalRequests,
+    blockedRequests: stats.blockedRequests,
+    botDetections: stats.botDetections,
+    rateLimitExceeded: stats.rateLimitExceeded,
     uniqueIPs: stats.uniqueIPs.size,
+    topIPs: stats.topIPs,
+    topPaths: stats.topPaths,
+    eventCounts: stats.eventCounts,
   };
 };
 

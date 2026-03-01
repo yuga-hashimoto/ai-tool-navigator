@@ -375,7 +375,7 @@ export async function previewSubscriptionChange(
         price: newPriceId,
       },
     ],
-    proration_date: prorationDate,
+    subscription_proration_date: prorationDate,
   });
   
   return {
@@ -490,7 +490,6 @@ export function mapStripeStatus(status: Stripe.Subscription.Status) {
     paused: 'PAUSED',
     incomplete: 'INACTIVE',
     incomplete_expired: 'CANCELED',
-    unpaid: 'UNPAID',
   };
   
   return statusMap[status] || 'INACTIVE';

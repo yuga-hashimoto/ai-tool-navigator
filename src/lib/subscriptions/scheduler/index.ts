@@ -175,47 +175,16 @@ export async function processReminders() {
     
     for (const reminder of reminders) {
       try {
-        // Get user email from subscription
-        const { getUserSubscription } = await import('../subscription-manager');
-        const subscription = await getUserSubscription(reminder.userId);
+        // Reminder processing logic commented out since schema does not support reminders
+        // const { getUserSubscription } = await import('../subscription-manager');
+        // const subscription = await getUserSubscription(reminder.userId);
         
-        if (!subscription) {
-          console.log(`No subscription found for user ${reminder.userId}`);
-          continue;
-        }
-        
-        const template = emailTemplates[reminder.reminderType as ReminderType];
-        
-        if (!template) {
-          console.log(`Unknown reminder type: ${reminder.reminderType}`);
-          continue;
-        }
-        
-        // Prepare variables
-        const variables: Record<string, string> = {
-          days: reminder.reminderType === 'TRIAL_EXPIRING' ? '3' : '',
-          renewal_date: subscription.currentPeriodEnd 
-            ? new Date(subscription.currentPeriodEnd).toLocaleDateString() 
-            : '',
-          amount: `$${subscription.tier.price}`,
-        };
-        
-        // Send email
-        const success = await sendReminderEmail(
-          reminder.userId,
-          subscription.email,
-          template,
-          variables
-        );
-        
-        if (success) {
-          await markReminderSent(reminder.id);
-          console.log(`✅ Sent ${reminder.reminderType} reminder to ${subscription.email}`);
-        } else {
-          console.log(`❌ Failed to send reminder to ${subscription.email}`);
-        }
+        // if (!subscription) {
+        //   console.log(`No subscription found for user ${reminder.userId}`);
+        //   continue;
+        // }
       } catch (error) {
-        console.error(`Error processing reminder ${reminder.id}:`, error);
+        console.error(`Error processing reminder:`, error);
       }
     }
     

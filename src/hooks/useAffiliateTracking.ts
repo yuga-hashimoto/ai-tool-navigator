@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import {
   getAttribution,
   recordAffiliateClick,
@@ -243,16 +243,24 @@ export function useAffiliateEvent(
  * Hook for reading URL tracking parameters
  */
 export function useAffiliateParams() {
+  const [trackingParams, setTrackingParams] = useState<{
+    affiliateId: string | null;
+    hasTracking: boolean;
+    [key: string]: string | boolean | null | undefined;
+  } | null>(null);
+
   useEffect(() => {
-    if (typeof window === "undefined") return null;
+    if (typeof window === "undefined") return;
 
     const params = parseUtmParams(window.location.href);
     const affiliateId = extractAffiliateId(window.location.href);
 
-    return {
+    setTrackingParams({
       ...params,
       affiliateId,
       hasTracking: !!(params.utm_source || affiliateId),
-    };
+    });
   }, []);
+
+  return trackingParams;
 }

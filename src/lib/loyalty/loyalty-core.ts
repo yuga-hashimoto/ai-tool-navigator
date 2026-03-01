@@ -103,132 +103,168 @@ export const POINT_RULES: Record<string, Omit<PointRule, 'id' | 'createdAt' | 'u
     displayName: 'Purchase Points',
     type: 'purchase',
     pointsPerDollar: 10,
-    maxPoints: undefined,
-    dailyLimit: undefined,
+    points: 0,
+    maxPoints: null,
+    dailyLimit: null,
     tierMultipliers: JSON.stringify({ SILVER: 1.25, GOLD: 1.5, PLATINUM: 2.0, DIAMOND: 3.0 }),
     isActive: true,
-    description: 'Earn points for every dollar spent'
+    description: 'Earn points for every dollar spent',
+    startDate: null,
+    endDate: null
   },
   PURCHASE_BONUS: {
     name: 'purchase_bonus',
     displayName: 'Purchase Bonus',
     type: 'bonus',
     points: 100,
+    pointsPerDollar: null,
     maxPoints: 500,
     dailyLimit: 500,
-    tierMultipliers: undefined,
+    tierMultipliers: null,
     isActive: true,
-    description: 'Bonus points for qualifying purchases'
+    description: 'Bonus points for qualifying purchases',
+    startDate: null,
+    endDate: null
   },
   DAILY_LOGIN: {
     name: 'daily_login',
     displayName: 'Daily Login',
     type: 'action',
     points: 5,
+    pointsPerDollar: null,
     maxPoints: 35,
     dailyLimit: 35,
     tierMultipliers: JSON.stringify({ GOLD: 1.5, PLATINUM: 2.0, DIAMOND: 3.0 }),
     isActive: true,
-    description: 'Earn points for logging in daily (5 points/day, 7 days max/week)'
+    description: 'Earn points for logging in daily (5 points/day, 7 days max/week)',
+    startDate: null,
+    endDate: null
   },
   FIRST_PURCHASE: {
     name: 'first_purchase',
     displayName: 'First Purchase Bonus',
     type: 'milestone',
     points: 500,
-    maxPoints: undefined,
-    dailyLimit: undefined,
-    tierMultipliers: undefined,
+    pointsPerDollar: null,
+    maxPoints: null,
+    dailyLimit: null,
+    tierMultipliers: null,
     isActive: true,
-    description: 'One-time bonus for your first purchase'
+    description: 'One-time bonus for your first purchase',
+    startDate: null,
+    endDate: null
   },
   REFERRAL_SIGNUP: {
     name: 'referral_signup',
     displayName: 'Referral Signup',
     type: 'referral',
     points: 100,
+    pointsPerDollar: null,
     maxPoints: 1000,
-    dailyLimit: undefined,
+    dailyLimit: null,
     tierMultipliers: JSON.stringify({ GOLD: 1.5, PLATINUM: 2.0, DIAMOND: 2.5 }),
     isActive: true,
-    description: 'Points when someone signs up using your referral code'
+    description: 'Points when someone signs up using your referral code',
+    startDate: null,
+    endDate: null
   },
   REFERRAL_PURCHASE: {
     name: 'referral_purchase',
     displayName: 'Referral Purchase',
     type: 'referral',
     points: 500,
+    pointsPerDollar: null,
     maxPoints: 5000,
-    dailyLimit: undefined,
+    dailyLimit: null,
     tierMultipliers: JSON.stringify({ GOLD: 1.5, PLATINUM: 2.0, DIAMOND: 2.5 }),
     isActive: true,
-    description: 'Bonus when your referral makes their first purchase'
+    description: 'Bonus when your referral makes their first purchase',
+    startDate: null,
+    endDate: null
   },
   BIRTHDAY_BONUS: {
     name: 'birthday_bonus',
     displayName: 'Birthday Bonus',
     type: 'bonus',
     points: 200,
-    maxPoints: undefined,
-    dailyLimit: undefined,
+    pointsPerDollar: null,
+    maxPoints: null,
+    dailyLimit: null,
     tierMultipliers: JSON.stringify({ SILVER: 1.25, GOLD: 1.5, PLATINUM: 2.0, DIAMOND: 3.0 }),
     isActive: true,
-    description: 'Special birthday bonus points (200 base points)'
+    description: 'Special birthday bonus points (200 base points)',
+    startDate: null,
+    endDate: null
   },
   REVIEW: {
     name: 'review',
     displayName: 'Review Bonus',
     type: 'action',
     points: 50,
+    pointsPerDollar: null,
     maxPoints: 500,
     dailyLimit: 100,
     tierMultipliers: JSON.stringify({ GOLD: 1.5, PLATINUM: 2.0, DIAMOND: 2.5 }),
     isActive: true,
-    description: 'Earn points for writing verified reviews'
+    description: 'Earn points for writing verified reviews',
+    startDate: null,
+    endDate: null
   },
   SOCIAL_SHARE: {
     name: 'social_share',
     displayName: 'Social Share',
     type: 'social',
     points: 25,
+    pointsPerDollar: null,
     maxPoints: 100,
     dailyLimit: 100,
     tierMultipliers: JSON.stringify({ GOLD: 1.5, PLATINUM: 2.0, DIAMOND: 2.0 }),
     isActive: true,
-    description: 'Share on social media for points'
+    description: 'Share on social media for points',
+    startDate: null,
+    endDate: null
   },
   PROFILE_COMPLETE: {
     name: 'profile_complete',
     displayName: 'Profile Completion',
     type: 'onboarding',
     points: 100,
-    maxPoints: undefined,
-    dailyLimit: undefined,
-    tierMultipliers: undefined,
+    pointsPerDollar: null,
+    maxPoints: null,
+    dailyLimit: null,
+    tierMultipliers: null,
     isActive: true,
-    description: 'Complete your profile for bonus points'
+    description: 'Complete your profile for bonus points',
+    startDate: null,
+    endDate: null
   },
   TIER_BONUS: {
     name: 'tier_bonus',
     displayName: 'Tier Upgrade Bonus',
     type: 'milestone',
     points: 0, // Variable based on tier
-    maxPoints: undefined,
-    dailyLimit: undefined,
-    tierMultipliers: undefined,
+    pointsPerDollar: null,
+    maxPoints: null,
+    dailyLimit: null,
+    tierMultipliers: null,
     isActive: true,
-    description: 'Bonus points when reaching a new tier'
+    description: 'Bonus points when reaching a new tier',
+    startDate: null,
+    endDate: null
   },
   EVENT_BONUS: {
     name: 'event_bonus',
     displayName: 'Special Event Bonus',
     type: 'event',
     points: 100,
+    pointsPerDollar: null,
     maxPoints: 1000,
-    dailyLimit: undefined,
+    dailyLimit: null,
     tierMultipliers: JSON.stringify({ PLATINUM: 1.5, DIAMOND: 2.0 }),
     isActive: true,
-    description: 'Limited-time event bonus points'
+    description: 'Limited-time event bonus points',
+    startDate: null,
+    endDate: null
   }
 };
 
@@ -251,10 +287,14 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     redemptionsRemaining: 750,
     perUserLimit: 5,
     validDays: 30,
-    tierRequirement: undefined,
+    tierRequirement: null,
     isActive: true,
     isFeatured: false,
-    sortOrder: 1
+    sortOrder: 1,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'discount_10_percent',
@@ -270,10 +310,14 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     redemptionsRemaining: 350,
     perUserLimit: 3,
     validDays: 30,
-    tierRequirement: undefined,
+    tierRequirement: null,
     isActive: true,
     isFeatured: true,
-    sortOrder: 2
+    sortOrder: 2,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'discount_20_percent',
@@ -292,7 +336,11 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     tierRequirement: 'SILVER',
     isActive: true,
     isFeatured: true,
-    sortOrder: 3
+    sortOrder: 3,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'free_shipping',
@@ -308,10 +356,14 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     redemptionsRemaining: 400,
     perUserLimit: 10,
     validDays: 60,
-    tierRequirement: undefined,
+    tierRequirement: null,
     isActive: true,
     isFeatured: false,
-    sortOrder: 4
+    sortOrder: 4,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'gift_card_25',
@@ -330,7 +382,11 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     tierRequirement: 'GOLD',
     isActive: true,
     isFeatured: true,
-    sortOrder: 5
+    sortOrder: 5,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'gift_card_50',
@@ -349,7 +405,11 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     tierRequirement: 'GOLD',
     isActive: true,
     isFeatured: true,
-    sortOrder: 6
+    sortOrder: 6,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'exclusive_webinar',
@@ -358,16 +418,21 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     category: 'experience',
     pointsCost: 3000,
     monetaryValue: 100,
-    discountType: undefined,
-    discountValue: undefined,
+    discountType: null,
+    discountValue: null,
+    code: null,
     maxRedemptions: 50,
     redemptionsRemaining: 40,
     perUserLimit: 1,
-    validDays: undefined,
+    validDays: null,
     tierRequirement: 'PLATINUM',
     isActive: true,
     isFeatured: true,
-    sortOrder: 7
+    sortOrder: 7,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'early_access',
@@ -376,16 +441,21 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     category: 'exclusive',
     pointsCost: 5000,
     monetaryValue: 150,
-    discountType: undefined,
-    discountValue: undefined,
+    discountType: null,
+    discountValue: null,
+    code: null,
     maxRedemptions: 25,
     redemptionsRemaining: 20,
     perUserLimit: 1,
-    validDays: undefined,
+    validDays: null,
     tierRequirement: 'PLATINUM',
     isActive: true,
     isFeatured: true,
-    sortOrder: 8
+    sortOrder: 8,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'custom_consultation',
@@ -394,16 +464,21 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     category: 'experience',
     pointsCost: 7500,
     monetaryValue: 200,
-    discountType: undefined,
-    discountValue: undefined,
+    discountType: null,
+    discountValue: null,
+    code: null,
     maxRedemptions: 10,
     redemptionsRemaining: 8,
     perUserLimit: 1,
-    validDays: undefined,
+    validDays: null,
     tierRequirement: 'PLATINUM',
     isActive: true,
     isFeatured: true,
-    sortOrder: 9
+    sortOrder: 9,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'founding_member',
@@ -412,16 +487,21 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     category: 'exclusive',
     pointsCost: 15000,
     monetaryValue: 500,
-    discountType: undefined,
-    discountValue: undefined,
+    discountType: null,
+    discountValue: null,
+    code: null,
     maxRedemptions: 100,
     redemptionsRemaining: 85,
     perUserLimit: 1,
-    validDays: undefined,
+    validDays: null,
     tierRequirement: 'DIAMOND',
     isActive: true,
     isFeatured: true,
-    sortOrder: 10
+    sortOrder: 10,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'swag_pack',
@@ -430,16 +510,21 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     category: 'merchandise',
     pointsCost: 4000,
     monetaryValue: 50,
-    discountType: undefined,
-    discountValue: undefined,
+    discountType: null,
+    discountValue: null,
+    code: null,
     maxRedemptions: 75,
     redemptionsRemaining: 60,
     perUserLimit: 2,
-    validDays: undefined,
+    validDays: null,
     tierRequirement: 'GOLD',
     isActive: true,
     isFeatured: false,
-    sortOrder: 11
+    sortOrder: 11,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   },
   {
     name: 'free_month_pro',
@@ -448,16 +533,21 @@ export const REWARDS: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] = [
     category: 'exclusive',
     pointsCost: 5000,
     monetaryValue: 99.99,
-    discountType: undefined,
-    discountValue: undefined,
+    discountType: null,
+    discountValue: null,
+    code: null,
     maxRedemptions: 100,
     redemptionsRemaining: 80,
     perUserLimit: 1,
-    validDays: undefined,
+    validDays: null,
     tierRequirement: 'SILVER',
     isActive: true,
     isFeatured: true,
-    sortOrder: 12
+    sortOrder: 12,
+    imageUrl: null,
+    currency: 'USD',
+    startDate: null,
+    endDate: null
   }
 ];
 
@@ -475,7 +565,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 100,
     badgeIcon: '🛒',
     badgeColor: '#4CAF50',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'purchase_count', target: 1 }),
     isHidden: false,
     isActive: true
@@ -489,7 +579,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 50,
     badgeIcon: '🥉',
     badgeColor: '#CD7F32',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'tier_reached', target: 'BRONZE' }),
     isHidden: false,
     isActive: true
@@ -503,7 +593,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 200,
     badgeIcon: '🥈',
     badgeColor: '#C0C0C0',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'tier_reached', target: 'SILVER' }),
     isHidden: false,
     isActive: true
@@ -517,7 +607,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 500,
     badgeIcon: '🥇',
     badgeColor: '#FFD700',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'tier_reached', target: 'GOLD' }),
     isHidden: false,
     isActive: true
@@ -531,7 +621,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 1000,
     badgeIcon: '💎',
     badgeColor: '#E5E4E2',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'tier_reached', target: 'PLATINUM' }),
     isHidden: false,
     isActive: true
@@ -545,7 +635,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 2500,
     badgeIcon: '👑',
     badgeColor: '#B9F2FF',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'tier_reached', target: 'DIAMOND' }),
     isHidden: false,
     isActive: true
@@ -559,7 +649,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 500,
     badgeIcon: '👥',
     badgeColor: '#9C27B0',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'referral_count', target: 5 }),
     isHidden: false,
     isActive: true
@@ -587,7 +677,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 250,
     badgeIcon: '✍️',
     badgeColor: '#2196F3',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'review_count', target: 5 }),
     isHidden: false,
     isActive: true
@@ -601,7 +691,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 500,
     badgeIcon: '💳',
     badgeColor: '#673AB7',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'purchase_count', target: 10 }),
     isHidden: false,
     isActive: true
@@ -615,7 +705,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 1000,
     badgeIcon: '💰',
     badgeColor: '#FFD700',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'total_spend', target: 1000 }),
     isHidden: false,
     isActive: true
@@ -643,7 +733,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 100,
     badgeIcon: '🔥',
     badgeColor: '#FF5722',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'login_streak', target: 7 }),
     isHidden: false,
     isActive: true
@@ -671,7 +761,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 300,
     badgeIcon: '🦋',
     badgeColor: '#00BCD4',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'social_shares', target: 10 }),
     isHidden: false,
     isActive: true
@@ -699,7 +789,7 @@ export const ACHIEVEMENTS: Omit<Achievement, 'id' | 'createdAt' | 'updatedAt'>[]
     pointsReward: 1000,
     badgeIcon: '🏛️',
     badgeColor: '#9C27B0',
-    tierRequirement: undefined,
+    tierRequirement: null,
     requirement: JSON.stringify({ type: 'founding_member', target: true }),
     isHidden: true,
     isActive: true
@@ -720,12 +810,13 @@ export const LOYALTY_CHALLENGES: Omit<LoyaltyChallenge, 'id' | 'createdAt' | 'up
     target: 1000,
     pointsReward: 500,
     bonusReward: 250,
-    tierRequirement: undefined,
+    tierRequirement: null,
     startDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
     endDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000),
     isActive: true,
     isGlobal: true,
-    participantCount: 156
+    participantCount: 156,
+    currentProgress: 0
   },
   {
     name: 'monthly_referral_challenge',
@@ -736,12 +827,13 @@ export const LOYALTY_CHALLENGES: Omit<LoyaltyChallenge, 'id' | 'createdAt' | 'up
     target: 10,
     pointsReward: 1000,
     bonusReward: 500,
-    tierRequirement: undefined,
+    tierRequirement: null,
     startDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
     endDate: new Date(Date.now() + 16 * 24 * 60 * 60 * 1000),
     isActive: true,
     isGlobal: true,
-    participantCount: 89
+    participantCount: 89,
+    currentProgress: 0
   },
   {
     name: 'spring_spending_spree',
@@ -757,7 +849,8 @@ export const LOYALTY_CHALLENGES: Omit<LoyaltyChallenge, 'id' | 'createdAt' | 'up
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     isActive: true,
     isGlobal: true,
-    participantCount: 234
+    participantCount: 234,
+    currentProgress: 0
   },
   {
     name: 'login_streak_week',
@@ -768,12 +861,13 @@ export const LOYALTY_CHALLENGES: Omit<LoyaltyChallenge, 'id' | 'createdAt' | 'up
     target: 7,
     pointsReward: 300,
     bonusReward: 100,
-    tierRequirement: undefined,
+    tierRequirement: null,
     startDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
     endDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
     isActive: true,
     isGlobal: true,
-    participantCount: 445
+    participantCount: 445,
+    currentProgress: 0
   }
 ];
 
@@ -968,11 +1062,21 @@ export function getTierColor(tier: LoyaltyTier): string {
 }
 
 export function getRewardsByCategory(category: string): Reward[] {
-  return REWARDS.filter(r => r.category === category && r.isActive);
+  return REWARDS.filter(r => r.category === category && r.isActive).map(r => ({
+    ...r,
+    id: r.name, // Use name as ID since it's unique in static data
+    createdAt: new Date(),
+    updatedAt: new Date()
+  })) as Reward[];
 }
 
 export function getFeaturedRewards(): Reward[] {
-  return REWARDS.filter(r => r.isFeatured && r.isActive).slice(0, 6);
+  return REWARDS.filter(r => r.isFeatured && r.isActive).slice(0, 6).map(r => ({
+    ...r,
+    id: r.name,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  })) as Reward[];
 }
 
 export function getRewardsForTier(tier: LoyaltyTier): Reward[] {
@@ -984,7 +1088,12 @@ export function getRewardsForTier(tier: LoyaltyTier): Reward[] {
     if (!r.tierRequirement) return true;
     const requirementIndex = tierOrder.indexOf(r.tierRequirement as LoyaltyTier);
     return requirementIndex <= tierIndex;
-  });
+  }).map(r => ({
+    ...r,
+    id: r.name,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  })) as Reward[];
 }
 
 export function canRedeemReward(userPoints: number, reward: Reward, userTier: LoyaltyTier): boolean {

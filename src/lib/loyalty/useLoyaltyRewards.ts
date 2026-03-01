@@ -3,7 +3,12 @@ import { Reward } from './loyalty-types';
 import { REWARDS } from './loyalty-core';
 
 export function useLoyaltyRewards() {
-  const [rewards, setRewards] = useState<Reward[]>(REWARDS);
+  const [rewards, setRewards] = useState<Reward[]>(REWARDS.map(r => ({
+    ...r,
+    id: r.name,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  })) as Reward[]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

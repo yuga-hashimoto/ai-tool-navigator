@@ -93,7 +93,7 @@ export interface LoyaltyUser {
 // LOYALTY TIER
 // =====================================================
 
-export interface LoyaltyTier {
+export interface LoyaltyTierDefinition {
   id: string;
   name: string;
   displayName: string;

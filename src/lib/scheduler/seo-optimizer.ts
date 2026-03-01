@@ -103,7 +103,7 @@ export function generateMetaTitle(
  * Generate meta description
  */
 export function generateMetaDescription(
-  tool: { title: string; description: string; rating: number }
+  tool: { title: string; description: string; rating: number; category?: string }
 ): string {
   const rating = tool.rating ? `${tool.rating}/5 rated ` : '';
   return `Discover ${tool.title}, ${rating}a powerful ${tool.category?.toLowerCase() || 'AI tool'}. Read our in-depth review and see why it's our Tool of the Week. ${tool.description?.substring(0, 60)}...`;
@@ -135,7 +135,7 @@ export function generateOpenGraphTags(
  * Generate Twitter Card tags
  */
 export function generateTwitterCardTags(
-  tool: { title: string; description: string; category?: string }
+  tool: { title: string; description: string; category?: string; rating: number }
 ): Record<string, string> {
   return {
     'twitter:card': 'summary_large_image',
@@ -171,7 +171,7 @@ export function generateStructuredData(tool: {
       operatingSystem: 'Web, iOS, Android',
       offers: {
         '@type': 'Offer',
-        url: tool.aggregateOffer?.url || tool.affiliate_link,
+        url: tool.affiliate_link,
         priceCurrency: 'USD',
       },
     },

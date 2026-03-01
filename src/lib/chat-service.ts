@@ -189,9 +189,9 @@ export async function getChatAnalytics(startDate: Date, endDate: Date) {
   });
 
   const totalSessions = sessions.length;
-  const activeSessions = sessions.filter(s => s.status !== 'CLOSED').length;
-  const closedSessions = sessions.filter(s => s.status === 'CLOSED').length;
-  const totalMessages = sessions.reduce((acc, s) => acc + s.messages.length, 0);
+  const activeSessions = sessions.filter((s: (typeof sessions)[number]) => s.status !== 'CLOSED').length;
+  const closedSessions = sessions.filter((s: (typeof sessions)[number]) => s.status === 'CLOSED').length;
+  const totalMessages = sessions.reduce((acc: number, s: (typeof sessions)[number]) => acc + s.messages.length, 0);
   
   const avgResponseTime = await calculateAverageResponseTime(sessions);
   const satisfactionScore = await calculateSatisfactionScore(sessions);

@@ -100,7 +100,7 @@ const nextConfig: NextConfig = {
 // PWA Configuration
 const withPWAConfig = withPWA({
   dest: "public",
-  disable: process.env.NODE_ENV === "development",
+  disable: process.env.NODE_ENV === "development" || !!process.env.CI,
   register: true,
   workboxOptions: {
     skipWaiting: true,

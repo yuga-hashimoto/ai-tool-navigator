@@ -63,7 +63,7 @@ export interface AffiliateClickData {
   affiliateId: string;
   source: string;
   medium: string;
-  campaign: string;
+  campaign?: string;
   content?: string;
   term?: string;
   timestamp: string;

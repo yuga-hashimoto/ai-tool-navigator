@@ -12,7 +12,6 @@ export {
   getUserById,
   updateUserPoints,
   adjustUserTier,
-  createRedemption,
   processRedemption,
   getRedemptionRequests,
   approveRedemption,

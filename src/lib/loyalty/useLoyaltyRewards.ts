@@ -3,7 +3,7 @@ import { Reward } from './loyalty-types';
 import { REWARDS } from './loyalty-core';
 
 export function useLoyaltyRewards() {
-  const [rewards, setRewards] = useState<Reward[]>(REWARDS);
+  const [rewards, setRewards] = useState<Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[]>(REWARDS);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

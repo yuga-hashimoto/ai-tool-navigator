@@ -1,5 +1,6 @@
 import { getAllTools } from "@/lib/tools";
 import { ToolsPageContent } from "@/components/ToolsPageContent";
+import { AdvancedSearch } from "@/components/AdvancedSearch";
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
@@ -26,6 +27,7 @@ export default async function ToolsPage({
   const { locale } = await params;
   const tools = await getAllTools(locale);
   const t = await getTranslations('ToolsPage');
+  const useElasticsearch = !!process.env.ELASTICSEARCH_URL;
 
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
@@ -39,7 +41,11 @@ export default async function ToolsPage({
           </p>
         </div>
 
-        <ToolsPageContent tools={tools} />
+        {useElasticsearch ? (
+          <AdvancedSearch locale={locale} initialTools={tools} />
+        ) : (
+          <ToolsPageContent tools={tools} />
+        )}
       </div>
     </div>
   );

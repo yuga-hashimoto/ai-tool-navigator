@@ -29,7 +29,6 @@ interface AnalyticsData {
   cancellations: number;
   churnRate: number;
   arpu: number;
-  trialConversions: number;
 }
 
 interface MRRHistory {

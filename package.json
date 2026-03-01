@@ -15,16 +15,16 @@
     "cdn:upload": "npx tsx scripts/cdn-upload.ts",
     "cdn:upload:dry": "npx tsx scripts/cdn-upload.ts --dry-run",
     "subscription:seed": "npx tsx scripts/subscription-seed.ts",
-    "subscription:analytics": "curl http://localhost:3000/api/subscriptions/analytics?type=current"
+    "subscription:analytics": "curl http://localhost:3000/api/subscriptions/analytics?type=current",
+    "index:search": "npx tsx scripts/index-elasticsearch.ts"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
+    "@elastic/elasticsearch": "^9.3.1",
     "@fastify/compress": "^7.0.3",
     "@hookform/resolvers": "^5.2.2",
-    "@radix-ui/react-slot": "^1.2.4",
     "@swc/helpers": "^0.5.18",
     "@upstash/redis": "^1.36.2",
-    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "compression": "^1.8.1",
     "embla-carousel-autoplay": "^8.6.0",
@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.989.0",
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.58.2",
     "@prisma/client": "^5.10.2",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
@@ -64,6 +64,6 @@
     "eslint-config-next": "16.1.6",
     "prisma": "5.10.2",
     "tailwindcss": "^4",
-    "typescript": "5.9.3"
+    "typescript": "^5"
   }
 }

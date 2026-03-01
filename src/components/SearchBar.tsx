@@ -19,6 +19,14 @@ export function SearchBar({
 }: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
+  const [localValue, setLocalValue] = useState<string | undefined>(undefined);
+
+  const displayValue = localValue !== undefined ? localValue : value;
+
+  // Sync local value with prop value if it changes externally
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
 
   // Debounced search
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -26,6 +34,7 @@ export function SearchBar({
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
+      setLocalValue(newValue);
 
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -39,6 +48,7 @@ export function SearchBar({
   );
 
   const handleClear = useCallback(() => {
+    setLocalValue('');
     onChange('');
     inputRef.current?.focus();
   }, [onChange]);
@@ -81,7 +91,7 @@ export function SearchBar({
         <input
           ref={inputRef}
           type="text"
-          value={value}
+          value={displayValue}
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -94,7 +104,7 @@ export function SearchBar({
             'focus:border-blue-500'
           )}
         />
-        {value && (
+        {displayValue && (
           <button
             onClick={handleClear}
             className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"

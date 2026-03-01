@@ -98,9 +98,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Create all default responses (using createMany or individual creates)
-    await Promise.all(
-      defaultResponses.map((data) => prisma.cannedResponse.create({ data }))
+    // Create all default responses
+    // SQLite doesn't support createMany well in older prisma versions, so use a transaction
+    await prisma.$transaction(
+      defaultResponses.map((response) =>
+        prisma.cannedResponse.create({ data: response })
+      )
     );
 
     return NextResponse.json({

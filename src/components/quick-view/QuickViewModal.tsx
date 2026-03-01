@@ -22,7 +22,7 @@ export function QuickViewModal({ isOpen, onClose, tool }: QuickViewModalProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'features' | 'pricing'>('overview');
   const { addToCart, isAdding, addedItems } = useQuickAdd();
   const { checkAvailability, availabilityCache } = useAvailability();
-  const { selectedSlugs, toggleTool } = useCompare();
+  const { selectedSlugs, toggleTool, isSelected } = useCompare();
   const [isAdded, setIsAdded] = useState(false);
 
   // Handle escape key

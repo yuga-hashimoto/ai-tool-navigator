@@ -2,8 +2,9 @@ import { getWarehouse, updateWarehouse } from '@/actions/inventory'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
-export default async function EditWarehousePage({ params }: { params: { id: string } }) {
-  const warehouse = await getWarehouse(params.id)
+export default async function EditWarehousePage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params
+  const warehouse = await getWarehouse(resolvedParams.id)
 
   if (!warehouse) {
     return <div>Warehouse not found</div>
@@ -16,7 +17,7 @@ export default async function EditWarehousePage({ params }: { params: { id: stri
     const priority = parseInt(formData.get('priority') as string || '0')
     const isActive = formData.get('isActive') === 'on'
 
-    await updateWarehouse(params.id, { name, location, priority, isActive })
+    await updateWarehouse(resolvedParams.id, { name, location, priority, isActive })
     redirect('/admin/inventory/warehouses')
   }
 

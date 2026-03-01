@@ -12,7 +12,8 @@ import type {
   RedemptionStatus,
   Reward,
   Achievement,
-  LoyaltyChallenge
+  LoyaltyChallenge,
+  UserAchievement
 } from './loyalty-types';
 
 // =====================================================

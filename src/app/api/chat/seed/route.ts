@@ -98,10 +98,10 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Create all default responses
-    await prisma.cannedResponse.createMany({
-      data: defaultResponses,
-    });
+    // Create all default responses (using createMany or individual creates)
+    await Promise.all(
+      defaultResponses.map((data) => prisma.cannedResponse.create({ data }))
+    );
 
     return NextResponse.json({
       success: true,

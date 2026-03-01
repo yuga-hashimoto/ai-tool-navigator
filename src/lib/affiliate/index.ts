@@ -17,14 +17,14 @@ export {
   clearAttribution,
   hasTrackingOptOut,
   getAttributionSummary,
-} from './affiliate-tracking';
+} from '../affiliate-tracking';
 
 // URL utilities
 export {
   buildAffiliateUrl,
   parseUtmParams,
   extractAffiliateId,
-} from './affiliate-tracking';
+} from '../affiliate-tracking';
 
 // Types and interfaces
 export type {
@@ -34,13 +34,13 @@ export type {
   AffiliateClickData,
   AffiliateConversionData,
   AttributionData,
-} from './affiliate-tracking';
+} from '../affiliate-tracking';
 
 // Configuration
-export { defaultAffiliateConfig } from './affiliate-tracking';
+export { defaultAffiliateConfig } from '../affiliate-tracking';
 
 // Cookie utilities
 export {
   getAttributionCookieName,
   getClickHistoryCookieName,
-} from './affiliate-tracking';
+} from '../affiliate-tracking';

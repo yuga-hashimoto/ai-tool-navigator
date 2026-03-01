@@ -56,8 +56,8 @@ export default function ChatWidgetContainer({
     closeChat,
     loadMessages,
   } = useChat({
-    sessionId: sessionId || '',
-    userId: userEmail || sessionId || '',
+    sessionId,
+    userId: userEmail || sessionId,
     userName,
     userType: 'visitor',
     autoConnect: isOpen,
@@ -65,7 +65,7 @@ export default function ChatWidgetContainer({
 
   // Initialize proactive chat
   const { pendingTrigger, dismissTrigger, acceptTrigger } = useProactiveChat({
-    sessionId: sessionId || '',
+    sessionId,
     isEnabled: !isOpen,
     onTrigger: (trigger) => {
       // Auto-open chat when trigger fires
@@ -127,7 +127,7 @@ export default function ChatWidgetContainer({
       )}
 
       {/* Chat Window */}
-      {isOpen && sessionId && (
+      {isOpen && (
         <ChatWindow
           sessionId={sessionId}
           messages={messages}

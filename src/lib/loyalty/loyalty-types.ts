@@ -93,7 +93,7 @@ export interface LoyaltyUser {
 // LOYALTY TIER
 // =====================================================
 
-export interface LoyaltyTierConfig {
+export interface LoyaltyTier {
   id: string;
   name: string;
   displayName: string;
@@ -139,15 +139,15 @@ export interface PointRule {
   name: string;
   displayName: string;
   type: string;
-  points?: number;
-  pointsPerDollar?: number | null;
+  points: number;
+  pointsPerDollar: number | null;
   maxPoints: number | null;
   dailyLimit: number | null;
   tierMultipliers: string | null;
   isActive: boolean;
   description: string | null;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate: Date | null;
+  endDate: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -165,7 +165,7 @@ export interface PointRedemption {
   status: RedemptionStatus;
   value: number;
   currency: string;
-  code?: string | null;
+  code: string | null;
   codeUsed: boolean;
   redemptionUrl: string | null;
   expiresAt: Date | null;
@@ -186,21 +186,21 @@ export interface Reward {
   category: RewardCategory;
   pointsCost: number;
   monetaryValue: number;
-  currency?: string;
+  currency: string;
   discountType: string | null;
   discountValue: number | null;
-  code?: string | null;
+  code: string | null;
   maxRedemptions: number | null;
   redemptionsRemaining: number | null;
   perUserLimit: number | null;
   validDays: number | null;
   tierRequirement: string | null;
-  imageUrl?: string | null;
+  imageUrl: string | null;
   isActive: boolean;
   isFeatured: boolean;
   sortOrder: number;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate: Date | null;
+  endDate: Date | null;
   createdAt: Date;
   updatedAt: Date;
   redemptions?: PointRedemption[];
@@ -291,7 +291,7 @@ export interface LoyaltyChallenge {
   category: ChallengeCategory;
   type: string;
   target: number;
-  currentProgress?: number;
+  currentProgress: number;
   pointsReward: number;
   bonusReward: number | null;
   tierRequirement: string | null;

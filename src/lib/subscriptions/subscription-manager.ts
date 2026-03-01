@@ -1,16 +1,7 @@
 // Subscription Manager
 // Business logic for subscription management
 
-import { PrismaClient } from '@prisma/client';
-
-// Type definitions for subscription enums
-type SubscriptionStatus = 'ACTIVE' | 'CANCELED' | 'PAST_DUE' | 'UNPAID' | 'TRIALING' | 'PAUSED' | 'INACTIVE';
-type BillingType = 'MONTHLY' | 'YEARLY' | 'ONE_TIME';
-type BillingStatus = 'PAID' | 'UNPAID' | 'PENDING' | 'FAILED';
-type TrialStatus = 'ACTIVE' | 'EXPIRED' | 'CANCELLED' | 'CONVERTED';
-type ChangeType = 'UPGRADE' | 'DOWNGRADE' | 'CANCEL' | 'REACTIVATE' | 'RENEW';
-type ReminderStatus = 'PENDING' | 'SENT' | 'FAILED' | 'SKIPPED';
-type ReminderType = 'TRIAL_EXPIRING' | 'TRIAL_EXPIRED' | 'PAYMENT_DUE' | 'SUBSCRIPTION_EXPIRING' | 'WINBACK';
+import { PrismaClient, SubscriptionStatus, BillingType, BillingStatus, TrialStatus, ChangeType, ReminderStatus, ReminderType } from '@prisma/client';
 import { 
   createSubscription, 
   getSubscription, 
@@ -18,7 +9,7 @@ import {
   cancelSubscription as stripeCancelSubscription,
   createCheckoutSession,
   createPortalSession,
-  createPortalSession as createCustomerPortalSession,
+  createCustomerPortalSession,
   mapStripeStatus,
   previewSubscriptionChange,
   createStripeCustomer,
@@ -34,9 +25,7 @@ const prisma = new PrismaClient();
  * Get all active subscription tiers
  */
 export async function getSubscriptionTiers() {
-  // TODO: Add SubscriptionTier model to Prisma schema
-  // @ts-ignore - Model not yet in schema
-  return (prisma as any).subscriptionTier?.findMany({
+  return prisma.subscriptionTier.findMany({
     where: { isActive: true },
     orderBy: { sortOrder: 'asc' },
     include: {
@@ -45,15 +34,14 @@ export async function getSubscriptionTiers() {
         orderBy: { sortOrder: 'asc' },
       },
     },
-  }) ?? [];
+  });
 }
 
 /**
  * Get tier by slug
  */
 export async function getTierBySlug(slug: string) {
-  // @ts-ignore - Model not yet in schema
-  return (prisma as any).subscriptionTier?.findUnique({
+  return prisma.subscriptionTier.findUnique({
     where: { slug },
     include: {
       subscriptionPlans: {
@@ -67,8 +55,7 @@ export async function getTierBySlug(slug: string) {
  * Get tier by ID
  */
 export async function getTierById(id: string) {
-  // @ts-ignore - Model not yet in schema
-  return (prisma as any).subscriptionTier?.findUnique({
+  return prisma.subscriptionTier.findUnique({
     where: { id },
     include: {
       subscriptionPlans: true,
@@ -91,8 +78,7 @@ export async function upsertSubscriptionTier(data: {
   trialDays?: number;
   sortOrder?: number;
 }) {
-  // @ts-ignore - Model not yet in schema
-  return (prisma as any).subscriptionTier?.upsert({
+  return prisma.subscriptionTier.upsert({
     where: { slug: data.slug },
     update: {
       name: data.name,
@@ -128,7 +114,7 @@ export async function upsertSubscriptionTier(data: {
  * Get user subscription
  */
 export async function getUserSubscription(userId: string) {
-  return (prisma as any).userSubscription?.findFirst({
+  return prisma.userSubscription.findFirst({
     where: { userId },
     include: {
       tier: true,
@@ -158,7 +144,7 @@ export async function getAllSubscriptions(options?: {
     where.tierId = options.tierId;
   }
   
-  return (prisma as any).userSubscription?.findMany({
+  return prisma.userSubscription.findMany({
     where,
     include: {
       tier: true,
@@ -198,13 +184,13 @@ export async function createUserSubscription(data: {
     : null;
   
   // Create subscription
-  const subscription = await (prisma as any).userSubscription?.create({
+  const subscription = await prisma.userSubscription.create({
     data: {
       userId: data.userId,
       email: data.email,
       stripeCustomerId: customerId,
       tierId: data.tierId,
-      status: trialDays > 0 ? 'TRIALING' : 'INACTIVE',
+      status: trialDays > 0 ? SubscriptionStatus.TRIALING : SubscriptionStatus.INACTIVE,
       isTrial: trialDays > 0,
       trialEndsAt,
       currentPeriodStart: now,
@@ -215,13 +201,13 @@ export async function createUserSubscription(data: {
   
   // Create trial record if applicable
   if (trialDays > 0) {
-    await (prisma as any).freeTrial?.create({
+    await prisma.freeTrial.create({
       data: {
         userId: data.userId,
         email: data.email,
         tierId: data.tierId,
         endsAt: trialEndsAt!,
-        status: "ACTIVE",
+        status: TrialStatus.ACTIVE,
       },
     });
     
@@ -229,7 +215,7 @@ export async function createUserSubscription(data: {
     await scheduleRenewalReminder({
       subscriptionId: subscription.id,
       userId: data.userId,
-      type: "TRIAL_EXPIRING",
+      type: ReminderType.TRIAL_EXPIRING,
       daysBefore: 3,
     });
   }
@@ -245,7 +231,7 @@ export async function changeSubscriptionTier(
   newTierId: string,
   prorate: boolean = true
 ) {
-  const subscription = await (prisma as any).userSubscription?.findUnique({
+  const subscription = await prisma.userSubscription.findUnique({
     where: { id: subscriptionId },
     include: { tier: true },
   });
@@ -261,8 +247,8 @@ export async function changeSubscriptionTier(
   
   // Determine change type
   const changeType = newTier.price > subscription.tier.price 
-    ? "UPGRADE" 
-    : "DOWNGRADE";
+    ? ChangeType.UPGRADE
+    : ChangeType.DOWNGRADE;
   
   // Create Stripe subscription update
   const stripePriceId = newTier.stripePriceId;
@@ -277,7 +263,7 @@ export async function changeSubscriptionTier(
   );
   
   // Log the change
-  await (prisma as any).upgradeDowngradeLog?.create({
+  await prisma.upgradeDowngradeLog.create({
     data: {
       subscriptionId,
       userId: subscription.userId,
@@ -290,7 +276,7 @@ export async function changeSubscriptionTier(
   });
   
   // Update local subscription
-  const updated = await (prisma as any).userSubscription?.update({
+  const updated = await prisma.userSubscription.update({
     where: { id: subscriptionId },
     data: {
       tierId: newTierId,
@@ -302,14 +288,14 @@ export async function changeSubscriptionTier(
   });
   
   // Record billing history
-  await (prisma as any).billingHistory?.create({
+  await prisma.billingHistory.create({
     data: {
       subscriptionId,
       userId: subscription.userId,
       email: subscription.email,
       amount: newTier.price - subscription.tier.price,
-      type: changeType === "UPGRADE" ? "UPGRADE" : "DOWNGRADE",
-      status: "SUCCEEDED",
+      type: changeType === ChangeType.UPGRADE ? BillingType.UPGRADE : BillingType.DOWNGRADE,
+      status: BillingStatus.SUCCEEDED,
       description: `${changeType} from ${subscription.tier.name} to ${newTier.name}`,
     },
   });
@@ -320,11 +306,11 @@ export async function changeSubscriptionTier(
 /**
  * Cancel subscription
  */
-export async function cancelSubscriptionByManager(
+export async function cancelSubscription(
   subscriptionId: string,
   cancelAtPeriodEnd: boolean = true
 ) {
-  const subscription = await (prisma as any).userSubscription?.findUnique({
+  const subscription = await prisma.userSubscription.findUnique({
     where: { id: subscriptionId },
     include: { tier: true },
   });
@@ -342,22 +328,22 @@ export async function cancelSubscriptionByManager(
   }
   
   // Update local subscription
-  const updated = await (prisma as any).userSubscription?.update({
+  const updated = await prisma.userSubscription.update({
     where: { id: subscriptionId },
     data: {
-      status: cancelAtPeriodEnd ? "ACTIVE" : "CANCELED",
+      status: cancelAtPeriodEnd ? SubscriptionStatus.ACTIVE : SubscriptionStatus.CANCELED,
       cancelAtPeriodEnd,
       canceledAt: cancelAtPeriodEnd ? null : new Date(),
     },
   });
   
   // Log the cancellation
-  await (prisma as any).upgradeDowngradeLog?.create({
+  await prisma.upgradeDowngradeLog.create({
     data: {
       subscriptionId,
       userId: subscription.userId,
       fromTierId: subscription.tierId,
-      changeType: "CANCELLATION",
+      changeType: ChangeType.CANCELLATION,
       effectiveDate: new Date(),
     },
   });
@@ -367,7 +353,7 @@ export async function cancelSubscriptionByManager(
     await scheduleRenewalReminder({
       subscriptionId,
       userId: subscription.userId,
-      type: "WINBACK",
+      type: ReminderType.WINBACK,
       daysBefore: 7,
     });
   }
@@ -378,8 +364,8 @@ export async function cancelSubscriptionByManager(
 /**
  * Reactivate canceled subscription
  */
-export async function reactivateSubscriptionByManager(subscriptionId: string) {
-  const subscription = await (prisma as any).userSubscription?.findUnique({
+export async function reactivateSubscription(subscriptionId: string) {
+  const subscription = await prisma.userSubscription.findUnique({
     where: { id: subscriptionId },
   });
   
@@ -390,10 +376,10 @@ export async function reactivateSubscriptionByManager(subscriptionId: string) {
   // Reactivation logic would go here
   // This depends on your Stripe setup
   
-  return (prisma as any).userSubscription?.update({
+  return prisma.userSubscription.update({
     where: { id: subscriptionId },
     data: {
-      status: "ACTIVE",
+      status: SubscriptionStatus.ACTIVE,
       cancelAtPeriodEnd: false,
     },
   });
@@ -403,7 +389,7 @@ export async function reactivateSubscriptionByManager(subscriptionId: string) {
  * Preview subscription change (upgrade/downgrade costs)
  */
 export async function previewTierChange(subscriptionId: string, newTierId: string) {
-  const subscription = await (prisma as any).userSubscription?.findUnique({
+  const subscription = await prisma.userSubscription.findUnique({
     where: { id: subscriptionId },
   });
   
@@ -449,8 +435,8 @@ export async function generateCheckoutUrl(data: {
     throw new Error('Tier not found');
   }
   
-  const plan = tier.subscriptionPlans?.find(
-    (p: { billingCycle: string }) => p.billingCycle === (data.billingCycle === 'monthly' ? 'MONTHLY' : 'YEARLY')
+  const plan = tier.subscriptionPlans.find(
+    p => p.billingCycle === (data.billingCycle === 'monthly' ? 'MONTHLY' : 'YEARLY')
   );
   
   const priceId = plan?.stripePriceId || tier.stripePriceId;
@@ -489,7 +475,7 @@ export async function generatePortalUrl(userId: string, returnUrl: string) {
   );
   
   // Store portal session
-  await (prisma as any).portalSession?.create({
+  await prisma.portalSession.create({
     data: {
       userId,
       stripePortalUrl: session.url,
@@ -509,7 +495,7 @@ export async function generatePortalUrl(userId: string, returnUrl: string) {
  * Get billing history for user
  */
 export async function getBillingHistory(userId: string, limit: number = 20) {
-  return (prisma as any).billingHistory?.findMany({
+  return prisma.billingHistory.findMany({
     where: { userId },
     orderBy: { createdAt: 'desc' },
     take: limit,
@@ -519,8 +505,8 @@ export async function getBillingHistory(userId: string, limit: number = 20) {
 /**
  * Get invoices for user
  */
-export async function getUserInvoices(userId: string) {
-  return (prisma as any).invoice?.findMany({
+export async function getInvoices(userId: string) {
+  return prisma.invoice.findMany({
     where: { userId },
     orderBy: { createdAt: 'desc' },
   });
@@ -534,7 +520,7 @@ export async function getUserInvoices(userId: string) {
  * Get user's trial status
  */
 export async function getTrialStatus(userId: string) {
-  return (prisma as any).freeTrial?.findUnique({
+  return prisma.freeTrial.findUnique({
     where: { userId },
     include: { tier: true },
   });
@@ -544,7 +530,7 @@ export async function getTrialStatus(userId: string) {
  * Convert trial to paid subscription
  */
 export async function convertTrial(subscriptionId: string, paymentMethodId?: string) {
-  const subscription = await (prisma as any).userSubscription?.findUnique({
+  const subscription = await prisma.userSubscription.findUnique({
     where: { id: subscriptionId },
     include: { tier: true },
   });
@@ -554,21 +540,21 @@ export async function convertTrial(subscriptionId: string, paymentMethodId?: str
   }
   
   // Update trial record
-  await (prisma as any).freeTrial?.update({
+  await prisma.freeTrial.update({
     where: { userId: subscription.userId },
     data: {
       convertedAt: new Date(),
       convertedToTierId: subscription.tierId,
-      status: "CONVERTED",
+      status: TrialStatus.CONVERTED,
     },
   });
   
   // Update subscription status
-  return (prisma as any).userSubscription?.update({
+  return prisma.userSubscription.update({
     where: { id: subscriptionId },
     data: {
       isTrial: false,
-      status: "ACTIVE",
+      status: SubscriptionStatus.ACTIVE,
       trialEndsAt: null,
     },
   });
@@ -578,8 +564,8 @@ export async function convertTrial(subscriptionId: string, paymentMethodId?: str
  * Get all active trials (for admin)
  */
 export async function getActiveTrials() {
-  return (prisma as any).freeTrial?.findMany({
-    where: { status: "ACTIVE" },
+  return prisma.freeTrial.findMany({
+    where: { status: TrialStatus.ACTIVE },
     include: { tier: true },
     orderBy: { endsAt: 'asc' },
   });
@@ -592,25 +578,25 @@ export async function expireTrials() {
   const now = new Date();
   
   // Find expired trials
-  const expiredTrials = await (prisma as any).freeTrial?.findMany({
+  const expiredTrials = await prisma.freeTrial.findMany({
     where: {
-      status: "ACTIVE",
+      status: TrialStatus.ACTIVE,
       endsAt: { lt: now },
     },
   });
   
   // Update each expired trial
   for (const trial of expiredTrials) {
-    await (prisma as any).freeTrial?.update({
+    await prisma.freeTrial.update({
       where: { id: trial.id },
-      data: { status: "EXPIRED" },
+      data: { status: TrialStatus.EXPIRED },
     });
     
     // Update associated subscription
-    await (prisma as any).userSubscription?.updateMany({
+    await prisma.userSubscription.updateMany({
       where: { userId: trial.userId, isTrial: true },
       data: {
-        status: "CANCELED",
+        status: SubscriptionStatus.CANCELED,
         isTrial: false,
       },
     });
@@ -619,7 +605,7 @@ export async function expireTrials() {
     await scheduleRenewalReminder({
       subscriptionId: '',
       userId: trial.userId,
-      type: "TRIAL_EXPIRED",
+      type: ReminderType.TRIAL_EXPIRED,
       daysBefore: 0,
     });
   }
@@ -643,13 +629,13 @@ async function scheduleRenewalReminder(data: {
   const reminderDate = new Date();
   reminderDate.setDate(reminderDate.getDate() + data.daysBefore);
   
-  return (prisma as any).renewalReminder?.create({
+  return prisma.renewalReminder.create({
     data: {
       subscriptionId: data.subscriptionId,
       userId: data.userId,
       reminderType: data.type,
       scheduledFor: reminderDate,
-      status: "PENDING",
+      status: ReminderStatus.PENDING,
       channel: 'email',
     },
   });
@@ -659,9 +645,9 @@ async function scheduleRenewalReminder(data: {
  * Get pending reminders (for scheduler)
  */
 export async function getPendingReminders() {
-  return (prisma as any).renewalReminder?.findMany({
+  return prisma.renewalReminder.findMany({
     where: {
-      status: "PENDING",
+      status: ReminderStatus.PENDING,
       scheduledFor: { lte: new Date() },
     },
     take: 100,
@@ -672,10 +658,10 @@ export async function getPendingReminders() {
  * Mark reminder as sent
  */
 export async function markReminderSent(reminderId: string, messageId?: string) {
-  return (prisma as any).renewalReminder?.update({
+  return prisma.renewalReminder.update({
     where: { id: reminderId },
     data: {
-      status: "SENT",
+      status: ReminderStatus.SENT,
       sentAt: new Date(),
       messageId,
     },
@@ -688,16 +674,16 @@ export async function markReminderSent(reminderId: string, messageId?: string) {
 export async function cancelReminders(subscriptionId: string, types?: ReminderType[]) {
   const where: Record<string, unknown> = {
     subscriptionId,
-    status: "PENDING",
+    status: ReminderStatus.PENDING,
   };
   
   if (types) {
     where.reminderType = { in: types };
   }
   
-  return (prisma as any).renewalReminder?.updateMany({
+  return prisma.renewalReminder.updateMany({
     where,
-    data: { status: "CANCELED" },
+    data: { status: ReminderStatus.CANCELED },
   });
 }
 
@@ -713,7 +699,7 @@ export async function getUsage(subscriptionId: string, featureKey: string) {
   const periodStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const periodEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
   
-  return (prisma as any).usageRecord?.findFirst({
+  return prisma.usageRecord.findFirst({
     where: {
       subscriptionId,
       featureKey,
@@ -732,7 +718,7 @@ export async function incrementUsage(subscriptionId: string, featureKey: string,
   const periodEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
   
   // Upsert usage record
-  const usage = await (prisma as any).usageRecord?.upsert({
+  const usage = await prisma.usageRecord.upsert({
     where: {
       subscriptionId_featureKey_periodStart: {
         subscriptionId,
@@ -775,32 +761,32 @@ export async function getSubscriptionAnalytics(date?: Date) {
   const endOfDay = new Date(targetDate.setHours(23, 59, 59, 999));
   
   // Get all subscriptions with their tiers
-  const subscriptions = await (prisma as any).userSubscription?.findMany({
+  const subscriptions = await prisma.userSubscription.findMany({
     where: {
-      status: { in: ["ACTIVE", "TRIALING"] },
+      status: { in: [SubscriptionStatus.ACTIVE, SubscriptionStatus.TRIALING] },
     },
     include: { tier: true },
   });
   
   // Calculate metrics
-  const activeSubscriptions = subscriptions.filter((s: { status: string }) => s.status === "ACTIVE");
-  const trialSubscriptions = subscriptions.filter((s: { status: string }) => s.status === "TRIALING");
+  const activeSubscriptions = subscriptions.filter(s => s.status === SubscriptionStatus.ACTIVE);
+  const trialSubscriptions = subscriptions.filter(s => s.status === SubscriptionStatus.TRIALING);
   
-  const mrr = activeSubscriptions.reduce((sum: number, s: { tier?: { price?: number } }) => sum + (s.tier?.price || 0), 0);
+  const mrr = activeSubscriptions.reduce((sum, s) => sum + s.tier.price, 0);
   const arr = mrr * 12;
   const arpu = activeSubscriptions.length > 0 ? mrr / activeSubscriptions.length : 0;
   
   // Get today's new subscriptions
-  const todayNewSubscriptions = await (prisma as any).userSubscription?.count({
+  const todayNewSubscriptions = await prisma.userSubscription.count({
     where: {
       createdAt: { gte: startOfDay, lte: endOfDay },
     },
   });
   
   // Get today's cancellations
-  const todayCancellations = await (prisma as any).upgradeDowngradeLog?.count({
+  const todayCancellations = await prisma.upgradeDowngradeLog.count({
     where: {
-      changeType: "CANCELLATION",
+      changeType: ChangeType.CANCELLATION,
       createdAt: { gte: startOfDay, lte: endOfDay },
     },
   });
@@ -834,7 +820,7 @@ export async function getSubscriptionAnalytics(date?: Date) {
 export async function recordDailyAnalytics() {
   const analytics = await getSubscriptionAnalytics();
   
-  return (prisma as any).subscriptionAnalytics?.create({
+  return prisma.subscriptionAnalytics.create({
     data: {
       date: analytics.date,
       mrr: analytics.mrr,
@@ -858,7 +844,7 @@ export async function getMRRHistory(days: number = 30) {
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - days);
   
-  return (prisma as any).subscriptionAnalytics?.findMany({
+  return prisma.subscriptionAnalytics.findMany({
     where: {
       date: { gte: startDate },
     },
@@ -870,9 +856,9 @@ export async function getMRRHistory(days: number = 30) {
  * Get revenue by tier
  */
 export async function getRevenueByTier() {
-  const subscriptions = await (prisma as any).userSubscription?.findMany({
+  const subscriptions = await prisma.userSubscription.findMany({
     where: {
-      status: "ACTIVE",
+      status: SubscriptionStatus.ACTIVE,
     },
     include: { tier: true },
   });
@@ -899,7 +885,7 @@ export async function getRevenueByTier() {
  * Get coupon by code
  */
 export async function getCouponByCode(code: string) {
-  return (prisma as any).coupon?.findUnique({
+  return prisma.coupon.findUnique({
     where: { code: code.toUpperCase() },
   });
 }
@@ -961,7 +947,7 @@ export async function redeemCoupon(code: string) {
     throw new Error('Coupon not found');
   }
   
-  return (prisma as any).coupon?.update({
+  return prisma.coupon.update({
     where: { id: coupon.id },
     data: { timesRedeemed: { increment: 1 } },
   });
@@ -976,13 +962,13 @@ export default {
   getAllSubscriptions,
   createUserSubscription,
   changeSubscriptionTier,
-  cancelSubscription: cancelSubscriptionByManager,
-  reactivateSubscription: reactivateSubscriptionByManager,
+  cancelSubscription,
+  reactivateSubscription,
   previewTierChange,
   generateCheckoutUrl,
   generatePortalUrl,
   getBillingHistory,
-  getInvoices: getUserInvoices,
+  getInvoices,
   getTrialStatus,
   convertTrial,
   getActiveTrials,

@@ -201,10 +201,10 @@ export function useConversionTracking() {
 // Hook for A/B testing urgency elements
 export function useABTesting(testConfig: ABTestConfig) {
   const [variant, setVariant] = useState<ABTestConfig['variant']>(testConfig.variant);
-  const [metrics, setMetrics] = useState<{ control: ConversionMetrics | null; treatment: ConversionMetrics | null }>({
-    control: null,
-    treatment: null
-  });
+  const [metrics, setMetrics] = {
+    control: null as ConversionMetrics | null,
+    treatment: null as ConversionMetrics | null
+  };
   
   // In production, you'd randomize the variant assignment
   // For now, we use the passed variant

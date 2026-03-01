@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { ChevronDown, ArrowUpDown, Star, Clock, Calendar, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SortOption } from './ToolsPageContent';
@@ -38,12 +38,10 @@ export function SortDropdown({ value, onChange }: SortDropdownProps) {
   }, []);
 
   // Handle click outside
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('click', handleClickOutside);
-      return () => window.removeEventListener('click', handleClickOutside);
-    }
-  }, [handleClickOutside]);
+  if (typeof window !== 'undefined') {
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }
 
   return (
     <div ref={dropdownRef} className="relative inline-block">

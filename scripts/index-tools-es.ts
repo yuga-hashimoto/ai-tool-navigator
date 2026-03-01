@@ -21,35 +21,40 @@ async function indexTools() {
 
   if (!indexExists) {
     console.log(`Creating index: ${INDEX_NAME}`);
-    await esClient.indices.create({
-      index: INDEX_NAME,
-      body: {
-        mappings: {
-          properties: {
-            slug: { type: 'keyword' },
-            title: { type: 'text', analyzer: 'standard' },
-            description: { type: 'text', analyzer: 'standard' },
-            category: { type: 'keyword' },
-            tags: { type: 'keyword' },
-            rating: { type: 'float' },
-            pros: { type: 'text', analyzer: 'standard' },
-            cons: { type: 'text', analyzer: 'standard' },
-            image: { type: 'keyword' },
-            affiliate_link: { type: 'keyword' },
-            pricing: { type: 'keyword' },
-            platform: { type: 'keyword' },
-            promoted: { type: 'boolean' },
-            featured: { type: 'boolean' },
-            sponsored: { type: 'boolean' },
-            tool_of_the_week: { type: 'boolean' },
-            verified: { type: 'boolean' },
-          },
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const createIndexBody: any = {
+      mappings: {
+        properties: {
+          slug: { type: 'keyword' },
+          title: { type: 'text', analyzer: 'standard' },
+          description: { type: 'text', analyzer: 'standard' },
+          category: { type: 'keyword' },
+          tags: { type: 'keyword' },
+          rating: { type: 'float' },
+          pros: { type: 'text', analyzer: 'standard' },
+          cons: { type: 'text', analyzer: 'standard' },
+          image: { type: 'keyword' },
+          affiliate_link: { type: 'keyword' },
+          pricing: { type: 'keyword' },
+          platform: { type: 'keyword' },
+          promoted: { type: 'boolean' },
+          featured: { type: 'boolean' },
+          sponsored: { type: 'boolean' },
+          tool_of_the_week: { type: 'boolean' },
+          verified: { type: 'boolean' },
         },
       },
+    };
+
+    await esClient.indices.create({
+      index: INDEX_NAME,
+      body: createIndexBody,
     });
   }
 
-  const bulkOperations = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const bulkOperations: any[] = [];
 
   for (const fileName of fileNames) {
     if (!fileName.endsWith('.md')) continue;
@@ -85,7 +90,7 @@ async function indexTools() {
 
   if (bulkOperations.length > 0) {
     console.log(`Indexing ${bulkOperations.length / 2} documents...`);
-    const bulkResponse = await esClient.bulk({ refresh: true, body: bulkOperations });
+    const bulkResponse = await esClient.bulk({ refresh: true, operations: bulkOperations });
 
     if (bulkResponse.errors) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

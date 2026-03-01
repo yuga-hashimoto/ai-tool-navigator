@@ -6,31 +6,31 @@ const INDEX_NAME = 'tools';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function searchTools(query: string, _locale: string = 'en'): Promise<ToolMetadata[]> {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const searchQuery: any = {
+      bool: {
+        must: [
+          {
+            multi_match: {
+              query: query,
+              fields: [
+                'title^3',
+                'description^2',
+                'category',
+                'tags',
+                'pros',
+                'cons',
+              ],
+              fuzziness: 'AUTO',
+            },
+          },
+        ],
+      },
+    };
+
     const response = await esClient.search({
       index: INDEX_NAME,
-      body: {
-        query: {
-          bool: {
-            must: [
-              {
-                multi_match: {
-                  query: query,
-                  fields: [
-                    'title^3',
-                    'description^2',
-                    'category',
-                    'tags',
-                    'pros',
-                    'cons',
-                  ],
-                  fuzziness: 'AUTO',
-                },
-              },
-            ],
-            // You can add filters here if needed, e.g. for verified tools
-          },
-        },
-      },
+      query: searchQuery,
     });
 
     const hits = response.hits.hits;

@@ -146,7 +146,7 @@ function DefaultStock({
         return 'bg-gray-100 text-gray-700';
     }
   };
-  
+
   return (
     <div className={cn('space-y-3', className)}>
       <div className="flex items-center gap-2">
@@ -283,7 +283,7 @@ function StockBadge({ stock, maxStock, message, badgeConfig, className }: StockB
         return 'bg-gray-100 text-gray-700';
     }
   };
-  
+
   if (stock <= 0) {
     return (
       <span className={cn(

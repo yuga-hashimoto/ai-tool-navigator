@@ -261,7 +261,7 @@ export async function changeSubscriptionTier(
   
   // Determine change type
   const changeType = newTier.price > subscription.tier.price 
-    ? "UPGRADE" 
+    ? "UPGRADE"
     : "DOWNGRADE";
   
   // Create Stripe subscription update

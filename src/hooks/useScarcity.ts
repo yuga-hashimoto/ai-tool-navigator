@@ -43,7 +43,7 @@ export function useProductScarcity(
   options: UseScarcityOptions = {}
 ): UseScarcityReturn {
   const { 
-    maxStock = 100, 
+    maxStock = 100,
     refreshIntervalMs = 30000,
     onCriticalLevel,
     onSoldOut 

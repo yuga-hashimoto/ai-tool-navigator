@@ -244,7 +244,7 @@ export function useAffiliateEvent(
  */
 export function useAffiliateParams() {
   const [params, setParams] = useState<{ affiliateId: string | null; hasTracking: boolean; utm_source?: string; utm_medium?: string; utm_campaign?: string } | null>(null);
-  
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -257,6 +257,6 @@ export function useAffiliateParams() {
       hasTracking: !!(utmParams.utm_source || affiliateId),
     });
   }, []);
-  
+
   return params;
 }

@@ -67,7 +67,7 @@ jobs:
         run: |
           gh api "repos/${REPO_FULL}/issues/${ISSUE_NUMBER}/comments" -f body="✅ Jules session created. Session ID: ${SESSION_ID}, Key: ${KEY_USED}, automationMode: AUTO_CREATE_PR"
       - name: Comment failure
-        if: steps.jules.outcome == 'failure'
+        if: failure() && steps.jules.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
           REPO_FULL: ${{ github.repository }}

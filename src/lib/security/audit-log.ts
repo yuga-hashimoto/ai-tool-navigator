@@ -164,21 +164,18 @@ export const queryAuditLogs = async (
       const key = eventType ? `audit:${eventType}` : 'audit:all';
       
       // Get entries in time range
-      const entries = await redisClient.zrangebyscore(
+      const entries = await redisClient.zrange(
         key,
         start,
         end,
-        'WITHSCORES',
-        'LIMIT',
-        offset,
-        limit * 2 // Get more to filter
+        { byScore: true, withScores: true }
       );
       
       const results: AuditLogEntry[] = [];
       
       for (let i = 0; i < entries.length; i += 2) {
         try {
-          const entry = JSON.parse(entries[i]) as AuditLogEntry;
+          const entry = JSON.parse(entries[i] as string) as AuditLogEntry;
           
           // Apply filters
           if (ip && entry.ip !== ip) continue;
@@ -283,6 +280,17 @@ export const getSecurityStats = async (
     ...stats,
     avgBotScore: stats.botScoreCount > 0 ? stats.botScoreSum / stats.botScoreCount : 0,
     uniqueIPs: stats.uniqueIPs.size,
+  } as {
+    totalRequests: number;
+    blockedRequests: number;
+    botDetections: number;
+    rateLimitExceeded: number;
+    captchaChallenges: number;
+    avgBotScore: number;
+    uniqueIPs: number;
+    topIPs: Array<{ ip: string; count: number }>;
+    topPaths: Array<{ path: string; count: number }>;
+    eventCounts: Record<string, number>;
   };
 };
 

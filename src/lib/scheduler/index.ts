@@ -25,7 +25,6 @@ export {
   trackSocialShare,
   trackRelatedToolClick,
   trackComment,
- ToolClick,
   getMetricsForTool,
   getAllMetrics,
   getAggregatedMetrics,

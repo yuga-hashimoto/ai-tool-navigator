@@ -21,7 +21,7 @@ export function AdvancedSearch() {
         category: [],
         price: 'all',
         platform: [],
-        rating: null
+        rating: undefined
     }
   });
 
@@ -47,7 +47,7 @@ export function AdvancedSearch() {
         years={years}
         platforms={platforms}
         selectedCategories={options.filters?.category || []}
-        selectedRating={options.filters?.rating || null}
+        selectedRating={options.filters?.rating ?? null}
         selectedPriceRange={(options.filters?.price as any) || 'all'}
         selectedYears={[]}
         selectedPlatforms={options.filters?.platform || []}

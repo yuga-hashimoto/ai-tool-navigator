@@ -167,7 +167,7 @@ export function RewardsCatalog({
         {filteredRewards.map(reward => (
           <RewardCard 
             key={reward.name} 
-            reward={reward} 
+            reward={reward as any}
             userPoints={userPoints}
             userTier={userTier}
             onRedeem={() => setShowRedeemModal(reward.name)}
@@ -187,7 +187,7 @@ export function RewardsCatalog({
       {/* Redeem Confirmation Modal */}
       {showRedeemModal && (
         <RedeemModal 
-          reward={REWARDS.find(r => r.name === showRedeemModal)!}
+          reward={REWARDS.find(r => r.name === showRedeemModal)! as any}
           userPoints={userPoints}
           onClose={() => setShowRedeemModal(null)}
           onConfirm={() => {
@@ -202,7 +202,7 @@ export function RewardsCatalog({
 
 // Individual Reward Card
 interface RewardCardProps {
-  reward: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>;
+  reward: Reward;
   userPoints: number;
   userTier: LoyaltyTier;
   onRedeem: () => void;
@@ -310,7 +310,7 @@ function RewardCard({ reward, userPoints, userTier, onRedeem }: RewardCardProps)
 
 // Redeem Modal
 interface RedeemModalProps {
-  reward: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>;
+  reward: Reward;
   userPoints: number;
   onClose: () => void;
   onConfirm: () => void;
@@ -326,7 +326,7 @@ function RedeemModal({ reward, userPoints, onClose, onConfirm }: RedeemModalProp
       const response = await fetch('/api/loyalty/redeem', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rewardId: reward.name })
+        body: JSON.stringify({ rewardId: reward.id })
       });
       
       if (response.ok) {

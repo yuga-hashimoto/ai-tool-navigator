@@ -299,6 +299,7 @@ export const chatService = {
   },
   proactiveTrigger: {
     getActive: getActiveTriggers,
+    create: createProactiveChatTrigger,
   },
 };
 

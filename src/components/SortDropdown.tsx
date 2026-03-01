@@ -37,13 +37,12 @@ export function SortDropdown({ value, onChange }: SortDropdownProps) {
     }
   }, []);
 
-  // Handle click outside
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (isOpen) {
       window.addEventListener('click', handleClickOutside);
       return () => window.removeEventListener('click', handleClickOutside);
     }
-  }, [handleClickOutside]);
+  }, [isOpen, handleClickOutside]);
 
   return (
     <div ref={dropdownRef} className="relative inline-block">

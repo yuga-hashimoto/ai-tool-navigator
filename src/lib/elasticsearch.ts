@@ -1,4 +1,4 @@
-import { Client, ClientOptions } from '@elastic/elasticsearch';
+import { Client } from '@elastic/elasticsearch';
 
 const ELASTICSEARCH_URL = process.env.ELASTICSEARCH_URL;
 const ELASTICSEARCH_API_KEY = process.env.ELASTICSEARCH_API_KEY;
@@ -17,7 +17,8 @@ export const getElasticClient = (): Client | null => {
   }
 
   try {
-    const config: ClientOptions = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const config: any = {
       node: ELASTICSEARCH_URL,
     };
 

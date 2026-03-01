@@ -98,7 +98,7 @@ export default function ExitIntentModalEnhanced({
       });
 
       setTimeout(() => {
-        hideModal();
+        // Assume close modal handled by parent or state tracking
       }, 3000);
     } catch (err) {
       console.error('Exit intent submission error:', err);

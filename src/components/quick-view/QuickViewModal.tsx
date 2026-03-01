@@ -24,6 +24,7 @@ export function QuickViewModal({ isOpen, onClose, tool }: QuickViewModalProps) {
   const { checkAvailability, availabilityCache } = useAvailability();
   const { selectedSlugs, toggleTool } = useCompare();
   const [isAdded, setIsAdded] = useState(false);
+  const isSelected = tool ? selectedSlugs.includes(tool.slug) : false;
 
   // Handle escape key
   useEffect(() => {

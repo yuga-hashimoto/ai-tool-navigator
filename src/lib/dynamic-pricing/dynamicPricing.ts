@@ -86,7 +86,7 @@ export interface UrgencyConversionMetrics {
 }
 
 export interface UrgencySignal {
-  type: 'countdown' | 'stock_warning' | 'price_increase' | 'popular_choice' | 'limited_edition' | 'low_stock';
+  type: 'countdown' | 'stock_warning' | 'price_increase' | 'popular_choice' | 'limited_edition';
   message: string;
   urgencyLevel: 'low' | 'medium' | 'high' | 'critical';
   expiresAt?: Date;
@@ -380,7 +380,7 @@ export function getActiveUrgencySignals(): UrgencySignal[] {
     
     if (bundle.stockRemaining !== undefined && bundle.stockRemaining <= 20) {
       signals.push({
-        type: 'low_stock',
+        type: 'stock_warning',
         message: `${bundle.stockRemaining} bundles remaining - ${bundle.name}`,
         urgencyLevel: bundle.stockRemaining <= 5 ? 'critical' : 'high',
         actionRequired: 'Claim your bundle now!'

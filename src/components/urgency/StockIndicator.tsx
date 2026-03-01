@@ -131,28 +131,12 @@ function DefaultStock({
     );
   }
   
-  // Get badge style based on variant
-  const getBadgeStyle = (variant: string) => {
-    switch (variant) {
-      case 'danger':
-        return 'bg-red-100 text-red-700';
-      case 'warning':
-        return 'bg-orange-100 text-orange-700';
-      case 'info':
-        return 'bg-blue-100 text-blue-700';
-      case 'success':
-        return 'bg-green-100 text-green-700';
-      default:
-        return 'bg-gray-100 text-gray-700';
-    }
-  };
-  
   return (
     <div className={cn('space-y-3', className)}>
       <div className="flex items-center gap-2">
         <span className={cn(
           'inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium',
-          getBadgeStyle(badgeConfig.variant)
+          (badgeConfig as any).className
         )}>
           {badgeConfig.text}
         </span>
@@ -268,22 +252,6 @@ interface StockBadgeProps {
 }
 
 function StockBadge({ stock, maxStock, message, badgeConfig, className }: StockBadgeProps) {
-  // Get badge style based on variant
-  const getBadgeStyle = (variant: string) => {
-    switch (variant) {
-      case 'danger':
-        return 'bg-red-100 text-red-700';
-      case 'warning':
-        return 'bg-orange-100 text-orange-700';
-      case 'info':
-        return 'bg-blue-100 text-blue-700';
-      case 'success':
-        return 'bg-green-100 text-green-700';
-      default:
-        return 'bg-gray-100 text-gray-700';
-    }
-  };
-  
   if (stock <= 0) {
     return (
       <span className={cn(
@@ -299,7 +267,7 @@ function StockBadge({ stock, maxStock, message, badgeConfig, className }: StockB
   return (
     <span className={cn(
       'inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium',
-      getBadgeStyle(badgeConfig.variant),
+      (badgeConfig as any).className,
       className
     )}>
       <TrendingDown className="w-3 h-3" />

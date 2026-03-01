@@ -6,8 +6,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Bundle } from '@/lib/bundle-system/bundleTypes';
 import { 
   ShoppingCart, 
@@ -45,8 +43,7 @@ export function BundleCard({
 
     const interval = setInterval(() => {
       const now = new Date();
-      const end = bundle.countdownEnd ? new Date(bundle.countdownEnd) : null;
-      if (!end) return;
+      const end = new Date(bundle.countdownEnd as Date);
       const diff = end.getTime() - now.getTime();
 
       if (diff <= 0) {
@@ -179,13 +176,13 @@ export function BundleCard({
           )}
 
           {/* CTA */}
-          <Button 
-            className="w-full mt-3" 
+          <button
+            className="w-full mt-3 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 h-10 px-4 py-2"
             onClick={() => onAddToCart?.(bundle)}
           >
             <ShoppingCart className="w-4 h-4 mr-2" />
             Add to Cart - ${bundle.bundlePrice.toFixed(2)}
-          </Button>
+          </button>
         </div>
       </div>
     );
@@ -362,19 +359,19 @@ export function BundleCard({
 
         {/* CTA Buttons */}
         <div className="flex gap-3">
-          <Button 
-            className="flex-1 bg-blue-600 hover:bg-blue-700"
+          <button
+            className="flex-1 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 h-10 px-4 py-2"
             onClick={() => onAddToCart?.(bundle)}
           >
             <ShoppingCart className="w-4 h-4 mr-2" />
             Add to Cart
-          </Button>
-          <Button 
-            variant="outline"
+          </button>
+          <button
+            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
             onClick={() => onViewDetails?.(bundle)}
           >
             View Details
-          </Button>
+          </button>
         </div>
 
         {/* Stats */}

@@ -29,7 +29,6 @@ interface AnalyticsData {
   cancellations: number;
   churnRate: number;
   arpu: number;
-  trialConversions: number;
 }
 
 interface MRRHistory {
@@ -341,7 +340,7 @@ export default function AnalyticsDashboard({ adminApiKey }: AnalyticsDashboardPr
           {analytics.churnRate > 5 && (
             <li>• Churn rate is above 5%. Consider implementing win-back campaigns.</li>
           )}
-          {analytics.trialConversions > 0 && (
+          {(analytics as any).trialConversions > 0 && (
             <li>• Trial conversions are strong! Focus on optimizing the trial experience.</li>
           )}
           <li>• <strong>{formatCurrency(analytics.arpu)}</strong> average revenue per user - consider premium tier options.</li>

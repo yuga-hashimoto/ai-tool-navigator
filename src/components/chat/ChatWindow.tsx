@@ -141,7 +141,7 @@ export default function ChatWindow({
   };
 
   // Group messages by date
-  const groupedMessages = messages.reduce((groups, message, index) => {
+  const groupedMessages = messages.reduce((groups: Record<string, any[]>, message, index) => {
     const date = formatDate(message.createdAt);
     
     if (!groups[date]) {
@@ -195,7 +195,7 @@ export default function ChatWindow({
             <div className="date-divider">
               <span>{date}</span>
             </div>
-            {(dateMessages as any[]).map((message: any) => (
+            {dateMessages.map((message: any) => (
               <MessageBubble
                 key={message.id}
                 message={message}

@@ -384,7 +384,7 @@ export async function getRecoveryMetrics(
       GROUP BY recovery_channel
     `;
 
-    return records.map((r: { channel: string; total: number; sent: number; opened: number; clicked: number; recovered: number; revenue: number }) => ({
+    return records.map(r => ({
       channel: r.channel as RecoveryChannel,
       totalAbandonments: r.total,
       emailsSent: r.sent,
@@ -686,7 +686,7 @@ export async function storeAbandonedCart(
         session_id, visitor_id, visitor_email, items, total_value,
         currency, affiliate_id, source, recovery_status, created_at, updated_at
       ) VALUES (
-        ${sessionId}, ${visitorEmail ? `visitor_${visitorEmail.replace(/[@.]/g, '_')}` : null},
+        ${sessionId}, ${visitorEmail ? `visitor_${Buffer.from(visitorEmail).toString('base64').substring(0, 10)}` : null},
         ${visitorEmail || null}, ${JSON.stringify(items)},
         ${totalValue}, 'USD', ${affiliateId || null}, ${source},
         'pending', ${now}, ${now}
@@ -711,7 +711,7 @@ export async function getAbandonedCart(sessionId: string): Promise<AbandonedCart
     `;
 
     if (records[0]?.items && typeof records[0].items === 'string') {
-      records[0].items = JSON.parse(records[0].items) as CartItem[];
+      records[0].items = JSON.parse(records[0].items);
     }
 
     return records[0] || null;

@@ -91,8 +91,8 @@ export function SocialProof() {
         <div>
           <p className="text-sm font-medium text-zinc-900 dark:text-white">
             {message.type === 'viewed'
-              ? t('viewed', { location: message.location || '', tool: message.tool || '' })
-              : t('watching', { count: message.count || 0 })
+              ? t('viewed', { location: message.location || 'Someone', tool: message.tool || 'a tool' })
+              : t('watching', { count: message.count || 1 })
             }
           </p>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">

@@ -384,7 +384,7 @@ export async function getRecoveryMetrics(
       GROUP BY recovery_channel
     `;
 
-    return records.map(r => ({
+    return records.map((r: { channel: string; total: number; sent: number; opened: number; clicked: number; recovered: number; revenue: number }) => ({
       channel: r.channel as RecoveryChannel,
       totalAbandonments: r.total,
       emailsSent: r.sent,

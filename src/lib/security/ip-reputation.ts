@@ -26,12 +26,13 @@ interface IPReputation {
   lastUpdate: number;
   violations: string[];
   flags: string[];
+  reasons?: string[];
 }
 
 const memoryReputation: Map<string, IPReputation> = new Map();
 
 // Known IP blocklist (VPNs, proxies, datacenters)
-const BLOCKED_IP_RANGES = [
+const BLOCKED_IP_RANGES: string[] = [
   // Example ranges - in production, use a proper IP reputation service
   // '10.0.0.0/8',    // Private
   // '172.16.0.0/12', // Private
@@ -164,7 +165,7 @@ const getStoredReputation = async (ip: string): Promise<IPReputation | null> => 
 export const updateIPReputation = async (
   ip: string,
   adjustment: number,
-  reason: string,
+  reason?: string,
   flag?: string
 ): Promise<void> => {
   const redisClient = getRedisClient();
@@ -255,5 +256,6 @@ export const recordFailure = async (ip: string, reason: string): Promise<void> =
 };
 
 export const clearCaptchaRequirement = async (ip: string): Promise<void> => {
-  await boostIPReputationOnCaptchaSuccess(ip);
+  // Boost reputation when user completes CAPTCHA successfully
+  await updateIPReputation(ip, 10, 'CAPTCHA completed successfully');
 };

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSecurityStats, getSecurityStatsByPeriod } from '@/lib/security/audit-log';
+import { getSecurityStats, AUDIT_EVENTS } from '@/lib/security/audit-log';
 import { getBlockedIPs, blockIP as blockIPReputation, unblockIP as unblockIPReputation, getIPReputation } from '@/lib/security/ip-reputation';
 import { checkRateLimit, getRateLimitStatus, clearRateLimit, RateLimitResult } from '@/lib/security/rate-limiter';
 import { RATE_LIMITS } from '@/lib/security/rate-limit-config';
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
   try {
     switch (type) {
       case 'stats': {
-        const stats = await getSecurityStatsByPeriod(period);
+        const stats = await getSecurityStats(period);
         
         // Get top endpoints
         const topEndpoints = Object.entries(memoryStats.endpointStats)
@@ -82,14 +82,16 @@ export async function GET(request: NextRequest) {
           lastSeen: Date.now(),
         }));
         
+        const captchaChallengesFromAudit = stats.eventCounts?.[AUDIT_EVENTS.CAPTCHA_REQUIRED] || 0;
+
         return NextResponse.json({
           totalRequests: memoryStats.totalRequests || stats.totalRequests,
           blockedRequests: memoryStats.blockedRequests || stats.blockedRequests,
-          captchaChallenges: memoryStats.captchaChallenges || stats.captchaChallenges,
+          captchaChallenges: memoryStats.captchaChallenges || captchaChallengesFromAudit,
           botDetections: memoryStats.botDetections || stats.botDetections,
-          avgBotScore: memoryStats.botScoreCount > 0 
-            ? memoryStats.botScoreSum / memoryStats.botScoreCount 
-            : stats.avgBotScore,
+          avgBotScore: memoryStats.botScoreCount > 0
+            ? memoryStats.botScoreSum / memoryStats.botScoreCount
+            : 0,
           uniqueIPs: memoryStats.uniqueIPs.size || stats.uniqueIPs,
           topEndpoints,
           recentBlockedIPs,

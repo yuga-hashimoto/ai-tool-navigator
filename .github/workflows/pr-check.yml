@@ -1,0 +1,45 @@
+name: PR Check
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  client-runtime-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      - name: Run client runtime smoke test
+        run: npx playwright test tests/e2e/client-runtime-smoke.spec.ts
+        env:
+          BASE_URL: http://localhost:3000
+      - name: Start server for test
+        run: |
+          npm run start &
+          sleep 10
+          npx playwright test tests/e2e/client-runtime-smoke.spec.ts
+        env:
+          BASE_URL: http://localhost:3000
+
+  build-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build

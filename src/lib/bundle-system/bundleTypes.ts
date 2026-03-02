@@ -930,3 +930,12 @@ export const BUNDLE_RULES: BundleRule[] = [
     active: true
   }
 ];
+<<<<<<< HEAD
+=======
+
+// =====================================================
+// TYPE EXPORTS
+// =====================================================
+
+// BundleItem is already exported as interface above
+>>>>>>> origin/main

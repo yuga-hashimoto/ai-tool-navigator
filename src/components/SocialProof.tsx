@@ -91,7 +91,11 @@ export function SocialProof() {
         <div>
           <p className="text-sm font-medium text-zinc-900 dark:text-white">
             {message.type === 'viewed'
+<<<<<<< HEAD
               ? t('viewed', { location: message.location || 'Somewhere', tool: message.tool || 'AI Tool' })
+=======
+              ? t('viewed', { location: message.location || '', tool: message.tool || '' })
+>>>>>>> origin/main
               : t('watching', { count: message.count || 0 })
             }
           </p>

@@ -66,7 +66,11 @@ export default function ChatWidgetContainer({
   // Initialize proactive chat
   const { pendingTrigger, dismissTrigger, acceptTrigger } = useProactiveChat({
     sessionId: sessionId || '',
+<<<<<<< HEAD
     isEnabled: !isOpen && !!sessionId,
+=======
+    isEnabled: !isOpen,
+>>>>>>> origin/main
     onTrigger: (trigger) => {
       // Auto-open chat when trigger fires
       setIsOpen(true);

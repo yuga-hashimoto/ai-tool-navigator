@@ -148,6 +148,7 @@ export const useWebVitals = (
     if (typeof window === "undefined") return;
 
     // Subscribe to all Web Vitals metrics
+<<<<<<< HEAD
     const subscriptions = [
       onFCP(handleMetric),
       onLCP(handleMetric),
@@ -166,6 +167,14 @@ export const useWebVitals = (
         }
       });
     };
+=======
+    // web-vitals v5+ does not return unsubscribe functions
+    onFCP(handleMetric);
+    onLCP(handleMetric);
+    onCLS(handleMetric);
+    onINP(handleMetric);
+    onTTFB(handleMetric);
+>>>>>>> origin/main
   }, [handleMetric]);
 };
 

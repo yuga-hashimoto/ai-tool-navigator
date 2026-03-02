@@ -1,13 +1,66 @@
 // LoyaltyPointsProvider - Core context for point management
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import { 
-  LoyaltyState,
-  LoyaltyAction,
-  UserPoints,
-  Transaction,
-  Tier,
-  Badge
-} from '../types/loyalty';
+  type LoyaltyUser,
+  type PointTransaction,
+  type LoyaltyTier,
+  type Achievement
+} from '@/lib/loyalty/loyalty-types';
+
+// Local type definitions
+interface UserPoints {
+  userId: string;
+  points: number;
+  tier: LoyaltyTier;
+  lastActivity: Date;
+}
+
+interface Transaction {
+  id: string;
+  userId: string;
+  points: number;
+  type: 'earn' | 'redeem';
+  source: string;
+  description?: string;
+  createdAt: Date;
+}
+
+interface Tier {
+  id: string;
+  name: string;
+  minPoints: number;
+  benefits: string[];
+}
+
+interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  earnedAt: Date;
+}
+
+interface LoyaltyState {
+  userPoints: UserPoints | null;
+  transactions: Transaction[];
+  tiers: Tier[];
+  badges: Badge[];
+  isLoading: boolean;
+  error: string | null;
+  lastSync: Date | null;
+}
+
+type LoyaltyAction =
+  | { type: 'SET_LOADING'; payload: boolean }
+  | { type: 'SET_ERROR'; payload: string | null }
+  | { type: 'SYNC_DATA'; payload: Partial<LoyaltyState> }
+  | { type: 'EARN_POINTS'; payload: { points: number; transaction: Transaction } }
+  | { type: 'REDEEM_POINTS'; payload: { points: number; transaction: Transaction } }
+  | { type: 'UPDATE_TIER'; payload: { tier: LoyaltyTier } }
+  | { type: 'ADD_BADGE'; payload: Badge }
+  | { type: 'SET_TRANSACTIONS'; payload: Transaction[] }
+  | { type: 'SET_TIERS'; payload: Tier[] }
+  | { type: 'SET_BADGES'; payload: Badge[] };
 
 // Initial state
 const initialState: LoyaltyState = {
@@ -100,7 +153,7 @@ interface LoyaltyActions {
   getTiers: () => Promise<void>;
   getBadges: () => Promise<void>;
   addBadge: (badge: Badge) => void;
-  updateTier: (tier: Tier) => void;
+  updateTier: (tier: LoyaltyTier) => void;
 }
 
 // Custom hook for loyalty context
@@ -159,6 +212,7 @@ export function LoyaltyProvider({ children }: { children: React.ReactNode }) {
           const result = await response.json();
           const transaction: Transaction = {
             id: result.data.id,
+            userId: state.userPoints?.userId || '',
             points,
             type: 'earn',
             source,
@@ -188,6 +242,7 @@ export function LoyaltyProvider({ children }: { children: React.ReactNode }) {
           const result = await response.json();
           const transaction: Transaction = {
             id: result.data.id,
+            userId: state.userPoints?.userId || '',
             points: -points,
             type: 'redeem',
             source: rewardId,
@@ -261,7 +316,7 @@ export function LoyaltyProvider({ children }: { children: React.ReactNode }) {
       dispatch({ type: 'ADD_BADGE', payload: badge });
     },
 
-    updateTier: (tier: Tier) => {
+    updateTier: (tier: LoyaltyTier) => {
       dispatch({ type: 'UPDATE_TIER', payload: { tier } });
     }
   };

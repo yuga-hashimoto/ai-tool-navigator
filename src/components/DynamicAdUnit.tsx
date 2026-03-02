@@ -18,6 +18,8 @@ interface DynamicAdUnitProps {
 
 export function DynamicAdUnit({ index, type, slot: propSlot, format, layoutKey, className, style }: DynamicAdUnitProps) {
   const { shouldShowAd, adNetwork } = useAdOptimization();
+  // useMemo must be called unconditionally (Rules of Hooks)
+  const divId = useMemo(() => `div-gpt-ad-${type}-${index}-${Math.random().toString(36).substring(7)}`, [type, index]);
 
   const divId = useMemo(() => `div-gpt-ad-${type}-${index}-${Math.random().toString(36).substring(7)}`, [type, index]);
 

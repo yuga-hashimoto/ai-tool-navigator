@@ -168,20 +168,28 @@ export const queryAuditLogs = async (
         key,
         start,
         end,
+<<<<<<< HEAD
         {
           byScore: true,
           offset,
           count: limit * 2,
         }
+=======
+        { byScore: true, withScores: true }
+>>>>>>> origin/main
       );
       
       const results: AuditLogEntry[] = [];
       
       for (let i = 0; i < entries.length; i++) {
         try {
+<<<<<<< HEAD
           const entry = typeof entries[i] === 'string'
             ? JSON.parse(entries[i] as string) as AuditLogEntry
             : entries[i] as unknown as AuditLogEntry;
+=======
+          const entry = JSON.parse(entries[i] as string) as AuditLogEntry;
+>>>>>>> origin/main
           
           // Apply filters
           if (ip && entry.ip !== ip) continue;
@@ -287,6 +295,17 @@ export const getSecurityStats = async (
     ...stats,
     avgBotScore: stats.botScoreCount > 0 ? stats.botScoreSum / stats.botScoreCount : 0,
     uniqueIPs: stats.uniqueIPs.size,
+  } as {
+    totalRequests: number;
+    blockedRequests: number;
+    botDetections: number;
+    rateLimitExceeded: number;
+    captchaChallenges: number;
+    avgBotScore: number;
+    uniqueIPs: number;
+    topIPs: Array<{ ip: string; count: number }>;
+    topPaths: Array<{ path: string; count: number }>;
+    eventCounts: Record<string, number>;
   };
 };
 

@@ -43,8 +43,16 @@ export {
   type AuditLogEntry
 } from './audit-log';
 
+<<<<<<< HEAD
 // CAPTCHA
 export {
+=======
+// CAPTCHA (clearCaptchaRequirement is also in ip-reputation, export from there only)
+export {
+  type CaptchaType,
+  type CaptchaChallenge,
+  type TurnstileResult,
+>>>>>>> origin/main
   generateCaptcha,
   storeCaptcha,
   getCaptcha,
@@ -52,11 +60,15 @@ export {
   invalidateCaptcha,
   requiresCaptcha,
   recordFailedCaptcha,
+<<<<<<< HEAD
   clearCaptchaRequirement,
   verifyTurnstile,
   type CaptchaChallenge,
   type CaptchaType,
   type TurnstileResult
+=======
+  verifyTurnstile,
+>>>>>>> origin/main
 } from './captcha';
 
 // Anomaly detection
@@ -69,6 +81,7 @@ export {
   type AnomalyType
 } from './anomaly-detection';
 
+<<<<<<< HEAD
 // Honeypot
 export {
   HoneypotField,
@@ -78,6 +91,17 @@ export {
   validateHoneypot,
   HONEYPOT_FIELDS
 } from './honeypot';
+=======
+// Honeypot - module temporarily disabled due to missing file
+// export {
+//   HoneypotField,
+//   TimeHoneypot,
+//   HoneyToken,
+//   CombinedHoneypot,
+//   validateHoneypot,
+//   HONEYPOT_FIELD_NAMES
+// } from './honeypot';
+>>>>>>> origin/main
 
 // Security middleware
 export * from './security-middleware';

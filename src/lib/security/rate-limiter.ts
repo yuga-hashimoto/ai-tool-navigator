@@ -64,9 +64,15 @@ export const checkRateLimit = async (
       
       if (count >= limit) {
         // Get oldest entry to calculate reset time
+<<<<<<< HEAD
         const oldest = await redisClient.zrange<any[]>(redisKey, 0, 0, { withScores: true, rev: false });
         const resetTime = oldest.length > 0
           ? (typeof oldest[0] === 'object' && oldest[0].score ? Number(oldest[0].score) : now) + windowMs
+=======
+        const oldest = await redisClient.zrange(redisKey, 0, 0, { withScores: true });
+        const resetTime = oldest.length > 1
+          ? parseInt(oldest[1] as string) + windowMs
+>>>>>>> origin/main
           : now + windowMs;
         
         return {

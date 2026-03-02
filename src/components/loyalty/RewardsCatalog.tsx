@@ -202,7 +202,7 @@ export function RewardsCatalog({
 
 // Individual Reward Card
 interface RewardCardProps {
-  reward: Reward;
+  reward: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>;
   userPoints: number;
   userTier: LoyaltyTier;
   onRedeem: () => void;
@@ -310,7 +310,7 @@ function RewardCard({ reward, userPoints, userTier, onRedeem }: RewardCardProps)
 
 // Redeem Modal
 interface RedeemModalProps {
-  reward: Reward;
+  reward: Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>;
   userPoints: number;
   onClose: () => void;
   onConfirm: () => void;
@@ -326,7 +326,7 @@ function RedeemModal({ reward, userPoints, onClose, onConfirm }: RedeemModalProp
       const response = await fetch('/api/loyalty/redeem', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rewardId: reward.id })
+        body: JSON.stringify({ rewardId: reward.name })
       });
       
       if (response.ok) {

@@ -12,7 +12,7 @@ import {
 } from '@/lib/urgency';
 
 interface UseScarcityOptions {
-  maxStock: number;
+  maxStock?: number;
   refreshIntervalMs?: number;
   onCriticalLevel?: () => void;
   onSoldOut?: () => void;
@@ -43,7 +43,7 @@ export function useProductScarcity(
   options: UseScarcityOptions
 ): UseScarcityReturn {
   const { 
-    maxStock,
+    maxStock = 100,
     refreshIntervalMs = 30000,
     onCriticalLevel,
     onSoldOut 
@@ -267,7 +267,7 @@ export function useUrgencyDeal(
   // Refresh helper
   const refresh = useCallback(async () => {
     // In production, fetch from API
-    const newStock = await fetchCurrentStock(dealId);
+    const newStock = await fetchDealStock(dealId);
     setStock(newStock);
   }, [dealId]);
   
@@ -290,3 +290,11 @@ export function useUrgencyDeal(
   };
 }
 
+<<<<<<< HEAD
+=======
+// Mock fetch function for deals
+async function fetchDealStock(_dealId: string): Promise<number> {
+  // Simulate API call
+  return Promise.resolve(Math.floor(Math.random() * 50));
+}
+>>>>>>> origin/main

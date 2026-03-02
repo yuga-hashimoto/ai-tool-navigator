@@ -195,7 +195,7 @@ export default function ChatWindow({
             <div className="date-divider">
               <span>{date}</span>
             </div>
-            {dateMessages.map((message: any) => (
+            {(dateMessages as any[]).map((message: any) => (
               <MessageBubble
                 key={message.id}
                 message={message}

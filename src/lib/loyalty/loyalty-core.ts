@@ -254,7 +254,10 @@ export const REWARDS: Reward[] = [
     perUserLimit: 5,
     validDays: 30,
     tierRequirement: null,
+<<<<<<< HEAD
     imageUrl: null,
+=======
+>>>>>>> origin/main
     isActive: true,
     isFeatured: false,
     sortOrder: 1,
@@ -280,7 +283,10 @@ export const REWARDS: Reward[] = [
     perUserLimit: 3,
     validDays: 30,
     tierRequirement: null,
+<<<<<<< HEAD
     imageUrl: null,
+=======
+>>>>>>> origin/main
     isActive: true,
     isFeatured: true,
     sortOrder: 2,
@@ -332,7 +338,10 @@ export const REWARDS: Reward[] = [
     perUserLimit: 10,
     validDays: 60,
     tierRequirement: null,
+<<<<<<< HEAD
     imageUrl: null,
+=======
+>>>>>>> origin/main
     isActive: true,
     isFeatured: false,
     sortOrder: 4,
@@ -401,10 +410,15 @@ export const REWARDS: Reward[] = [
     category: 'experience',
     pointsCost: 3000,
     monetaryValue: 100,
+<<<<<<< HEAD
     currency: 'USD',
     discountType: null,
     discountValue: null,
     code: null,
+=======
+    discountType: null,
+    discountValue: null,
+>>>>>>> origin/main
     maxRedemptions: 50,
     redemptionsRemaining: 40,
     perUserLimit: 1,
@@ -427,10 +441,15 @@ export const REWARDS: Reward[] = [
     category: 'exclusive',
     pointsCost: 5000,
     monetaryValue: 150,
+<<<<<<< HEAD
     currency: 'USD',
     discountType: null,
     discountValue: null,
     code: null,
+=======
+    discountType: null,
+    discountValue: null,
+>>>>>>> origin/main
     maxRedemptions: 25,
     redemptionsRemaining: 20,
     perUserLimit: 1,
@@ -453,10 +472,15 @@ export const REWARDS: Reward[] = [
     category: 'experience',
     pointsCost: 7500,
     monetaryValue: 200,
+<<<<<<< HEAD
     currency: 'USD',
     discountType: null,
     discountValue: null,
     code: null,
+=======
+    discountType: null,
+    discountValue: null,
+>>>>>>> origin/main
     maxRedemptions: 10,
     redemptionsRemaining: 8,
     perUserLimit: 1,
@@ -479,10 +503,15 @@ export const REWARDS: Reward[] = [
     category: 'exclusive',
     pointsCost: 15000,
     monetaryValue: 500,
+<<<<<<< HEAD
     currency: 'USD',
     discountType: null,
     discountValue: null,
     code: null,
+=======
+    discountType: null,
+    discountValue: null,
+>>>>>>> origin/main
     maxRedemptions: 100,
     redemptionsRemaining: 85,
     perUserLimit: 1,
@@ -505,10 +534,15 @@ export const REWARDS: Reward[] = [
     category: 'merchandise',
     pointsCost: 4000,
     monetaryValue: 50,
+<<<<<<< HEAD
     currency: 'USD',
     discountType: null,
     discountValue: null,
     code: null,
+=======
+    discountType: null,
+    discountValue: null,
+>>>>>>> origin/main
     maxRedemptions: 75,
     redemptionsRemaining: 60,
     perUserLimit: 2,
@@ -531,10 +565,15 @@ export const REWARDS: Reward[] = [
     category: 'exclusive',
     pointsCost: 5000,
     monetaryValue: 99.99,
+<<<<<<< HEAD
     currency: 'USD',
     discountType: null,
     discountValue: null,
     code: null,
+=======
+    discountType: null,
+    discountValue: null,
+>>>>>>> origin/main
     maxRedemptions: 100,
     redemptionsRemaining: 80,
     perUserLimit: 1,
@@ -993,7 +1032,7 @@ export function isBirthdayThisMonth(birthday: Date | null): boolean {
 }
 
 export function getBirthdayBonusPoints(userTier: LoyaltyTier): number {
-  const basePoints = POINT_RULES.BIRTHDAY_BONUS.points;
+  const basePoints = POINT_RULES.BIRTHDAY_BONUS.points || 0;
   return Math.round(basePoints * LOYALTY_TIERS[userTier].pointsMultiplier);
 }
 
@@ -1057,15 +1096,15 @@ export function getTierColor(tier: LoyaltyTier): string {
   return LOYALTY_TIERS[tier].color;
 }
 
-export function getRewardsByCategory(category: string): Reward[] {
+export function getRewardsByCategory(category: string): Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] {
   return REWARDS.filter(r => r.category === category && r.isActive);
 }
 
-export function getFeaturedRewards(): Reward[] {
+export function getFeaturedRewards(): Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] {
   return REWARDS.filter(r => r.isFeatured && r.isActive).slice(0, 6);
 }
 
-export function getRewardsForTier(tier: LoyaltyTier): Reward[] {
+export function getRewardsForTier(tier: LoyaltyTier): Omit<Reward, 'id' | 'createdAt' | 'updatedAt'>[] {
   const tierOrder: LoyaltyTier[] = ['BRONZE', 'SILVER', 'GOLD', 'PLATINUM', 'DIAMOND'];
   const tierIndex = tierOrder.indexOf(tier);
   

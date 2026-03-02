@@ -165,7 +165,7 @@ const getStoredReputation = async (ip: string): Promise<IPReputation | null> => 
 export const updateIPReputation = async (
   ip: string,
   adjustment: number,
-  reason: string,
+  reason?: string,
   flag?: string
 ): Promise<void> => {
   const redisClient = getRedisClient();
@@ -255,6 +255,12 @@ export const recordFailure = async (ip: string, reason: string): Promise<void> =
   await updateIPReputation(ip, -5, reason);
 };
 
+<<<<<<< HEAD
 export const clearIPReputationCaptchaRequirement = async (ip: string): Promise<void> => {
   await updateIPReputation(ip, 10, 'Captcha solved successfully');
+=======
+export const clearCaptchaRequirement = async (ip: string): Promise<void> => {
+  // Boost reputation when user completes CAPTCHA successfully
+  await updateIPReputation(ip, 10, 'CAPTCHA completed successfully');
+>>>>>>> origin/main
 };

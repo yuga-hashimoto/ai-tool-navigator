@@ -172,7 +172,11 @@ class PointRulesEngine {
       case 'month_end':
         return now.getDate() > 25;
       case 'year_anniversary':
+<<<<<<< HEAD
         return now.getMonth() === 0; // Simplified (January)
+=======
+        return now.getMonth() === 0 && now.getDate() === 1; // Simplified - Jan 1
+>>>>>>> origin/main
       default:
         return false;
     }
@@ -279,5 +283,9 @@ class PointRulesEngine {
   }
 }
 
+<<<<<<< HEAD
 export type { PointEarningRule, Reward, TierDefinition, BadgeDefinition };
 export { PointRulesEngine };
+=======
+export type { PointEarningRule, Reward, TierDefinition, BadgeDefinition, PointRulesEngine };
+>>>>>>> origin/main

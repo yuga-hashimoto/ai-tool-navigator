@@ -45,7 +45,12 @@ export function BundleCard({
 
     const interval = setInterval(() => {
       const now = new Date();
+<<<<<<< HEAD
       const end = new Date(bundle.countdownEnd!);
+=======
+      const end = bundle.countdownEnd ? new Date(bundle.countdownEnd) : null;
+      if (!end) return;
+>>>>>>> origin/main
       const diff = end.getTime() - now.getTime();
 
       if (diff <= 0) {

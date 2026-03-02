@@ -38,6 +38,7 @@ export function SortDropdown({ value, onChange }: SortDropdownProps) {
       }
     };
 
+<<<<<<< HEAD
     if (isOpen) {
       window.addEventListener('click', handleClickOutside);
     }
@@ -45,6 +46,15 @@ export function SortDropdown({ value, onChange }: SortDropdownProps) {
       window.removeEventListener('click', handleClickOutside);
     };
   }, [isOpen]);
+=======
+  // Handle click outside
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('click', handleClickOutside);
+      return () => window.removeEventListener('click', handleClickOutside);
+    }
+  }, [handleClickOutside]);
+>>>>>>> origin/main
 
   return (
     <div ref={dropdownRef} className="relative inline-block">

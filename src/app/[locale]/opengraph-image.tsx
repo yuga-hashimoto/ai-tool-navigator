@@ -36,25 +36,25 @@ export default async function Image({ params }: { params: Promise<{ locale: stri
         }}
       >
         <div
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '20px',
-            }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '20px',
+          }}
         >
-             {/* Logo or Icon could go here */}
-            <div
-                style={{
-                    fontSize: 60,
-                    fontWeight: 'bold',
-                    background: 'linear-gradient(to right, #3b82f6, #a855f7)',
-                    backgroundClip: 'text',
-                    color: 'transparent',
-                }}
-            >
+          {/* Logo or Icon could go here */}
+          <div
+            style={{
+              fontSize: 60,
+              fontWeight: 'bold',
+              background: 'linear-gradient(to right, #3b82f6, #a855f7)',
+              backgroundClip: 'text',
+              color: 'transparent',
+            }}
+          >
             {title}
-            </div>
+          </div>
         </div>
 
         <div style={{ fontSize: 30, color: '#e4e4e7', maxWidth: '80%', lineHeight: 1.5 }}>
@@ -62,15 +62,15 @@ export default async function Image({ params }: { params: Promise<{ locale: stri
         </div>
 
         <div style={{
-            marginTop: '40px',
-            display: 'flex',
-            alignItems: 'center',
-            background: 'rgba(255, 255, 255, 0.1)',
-            padding: '10px 20px',
-            borderRadius: '20px',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
+          marginTop: '40px',
+          display: 'flex',
+          alignItems: 'center',
+          background: 'rgba(255, 255, 255, 0.1)',
+          padding: '10px 20px',
+          borderRadius: '20px',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
         }}>
-             <div style={{ fontSize: 20, color: '#a1a1aa' }}>ai-tool-navigator.vercel.app</div>
+          <div style={{ fontSize: 20, color: '#a1a1aa' }}>ai-tools-nav.com</div>
         </div>
       </div>
     ),

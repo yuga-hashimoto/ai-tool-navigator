@@ -94,6 +94,7 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             NEXT_PUBLIC_GA_ID=${{ secrets.NEXT_PUBLIC_GA_ID }}
+            NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID=${{ secrets.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID }}
 
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
@@ -106,3 +107,4 @@ jobs:
             NODE_ENV=production
             GOOGLE_SHEET_ID=${{ secrets.GOOGLE_SHEET_ID }}
             NEXT_PUBLIC_GA_ID=${{ secrets.NEXT_PUBLIC_GA_ID }}
+            NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID=${{ secrets.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID }}

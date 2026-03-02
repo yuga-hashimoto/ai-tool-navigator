@@ -19,6 +19,8 @@ COPY . .
 
 ARG NEXT_PUBLIC_GA_ID
 ENV NEXT_PUBLIC_GA_ID=$NEXT_PUBLIC_GA_ID
+ARG NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID
+ENV NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID=$NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

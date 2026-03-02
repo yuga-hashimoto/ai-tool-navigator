@@ -40,13 +40,13 @@ function getStaticPages(dir: string, basePath: string = ''): string[] {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app').replace(/\/$/, '')
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tools-nav.com').replace(/\/$/, '')
   const locales = routing.locales
 
   // Discover static pages dynamically
   const appDir = path.join(process.cwd(), 'src/app/[locale]')
   const discoveredPages = getStaticPages(appDir)
-  
+
   // Ensure root page is included and remove duplicates
   const staticPages = Array.from(new Set(['', ...discoveredPages]))
 

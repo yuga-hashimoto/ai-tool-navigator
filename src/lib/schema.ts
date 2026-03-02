@@ -26,7 +26,7 @@ const APPLICATION_CATEGORY_MAP: Record<string, string> = {
   "Website Builder": "DesignApplication",
 };
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tools-nav.com';
 
 // =====================================================
 // ORGANIZATION SCHEMA

@@ -1,9 +1,10 @@
-import {NextIntlClientProvider} from 'next-intl';
-import {getMessages} from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { GoogleAdsense } from "@/components/GoogleAdsense";
 import { CompareProvider } from "@/context/CompareContext";
 import { Footer } from "@/components/Footer";
 import { CompareBar } from "@/components/CompareBar";
@@ -27,7 +28,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tool-navigator.vercel.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-tools-nav.com'),
   title: "AI Tool Navigator | Best AI Tools Comparison",
   description: "Compare the best AI tools for writing, coding, image generation, and more. Find the perfect AI solution for your workflow.",
   manifest: "/manifest.json",
@@ -54,9 +55,9 @@ export default async function RootLayout({
   params
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{locale: string}>;
+  params: Promise<{ locale: string }>;
 }>) {
-  const {locale} = await params;
+  const { locale } = await params;
   const messages = await getMessages();
   const organizationSchema = generateOrganizationSchema();
   const searchBoxSchema = generateSearchBoxSchema(locale);
@@ -84,16 +85,17 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <CompareProvider>
-            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-727KCHJ884"} />
-            <StickyNotificationBar />
-            <Navigation />
-            {children}
-            <Footer />
-            <CompareBar />
-            <NewsletterPopup />
-            <ExitIntentWrapper />
-            <SocialProof />
-            <BackToTop />
+              <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-727KCHJ884"} />
+              <GoogleAdsense />
+              <StickyNotificationBar />
+              <Navigation />
+              {children}
+              <Footer />
+              <CompareBar />
+              <NewsletterPopup />
+              <ExitIntentWrapper />
+              <SocialProof />
+              <BackToTop />
             </CompareProvider>
           </ThemeProvider>
         </NextIntlClientProvider>

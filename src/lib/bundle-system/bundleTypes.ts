@@ -934,5 +934,3 @@ export const BUNDLE_RULES: BundleRule[] = [
 // =====================================================
 // TYPE EXPORTS
 // =====================================================
-
-// BundleItem is already exported as interface above

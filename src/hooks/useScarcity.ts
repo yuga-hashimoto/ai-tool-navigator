@@ -31,7 +31,7 @@ interface UseScarcityReturn {
 }
 
 // Mock function to simulate stock changes (replace with real API call)
-async function fetchCurrentStock(productId: string): Promise<number> {
+async function fetchCurrentProductStock(productId: string): Promise<number> {
   // In production, this would fetch from your API
   // For demo purposes, we return a random value
   return Math.floor(Math.random() * 100);
@@ -43,7 +43,7 @@ export function useProductScarcity(
   options: UseScarcityOptions = {}
 ): UseScarcityReturn {
   const { 
-    maxStock = 100, 
+    maxStock,
     refreshIntervalMs = 30000,
     onCriticalLevel,
     onSoldOut 
@@ -56,7 +56,7 @@ export function useProductScarcity(
   const metrics = useMemo<UrgencyMetrics>(() => 
     calculateUrgencyMetrics({
       stockLevel: stock,
-      maxStock,
+      maxStock: maxStock || 100,
       timeRemainingMs,
       totalDurationMs: 24 * 60 * 60 * 1000
     }),
@@ -65,7 +65,7 @@ export function useProductScarcity(
   
   // Generate stock message
   const stockMessage = useMemo<string>(() => 
-    getStockUrgencyMessage(stock, maxStock),
+    getStockUrgencyMessage(stock, maxStock || 100),
     [stock, maxStock]
   );
   
@@ -82,7 +82,7 @@ export function useProductScarcity(
   );
   
   // Check low stock and sold out states
-  const isLowStock = stock <= maxStock * 0.2;
+  const isLowStock = stock <= (maxStock || 100) * 0.2;
   const isSoldOut = stock <= 0;
   
   // Decrement stock (e.g., when someone makes a purchase)
@@ -91,7 +91,7 @@ export function useProductScarcity(
       const newStock = Math.max(0, prev - amount);
       if (newStock <= 0) {
         onSoldOut?.();
-      } else if (newStock <= maxStock * 0.1) {
+      } else if (newStock <= (maxStock || 100) * 0.1) {
         onCriticalLevel?.();
       }
       return newStock;
@@ -100,7 +100,7 @@ export function useProductScarcity(
   
   // Refresh stock from server
   const refresh = useCallback(async () => {
-    const newStock = await fetchCurrentStock(productId);
+    const newStock = await fetchCurrentProductStock(productId);
     setStock(newStock);
     
     if (newStock <= 0) {
@@ -267,7 +267,7 @@ export function useUrgencyDeal(
   // Refresh helper
   const refresh = useCallback(async () => {
     // In production, fetch from API
-    const newStock = await fetchDealStock(dealId);
+    const newStock = await fetchCurrentStock(dealId);
     setStock(newStock);
   }, [dealId]);
   
@@ -290,8 +290,8 @@ export function useUrgencyDeal(
   };
 }
 
-// Mock fetch function for deals
-async function fetchDealStock(_dealId: string): Promise<number> {
+// Mock fetch function
+async function fetchCurrentStock(_dealId: string): Promise<number> {
   // Simulate API call
   return Promise.resolve(Math.floor(Math.random() * 50));
 }

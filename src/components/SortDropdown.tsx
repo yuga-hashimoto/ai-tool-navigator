@@ -39,10 +39,8 @@ export function SortDropdown({ value, onChange }: SortDropdownProps) {
 
   // Handle click outside
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('click', handleClickOutside);
-      return () => window.removeEventListener('click', handleClickOutside);
-    }
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
   }, [handleClickOutside]);
 
   return (

@@ -130,7 +130,7 @@ async function main() {
     total: 40
   });
 
-  if (!orderRes.success) {
+  if (!orderRes.success || !orderRes.data) {
     throw new Error('Order submission failed: ' + orderRes.error);
   }
 

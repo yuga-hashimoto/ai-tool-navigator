@@ -98,7 +98,7 @@ export default function ExitIntentModalEnhanced({
       });
 
       setTimeout(() => {
-        hideModal();
+        // state managed in parent/hook
       }, 3000);
     } catch (err) {
       console.error('Exit intent submission error:', err);

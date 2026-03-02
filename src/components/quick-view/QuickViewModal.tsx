@@ -23,6 +23,7 @@ export function QuickViewModal({ isOpen, onClose, tool }: QuickViewModalProps) {
   const { addToCart, isAdding, addedItems } = useQuickAdd();
   const { checkAvailability, availabilityCache } = useAvailability();
   const { selectedSlugs, toggleTool } = useCompare();
+  const isSelected = (slug: string) => selectedSlugs.includes(slug);
   const [isAdded, setIsAdded] = useState(false);
 
   // Handle escape key

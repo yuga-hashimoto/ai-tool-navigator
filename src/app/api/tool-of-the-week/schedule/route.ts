@@ -107,7 +107,7 @@ async function manualRotation(slug: string, locale: string) {
   const path = await import('path');
   
   const tools = await getAllTools(locale);
-  const tool = tools.find(t => t.slug === slug);
+  const tool = tools.find((t: any) => t.slug === slug);
   
   if (!tool) {
     return { success: false, message: 'Tool not found' };

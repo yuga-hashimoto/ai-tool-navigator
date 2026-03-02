@@ -45,12 +45,10 @@ export function useAvailability() {
     try {
       const toSave: Record<string, AvailabilityEntry> = {};
       Object.entries(availabilityCache).forEach(([key, available]) => {
-        if (available !== undefined) {
-          toSave[key] = {
-            timestamp: Date.now(),
-            available,
-          };
-        }
+        toSave[key] = {
+          timestamp: Date.now(),
+          available: !!available,
+        };
       });
       localStorage.setItem(API_CACHE_KEY, JSON.stringify(toSave));
     } catch (error) {

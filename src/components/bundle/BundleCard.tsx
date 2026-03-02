@@ -6,8 +6,26 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+function Badge({ children, variant = 'default', className = '' }: any) {
+  const base = "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2";
+  const variants: any = {
+    default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+    secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+    destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+    outline: "text-foreground",
+  };
+  return <div className={`${base} ${variants[variant] || ''} ${className}`}>{children}</div>;
+}
+
+function Button({ children, onClick, className = '', variant = 'default', disabled = false }: any) {
+  const base = "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2";
+  const variants: any = {
+    default: "bg-primary text-primary-foreground hover:bg-primary/90 bg-blue-600 text-white",
+    outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground border-zinc-200 dark:border-zinc-800",
+  };
+  return <button onClick={onClick} disabled={disabled} className={`${base} ${variants[variant] || ''} ${className}`}>{children}</button>;
+}
+
 import { Bundle } from '@/lib/bundle-system/bundleTypes';
 import { 
   ShoppingCart, 
@@ -45,8 +63,7 @@ export function BundleCard({
 
     const interval = setInterval(() => {
       const now = new Date();
-      const end = bundle.countdownEnd ? new Date(bundle.countdownEnd) : null;
-      if (!end) return;
+      const end = bundle.countdownEnd ? new Date(bundle.countdownEnd) : new Date();
       const diff = end.getTime() - now.getTime();
 
       if (diff <= 0) {

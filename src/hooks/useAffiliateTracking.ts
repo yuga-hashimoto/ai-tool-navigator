@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback } from "react";
 import {
   getAttribution,
   recordAffiliateClick,
@@ -125,7 +125,7 @@ export function useAffiliate(options: UseAffiliateOptions = {}): UseAffiliateRet
         conversionType: conversionOptions.conversionType,
         value: conversionOptions.value,
         currency: conversionOptions.currency,
-        attributionModel: attr ? "last_touch" : "first_touch",
+        attributionModel: (attr ? "last_touch" : "direct") as any,
         attributedAffiliateId: id,
       });
     },
@@ -243,20 +243,15 @@ export function useAffiliateEvent(
  * Hook for reading URL tracking parameters
  */
 export function useAffiliateParams() {
-  const [params, setParams] = useState<{ affiliateId: string | null; hasTracking: boolean; utm_source?: string; utm_medium?: string; utm_campaign?: string } | null>(null);
-  
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  // Can't return from useEffect like this
+  if (typeof window === "undefined") return null;
 
-    const utmParams = parseUtmParams(window.location.href);
-    const affiliateId = extractAffiliateId(window.location.href);
+  const params = parseUtmParams(window.location.href);
+  const affiliateId = extractAffiliateId(window.location.href);
 
-    setParams({
-      ...utmParams,
-      affiliateId,
-      hasTracking: !!(utmParams.utm_source || affiliateId),
-    });
-  }, []);
-  
-  return params;
+  return {
+    ...params,
+    affiliateId,
+    hasTracking: !!(params.utm_source || affiliateId),
+  };
 }

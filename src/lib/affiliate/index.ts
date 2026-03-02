@@ -17,16 +17,14 @@ export {
   clearAttribution,
   hasTrackingOptOut,
   getAttributionSummary,
-} from '../affiliate-tracking';
-
-// URL utilities
-export {
   buildAffiliateUrl,
   parseUtmParams,
   extractAffiliateId,
+  defaultAffiliateConfig,
+  getAttributionCookieName,
+  getClickHistoryCookieName,
 } from '../affiliate-tracking';
 
-// Types and interfaces
 export type {
   AffiliateConfig,
   AffiliateEventType,
@@ -34,13 +32,4 @@ export type {
   AffiliateClickData,
   AffiliateConversionData,
   AttributionData,
-} from '../affiliate-tracking';
-
-// Configuration
-export { defaultAffiliateConfig } from '../affiliate-tracking';
-
-// Cookie utilities
-export {
-  getAttributionCookieName,
-  getClickHistoryCookieName,
 } from '../affiliate-tracking';

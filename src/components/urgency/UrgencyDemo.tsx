@@ -2,22 +2,21 @@
 
 import React from 'react';
 import { CountdownTimer, StockIndicator, FomoBadge, UrgencyBanner, UrgencyPricing } from './index';
-// useConversionTracking hook temporarily disabled
-// import { useConversionTracking } from '@/hooks/useCountdown';
-
 export function UrgencyDemo() {
-  // const { trackPageView, trackCtaClick, trackPurchase } = useConversionTracking();
+  const trackPageView = () => {};
+  const trackCtaClick = (id: string) => {};
+  const trackPurchase = (value: number) => {};
   
   const expirationDate = new Date(Date.now() + 86400000 * 2);
   const productExpiration = new Date(Date.now() + 3600000);
   
   const handlePurchase = () => {
-    // trackPurchase(99.99);
+    trackPurchase(99.99);
     console.log('Purchase completed!');
   };
   
   const handleTierSelect = (tierId: string) => {
-    // trackCtaClick('high');
+    trackCtaClick('high');
     console.log('Selected tier:', tierId);
   };
   

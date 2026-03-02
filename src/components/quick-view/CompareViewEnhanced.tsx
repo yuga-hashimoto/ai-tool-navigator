@@ -105,7 +105,7 @@ export function CompareView({ tools }: CompareViewProps) {
   // Feature comparison keys
   const features = [
     { key: 'rating', label: 'Rating', getValue: (t: ToolMetadata) => `${t.rating}/5.0` },
-    { key: 'pricing', label: 'Pricing', getValue: (t: ToolMetadata) => t.pricing ? (t.pricing.charAt(0).toUpperCase() + t.pricing.slice(1)) : '-' },
+    { key: 'pricing', label: 'Pricing', getValue: (t: ToolMetadata) => t.pricing ? t.pricing.charAt(0).toUpperCase() + t.pricing.slice(1) : '-' },
     { key: 'price', label: 'Price', getValue: (t: ToolMetadata) => t.price || 'Free' },
     { key: 'platform', label: 'Platform', getValue: (t: ToolMetadata) => t.platform?.join(', ') || '-' },
   ];

@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { appendToolSubmission, ToolSubmissionData } from '@/lib/google-sheets';
-import { securityCheck, checkFormSecurity, createRateLimitHeaders } from '@/lib/security';
-// import { validateHoneypot, HONEYPOT_FIELDS } from '@/lib/security/honeypot';
+import { securityCheck, checkFormSecurity, createRateLimitHeaders, validateHoneypot, HONEYPOT_FIELDS } from '@/lib/security';
 import { logFormSubmission } from '@/lib/security/audit-log';
 import { getClientIP } from '@/lib/security/bot-detection';
 import { trackRequest } from '@/lib/security/anomaly-detection';
-// import { setApiCompressionHeaders } from '@/lib/compression/headers';
 
 export async function POST(request: NextRequest) {
   const ip = getClientIP(request);
@@ -39,22 +37,21 @@ export async function POST(request: NextRequest) {
       if (value) formData.set(key, String(value));
     });
     
-    // Honeypot validation temporarily disabled - module missing
-    // const honeypotResult = validateHoneypot(formData, {
-    //   websiteField: HONEYPOT_FIELDS.WEBSITE,
-    //   companyField: HONEYPOT_FIELDS.COMPANY,
-    //   tokenField: HONEYPOT_FIELDS.TOKEN,
-    // });
+    // Check honeypot fields if present in body
+    const honeypotResult = validateHoneypot(formData, {
+      websiteField: HONEYPOT_FIELDS.WEBSITE,
+      companyField: HONEYPOT_FIELDS.COMPANY,
+      tokenField: HONEYPOT_FIELDS.TOKEN,
+    });
 
-    // Honeypot check temporarily disabled
-    // if (!honeypotResult.isValid) {
-    //   await logFormSubmission(ip, path, 'tool_submission', true, userAgent);
-    //   // Silently accept to fool the bot
-    //   return NextResponse.json(
-    //     { message: 'Tool submitted successfully' },
-    //     { status: 200 }
-    //   );
-    // }
+    if (!honeypotResult.isValid) {
+      await logFormSubmission(ip, path, 'tool_submission', true, userAgent);
+      // Silently accept to fool the bot
+      return NextResponse.json(
+        { message: 'Tool submitted successfully' },
+        { status: 200 }
+      );
+    }
 
     // Basic validation
     if (!name || !url || !description || !category || !pricing_model) {

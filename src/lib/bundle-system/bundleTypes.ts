@@ -334,7 +334,7 @@ export interface UpsellTrigger {
   };
   bundleId: string;
   priority: number;
-  displayLocation: 'popup' | 'inline' | 'checkout' | 'sidebar' | 'modal' | 'email';
+  displayLocation: 'popup' | 'inline' | 'checkout' | 'sidebar' | 'modal';
   delayMs?: number; // Delay before showing
   maxImpressions?: number;
 }
@@ -935,4 +935,5 @@ export const BUNDLE_RULES: BundleRule[] = [
 // TYPE EXPORTS
 // =====================================================
 
-// BundleItem is already exported as interface above
+export type {
+  BundleItem

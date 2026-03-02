@@ -9,6 +9,7 @@ import { Rating } from '@/components/Rating';
 import { cn } from '@/lib/utils';
 import { sendGAEvent } from '@/lib/analytics';
 import { Check, X, Star, Share2, Heart, ShoppingCart } from 'lucide-react';
+import Image from 'next/image';
 
 interface QuickViewModalProps {
   isOpen: boolean;
@@ -22,7 +23,7 @@ export function QuickViewModal({ isOpen, onClose, tool }: QuickViewModalProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'features' | 'pricing'>('overview');
   const { addToCart, isAdding, addedItems } = useQuickAdd();
   const { checkAvailability, availabilityCache } = useAvailability();
-  const { selectedSlugs, toggleTool } = useCompare();
+  const { selectedSlugs, toggleTool, isSelected } = useCompare();
   const [isAdded, setIsAdded] = useState(false);
 
   // Handle escape key
@@ -104,13 +105,15 @@ export function QuickViewModal({ isOpen, onClose, tool }: QuickViewModalProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 h-full max-h-[90vh] overflow-hidden">
           {/* Image Section */}
-          <div className="relative h-64 md:h-auto bg-zinc-100 dark:bg-zinc-800">
+          <div className="relative h-64 md:h-96 bg-zinc-100 dark:bg-zinc-800">
             {tool.image && (
-              <img
+              <Image
                 src={tool.image}
                 alt={tool.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className={cn(
-                  "w-full h-full object-cover transition-opacity duration-300",
+                  "object-cover transition-opacity duration-300",
                   isImageLoaded ? "opacity-100" : "opacity-0"
                 )}
                 onLoad={() => setIsImageLoaded(true)}

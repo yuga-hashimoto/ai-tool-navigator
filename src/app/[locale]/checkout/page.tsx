@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { sendGAEvent } from '@/lib/analytics';
 import { ArrowLeft, CreditCard, Lock, Check, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface CartItem {
   slug: string;
@@ -200,11 +201,15 @@ export default function CheckoutPage() {
                     {cartData.map((item) => (
                       <div key={item.slug} className="p-4 flex gap-4">
                         {item.image && (
-                          <img
-                            src={item.image}
-                            alt={item.title || item.slug}
-                            className="w-16 h-16 rounded-lg object-cover"
-                          />
+                          <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden rounded-lg">
+                            <Image
+                              src={item.image}
+                              alt={item.title || item.slug}
+                              fill
+                              sizes="64px"
+                              className="object-cover"
+                            />
+                          </div>
                         )}
                         <div className="flex-1">
                           <h3 className="font-medium text-zinc-900 dark:text-zinc-100">

@@ -140,10 +140,10 @@ export default function PricingCards({
     return Math.max(0, price - validatedCoupon.discountValue);
   };
 
-  const getFeatures = (featuresJson: string | null): string[] => {
+  const getFeatures = (featuresJson: string | null) => {
     if (!featuresJson) return [];
     try {
-      return JSON.parse(featuresJson) as string[];
+      return JSON.parse(featuresJson);
     } catch {
       return [];
     }

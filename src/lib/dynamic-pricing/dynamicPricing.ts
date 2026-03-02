@@ -86,7 +86,7 @@ export interface UrgencyConversionMetrics {
 }
 
 export interface UrgencySignal {
-  type: 'countdown' | 'stock_warning' | 'price_increase' | 'popular_choice' | 'limited_edition' | 'low_stock';
+  type: 'countdown' | 'stock_warning' | 'price_increase' | 'popular_choice' | 'limited_edition';
   message: string;
   urgencyLevel: 'low' | 'medium' | 'high' | 'critical';
   expiresAt?: Date;

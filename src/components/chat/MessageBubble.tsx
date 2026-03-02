@@ -46,6 +46,7 @@ export default function MessageBubble({
             <img
               src={message.content}
               alt="Shared image"
+              loading="lazy"
               onLoad={() => setIsImageLoaded(true)}
               onError={() => setImageError(true)}
               style={{ display: isImageLoaded ? 'block' : 'none' }}

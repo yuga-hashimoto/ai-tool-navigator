@@ -192,14 +192,6 @@ export const recordFailedCaptcha = async (ip: string): Promise<void> => {
   }
 };
 
-// Clear CAPTCHA requirement
-export const clearCaptchaRequirement = async (ip: string): Promise<void> => {
-  const redisClient = getRedisClient();
-  
-  if (redisClient) {
-    await redisClient.del(`captcha_required:${ip}`);
-  }
-};
 
 // Turnstile (Cloudflare) integration helper
 // Note: Requires CLOUDFLARE_TURNSTILE_SECRET_KEY in environment

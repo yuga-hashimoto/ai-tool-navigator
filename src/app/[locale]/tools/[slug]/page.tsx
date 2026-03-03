@@ -187,6 +187,29 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                     </ReactMarkdown>
                 </div>
 
+                {/* Content CTA - After article content */}
+                <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/50">
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="text-center sm:text-left">
+                      <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
+                        {t('tryThisToolToday')}
+                      </h3>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+                        {t('affiliateDisclaimer')}
+                      </p>
+                    </div>
+                    <AffiliateLinkButton
+                      href={metadata.affiliate_link}
+                      toolSlug={metadata.slug}
+                      toolName={metadata.title}
+                      position="content_cta"
+                      className="inline-flex items-center justify-center rounded-full bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-500 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 transition-all"
+                    >
+                      {t('tryThisTool')}
+                      <ExternalLink className="ml-2 h-4 w-4" />
+                    </AffiliateLinkButton>
+                  </div>
+                </div>
                 <div className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800">
                     <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
                         {tShare('shareThisTool')}

@@ -72,6 +72,8 @@
   },
   "Navigation": {
     "home": "ホーム",
+    "tools": "すべてのツール",
+    "pricing": "料金プラン",
     "deals": "セール",
     "blog": "ブログ",
     "about": "About",

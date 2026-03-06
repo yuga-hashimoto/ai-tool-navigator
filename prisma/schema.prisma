@@ -297,3 +297,55 @@ model OrderItem {
   @@index([orderId])
   @@index([productId])
 }
+
+// =====================================================
+// SUBSCRIPTION SYSTEM
+// =====================================================
+
+// Subscription tier definitions
+model SubscriptionTier {
+  id               String   @id @default(cuid())
+  name             String
+  slug             String   @unique
+  description      String?
+  price            Float
+  priceYearly      Float?
+  currency         String   @default("USD")
+  features         String   // JSON string of features
+  limits           String   // JSON string of limits
+  trialDays        Int      @default(0)
+  sortOrder        Int      @default(0)
+  isPopular        Boolean  @default(false)
+  isActive         Boolean  @default(true)
+  stripeProductId  String?  @map("stripe_product_id")
+  stripePriceId    String?  @map("stripe_price_id")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  subscriptions UserSubscription[]
+
+  @@map("subscription_tiers")
+  @@index([slug])
+  @@index([isActive])
+}
+
+// User subscriptions
+model UserSubscription {
+  id                   String   @id @default(cuid())
+  userId               String   @map("user_id")
+  tierId               String   @map("tier_id")
+  tier                 SubscriptionTier @relation(fields: [tierId], references: [id])
+  stripeCustomerId     String?  @map("stripe_customer_id")
+  stripeSubscriptionId String?  @map("stripe_subscription_id")
+  status               String   @default("active") // active, canceled, past_due, trialing
+  currentPeriodStart   DateTime? @map("current_period_start")
+  currentPeriodEnd     DateTime? @map("current_period_end")
+  cancelAtPeriodEnd    Boolean  @default(false) @map("cancel_at_period_end")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  @@map("user_subscriptions")
+  @@index([userId])
+  @@index([stripeSubscriptionId])
+  @@index([status])
+}

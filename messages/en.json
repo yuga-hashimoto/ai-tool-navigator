@@ -53,6 +53,8 @@
   },
   "Navigation": {
     "home": "Home",
+    "tools": "All Tools",
+    "pricing": "Pricing",
     "deals": "Deals",
     "blog": "Blog",
     "about": "About",

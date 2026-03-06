@@ -39,6 +39,9 @@ export function Navigation({ className }: { className?: string }) {
               <Link href="/tools" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('tools')}
               </Link>
+              <Link href="/pricing" className="text-sm font-medium font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+                {t('pricing')}
+              </Link>
               <Link href="/deals" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('deals')}
               </Link>
@@ -71,89 +74,94 @@ export function Navigation({ className }: { className?: string }) {
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={cn(
-          "md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white dark:bg-black",
-          isMenuOpen ? "max-h-screen opacity-100 border-b border-zinc-200 dark:border-zinc-800" : "max-h-0 opacity-0"
-        )}
-      >
+      <div className={cn(
+        "md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white dark:bg-black",
+        isMenuOpen ? "max-h-screen opacity-100 border-b border-zinc-200 dark:border-zinc-800" : "max-h-0 opacity-0"
+      )}>
         <div className="px-6 py-4 space-y-4">
-           {/* Search */}
-           <form onSubmit={handleSearch} className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-              <input
-                type="text"
-                placeholder={t('search')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-md border border-zinc-200 bg-zinc-50 py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
-              />
-           </form>
+          {/* Search */}
+          <form onSubmit={handleSearch} className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+            <input
+              type="text"
+              placeholder={t('search')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full rounded-md border border-zinc-200 bg-zinc-50 py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
+            />
+          </form>
 
-           {/* Main Links */}
-           <div className="flex flex-col gap-2">
-              <Link
-                href="/"
-                className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t('home')}
-              </Link>
-              <Link
-                href="/tools"
-                className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t('tools')}
-              </Link>
-              <Link
-                href="/deals"
-                className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t('deals')}
-              </Link>
-              <Link
-                href="/blog"
-                className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t('blog')}
-              </Link>
-              <Link
-                href="/about"
-                className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t('about')}
-              </Link>
-              <Link
-                href="/submit"
-                className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t('submit_cta')}
-              </Link>
-           </div>
+          {/* Main Links */}
+          <div className="flex flex-col gap-2">
+            <Link
+              href="/"
+              className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {t('home')}
+            </Link>
+            <Link
+              href="/tools"
+              className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {t('tools')}
+            </Link>
+            <Link
+              href="/pricing"
+              className="block py-2 text-base font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {t('pricing')}
+            </Link>
+            <Link
+              href="/deals"
+              className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {t('deals')}
+            </Link>
+            <Link
+              href="/blog"
+              className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {t('blog')}
+            </Link>
+            <Link
+              href="/about"
+              className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {t('about')}
+            </Link>
+            <Link
+              href="/submit"
+              className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {t('submit_cta')}
+            </Link>
+          </div>
 
-           {/* Categories */}
-           <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800">
-             <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-500 mb-2 px-2">
-               {t('categories')}
-             </h3>
-             <div className="flex flex-col gap-1">
-               {Object.keys(CATEGORY_MAPPINGS).map((slug) => (
-                 <Link
-                   key={slug}
-                   href={`/category/${slug}`}
-                   className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
-                   onClick={() => setIsMenuOpen(false)}
-                 >
-                   {t(slug)}
-                 </Link>
-               ))}
-             </div>
-           </div>
+          {/* Categories */}
+          <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-500 mb-2 px-2">
+              {t('categories')}
+            </h3>
+            <div className="flex flex-col gap-1">
+              {Object.keys(CATEGORY_MAPPINGS).map((slug) => (
+                <Link
+                  key={slug}
+                  href={`/category/${slug}`}
+                  className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 px-2 rounded-md transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {t(slug)}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </nav>

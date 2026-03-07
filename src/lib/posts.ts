@@ -15,6 +15,9 @@ export interface PostMetadata {
   readingTime: number;
   image?: string;
   tags?: string[];
+  source_locale?: string;
+  requested_locale?: string;
+  is_fallback?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
@@ -43,36 +46,45 @@ export interface Post {
 }
 
 const _getAllPosts = async (locale: string = 'en'): Promise<PostMetadata[]> => {
-  // Try to find posts for the requested locale
   const localeDirectory = path.join(postsDirectory, locale);
-  
-  // If locale directory doesn't exist, fallback to root postsDirectory or 'en'
-  let targetDirectory = localeDirectory;
-  if (!fs.existsSync(localeDirectory)) {
-    targetDirectory = postsDirectory;
-  }
+  const enDirectory = path.join(postsDirectory, 'en');
+  const localeFileNames = fs.existsSync(localeDirectory)
+    ? fs.readdirSync(localeDirectory).filter((fileName) => fileName.endsWith('.md'))
+    : [];
+  const enFileNames = fs.existsSync(enDirectory)
+    ? fs.readdirSync(enDirectory).filter((fileName) => fileName.endsWith('.md'))
+    : [];
 
-  const fileNames = fs.readdirSync(targetDirectory);
+  const fileNames = Array.from(new Set([...localeFileNames, ...enFileNames]));
   const allPostsData = fileNames
-    .filter((fileName) => fileName.endsWith('.md'))
     .map((fileName) => {
-      // Remove ".md" from file name to get id
       const id = fileName.replace(/\.md$/, '');
+      let fullPath = path.join(localeDirectory, fileName);
+      let sourceLocale = locale;
 
-      // Read markdown file as string
-    const fullPath = path.join(targetDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
+      if (!fs.existsSync(fullPath)) {
+        fullPath = path.join(enDirectory, fileName);
+        sourceLocale = 'en';
+      }
 
-    // Use gray-matter to parse the post metadata section
-    const matterResult = matter(fileContents);
+      if (!fs.existsSync(fullPath)) {
+        return null;
+      }
 
-    // Combine the data with the id
-    return {
-      slug: id,
-      readingTime: calculateReadingTime(matterResult.content),
-      ...matterResult.data,
-    } as PostMetadata;
-  });
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+
+      const matterResult = matter(fileContents);
+
+      return {
+        slug: id,
+        readingTime: calculateReadingTime(matterResult.content),
+        source_locale: sourceLocale,
+        requested_locale: locale,
+        is_fallback: sourceLocale !== locale,
+        ...matterResult.data,
+      } as PostMetadata;
+    })
+    .filter((post): post is PostMetadata => post !== null);
 
   // Sort posts by date
   return allPostsData.sort((a, b) => {
@@ -92,10 +104,12 @@ export const getAllPosts = unstable_cache(
 
 const _getPostBySlug = async (slug: string, locale: string = 'en'): Promise<Post | null> => {
   let fullPath = path.join(postsDirectory, locale, `${slug}.md`);
+  let sourceLocale = locale;
 
   // Fallback to root or 'en'
   if (!fs.existsSync(fullPath)) {
-    fullPath = path.join(postsDirectory, `${slug}.md`);
+    fullPath = path.join(postsDirectory, 'en', `${slug}.md`);
+    sourceLocale = 'en';
   }
 
   if (!fs.existsSync(fullPath)) {
@@ -109,6 +123,9 @@ const _getPostBySlug = async (slug: string, locale: string = 'en'): Promise<Post
     metadata: {
       slug,
       readingTime: calculateReadingTime(matterResult.content),
+      source_locale: sourceLocale,
+      requested_locale: locale,
+      is_fallback: sourceLocale !== locale,
       ...matterResult.data,
     } as PostMetadata,
     content: matterResult.content,

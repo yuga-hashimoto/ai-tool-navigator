@@ -1,41 +1,93 @@
 import { getAllTools } from "@/lib/tools";
 import { CompareView } from "@/components/CompareView";
 import { Metadata } from "next";
-import Link from 'next/link';
+import { Link } from "@/i18n/routing";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getTranslations } from "next-intl/server";
 import { generateBreadcrumbSchema } from "@/lib/schema";
+import { filterToolList, sortToolsForEditorialLists } from "@/lib/editorial";
+import { getComparisonHref } from "@/lib/compare-pages";
+import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 
 export async function generateMetadata({
-  params
+  params,
 }: {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isJapanese = locale === "ja";
+
   return {
-    title: "Compare AI Tools | AI Tool Navigator",
-    description: "Compare features, pricing, pros, and cons of top AI tools side-by-side.",
+    title: isJapanese ? "AIツール比較ハブ | AI Tool Navigator" : "Compare AI Tools | AI Tool Navigator",
+    description: isJapanese
+      ? "主要AIツールを横並びで比較。カテゴリLPから比較ページへ直結できる、日本語導線中心の比較ハブです。"
+      : "Compare leading AI tools side by side. This hub connects category pages, detailed reviews, and monetization CTAs cleanly.",
     alternates: {
       canonical: `/${locale}/compare`,
-    }
+    },
   };
 }
 
 export default async function ComparePage({
-  params
+  params,
 }: {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const tools = await getAllTools(locale);
-  const tBreadcrumbs = await getTranslations('Breadcrumbs');
+  const isJapanese = locale === "ja";
+  const tools = filterToolList(await getAllTools(locale)).sort(sortToolsForEditorialLists);
+  const tBreadcrumbs = await getTranslations("Breadcrumbs");
 
   const breadcrumbItems: BreadcrumbItem[] = [
-    { label: tBreadcrumbs('home'), href: '/' },
-    { label: tBreadcrumbs('compare') },
+    { label: tBreadcrumbs("home"), href: "/" },
+    { label: tBreadcrumbs("compare") },
   ];
 
   const jsonLd = generateBreadcrumbSchema(breadcrumbItems, locale);
+
+  const copy = isJapanese
+    ? {
+        title: "AIツール比較ハブ",
+        description:
+          "カテゴリLPやツール詳細からそのまま流入できる比較ページです。価格、検証状況、長所短所を横並びで確認できます。",
+        trustNote:
+          "編集レビュー保留中の名称はここでは前面表示せず、比較に使う導線は実務で選びやすい組み合わせを優先しています。",
+        presetTitle: "すぐに始められる比較セット",
+        presetCta: "この組み合わせで比較",
+      }
+    : {
+        title: "AI tool comparison hub",
+        description:
+          "This page is designed as the central comparison layer between category hubs, detailed reviews, and affiliate CTAs.",
+        trustNote:
+          "Speculative or review-pending names are intentionally removed from featured entry points. Presets below focus on practical tool sets users actually evaluate.",
+        presetTitle: "Quick-start comparison presets",
+        presetCta: "Compare this set",
+      };
+
+  const presets = [
+    {
+      title: isJapanese ? "人気AIアシスタント" : "Popular AI assistants",
+      description: isJapanese
+        ? "日常業務、調査、ライティングまで広く使う候補をまとめて比較。"
+        : "Compare versatile assistants for everyday research, drafting, and problem solving.",
+      href: getComparisonHref(["chatgpt", "claude", "perplexity"]),
+    },
+    {
+      title: isJapanese ? "AIコーディング支援" : "AI coding stack",
+      description: isJapanese
+        ? "開発向けの主要候補を横並びで見比べ、レビューページへ送客できます。"
+        : "Put leading coding-focused tools side by side before jumping into the full reviews.",
+      href: getComparisonHref(["chatgpt", "cursor", "claude"]),
+    },
+    {
+      title: isJapanese ? "AI動画生成" : "AI video generation",
+      description: isJapanese
+        ? "動画生成カテゴリの代表的な候補を比較して、用途と価格を見極めます。"
+        : "Compare leading video generators on quality, workflow fit, and pricing before you click through.",
+      href: getComparisonHref(["sora-2", "runway-gen-3", "luma-dream-machine"]),
+    },
+  ];
 
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
@@ -45,31 +97,48 @@ export default async function ComparePage({
       />
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
-        <div className="mx-auto max-w-2xl text-center mb-16">
+        <div className="mx-auto max-w-3xl text-center mb-16">
           <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
-            Compare AI Tools
+            {copy.title}
           </h1>
           <p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Side-by-side comparison to help you choose the right tool.
+            {copy.description}
+          </p>
+          <p className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-50 px-5 py-4 text-sm leading-6 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400">
+            {copy.trustNote}
           </p>
         </div>
 
         <div className="mb-16">
-            <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Featured Showdowns</h2>
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                <Link href="/compare/claude-vs-antigravity" className="block p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-all border border-gray-200 dark:border-gray-700 group">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 mb-2">Claude 3.5 Sonnet vs. Google Antigravity</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Ideally suited for complex system architecture vs creative writing.</p>
-                </Link>
-                <Link href="/compare/gemini-vs-claude-2026" className="block p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-all border border-gray-200 dark:border-gray-700 group">
-                    <div className="inline-block px-2 py-1 bg-green-100 text-green-800 text-xs font-bold rounded mb-2">New 2026</div>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 mb-2">Gemini 3 Pro vs. Claude 3.7 Sonnet</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">The definitive coding showdown. ROI, benchmarks, and agentic workflows.</p>
-                </Link>
-            </div>
+          <h2 className="text-2xl font-bold text-center text-zinc-900 dark:text-white">
+            {copy.presetTitle}
+          </h2>
+          <div className="mt-6 grid gap-6 md:grid-cols-3">
+            {presets.map((preset) => (
+              <Link
+                key={preset.title}
+                href={preset.href}
+                className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-700"
+              >
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">{preset.title}</h3>
+                <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">{preset.description}</p>
+                <div className="mt-5 text-sm font-semibold text-blue-600 dark:text-blue-400">
+                  {copy.presetCta}
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
 
-        <CompareView tools={tools} />
+        <DynamicAdUnit
+          index={0}
+          type="content"
+          slot="content"
+          forceShow={true}
+          className="mb-16"
+        />
+
+        <CompareView tools={tools} locale={locale} />
       </div>
     </div>
   );

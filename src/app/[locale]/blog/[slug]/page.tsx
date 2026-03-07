@@ -26,6 +26,7 @@ import { ToolOfTheWeekSidebar } from "@/components/ToolOfTheWeekSidebar";
 import { HeaderLinkButton } from "@/components/HeaderLinkButton";
 import { rehypeAdInjection } from "@/lib/rehype-ad-injection";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
+import { filterPostList, isReviewPendingPostSlug } from "@/lib/editorial";
 
 export async function generateStaticParams() {
   const params = [];
@@ -72,6 +73,12 @@ export async function generateMetadata(
       title,
       description,
     },
+    robots: isReviewPendingPostSlug(slug)
+      ? {
+          index: false,
+          follow: false,
+        }
+      : undefined,
   }
 }
 
@@ -119,7 +126,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   });
 
   // Fetch recent posts
-  const allPosts = await getAllPosts(locale);
+  const allPosts = filterPostList(await getAllPosts(locale));
   const recentPosts = allPosts
     .filter((p) => p.slug !== slug)
     .slice(0, 5);
@@ -128,6 +135,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const allTools = await getAllTools(locale);
 
   const dateLocale = locale === 'ja' ? 'ja-JP' : 'en-US';
+  const fallbackNotice = locale === 'ja' && metadata.is_fallback
+    ? 'この投稿はまだ日本語版がないため、英語ソースを表示しています。'
+    : null;
 
   const components = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
@@ -182,7 +192,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     'youtube-embed': (props: any) => {
         return <YouTubeEmbed {...props} />;
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     'ad-slot': ({ index }: { index: number | string }) => (
       <DynamicAdUnit
         index={Number(index) - 1}
@@ -256,6 +265,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                                 twitterText={tShare('twitterSharePost', { postTitle: metadata.title })}
                             />
                         </div>
+                        {fallbackNotice && (
+                          <p className="mt-6 rounded-2xl border border-zinc-200 bg-zinc-50 px-5 py-4 text-sm leading-6 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400">
+                            {fallbackNotice}
+                          </p>
+                        )}
                     </header>
 
                     <div className="prose prose-lg prose-zinc dark:prose-invert">

@@ -14,6 +14,8 @@
     "db:setup": "npm run prisma:generate && npm run prisma:migrate && npm run prisma:seed",
     "cdn:upload": "npx tsx scripts/cdn-upload.ts",
     "cdn:upload:dry": "npx tsx scripts/cdn-upload.ts --dry-run",
+    "content:sync": "npx tsx scripts/run-content-sync.ts",
+    "content:localize:ja": "npx tsx scripts/generate-ja-content.ts",
     "subscription:seed": "npx tsx scripts/subscription-seed.ts",
     "subscription:analytics": "curl http://localhost:3000/api/subscriptions/analytics?type=current"
   },

@@ -81,12 +81,9 @@ export async function POST(request: NextRequest) {
         resolvedAffiliateId = affiliate.id;
       }
     }
-    
+
     if (!resolvedAffiliateId) {
-      return NextResponse.json(
-        { error: "Invalid affiliate ID or slug" },
-        { status: 400 }
-      );
+      resolvedAffiliateId = toolSlug;
     }
     
     // Get referrer information
@@ -127,6 +124,7 @@ export async function POST(request: NextRequest) {
       page_url: pageUrl || request.url,
       position,
       session_id: sessionId,
+      affiliate_name: toolName,
     });
     
     // Set attribution cookie

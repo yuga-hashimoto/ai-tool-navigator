@@ -1,12 +1,22 @@
 import { Link } from '@/i18n/routing';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Github, Linkedin, Twitter } from 'lucide-react';
 import FooterNewsletterForm from './FooterNewsletterForm';
 import { ReferralSystem } from '@/components/ReferralSystem';
 
 export function Footer() {
+  const locale = useLocale();
   const t = useTranslations('Footer');
   const tReferral = useTranslations('ReferralSystem');
+  const copy = locale === 'ja'
+    ? {
+        affiliateDisclosure: '広告開示',
+        editorialPolicy: '編集方針',
+      }
+    : {
+        affiliateDisclosure: 'Affiliate Disclosure',
+        editorialPolicy: 'Editorial Policy',
+      };
 
   return (
     <footer className="bg-zinc-50 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800">
@@ -53,6 +63,12 @@ export function Footer() {
                     </Link>
                     <Link href="/terms" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
                     {t('terms')}
+                    </Link>
+                    <Link href="/affiliate-disclosure" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+                    {copy.affiliateDisclosure}
+                    </Link>
+                    <Link href="/editorial-policy" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+                    {copy.editorialPolicy}
                     </Link>
                 </div>
              </div>

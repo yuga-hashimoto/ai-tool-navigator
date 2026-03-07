@@ -5,6 +5,17 @@ import { CATEGORY_MAPPINGS } from '@/lib/categories'
 import { routing } from '@/i18n/routing'
 import fs from 'fs'
 import path from 'path'
+import { filterPostList, filterToolList, isNoIndexStaticRoute } from '@/lib/editorial'
+import { COMPARE_PRESETS } from '@/lib/compare-pages'
+
+function safeDate(value: string | Date | undefined): Date {
+  if (!value) {
+    return new Date()
+  }
+
+  const parsed = value instanceof Date ? value : new Date(value)
+  return Number.isNaN(parsed.getTime()) ? new Date() : parsed
+}
 
 function getStaticPages(dir: string, basePath: string = ''): string[] {
   const pages: string[] = []
@@ -48,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const discoveredPages = getStaticPages(appDir)
 
   // Ensure root page is included and remove duplicates
-  const staticPages = Array.from(new Set(['', ...discoveredPages]))
+  const staticPages = Array.from(new Set(['', ...discoveredPages])).filter((page) => !isNoIndexStaticRoute(page))
 
   // 1. Static Pages
   const staticEntries = locales.flatMap((locale) =>
@@ -62,10 +73,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 2. Tools
   const toolEntries = (await Promise.all(locales.map(async (locale) => {
-    const tools = await getAllTools(locale)
+    const tools = filterToolList(await getAllTools(locale))
     return tools.map((tool) => ({
       url: `${baseUrl}/${locale}/tools/${tool.slug}`,
-      lastModified: tool.last_updated ? new Date(tool.last_updated) : new Date(),
+      lastModified: safeDate(tool.last_updated),
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     }))
@@ -83,19 +94,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 4. Blog Posts
   const postEntries = (await Promise.all(locales.map(async (locale) => {
-    const posts = await getAllPosts(locale)
+    const posts = filterPostList(await getAllPosts(locale))
     return posts.map((post) => ({
       url: `${baseUrl}/${locale}/blog/${post.slug}`,
-      lastModified: new Date(post.date),
+      lastModified: safeDate(post.date),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     }))
   }))).flat()
+
+  // 5. Comparison Presets
+  const compareEntries = locales.flatMap((locale) =>
+    COMPARE_PRESETS.map((preset) => ({
+      url: `${baseUrl}/${locale}/compare/${preset.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.75,
+    }))
+  )
 
   return [
     ...staticEntries,
     ...toolEntries,
     ...categoryEntries,
     ...postEntries,
+    ...compareEntries,
   ]
 }

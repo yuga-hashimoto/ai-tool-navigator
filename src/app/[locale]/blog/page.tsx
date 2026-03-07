@@ -4,11 +4,25 @@ import { getTranslations } from "next-intl/server";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { generateBreadcrumbSchema } from "@/lib/schema";
+import { filterPostList } from "@/lib/editorial";
+import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 
-export const metadata: Metadata = {
-  title: "Blog - AI Tool Navigator",
-  description: "Latest news, reviews, and insights about AI tools and technology.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "BlogPage" });
+
+  return {
+    title: `${t("title")} | AI Tool Navigator`,
+    description: t("description"),
+    alternates: {
+      canonical: `/${locale}/blog`,
+    },
+  };
+}
 
 export default async function BlogPage({
   params
@@ -18,7 +32,7 @@ export default async function BlogPage({
   const { locale } = await params;
   const t = await getTranslations("BlogPage");
   const tBreadcrumbs = await getTranslations('Breadcrumbs');
-  const posts = await getAllPosts(locale);
+  const posts = filterPostList(await getAllPosts(locale));
 
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: tBreadcrumbs('home'), href: '/' },
@@ -42,6 +56,15 @@ export default async function BlogPage({
           <p className="mt-2 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
             {t("description")}
           </p>
+        </div>
+        <div className="mx-auto max-w-4xl">
+          <DynamicAdUnit
+            index={0}
+            type="content"
+            slot="content"
+            forceShow={true}
+            className="mb-12"
+          />
         </div>
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {posts.map((post, index) => (

@@ -1,0 +1,77 @@
+name: Content Sync
+
+on:
+  schedule:
+    - cron: "17 */8 * * *"
+  workflow_dispatch:
+    inputs:
+      locale:
+        description: Locale to sync
+        required: false
+        default: en
+      slugs:
+        description: Comma-separated tool slugs
+        required: false
+      limit:
+        description: Max number of tools to process
+        required: false
+      force:
+        description: Force refresh even if unchanged
+        required: false
+        default: "false"
+      llm:
+        description: Use LLM summarization
+        required: false
+        default: "true"
+
+jobs:
+  run-content-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate configuration
+        env:
+          SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+          CONTENT_SYNC_SECRET: ${{ secrets.CONTENT_SYNC_SECRET }}
+        run: |
+          if [ -z "$SITE_URL" ]; then
+            echo "NEXT_PUBLIC_SITE_URL GitHub variable is required."
+            exit 1
+          fi
+          if [ -z "$CONTENT_SYNC_SECRET" ]; then
+            echo "CONTENT_SYNC_SECRET GitHub secret is required."
+            exit 1
+          fi
+
+      - name: Trigger content sync API
+        env:
+          SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+          CONTENT_SYNC_SECRET: ${{ secrets.CONTENT_SYNC_SECRET }}
+          INPUT_LOCALE: ${{ github.event.inputs.locale }}
+          INPUT_SLUGS: ${{ github.event.inputs.slugs }}
+          INPUT_LIMIT: ${{ github.event.inputs.limit }}
+          INPUT_FORCE: ${{ github.event.inputs.force }}
+          INPUT_LLM: ${{ github.event.inputs.llm }}
+        run: |
+          locale="${INPUT_LOCALE:-en}"
+          force="${INPUT_FORCE:-false}"
+          llm="${INPUT_LLM:-true}"
+          payload=$(jq -n \
+            --arg locale "$locale" \
+            --arg slugs "$INPUT_SLUGS" \
+            --arg limit "$INPUT_LIMIT" \
+            --argjson force "$( [ "$force" = "true" ] && echo true || echo false )" \
+            --argjson useLlm "$( [ "$llm" = "false" ] && echo false || echo true )" \
+            '{
+              locale: $locale,
+              force: $force,
+              useLlm: $useLlm
+            }
+            + (if ($slugs | length) > 0 then { slugs: ($slugs | split(",") | map(gsub("^\\s+|\\s+$"; "")) | map(select(length > 0))) } else {} end)
+            + (if ($limit | length) > 0 then { limit: ($limit | tonumber) } else {} end)')
+
+          curl --fail-with-body \
+            --request POST \
+            --url "${SITE_URL%/}/api/content-sync/run" \
+            --header "Authorization: Bearer ${CONTENT_SYNC_SECRET}" \
+            --header "Content-Type: application/json" \
+            --data "$payload"

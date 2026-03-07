@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { getSessionCookieName } from '@/lib/affiliate-tracking';
 import { ToolCard } from '@/components/ToolCard';
 import { getTranslations } from 'next-intl/server';
+import { filterToolList } from '@/lib/editorial';
 
 interface RecommendedToolsProps {
   currentSlug: string;
@@ -16,8 +17,9 @@ export async function RecommendedTools({ currentSlug, locale, limit = 3 }: Recom
   const sessionId = cookieStore.get(sessionCookieName)?.value || 'anonymous';
 
   const recommendations = await getRecommendations(sessionId, currentSlug, limit, locale);
+  const visibleRecommendations = filterToolList(recommendations);
 
-  if (recommendations.length === 0) {
+  if (visibleRecommendations.length === 0) {
     return null;
   }
 
@@ -29,7 +31,7 @@ export async function RecommendedTools({ currentSlug, locale, limit = 3 }: Recom
             {t('recommendedTools')}
         </h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {recommendations.map((tool) => (
+            {visibleRecommendations.map((tool) => (
                 <ToolCard key={tool.slug} tool={tool} />
             ))}
         </div>

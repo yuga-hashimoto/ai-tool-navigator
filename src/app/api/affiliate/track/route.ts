@@ -8,14 +8,14 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { cookies } from "next/headers";
 import { 
   recordClick, 
   initializeDemoData,
-  getAffiliate,
   getAffiliateBySlug 
 } from "@/lib/affiliate/database";
-import { parseReferrer, parseUserAgent, parseUtmParams, extractAffiliateId, getOrCreateSessionId } from "@/lib/affiliate-tracking";
+import { parseReferrer, parseUserAgent, parseUtmParams, getOrCreateSessionId } from "@/lib/affiliate-tracking";
 import { checkRateLimit } from "@/lib/security/rate-limiter";
 import { getClientIP } from "@/lib/security/bot-detection";
 import { ENDPOINT_CONFIGS } from "@/lib/security/rate-limit-config-v2";
@@ -102,7 +102,9 @@ export async function POST(request: NextRequest) {
     
     // Get IP hash for privacy-preserving identification
     const ipHeader = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "";
-    const ipHash = ipHeader ? require('crypto').createHash('sha256').update(ipHeader).digest('hex').substring(0, 16) : undefined;
+    const ipHash = ipHeader
+      ? crypto.createHash("sha256").update(ipHeader).digest("hex").substring(0, 16)
+      : undefined;
     
     // Record the click
     const click = await recordClick({

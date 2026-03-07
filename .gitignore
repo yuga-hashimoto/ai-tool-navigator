@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -59,3 +60,7 @@ public/workbox-*.js
 public/workbox-*.js.map
 agent/
 sessions/
+data/affiliate-state.json
+data/content-sync-state.json
+data/content-sync-reports/
+data/partner-inquiries.json

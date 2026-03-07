@@ -1,19 +1,18 @@
-
 export const AD_CONFIG = {
   adsense: {
     clientId: process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID,
     slots: {
-      grid: 'grid-slot-id-placeholder',
-      content: 'content-slot-id-placeholder',
-      sidebar: 'sidebar-slot-id-placeholder',
+      grid: process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_SLOT_GRID,
+      content: process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_SLOT_CONTENT,
+      sidebar: process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_SLOT_SIDEBAR,
     },
   },
   gam: {
-    networkId: '123456789', // Example Network ID
+    networkId: process.env.NEXT_PUBLIC_GOOGLE_GAM_NETWORK_ID || '',
     slots: {
-      grid: '/123456789/grid_ad_unit',
-      content: '/123456789/content_ad_unit',
-      sidebar: '/123456789/sidebar_ad_unit',
+      grid: process.env.NEXT_PUBLIC_GOOGLE_GAM_SLOT_GRID || '',
+      content: process.env.NEXT_PUBLIC_GOOGLE_GAM_SLOT_CONTENT || '',
+      sidebar: process.env.NEXT_PUBLIC_GOOGLE_GAM_SLOT_SIDEBAR || '',
     },
     sizes: {
       grid: [[300, 250], [336, 280]] as [number, number][],

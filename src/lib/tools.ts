@@ -27,6 +27,9 @@ export interface ToolMetadata {
   pricing?: 'free' | 'freemium' | 'paid' | 'contact';
   price?: string;
   platform?: ('Web' | 'Mobile' | 'Desktop')[];
+  source_locale?: string;
+  requested_locale?: string;
+  is_fallback?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
@@ -50,10 +53,12 @@ const _getAllTools = async (locale: string = 'en'): Promise<ToolMetadata[]> => {
 
     // Try to find the file in the requested locale
     let fullPath = path.join(toolsDirectory, locale, fileName);
+    let sourceLocale = locale;
 
     // Fallback to English if file doesn't exist in requested locale
     if (!fs.existsSync(fullPath)) {
         fullPath = path.join(toolsDirectory, 'en', fileName);
+        sourceLocale = 'en';
     }
 
     const fileContents = fs.readFileSync(fullPath, 'utf8');
@@ -64,6 +69,9 @@ const _getAllTools = async (locale: string = 'en'): Promise<ToolMetadata[]> => {
     // Combine the data with the id
     return {
       slug: id,
+      source_locale: sourceLocale,
+      requested_locale: locale,
+      is_fallback: sourceLocale !== locale,
       ...matterResult.data,
     } as ToolMetadata;
   });
@@ -79,10 +87,12 @@ export const getAllTools = unstable_cache(
 
 export const getToolBySlugRaw = async (slug: string, locale: string = 'en'): Promise<Tool | null> => {
   let fullPath = path.join(toolsDirectory, locale, `${slug}.md`);
+  let sourceLocale = locale;
 
   // Fallback to English
   if (!fs.existsSync(fullPath)) {
     fullPath = path.join(toolsDirectory, 'en', `${slug}.md`);
+    sourceLocale = 'en';
   }
 
   if (!fs.existsSync(fullPath)) {
@@ -95,6 +105,9 @@ export const getToolBySlugRaw = async (slug: string, locale: string = 'en'): Pro
   return {
     metadata: {
       slug,
+      source_locale: sourceLocale,
+      requested_locale: locale,
+      is_fallback: sourceLocale !== locale,
       ...matterResult.data,
     } as ToolMetadata,
     content: matterResult.content,

@@ -1,34 +1,83 @@
-import React from 'react';
-import { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
+import React from "react";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { generateBreadcrumbSchema } from "@/lib/schema";
+import { PartnerInquiryForm } from "@/components/PartnerInquiryForm";
 
 export async function generateMetadata({
-  params
+  params,
 }: {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isJapanese = locale === "ja";
+
   return {
-    title: "Sponsorship - AI Tool Navigator",
-    description: "Promote your AI tool to our audience of developers and enthusiasts.",
+    title: isJapanese ? "スポンサー募集 | AI Tool Navigator" : "Sponsorship | AI Tool Navigator",
+    description: isJapanese
+      ? "スポンサー掲載、特集枠、共同プロモーションについて問い合わせできます。"
+      : "Request sponsored placements, featured bundles, and custom partnership campaigns.",
     alternates: {
       canonical: `/${locale}/sponsor`,
-    }
+    },
   };
 }
 
 export default async function SponsorshipPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  const tBreadcrumbs = await getTranslations('Breadcrumbs');
+  const isJapanese = locale === "ja";
+  const tBreadcrumbs = await getTranslations("Breadcrumbs");
 
   const breadcrumbItems: BreadcrumbItem[] = [
-    { label: tBreadcrumbs('home'), href: '/' },
-    { label: tBreadcrumbs('sponsor') },
+    { label: tBreadcrumbs("home"), href: "/" },
+    { label: tBreadcrumbs("sponsor") },
   ];
 
   const jsonLd = generateBreadcrumbSchema(breadcrumbItems, locale);
+  const packageOptions = isJapanese
+    ? ["特集掲載", "比較ページスポンサー", "共同キャンペーン", "カスタム相談"]
+    : ["Featured sponsorship", "Comparison sponsor", "Joint campaign", "Custom plan"];
+
+  const copy = isJapanese
+    ? {
+        title: "スポンサー掲載",
+        intro:
+          "ホーム、カテゴリLP、比較ページ、記事導線を組み合わせたスポンサー枠を設計できます。レビューや比較の信頼性を損なわないよう、スポンサー掲載は明示して扱います。",
+        sections: [
+          {
+            title: "特集掲載",
+            body: "ホームやカテゴリ導線の中で、編集上の通常露出と分けてスポンサー枠として表示します。",
+          },
+          {
+            title: "比較ページスポンサー",
+            body: "比較文脈に近い位置で認知を取りつつ、公式サイトとレビュー導線の両方へ送客できます。",
+          },
+          {
+            title: "共同キャンペーン",
+            body: "特定カテゴリ、比較テーマ、日本語市場向けの露出設計をまとめて相談できます。",
+          },
+        ],
+      }
+    : {
+        title: "Sponsored placements",
+        intro:
+          "Sponsorships can combine homepage, category-hub, comparison, and editorial routes. Paid placement is disclosed explicitly so monetization does not blur with standard editorial surfacing.",
+        sections: [
+          {
+            title: "Featured sponsorship",
+            body: "Reserved visibility on homepage or inside high-intent category pathways, clearly separated from standard editorial exposure.",
+          },
+          {
+            title: "Comparison sponsor",
+            body: "Awareness near comparison intent while still routing users into detailed review pages and official-site clicks.",
+          },
+          {
+            title: "Joint campaign",
+            body: "Custom campaigns around a category, a comparison theme, or a Japanese-market launch sequence.",
+          },
+        ],
+      };
 
   return (
     <div className="bg-white dark:bg-black min-h-screen text-zinc-900 dark:text-zinc-50 transition-colors duration-300">
@@ -36,101 +85,45 @@ export default async function SponsorshipPage({ params }: { params: Promise<{ lo
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="mx-auto max-w-4xl px-6 py-24 sm:py-32 lg:px-8">
+      <div className="mx-auto max-w-5xl px-6 py-24 sm:py-32 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
         <div className="text-center mb-16">
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
-            Partner with AI Tool Navigator
+            {copy.title}
           </h1>
           <p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Reach thousands of developers and AI enthusiasts by showcasing your tool on our platform.
-            Fill out the form below to get started.
+            {copy.intro}
           </p>
         </div>
 
-        <div className="bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-8 sm:p-12 shadow-xl border border-zinc-200 dark:border-zinc-800">
-          <form className="space-y-6" action="#" method="POST">
-            <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-              <div className="sm:col-span-2">
-                <label htmlFor="company-name" className="block text-sm font-semibold leading-6">
-                  Company Name
-                </label>
-                <div className="mt-2.5">
-                  <input
-                    type="text"
-                    name="company-name"
-                    id="company-name"
-                    autoComplete="organization"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-zinc-800 dark:text-white dark:ring-zinc-700 dark:focus:ring-indigo-500"
-                    placeholder="Acme AI Inc."
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label htmlFor="email" className="block text-sm font-semibold leading-6">
-                  Contact Email
-                </label>
-                <div className="mt-2.5">
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    autoComplete="email"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-zinc-800 dark:text-white dark:ring-zinc-700 dark:focus:ring-indigo-500"
-                    placeholder="you@company.com"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label htmlFor="website-url" className="block text-sm font-semibold leading-6">
-                  Website URL
-                </label>
-                <div className="mt-2.5">
-                  <input
-                    type="url"
-                    name="website-url"
-                    id="website-url"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-zinc-800 dark:text-white dark:ring-zinc-700 dark:focus:ring-indigo-500"
-                    placeholder="https://example.com"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label htmlFor="message" className="block text-sm font-semibold leading-6">
-                  Message
-                </label>
-                <div className="mt-2.5">
-                  <textarea
-                    name="message"
-                    id="message"
-                    rows={4}
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-zinc-800 dark:text-white dark:ring-zinc-700 dark:focus:ring-indigo-500"
-                    placeholder="Tell us about your campaign goals..."
-                    required
-                  />
-                </div>
-              </div>
+        <div className="grid gap-6 lg:grid-cols-3">
+          {copy.sections.map((section) => (
+            <div
+              key={section.title}
+              className="rounded-3xl border border-zinc-200 bg-zinc-50 p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/60"
+            >
+              <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                {section.title}
+              </h2>
+              <p className="mt-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                {section.body}
+              </p>
             </div>
+          ))}
+        </div>
 
-            <div className="mt-10">
-              <button
-                type="submit"
-                className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors duration-200"
-              >
-                Send Request
-              </button>
-            </div>
-            
-            <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400 text-center">
-              We typically respond within 24-48 hours.
-            </p>
-          </form>
+        <div className="mt-16 rounded-3xl border border-zinc-200 bg-zinc-50 p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/60">
+          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+            {isJapanese ? "スポンサー相談フォーム" : "Sponsorship inquiry"}
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            {isJapanese
+              ? "比較したい競合、狙いたいカテゴリ、期間、予算感があればそのまま記載してください。"
+              : "Share your target categories, competitor context, campaign duration, and budget range if you already know them."}
+          </p>
+          <div className="mt-8">
+            <PartnerInquiryForm inquiryType="sponsor" locale={locale} packageOptions={packageOptions} />
+          </div>
         </div>
       </div>
     </div>

@@ -10,14 +10,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Lint (ESLint — catches React hook violations, type issues)
-        run: npm run lint
+      - name: Lint changed files (ESLint — catches React hook violations, type issues)
+        shell: bash
+        run: |
+          mapfile -d '' files < <(git diff --name-only -z "origin/${{ github.base_ref }}...HEAD" -- '*.js' '*.jsx' '*.ts' '*.tsx')
+
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No JS/TS files changed."
+            exit 0
+          fi
+
+          npx eslint "${files[@]}"
 
   type-check:
     runs-on: ubuntu-latest

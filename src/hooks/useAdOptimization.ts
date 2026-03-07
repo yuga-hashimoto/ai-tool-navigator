@@ -1,39 +1,55 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { AdNetwork } from '@/lib/ad-config';
+import { AD_CONFIG, AdNetwork } from '@/lib/ad-config';
 
 type AdDensity = 'low' | 'medium' | 'high';
 
+function getAvailableNetworks(): AdNetwork[] {
+  const hasGamConfig =
+    Boolean(AD_CONFIG.gam.networkId) &&
+    Object.values(AD_CONFIG.gam.slots).some(Boolean);
+
+  return hasGamConfig ? ['adsense', 'gam'] : ['adsense'];
+}
+
+function getInitialDensity(): AdDensity {
+  if (typeof window === 'undefined') {
+    return 'medium';
+  }
+
+  const storedDensity = sessionStorage.getItem('ad_density') as AdDensity | null;
+  if (storedDensity && ['low', 'medium', 'high'].includes(storedDensity)) {
+    return storedDensity;
+  }
+
+  const densities: AdDensity[] = ['low', 'medium', 'high'];
+  return densities[Math.floor(Math.random() * densities.length)];
+}
+
+function getInitialNetwork(): AdNetwork {
+  const availableNetworks = getAvailableNetworks();
+
+  if (typeof window === 'undefined') {
+    return availableNetworks[0];
+  }
+
+  const storedNetwork = sessionStorage.getItem('ad_network') as AdNetwork | null;
+  if (storedNetwork && availableNetworks.includes(storedNetwork)) {
+    return storedNetwork;
+  }
+
+  return availableNetworks[Math.floor(Math.random() * availableNetworks.length)];
+}
+
 export function useAdOptimization() {
-  const [density, setDensity] = useState<AdDensity>('medium'); // Default to medium before hydration
-  const [adNetwork, setAdNetwork] = useState<AdNetwork>('adsense'); // Default to adsense
+  const [density] = useState<AdDensity>(() => getInitialDensity());
+  const [adNetwork] = useState<AdNetwork>(() => getInitialNetwork());
 
   useEffect(() => {
-    // Check session storage for density
-    const storedDensity = sessionStorage.getItem('ad_density') as AdDensity;
-    if (storedDensity && ['low', 'medium', 'high'].includes(storedDensity)) {
-      setDensity(storedDensity);
-    } else {
-      // Randomize density
-      const densities: AdDensity[] = ['low', 'medium', 'high'];
-      const randomDensity = densities[Math.floor(Math.random() * densities.length)];
-      setDensity(randomDensity);
-      sessionStorage.setItem('ad_density', randomDensity);
-    }
-
-    // Check session storage for ad network
-    const storedNetwork = sessionStorage.getItem('ad_network') as AdNetwork;
-    if (storedNetwork && ['adsense', 'gam'].includes(storedNetwork)) {
-      setAdNetwork(storedNetwork);
-    } else {
-      // Randomize network (50/50 split)
-      const networks: AdNetwork[] = ['adsense', 'gam'];
-      const randomNetwork = networks[Math.floor(Math.random() * networks.length)];
-      setAdNetwork(randomNetwork);
-      sessionStorage.setItem('ad_network', randomNetwork);
-    }
-  }, []);
+    sessionStorage.setItem('ad_density', density);
+    sessionStorage.setItem('ad_network', adNetwork);
+  }, [adNetwork, density]);
 
   const shouldShowAd = (index: number, type: 'grid' | 'content'): boolean => {
     // Indexes are 0-based index from map

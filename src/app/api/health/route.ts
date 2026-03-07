@@ -1,20 +1,25 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import os from 'os';
+import { getContentSyncStatus } from '@/lib/content-sync';
 
 export async function GET() {
   const start = Date.now();
-  let dbStatus = 'disconnected';
+  const hasDatabaseConfig = Boolean(process.env.DATABASE_URL);
+  let dbStatus = hasDatabaseConfig ? 'disconnected' : 'not_configured';
   let dbLatency = 0;
+  const contentSyncStatus = getContentSyncStatus();
 
-  try {
-    // Check database connection by running a simple query
-    await prisma.$queryRaw`SELECT 1`;
-    dbStatus = 'connected';
-    dbLatency = Date.now() - start;
-  } catch (e) {
-    dbStatus = 'disconnected';
-    console.error('Health check failed - Database unreachable:', e);
+  if (hasDatabaseConfig) {
+    try {
+      // Check database connection by running a simple query when a DB is configured.
+      await prisma.$queryRaw`SELECT 1`;
+      dbStatus = 'connected';
+      dbLatency = Date.now() - start;
+    } catch (e) {
+      dbStatus = 'disconnected';
+      console.error('Health check failed - Database unreachable:', e);
+    }
   }
 
   const memoryUsage = process.memoryUsage();
@@ -25,7 +30,7 @@ export async function GET() {
   };
 
   const healthData = {
-    status: dbStatus === 'connected' ? 'healthy' : 'unhealthy',
+    status: dbStatus === 'connected' || dbStatus === 'not_configured' ? 'healthy' : 'unhealthy',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     system: {
@@ -37,6 +42,10 @@ export async function GET() {
     database: {
       status: dbStatus,
       latency: dbLatency + 'ms',
+    },
+    contentSync: {
+      trackedSnapshots: contentSyncStatus.trackedSnapshots,
+      lastRunAt: contentSyncStatus.lastRunAt,
     },
     version: process.env.npm_package_version || 'unknown',
   };

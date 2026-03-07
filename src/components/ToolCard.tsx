@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { Rating } from '@/components/Rating';
 import { useCompare } from '@/context/CompareContext';
 import { MouseEvent } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useProductTracking } from '@/hooks/useProductTracking';
 
@@ -15,6 +15,8 @@ export function ToolCard({ tool, priority }: { tool: ToolMetadata; priority?: bo
   const { trackClick } = useProductTracking(tool.slug);
   const isSelected = selectedSlugs.includes(tool.slug);
   const t = useTranslations('ToolCard');
+  const locale = useLocale();
+  const fallbackLabel = locale === 'ja' ? '英語ソース' : 'English source';
 
   const handleCompareClick = (e: MouseEvent) => {
     e.preventDefault();
@@ -62,6 +64,11 @@ export function ToolCard({ tool, priority }: { tool: ToolMetadata; priority?: bo
                   {tool.discount && (
                     <span className="inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-400/10 dark:text-green-500 dark:ring-green-400/20">
                       {tool.discount}
+                    </span>
+                  )}
+                  {tool.is_fallback && locale === 'ja' && (
+                    <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700 ring-1 ring-inset ring-zinc-300 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-zinc-700">
+                      {fallbackLabel}
                     </span>
                   )}
               </div>

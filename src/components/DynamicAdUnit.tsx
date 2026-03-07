@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from 'react';
+import { useId } from 'react';
 import { useAdOptimization } from '@/hooks/useAdOptimization';
 import { GoogleAdsense } from './GoogleAdsense';
 import { GoogleAdManager } from './GoogleAdManager';
@@ -14,15 +14,29 @@ interface DynamicAdUnitProps {
   layoutKey?: string;
   className?: string;
   style?: React.CSSProperties;
+  forceShow?: boolean;
 }
 
-export function DynamicAdUnit({ index, type, slot: propSlot, format, layoutKey, className, style }: DynamicAdUnitProps) {
+export function DynamicAdUnit({
+  index,
+  type,
+  slot: propSlot,
+  format,
+  layoutKey,
+  className,
+  style,
+  forceShow = false,
+}: DynamicAdUnitProps) {
   const { shouldShowAd, adNetwork } = useAdOptimization();
-  // useMemo must be called unconditionally (Rules of Hooks)
-  const divId = useMemo(() => `div-gpt-ad-${type}-${index}-${Math.random().toString(36).substring(7)}`, [type, index]);
+  const reactId = useId().replace(/:/g, "");
+  const divId = `div-gpt-ad-${type}-${index}-${reactId}`;
+  const requestedSlot =
+    propSlot && ["grid", "content", "sidebar"].includes(propSlot)
+      ? AD_CONFIG.adsense.slots[propSlot as "grid" | "content" | "sidebar"]
+      : propSlot;
 
   // Sidebar always shows, others check density via shouldShowAd
-  if (type !== 'sidebar' && !shouldShowAd(index, type as 'grid' | 'content')) {
+  if (!forceShow && type !== 'sidebar' && !shouldShowAd(index, type as 'grid' | 'content')) {
     return null;
   }
 
@@ -45,8 +59,7 @@ export function DynamicAdUnit({ index, type, slot: propSlot, format, layoutKey, 
   } else {
     // AdSense
     const adsenseConfig = AD_CONFIG.adsense;
-    // Prefer config from AD_CONFIG, fallback to propSlot
-    const slotId = adsenseConfig.slots[type] || propSlot;
+    const slotId = requestedSlot || adsenseConfig.slots[type];
 
     if (!slotId) return null;
 

@@ -6,7 +6,7 @@ import {
   buildAffiliateUrl,
   hasTrackingOptOut,
 } from "@/lib/affiliate-tracking";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 
 interface AffiliateLinkButtonProps {
   href: string;
@@ -41,24 +41,16 @@ export function AffiliateLinkButton({
   trackImpression = false,
   onClick,
 }: AffiliateLinkButtonProps) {
-  const [trackingUrl, setTrackingUrl] = useState(href);
-  const [recorded, setRecorded] = useState(false);
-
-  // Build tracking URL with UTM parameters
-  useEffect(() => {
-    if (affiliateId) {
-      setTrackingUrl(
-        buildAffiliateUrl(href, {
-          affiliateId,
-          source,
-          medium,
-          campaign,
-          content,
-          term,
-        })
-      );
-    }
-  }, [href, affiliateId, source, medium, campaign, content, term]);
+  const trackingUrl = affiliateId
+    ? buildAffiliateUrl(href, {
+        affiliateId,
+        source,
+        medium,
+        campaign,
+        content,
+        term,
+      })
+    : href;
 
   // Record impression on mount (if enabled)
   useEffect(() => {
@@ -66,7 +58,7 @@ export function AffiliateLinkButton({
       const id = affiliateId || extractAffiliateId(href) || "unknown";
       recordAffiliateImpression(toolSlug, toolName, id, position);
     }
-  }, [toolSlug, toolName, affiliateId, position, trackImpression]);
+  }, [toolSlug, toolName, affiliateId, href, position, trackImpression]);
 
   const handleClick = async () => {
     // Don't track if user has opted out
@@ -92,10 +84,33 @@ export function AffiliateLinkButton({
       position,
     });
 
+    void fetch("/api/affiliate/track", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        toolSlug,
+        toolName,
+        affiliateId: id !== "unknown" ? id : undefined,
+        affiliateSlug: toolSlug,
+        source,
+        medium,
+        campaign,
+        content,
+        term,
+        pageUrl: typeof window !== "undefined" ? window.location.href : "",
+        position,
+      }),
+      keepalive: true,
+    }).catch((error) => {
+      if (process.env.NODE_ENV === "development") {
+        console.error("[AffiliateLinkButton] Failed to persist affiliate click", error);
+      }
+    });
+
     // Call custom onClick handler
     onClick?.();
-
-    setRecorded(true);
   };
 
   return (

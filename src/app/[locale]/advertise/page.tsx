@@ -1,117 +1,128 @@
-import React from 'react';
-import { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
+import React from "react";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { generateBreadcrumbSchema } from "@/lib/schema";
+import { PartnerInquiryForm } from "@/components/PartnerInquiryForm";
 
 export async function generateMetadata({
-  params
+  params,
 }: {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isJapanese = locale === "ja";
+
   return {
-    title: "Advertise - AI Tool Navigator",
-    description: "Sponsor AI Tools Navigator and reach thousands of developers.",
+    title: isJapanese ? "広告掲載・プロモーション | AI Tool Navigator" : "Advertise | AI Tool Navigator",
+    description: isJapanese
+      ? "AI Tool Navigator での広告掲載、スポンサー枠、カテゴリ露出について問い合わせできます。"
+      : "Plan sponsored placements, category exposure, and promotional campaigns on AI Tool Navigator.",
     alternates: {
       canonical: `/${locale}/advertise`,
-    }
+    },
   };
 }
 
 export default async function AdvertisePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  const tBreadcrumbs = await getTranslations('Breadcrumbs');
+  const isJapanese = locale === "ja";
+  const tBreadcrumbs = await getTranslations("Breadcrumbs");
 
   const breadcrumbItems: BreadcrumbItem[] = [
-    { label: tBreadcrumbs('home'), href: '/' },
-    { label: tBreadcrumbs('advertise') },
+    { label: tBreadcrumbs("home"), href: "/" },
+    { label: tBreadcrumbs("advertise") },
   ];
 
   const jsonLd = generateBreadcrumbSchema(breadcrumbItems, locale);
+  const packageOptions = isJapanese
+    ? ["カテゴリ露出", "比較ページ連動", "ホーム露出", "カスタム相談"]
+    : ["Category exposure", "Comparison bundle", "Homepage feature", "Custom plan"];
+  const packages = isJapanese
+    ? [
+        {
+          name: "カテゴリ露出",
+          price: "月額 $49 から",
+          points: ["カテゴリLPや一覧への露出強化", "レビュー導線への送客", "比較導線との接続"],
+        },
+        {
+          name: "比較ページ連動",
+          price: "月額 $149 から",
+          points: ["比較ページ上の送客枠", "ツール詳細への二段導線", "クリック計測ベースで改善しやすい構成"],
+        },
+        {
+          name: "ホーム露出",
+          price: "月額 $299 から",
+          points: ["トップ導線での優先露出", "カテゴリ回遊との組み合わせ", "比較・詳細・公式サイト送客を一気通貫で設計"],
+        },
+      ]
+    : [
+        {
+          name: "Category exposure",
+          price: "From $49/mo",
+          points: ["Priority visibility inside category hubs", "Traffic routed into review pages", "Connected to comparison paths"],
+        },
+        {
+          name: "Comparison bundle",
+          price: "From $149/mo",
+          points: ["Placement near comparison flows", "Second-step routing into tool reviews", "Designed for measurable click-through optimization"],
+        },
+        {
+          name: "Homepage feature",
+          price: "From $299/mo",
+          points: ["Top-level homepage visibility", "Blended with category discovery", "Designed around compare -> review -> official-site funnels"],
+        },
+      ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="max-w-7xl mx-auto">
+      <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Sponsor AI Tools Navigator
-          </h2>
-          <p className="mt-4 text-xl text-gray-600">
-            Get your AI tool in front of thousands of developers and enthusiasts.
+        <div className="mx-auto max-w-3xl text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-6xl dark:text-zinc-50">
+            {isJapanese ? "広告掲載・プロモーション" : "Advertising & promotion"}
+          </h1>
+          <p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+            {isJapanese
+              ? "カテゴリLP、比較ページ、ツール詳細を横断して露出設計できます。単なるバナー掲載ではなく、比較導線と公式サイト送客を前提にした構成です。"
+              : "Campaigns can span category hubs, comparison pages, and tool reviews. The focus is not just impressions, but compare-to-review-to-official-site routing."}
           </p>
         </div>
 
-        <div className="mt-16 bg-white pb-12 lg:mt-20 lg:pb-20">
-          <div className="relative z-0 bg-white lg:grid lg:grid-cols-2 lg:gap-8 border rounded-lg shadow-sm">
-            
-            {/* Basic Listing */}
-            <div className="p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-gray-200">
-              <h3 className="text-2xl font-semibold text-gray-900">Basic Listing</h3>
-              <p className="mt-4 text-gray-500">Get listed in our directory and be discoverable by search.</p>
-              <div className="mt-8 flex items-baseline">
-                <span className="text-5xl font-extrabold text-gray-900">$29</span>
-                <span className="ml-2 text-xl font-medium text-gray-500">/mo</span>
-              </div>
-              <ul className="mt-6 space-y-4 text-gray-500">
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>
-                  <span className="ml-3">Permanent listing in directory</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>
-                  <span className="ml-3">Standard search visibility</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>
-                  <span className="ml-3">Direct link to your site</span>
-                </li>
+        <div className="mt-16 grid gap-6 lg:grid-cols-3">
+          {packages.map((pkg) => (
+            <div
+              key={pkg.name}
+              className="rounded-3xl border border-zinc-200 bg-zinc-50 p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/60"
+            >
+              <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                {pkg.name}
+              </h2>
+              <p className="mt-4 text-3xl font-extrabold text-zinc-900 dark:text-zinc-50">{pkg.price}</p>
+              <ul className="mt-6 space-y-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                {pkg.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
               </ul>
-              <div className="mt-8">
-                <a href="#" className="block w-full bg-blue-600 border border-transparent rounded-md py-3 px-6 text-center text-white font-medium hover:bg-blue-700">
-                  Select Basic
-                </a>
-              </div>
             </div>
+          ))}
+        </div>
 
-            {/* Featured Spot */}
-            <div className="p-8 lg:p-12 bg-gray-50">
-              <h3 className="text-2xl font-semibold text-gray-900">Featured Spot</h3>
-              <p className="mt-4 text-gray-500">Highlight your tool on the homepage and top of search results.</p>
-              <div className="mt-8 flex items-baseline">
-                <span className="text-5xl font-extrabold text-gray-900">$99</span>
-                <span className="ml-2 text-xl font-medium text-gray-500">/mo</span>
-              </div>
-              <ul className="mt-6 space-y-4 text-gray-500">
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>
-                  <span className="ml-3">Homepage &quot;Featured Tool&quot; placement</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>
-                  <span className="ml-3">Top of search results</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>
-                  <span className="ml-3">&quot;Featured&quot; badge on listing</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="flex-shrink-0 h-6 w-6 text-green-500">✓</span>
-                  <span className="ml-3">Priority support</span>
-                </li>
-              </ul>
-              <div className="mt-8">
-                <a href="#" className="block w-full bg-indigo-600 border border-transparent rounded-md py-3 px-6 text-center text-white font-medium hover:bg-indigo-700 shadow-lg transform transition hover:-translate-y-0.5">
-                  Select Featured
-                </a>
-              </div>
-            </div>
-
+        <div className="mt-16 rounded-3xl border border-zinc-200 bg-zinc-50 p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/60">
+          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+            {isJapanese ? "問い合わせフォーム" : "Campaign inquiry"}
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            {isJapanese
+              ? "掲載したいカテゴリ、比較したい競合、想定予算が決まっていればそのまま記載してください。Google Sheets が未設定でもローカル保存されます。"
+              : "Share the categories, comparison pages, and budget you care about. Inquiries are stored even if Google Sheets is not configured yet."}
+          </p>
+          <div className="mt-8">
+            <PartnerInquiryForm inquiryType="advertise" locale={locale} packageOptions={packageOptions} />
           </div>
         </div>
       </div>

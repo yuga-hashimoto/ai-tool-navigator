@@ -67,6 +67,18 @@ export interface ToolSubmissionData {
   price: string;
 }
 
+export interface PartnerInquirySheetData {
+  inquiryType: string;
+  companyName: string;
+  contactName: string;
+  email: string;
+  websiteUrl: string;
+  packageInterest?: string;
+  monthlyBudget?: string;
+  message: string;
+  locale: string;
+}
+
 export async function appendToolSubmission(data: ToolSubmissionData) {
   try {
     const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
@@ -120,6 +132,53 @@ export async function appendToolSubmission(data: ToolSubmissionData) {
     console.log(`Successfully appended tool submission ${data.name} to Google Sheet.`);
   } catch (error) {
     console.error('Error appending tool submission to Google Sheet:', error);
+    throw error;
+  }
+}
+
+export async function appendPartnerInquiry(data: PartnerInquirySheetData) {
+  try {
+    const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+
+    if (!serviceAccountJson || !spreadsheetId) {
+      throw new Error("Google Sheets integration is not configured");
+    }
+
+    const credentials = JSON.parse(serviceAccountJson);
+    if (!credentials.client_email || !credentials.private_key) {
+      throw new Error("Invalid GOOGLE_SERVICE_ACCOUNT_JSON format");
+    }
+
+    const auth = new google.auth.GoogleAuth({
+      credentials,
+      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    });
+
+    const sheets = google.sheets({ version: "v4", auth });
+    const date = new Date().toISOString();
+
+    await sheets.spreadsheets.values.append({
+      spreadsheetId,
+      range: "Partnerships!A:J",
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: [[
+          data.inquiryType,
+          data.companyName,
+          data.contactName,
+          data.email,
+          data.websiteUrl,
+          data.packageInterest || "",
+          data.monthlyBudget || "",
+          data.message,
+          data.locale,
+          date,
+        ]],
+      },
+    });
+  } catch (error) {
+    console.error("Error appending partner inquiry to Google Sheet:", error);
     throw error;
   }
 }

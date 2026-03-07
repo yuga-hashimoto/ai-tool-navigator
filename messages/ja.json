@@ -27,7 +27,7 @@
     }
   },
   "HomePage": {
-    "title": "プレミアムAIツール比較",
+    "title": "AIツール比較・おすすめガイド",
     "description": "あなたのニーズに最適なAIツールを見つけましょう。公平なレビュー、長所と短所、そして詳細な比較を提供します。",
     "toolOfTheWeek": "今週のAIツール",
     "featuredComparison": "注目の比較",
@@ -55,10 +55,10 @@
   "Footer": {
     "submit": "ツールを送信",
     "sponsorship": "スポンサーシップ",
-    "about": "About",
+    "about": "運営情報",
     "privacy": "プライバシー",
     "terms": "利用規約",
-    "rights": "AI Tool Navigator. All rights reserved.",
+    "rights": "AI Tool Navigator. 全著作権所有。",
     "disclosure": "アフィリエイト開示: リンクをクリックして購入すると、コミッションが発生する場合があります。これは私たちの独立したレビューをサポートするのに役立ちます。",
     "newsletter": {
       "title": "ニュースレターに登録",
@@ -74,7 +74,7 @@
     "home": "ホーム",
     "deals": "セール",
     "blog": "ブログ",
-    "about": "About",
+    "about": "運営情報",
     "submit": "ツールを送信",
     "submit_cta": "ツールを送信",
     "search": "検索",
@@ -200,7 +200,7 @@
     "close": "閉じる"
   },
   "CategoryPage": {
-    "video_title": "おすすめAI動画生成ツール・ソフト (2025年版)",
+    "video_title": "おすすめAI動画生成ツール・ソフト",
     "video_description": "プロ品質の動画を数分で作成できる最高のAI動画生成ツールを見つけましょう。機能、価格、レビューを比較。",
     "writing_title": "最高のAIライティングアシスタント＆コピーライティングツール",
     "writing_description": "評価の高いAIライティングアシスタントでコンテンツ作成を効率化。コピーライティング、ブログ、クリエイティブな執筆に最適なツールを探す。",
@@ -261,7 +261,7 @@
     "security": "セキュリティ",
     "voice": "音声",
     "design": "デザイン",
-    "about": "About",
+    "about": "運営情報",
     "advertise": "広告",
     "privacy": "プライバシー",
     "sponsor": "スポンサー",
@@ -276,12 +276,12 @@
     "donate_button": "Stripeで寄付する"
   },
   "AboutPage": {
-    "title": "About AI Tool Navigator",
-    "description": "Learn more about our mission to democratize access to artificial intelligence.",
-    "mission_title": "Our Mission",
-    "mission_text": "We are dedicated to helping users navigate the rapidly evolving landscape of artificial intelligence. Our goal is to provide unbiased, comprehensive reviews and comparisons to empower you to make informed decisions.",
-    "values_title": "Our Values",
-    "values_text": "Transparency, integrity, and community are at the core of everything we do. we believe in providing honest assessments and fostering a collaborative environment for AI enthusiasts."
+    "title": "AI Tool Navigator について",
+    "description": "AIツールの比較と導入判断を支援するための運営方針と目的を紹介します。",
+    "mission_title": "ミッション",
+    "mission_text": "進化の速いAIツール市場で、ユーザーが比較しやすく、導入判断しやすい情報を提供することを目指しています。誇張ではなく、比較可能性と更新性を重視したナビゲーションを整えます。",
+    "values_title": "大切にしていること",
+    "values_text": "透明性、信頼性、継続的な更新を重視しています。広告やアフィリエイト導線は明示し、編集判断と分けて扱います。"
   },
   "RecentToolsSidebar": {
     "title": "最近見たツール",

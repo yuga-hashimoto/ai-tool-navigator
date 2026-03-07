@@ -1,101 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Tool Navigator
 
-## Getting Started
+AIツールの比較、カテゴリLP、レビュー、広告導線、アフィリエイト計測、日本語ローカライズ、自動更新監視をまとめて扱う Next.js アプリです。
 
-First, run the development server:
+## Local Development
+
+```bash
+npm install
+npm run dev
+```
+
+開発サーバーは `http://localhost:3000` です。
+
+## Core Scripts
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npx tsc --noEmit
+npm run content:sync -- --slugs=claude --no-llm
+npm run content:localize:ja
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`.env.example` に主要な広告、Google Sheets、content sync、Stripe、Redis 関連の env をまとめています。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Content Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `content/tools/en`, `content/tools/ja`
+- `content/posts/en`, `content/posts/ja`
+- `src/app/[locale]/category/[slug]/page.tsx`: カテゴリLP
+- `src/app/[locale]/compare/[comparisonSlug]/page.tsx`: 比較テンプレ
+- `src/app/[locale]/tools/[slug]/page.tsx`: ツール詳細
 
-## Learn More
+## Localization
 
-To learn more about Next.js, take a look at the following resources:
+- `ja` と `en` の locale をサポート
+- `npm run content:localize:ja` で不足している日本語版コンテンツをテンプレ生成
+- カバレッジ確認:
+  - `GET /api/i18n/coverage`
+  - `GET /ja/editorial-policy`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Content Sync
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+公式ページとの差分監視フローを実装しています。
+
+- 実行 API: `GET/POST /api/content-sync/run`
+- 状態 API: `GET /api/content-sync/status`
+- ローカル実行: `npm run content:sync`
+
+対応内容:
+
+- 公式ページ取得
+- 前回スナップショットとの差分判定
+- ヒューリスティック要約
+- `OPENAI_API_KEY` または `CONTENT_SYNC_OPENAI_API_KEY` がある場合の LLM 要約
+- `CONTENT_SYNC_OPENAI_ENDPOINT` を指定すると OpenRouter など OpenAI 互換 endpoint も利用可能
+- JSON レポート保存
+
+保存先:
+
+- `data/content-sync-state.json`
+- `data/content-sync-reports/latest.json`
+
+cron から叩く場合は `CONTENT_SYNC_SECRET` または `CRON_SECRET` を設定し、`Authorization: Bearer ...` を付けて `/api/content-sync/run` を呼んでください。
+
+GitHub Actions で定期実行する場合は `.github/workflows/content-sync.yml` を使い、`NEXT_PUBLIC_SITE_URL` を GitHub Variables、`CONTENT_SYNC_SECRET` を GitHub Secrets に設定してください。
+
+## Revenue / Lead Capture
+
+- アフィリエイトクリック保存: `POST /api/affiliate/track`
+- コンバージョン保存: `POST /api/affiliate/conversion`
+- 広告/スポンサー問い合わせ: `POST /api/partner-inquiry`
+
+関連ページ:
+
+- `/advertise`
+- `/sponsor`
+- `/affiliate-disclosure`
+- `/editorial-policy`
+
+Google Sheets が未設定でも、スポンサー問い合わせは `data/partner-inquiries.json` に保存されます。
 
 ## Google Sheets Integration
 
-The application integrates with Google Sheets to store newsletter subscribers and tool submissions.
+以下を設定すると、購読・送信・スポンサー問い合わせを Google Sheets にも保存できます。
 
-### Prerequisites
+- `GOOGLE_SERVICE_ACCOUNT_JSON`
+- `GOOGLE_SHEET_ID`
 
-1.  **Google Cloud Project**: You can use the same project as your deployment or a separate one.
-2.  **Service Account**:
-    -   Create a Service Account in your GCP project.
-    -   Enable the **Google Sheets API**.
-    -   Create and download a JSON key for this Service Account.
-3.  **Google Sheet**:
-    -   Create a new Google Sheet.
-    -   Share the sheet with the Service Account's email address (found in the JSON key file, `client_email` field) with "Editor" access.
-    -   Note the Spreadsheet ID from the URL: `https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit`.
+使用シート:
 
-### Configuration
+- `Subscribers`
+- `Submissions`
+- `Partnerships`
 
-You need to set two environment variables:
+## Ad Configuration
 
--   `GOOGLE_SERVICE_ACCOUNT_JSON`: The full content of the downloaded JSON key file.
-    -   **Local Development**: Add this to your `.env.local` file. Since it's a multi-line JSON, ensure it is properly escaped or kept as a single line string.
-    -   **Deployment (Cloud Run)**: Add this environment variable to your Cloud Run service via the Console or `gcloud` CLI.
+AdSense / GAM は env ベースです。未設定なら広告枠は表示しません。
 
--   `GOOGLE_SHEET_ID`: The ID of the Google Sheet you created.
+- `NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID`
+- `NEXT_PUBLIC_GOOGLE_ADSENSE_SLOT_GRID`
+- `NEXT_PUBLIC_GOOGLE_ADSENSE_SLOT_CONTENT`
+- `NEXT_PUBLIC_GOOGLE_ADSENSE_SLOT_SIDEBAR`
+- `NEXT_PUBLIC_GOOGLE_GAM_NETWORK_ID`
+- `NEXT_PUBLIC_GOOGLE_GAM_SLOT_GRID`
+- `NEXT_PUBLIC_GOOGLE_GAM_SLOT_CONTENT`
+- `NEXT_PUBLIC_GOOGLE_GAM_SLOT_SIDEBAR`
 
-## CI/CD Setup for Google Cloud Run
+## Health Check
 
-This repository is configured with a GitHub Actions workflow to automatically build and deploy the Next.js application to Google Cloud Run.
+`GET /api/health` で以下を返します。
 
-### Prerequisites
+- DB 接続状態
+- メモリ/CPU 情報
+- content sync の最終実行情報
 
-1.  **Google Cloud Platform (GCP) Project**:
-    -   Ensure you have a GCP project.
-    -   Enable the **Cloud Run API**.
+## Notes
 
-2.  **Service Account**:
-    -   Create a Service Account in your GCP project.
-    -   Grant the following roles to the Service Account:
-        -   **Cloud Run Developer**: To deploy services.
-        -   **Service Account User**: To act as the service account.
-    -   Create and download a JSON key key for this Service Account.
-
-3.  **GitHub Packages (ghcr.io)**:
-    -   The workflow pushes the Docker image to GitHub Container Registry.
-    -   **Important**: Ensure your GitHub Package visibility is set to **Public** so that Cloud Run can pull the image without additional authentication configuration. Alternatively, you can configure Cloud Run with image pull secrets for private packages.
-
-### GitHub Secrets Configuration
-
-Go to your repository's **Settings** > **Secrets and variables** > **Actions** and add the following secrets:
-
--   `GCP_PROJECT_ID`: Your Google Cloud Project ID (e.g., `Hashimoto620`).
--   `GCP_SA_KEY`: The content of the JSON key file you downloaded for the Service Account.
-
-### Database Setup (Supabase / PostgreSQL)
-
-This setup assumes you are using a PostgreSQL-compatible database (e.g., Supabase Free Tier).
-
-1.  Obtain your `DATABASE_URL` from your provider (e.g., Supabase).
-2.  Add the `DATABASE_URL` environment variable to your Cloud Run service:
-    -   You can do this via the Google Cloud Console UI when editing the service.
-    -   Or add it to the `env_vars` section in `.github/workflows/deploy.yml` (not recommended for sensitive values).
-    -   **Best Practice**: Store `DATABASE_URL` in Google Secret Manager and reference it in Cloud Run.
-
-### Usage
-
-Every push to the `main` branch will trigger the workflow:
-1.  Build the Docker image.
-2.  Push the image to `ghcr.io/<your-username>/<repo-name>`.
-3.  Deploy the new image to Cloud Run service `ai-tool-navigator`.
+- `firebase-debug.log` は既存のローカル差分です。
+- 収益案件の実契約、GitHub / Cloud Run 側の secret・variable 投入はリポジトリ外の作業が必要です。

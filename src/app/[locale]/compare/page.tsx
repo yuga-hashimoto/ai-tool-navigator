@@ -20,8 +20,8 @@ export async function generateMetadata({
   return {
     title: isJapanese ? "AIツール比較ハブ | AI Tool Navigator" : "Compare AI Tools | AI Tool Navigator",
     description: isJapanese
-      ? "主要AIツールを横並びで比較。カテゴリLPから比較ページへ直結できる、日本語導線中心の比較ハブです。"
-      : "Compare leading AI tools side by side. This hub connects category pages, detailed reviews, and monetization CTAs cleanly.",
+      ? "主要AIツールを横並びで比較。価格、検証状況、長所短所を確認し、最適なAIソリューションを見つけましょう。"
+      : "Compare leading AI tools side-by-side. Evaluate features, pricing, review status, and pros/cons to find the best AI solution for your workflow.",
     alternates: {
       canonical: `/${locale}/compare`,
     },
@@ -49,18 +49,18 @@ export default async function ComparePage({
     ? {
         title: "AIツール比較ハブ",
         description:
-          "カテゴリLPやツール詳細からそのまま流入できる比較ページです。価格、検証状況、長所短所を横並びで確認できます。",
+          "主要AIツールを横並びで比較。価格、検証状況、長所短所を確認し、最適なAIソリューションを見つけましょう。",
         trustNote:
-          "編集レビュー保留中の名称はここでは前面表示せず、比較に使う導線は実務で選びやすい組み合わせを優先しています。",
+          "編集レビュー保留中の名称は除外しています。以下の比較セットは、実務で実際に検討されることが多い組み合わせに焦点を当てています。",
         presetTitle: "すぐに始められる比較セット",
         presetCta: "この組み合わせで比較",
       }
     : {
         title: "AI tool comparison hub",
         description:
-          "This page is designed as the central comparison layer between category hubs, detailed reviews, and affiliate CTAs.",
+          "Compare leading AI tools side-by-side. Evaluate pricing, review status, and pros/cons to find the right tool for your workflow.",
         trustNote:
-          "Speculative or review-pending names are intentionally removed from featured entry points. Presets below focus on practical tool sets users actually evaluate.",
+          "Speculative or review-pending tools are intentionally excluded. The presets below focus on practical combinations that real professionals evaluate.",
         presetTitle: "Quick-start comparison presets",
         presetCta: "Compare this set",
       };

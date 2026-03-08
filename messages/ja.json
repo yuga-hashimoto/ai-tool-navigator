@@ -353,10 +353,10 @@
     "payment": "お支払い",
     "thankYou": "ありがとうございます！",
     "orderConfirmed": "注文確定！",
-    "confirmationMessage": "ご注文ありがとうございます。ま没多久以内に確認メールが届きます。",
-    "continueBrowsing": "続ける",
+    "confirmationMessage": "ご注文ありがとうございます。まもなく確認メールが届きます。",
+    "continueBrowsing": "閲覧を続ける",
     "cartEmpty": "カートは空です",
-    "addTools": "カートにツールを追加しての購入手続きに進んでください。",
+    "addTools": "カートにツールを追加して購入手続きに進んでください。",
     "browseTools": "ツールを閲覧",
     "secure": "セキュリティ保護",
     "card": "カード",
@@ -377,10 +377,10 @@
     "cartItems": "カート内のアイテム"
   },
   "SocialProof": {
-    "viewed": "Someone from {location} just viewed {tool}",
-    "watching": "{count} people are looking at this category",
-    "recent": "Recent activity",
-    "close": "Close notification"
+    "viewed": "{location}の誰かが{tool}を見ました",
+    "watching": "{count}人がこのカテゴリーを見ています",
+    "recent": "最近のアクティビティ",
+    "close": "通知を閉じる"
   },
   "ReferralSystem": {
     "trigger": "紹介して特典ゲット",

@@ -59,8 +59,10 @@ export async function POST(request: NextRequest) {
         message: record.message,
         locale: record.locale,
       });
-    } catch {
-      // Keep the local record even when Sheets is not configured.
+      console.log(`[PARTNER INQUIRY] New inquiry appended to Google Sheets: ${record.companyName} (${record.email})`);
+    } catch (sheetError) {
+      console.warn('Google Sheets append failed or not configured, falling back to local DB record only:', sheetError);
+      console.log(`[PARTNER INQUIRY FALLBACK] New inquiry recorded locally: ${record.companyName} (${record.email})`);
     }
 
     return NextResponse.json({

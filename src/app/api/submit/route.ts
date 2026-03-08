@@ -75,9 +75,14 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      await appendToolSubmission({ name, url, description, category, pricing_model, price: price || '' });
-      
-      console.log(`[TOOL SUBMISSION] New submission: ${name} (${url}) at ${new Date().toISOString()}`);
+      try {
+        await appendToolSubmission({ name, url, description, category, pricing_model, price: price || '' });
+        console.log(`[TOOL SUBMISSION] New submission appended to Google Sheets: ${name} (${url}) at ${new Date().toISOString()}`);
+      } catch (sheetError) {
+        console.warn('Google Sheets append failed or not configured, falling back to local logging:', sheetError);
+        console.log(`[TOOL SUBMISSION FALLBACK] New submission: ${name} (${url}) at ${new Date().toISOString()}`);
+        console.log('Submission data:', { name, url, description, category, pricing_model, price });
+      }
       
       await trackRequest(ip, path, 'POST', 200, userAgent);
       await logFormSubmission(ip, path, 'tool_submission', false, userAgent);

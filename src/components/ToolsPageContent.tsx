@@ -5,6 +5,7 @@ import { ToolMetadata } from '@/lib/tools';
 import { ToolCard } from '@/components/ToolCard';
 import { FilterBar } from '@/components/FilterBar';
 import { SearchBar } from '@/components/SearchBar';
+import { AffiliateDisclaimer } from '@/components/AffiliateDisclaimer';
 import { SortDropdown } from '@/components/SortDropdown';
 import { ActiveFilters } from '@/components/ActiveFilters';
 import { DynamicAdUnit } from '@/components/DynamicAdUnit';
@@ -226,6 +227,8 @@ export function ToolsPageContent({ tools }: ToolsPageContentProps) {
 
   return (
     <div className="space-y-6">
+      <AffiliateDisclaimer variant="compact" />
+
       {/* Search Bar */}
       <SearchBar
         value={filters.search}

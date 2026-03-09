@@ -22,6 +22,7 @@ import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 import { ProductTracker } from "@/components/ProductTracker";
 import { RecommendedTools } from "@/components/RecommendedTools";
+import { MarkdownImage } from "@/components/MarkdownImage";
 import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import type { ComponentProps } from "react";
@@ -154,6 +155,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   const components = {
     "youtube-embed": (props: ComponentProps<typeof YouTubeEmbed>) => <YouTubeEmbed {...props} />,
+    img: ({ src, alt }: { src?: string; alt?: string }) => <MarkdownImage src={src} alt={alt} />,
   } as unknown as Components;
 
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems, locale);

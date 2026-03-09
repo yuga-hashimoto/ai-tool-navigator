@@ -270,10 +270,10 @@ export default async function CompareTemplatePage({
                       <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">{statusLabel}</td>
                       <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">{formatUpdated(locale, tool.last_updated)}</td>
                       <td className="px-6 py-5">
-                        <div className="flex flex-wrap justify-end gap-3">
+                        <div className="flex flex-wrap items-center justify-end gap-4">
                           <a
                             href={`/${locale}/tools/${tool.slug}`}
-                            className="text-sm font-semibold text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 underline-offset-4 hover:underline py-2"
                           >
                             {copy.review}
                           </a>
@@ -282,7 +282,7 @@ export default async function CompareTemplatePage({
                             toolSlug={tool.slug}
                             toolName={tool.title}
                             position={`compare_template_${comparisonSlug}`}
-                            className="inline-flex items-center rounded-full bg-zinc-900 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+                            className="inline-flex items-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-500 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500"
                           >
                             {copy.visit}
                           </AffiliateLinkButton>

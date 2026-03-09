@@ -1,0 +1,1193 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - link "AI Tool Navigator" [ref=e6] [cursor=pointer]:
+          - /url: /en
+        - generic [ref=e7]:
+          - link "Home" [ref=e8] [cursor=pointer]:
+            - /url: /en
+          - link "All Tools" [ref=e9] [cursor=pointer]:
+            - /url: /en/tools
+          - link "Comparisons" [ref=e10] [cursor=pointer]:
+            - /url: /en/compare
+          - link "Deals" [ref=e11] [cursor=pointer]:
+            - /url: /en/deals
+          - link "Blog" [ref=e12] [cursor=pointer]:
+            - /url: /en/blog
+          - link "About" [ref=e13] [cursor=pointer]:
+            - /url: /en/about
+          - button "Toggle theme" [ref=e14]:
+            - generic [ref=e15]:
+              - img [ref=e16]
+              - img [ref=e22]
+            - text: Toggle theme
+          - link "Submit Your Tool" [ref=e24] [cursor=pointer]:
+            - /url: /en/submit
+      - generic [ref=e25]:
+        - button "Toggle theme" [ref=e26]:
+          - generic [ref=e27]:
+            - img [ref=e28]
+            - img [ref=e34]
+          - text: Toggle theme
+        - button "Menu" [ref=e36]:
+          - img [ref=e37]
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - img [ref=e41]
+        - textbox "Search" [ref=e44]
+      - generic [ref=e45]:
+        - link "Home" [ref=e46] [cursor=pointer]:
+          - /url: /en
+        - link "All Tools" [ref=e47] [cursor=pointer]:
+          - /url: /en/tools
+        - link "Comparisons" [ref=e48] [cursor=pointer]:
+          - /url: /en/compare
+        - link "Deals" [ref=e49] [cursor=pointer]:
+          - /url: /en/deals
+        - link "Blog" [ref=e50] [cursor=pointer]:
+          - /url: /en/blog
+        - link "About" [ref=e51] [cursor=pointer]:
+          - /url: /en/about
+        - link "Submit Your Tool" [ref=e52] [cursor=pointer]:
+          - /url: /en/submit
+      - generic [ref=e53]:
+        - heading "Categories" [level=3] [ref=e54]
+        - generic [ref=e55]:
+          - link "Video" [ref=e56] [cursor=pointer]:
+            - /url: /en/category/video
+          - link "Writing" [ref=e57] [cursor=pointer]:
+            - /url: /en/category/writing
+          - link "Coding" [ref=e58] [cursor=pointer]:
+            - /url: /en/category/coding
+          - link "Marketing" [ref=e59] [cursor=pointer]:
+            - /url: /en/category/marketing
+          - link "LLMs" [ref=e60] [cursor=pointer]:
+            - /url: /en/category/llm
+          - link "Comparisons" [ref=e61] [cursor=pointer]:
+            - /url: /en/category/comparison
+          - link "Automation" [ref=e62] [cursor=pointer]:
+            - /url: /en/category/automation
+          - link "Real Estate" [ref=e63] [cursor=pointer]:
+            - /url: /en/category/real-estate
+          - link "Search" [ref=e64] [cursor=pointer]:
+            - /url: /en/category/search
+          - link "Security" [ref=e65] [cursor=pointer]:
+            - /url: /en/category/security
+          - link "Voice" [ref=e66] [cursor=pointer]:
+            - /url: /en/category/voice
+          - link "Design" [ref=e67] [cursor=pointer]:
+            - /url: /en/category/design
+  - generic [ref=e69]:
+    - generic [ref=e70]:
+      - heading "Premium AI Tool Comparison" [level=1] [ref=e71]
+      - paragraph [ref=e72]: Find the perfect AI tool for your needs. Unbiased reviews, pros & cons, and detailed comparisons.
+      - generic [ref=e74]:
+        - img [ref=e75]
+        - textbox "Search tools..." [ref=e78]
+        - button "Search" [ref=e79]
+    - generic [ref=e80]:
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - img [ref=e83]
+          - text: Cleaner comparison path
+        - heading "Start with a cleaner comparison hub" [level=2] [ref=e86]
+        - paragraph [ref=e87]: Instead of surfacing speculative brand names, the main navigation now pushes visitors toward category hubs and practical tool comparisons.
+        - generic [ref=e88]:
+          - link "Start comparing" [ref=e89] [cursor=pointer]:
+            - /url: /en/compare?tools=perplexity,semrush,chatgpt
+            - text: Start comparing
+            - img [ref=e90]
+          - link "Browse all tools" [ref=e92] [cursor=pointer]:
+            - /url: /en/tools
+      - generic [ref=e93]:
+        - heading "Browse by category" [level=2] [ref=e94]
+        - paragraph [ref=e95]: Each category hub links cleanly into comparison pages and detailed reviews, which is better for both SEO and user intent.
+        - generic [ref=e96]:
+          - link "Coding5 tools" [ref=e97] [cursor=pointer]:
+            - /url: /en/category/coding
+            - generic [ref=e98]: Coding5 tools
+          - link "Video7 tools" [ref=e99] [cursor=pointer]:
+            - /url: /en/category/video
+            - generic [ref=e100]: Video7 tools
+          - link "Writing2 tools" [ref=e101] [cursor=pointer]:
+            - /url: /en/category/writing
+            - generic [ref=e102]: Writing2 tools
+          - link "Marketing2 tools" [ref=e103] [cursor=pointer]:
+            - /url: /en/category/marketing
+            - generic [ref=e104]: Marketing2 tools
+        - link "Browse categories" [ref=e106] [cursor=pointer]:
+          - /url: /en/category/coding
+    - generic [ref=e107]:
+      - generic [ref=e108]:
+        - generic [ref=e109]:
+          - heading "Browse by category" [level=2] [ref=e110]
+          - paragraph [ref=e111]: Each category hub links cleanly into comparison pages and detailed reviews, which is better for both SEO and user intent.
+        - link "Browse all tools" [ref=e112] [cursor=pointer]:
+          - /url: /en/tools
+      - generic [ref=e113]:
+        - link "Coding 5 tools Accelerate your development workflow with the best AI coding assistants. Compare code generation, debugging, and refactoring tools. Open category hub" [ref=e114] [cursor=pointer]:
+          - /url: /en/category/coding
+          - generic [ref=e115]:
+            - heading "Coding" [level=3] [ref=e116]
+            - text: 5 tools
+          - paragraph [ref=e117]: Accelerate your development workflow with the best AI coding assistants. Compare code generation, debugging, and refactoring tools.
+          - generic [ref=e118]:
+            - text: Open category hub
+            - img [ref=e119]
+        - link "Video 7 tools Discover the best AI video generation tools to create professional videos in minutes. Compare features, pricing, and reviews of top video AI software. Open category hub" [ref=e121] [cursor=pointer]:
+          - /url: /en/category/video
+          - generic [ref=e122]:
+            - heading "Video" [level=3] [ref=e123]
+            - text: 7 tools
+          - paragraph [ref=e124]: Discover the best AI video generation tools to create professional videos in minutes. Compare features, pricing, and reviews of top video AI software.
+          - generic [ref=e125]:
+            - text: Open category hub
+            - img [ref=e126]
+        - link "Writing 2 tools Boost your content creation with top-rated AI writing assistants. Find the best tools for copywriting, blogging, and creative writing. Open category hub" [ref=e128] [cursor=pointer]:
+          - /url: /en/category/writing
+          - generic [ref=e129]:
+            - heading "Writing" [level=3] [ref=e130]
+            - text: 2 tools
+          - paragraph [ref=e131]: Boost your content creation with top-rated AI writing assistants. Find the best tools for copywriting, blogging, and creative writing.
+          - generic [ref=e132]:
+            - text: Open category hub
+            - img [ref=e133]
+        - link "Marketing 2 tools Automate your marketing workflows, create ads, and analyze data with the best AI marketing tools. Open category hub" [ref=e135] [cursor=pointer]:
+          - /url: /en/category/marketing
+          - generic [ref=e136]:
+            - heading "Marketing" [level=3] [ref=e137]
+            - text: 2 tools
+          - paragraph [ref=e138]: Automate your marketing workflows, create ads, and analyze data with the best AI marketing tools.
+          - generic [ref=e139]:
+            - text: Open category hub
+            - img [ref=e140]
+        - link "LLMs 3 tools Explore top-rated LLMs and AI chatbots for conversation, research, and automation. Open category hub" [ref=e142] [cursor=pointer]:
+          - /url: /en/category/llm
+          - generic [ref=e143]:
+            - heading "LLMs" [level=3] [ref=e144]
+            - text: 3 tools
+          - paragraph [ref=e145]: Explore top-rated LLMs and AI chatbots for conversation, research, and automation.
+          - generic [ref=e146]:
+            - text: Open category hub
+            - img [ref=e147]
+        - link "Search 1 tools Discover next-generation AI search engines for faster, more accurate research. Open category hub" [ref=e149] [cursor=pointer]:
+          - /url: /en/category/search
+          - generic [ref=e150]:
+            - heading "Search" [level=3] [ref=e151]
+            - text: 1 tools
+          - paragraph [ref=e152]: Discover next-generation AI search engines for faster, more accurate research.
+          - generic [ref=e153]:
+            - text: Open category hub
+            - img [ref=e154]
+    - generic [ref=e156]:
+      - generic [ref=e157]:
+        - img [ref=e158]
+        - heading "AI Tool of the Week" [level=2] [ref=e160]
+      - generic [ref=e162]:
+        - generic [ref=e163]:
+          - generic [ref=e164]: Code
+          - heading "Cursor" [level=3] [ref=e165]:
+            - link "Cursor" [ref=e166] [cursor=pointer]:
+              - /url: /en/tools/cursor
+          - paragraph [ref=e167]: The AI-first Code Editor built on VS Code.
+          - generic [ref=e169]:
+            - generic [ref=e170]:
+              - generic [ref=e171]:
+                - img [ref=e172]
+                - img [ref=e175]
+              - generic [ref=e177]:
+                - img [ref=e178]
+                - img [ref=e181]
+              - generic [ref=e183]:
+                - img [ref=e184]
+                - img [ref=e187]
+              - generic [ref=e189]:
+                - img [ref=e190]
+                - img [ref=e193]
+              - generic [ref=e195]:
+                - img [ref=e196]
+                - img [ref=e199]
+            - generic [ref=e201]:
+              - text: "4.7"
+              - generic [ref=e202]: / 5
+          - generic [ref=e203]:
+            - generic [ref=e204]:
+              - img [ref=e205]
+              - text: Seamless VS Code fork
+            - generic [ref=e208]:
+              - img [ref=e209]
+              - text: Excellent codebase indexing
+            - generic [ref=e212]:
+              - img [ref=e213]
+              - text: Built-in Copilot++ features
+          - link "Check it out" [ref=e216] [cursor=pointer]:
+            - /url: /en/tools/cursor
+            - text: Check it out
+            - img [ref=e217]
+        - generic [ref=e219]: Cu
+    - generic [ref=e220]:
+      - generic [ref=e221]:
+        - img [ref=e222]
+        - heading "Trending Tools" [level=2] [ref=e225]
+      - generic [ref=e227]:
+        - link "Video Generation 4.5 BasedLabs AI video and image generation platform for visual creators. View Deal" [ref=e229] [cursor=pointer]:
+          - /url: /en/tools/basedlabs
+          - generic [ref=e231]:
+            - generic [ref=e232]:
+              - text: Video Generation
+              - generic [ref=e233]:
+                - img [ref=e234]
+                - text: "4.5"
+            - heading "BasedLabs" [level=3] [ref=e236]
+            - paragraph [ref=e237]: AI video and image generation platform for visual creators.
+            - generic [ref=e238]:
+              - text: View Deal
+              - img [ref=e239]
+        - link "Copywriting 4.6 Copy.ai AI-powered copywriting tool that generates high-converting marketing copy in seconds. View Deal" [ref=e242] [cursor=pointer]:
+          - /url: /en/tools/copy-ai
+          - generic [ref=e244]:
+            - generic [ref=e245]:
+              - text: Copywriting
+              - generic [ref=e246]:
+                - img [ref=e247]
+                - text: "4.6"
+            - heading "Copy.ai" [level=3] [ref=e249]
+            - paragraph [ref=e250]: AI-powered copywriting tool that generates high-converting marketing copy in seconds.
+            - generic [ref=e251]:
+              - text: View Deal
+              - img [ref=e252]
+        - link "Real Estate 4.7 Homesage AI platform for real estate intelligence and market analysis. View Deal" [ref=e255] [cursor=pointer]:
+          - /url: /en/tools/homesage
+          - generic [ref=e257]:
+            - generic [ref=e258]:
+              - text: Real Estate
+              - generic [ref=e259]:
+                - img [ref=e260]
+                - text: "4.7"
+            - heading "Homesage" [level=3] [ref=e262]
+            - paragraph [ref=e263]: AI platform for real estate intelligence and market analysis.
+            - generic [ref=e264]:
+              - text: View Deal
+              - img [ref=e265]
+        - link "Website Builder 4.7 Mixo AI-powered website builder that launches startups in seconds. View Deal" [ref=e268] [cursor=pointer]:
+          - /url: /en/tools/mixo
+          - generic [ref=e270]:
+            - generic [ref=e271]:
+              - text: Website Builder
+              - generic [ref=e272]:
+                - img [ref=e273]
+                - text: "4.7"
+            - heading "Mixo" [level=3] [ref=e275]
+            - paragraph [ref=e276]: AI-powered website builder that launches startups in seconds.
+            - generic [ref=e277]:
+              - text: View Deal
+              - img [ref=e278]
+        - link "Marketing 4.9 Semrush All-in-one SEO tool for improving online visibility and marketing insights. View Deal" [ref=e281] [cursor=pointer]:
+          - /url: /en/tools/semrush
+          - generic [ref=e283]:
+            - generic [ref=e284]:
+              - text: Marketing
+              - generic [ref=e285]:
+                - img [ref=e286]
+                - text: "4.9"
+            - heading "Semrush" [level=3] [ref=e288]
+            - paragraph [ref=e289]: All-in-one SEO tool for improving online visibility and marketing insights.
+            - generic [ref=e290]:
+              - text: View Deal
+              - img [ref=e291]
+        - link "Marketing 4.8 Snov.io All-in-one cold outreach automation platform for sales and marketing. View Deal" [ref=e294] [cursor=pointer]:
+          - /url: /en/tools/snov-io
+          - generic [ref=e296]:
+            - generic [ref=e297]:
+              - text: Marketing
+              - generic [ref=e298]:
+                - img [ref=e299]
+                - text: "4.8"
+            - heading "Snov.io" [level=3] [ref=e301]
+            - paragraph [ref=e302]: All-in-one cold outreach automation platform for sales and marketing.
+            - generic [ref=e303]:
+              - text: View Deal
+              - img [ref=e304]
+        - link "Text-to-Speech 4.8 Speechify Leading AI text-to-speech reader that turns any text into audio. View Deal" [ref=e307] [cursor=pointer]:
+          - /url: /en/tools/speechify
+          - generic [ref=e309]:
+            - generic [ref=e310]:
+              - text: Text-to-Speech
+              - generic [ref=e311]:
+                - img [ref=e312]
+                - text: "4.8"
+            - heading "Speechify" [level=3] [ref=e314]
+            - paragraph [ref=e315]: Leading AI text-to-speech reader that turns any text into audio.
+            - generic [ref=e316]:
+              - text: View Deal
+              - img [ref=e317]
+    - generic [ref=e319]:
+      - generic [ref=e320]:
+        - img [ref=e321]
+        - heading "Featured Tools" [level=2] [ref=e324]
+      - generic [ref=e325]:
+        - generic [ref=e328]:
+          - generic [ref=e329]: Featured
+          - generic [ref=e330]: LLM
+          - heading "Claude Opus 4.6" [level=3] [ref=e331]:
+            - link "Claude Opus 4.6" [ref=e332] [cursor=pointer]:
+              - /url: /en/tools/claude
+              - text: Claude Opus 4.6
+          - paragraph [ref=e333]: Anthropic's most powerful reasoning model, specialized in coding and complex projects.
+          - generic [ref=e334]:
+            - generic [ref=e335]:
+              - img [ref=e336]
+              - text: Exceptional coding capabilities
+            - generic [ref=e339]:
+              - img [ref=e340]
+              - text: Low hallucination rate
+            - generic [ref=e343]:
+              - img [ref=e344]
+              - text: Now available in GitHub Copilot
+          - generic [ref=e347]:
+            - generic [ref=e348]:
+              - generic [ref=e349]:
+                - generic [ref=e350]:
+                  - img [ref=e351]
+                  - img [ref=e354]
+                - generic [ref=e356]:
+                  - img [ref=e357]
+                  - img [ref=e360]
+                - generic [ref=e362]:
+                  - img [ref=e363]
+                  - img [ref=e366]
+                - generic [ref=e368]:
+                  - img [ref=e369]
+                  - img [ref=e372]
+                - generic [ref=e374]:
+                  - img [ref=e375]
+                  - img [ref=e378]
+              - generic [ref=e380]:
+                - text: "4.9"
+                - generic [ref=e381]: / 5
+            - generic [ref=e382]: Check it out →
+        - generic [ref=e385]:
+          - generic [ref=e386]: Featured
+          - generic [ref=e387]: Code
+          - heading "Cursor" [level=3] [ref=e388]:
+            - link "Cursor" [ref=e389] [cursor=pointer]:
+              - /url: /en/tools/cursor
+              - text: Cursor
+          - paragraph [ref=e390]: The AI-first Code Editor built on VS Code.
+          - generic [ref=e391]:
+            - generic [ref=e392]:
+              - img [ref=e393]
+              - text: Seamless VS Code fork
+            - generic [ref=e396]:
+              - img [ref=e397]
+              - text: Excellent codebase indexing
+            - generic [ref=e400]:
+              - img [ref=e401]
+              - text: Built-in Copilot++ features
+          - generic [ref=e404]:
+            - generic [ref=e405]:
+              - generic [ref=e406]:
+                - generic [ref=e407]:
+                  - img [ref=e408]
+                  - img [ref=e411]
+                - generic [ref=e413]:
+                  - img [ref=e414]
+                  - img [ref=e417]
+                - generic [ref=e419]:
+                  - img [ref=e420]
+                  - img [ref=e423]
+                - generic [ref=e425]:
+                  - img [ref=e426]
+                  - img [ref=e429]
+                - generic [ref=e431]:
+                  - img [ref=e432]
+                  - img [ref=e435]
+              - generic [ref=e437]:
+                - text: "4.7"
+                - generic [ref=e438]: / 5
+            - generic [ref=e439]: Check it out →
+    - generic [ref=e440]:
+      - generic [ref=e441]:
+        - img [ref=e442]
+        - heading "Top Picks" [level=2] [ref=e448]
+      - paragraph [ref=e449]: Our highest-rated AI tools, curated for performance and value.
+      - generic [ref=e450]:
+        - generic [ref=e453]:
+          - generic [ref=e454]:
+            - generic [ref=e455]:
+              - generic [ref=e456]: Search
+              - generic [ref=e457]:
+                - button "Compare" [ref=e458]
+                - generic [ref=e460]:
+                  - img [ref=e461]
+                  - generic [ref=e463]:
+                    - text: "4.9"
+                    - generic [ref=e464]: / 5
+            - generic [ref=e465]:
+              - 'heading "Perplexity AI: The AI Answer Engine" [level=3] [ref=e466]':
+                - 'link "Perplexity AI: The AI Answer Engine" [ref=e467] [cursor=pointer]':
+                  - /url: /en/tools/perplexity
+                  - text: "Perplexity AI: The AI Answer Engine"
+              - paragraph [ref=e468]: Next-generation search engine that provides direct answers with citations, replacing traditional Google search.
+          - generic [ref=e469]: Read more →
+        - generic [ref=e472]:
+          - generic [ref=e473]:
+            - generic [ref=e474]:
+              - generic [ref=e475]: Coding20% OFF
+              - generic [ref=e476]:
+                - button "Compare" [ref=e477]
+                - generic [ref=e479]:
+                  - img [ref=e480]
+                  - generic [ref=e482]:
+                    - text: "4.9"
+                    - generic [ref=e483]: / 5
+            - generic [ref=e484]:
+              - heading "ChatGPT (GPT-5.3 Codex)" [level=3] [ref=e485]:
+                - link "ChatGPT (GPT-5.3 Codex)" [ref=e486] [cursor=pointer]:
+                  - /url: /en/tools/chatgpt
+                  - text: ChatGPT (GPT-5.3 Codex)
+              - paragraph [ref=e487]: The AI chatbot revolutionizing coding with GPT-5.3 Codex, released February 2026.
+          - generic [ref=e488]: Read more →
+        - generic [ref=e491]:
+          - generic [ref=e492]:
+            - generic [ref=e493]:
+              - generic [ref=e494]: Coding Assistant10% OFF first payment
+              - generic [ref=e495]:
+                - button "Compare" [ref=e496]
+                - generic [ref=e498]:
+                  - img [ref=e499]
+                  - generic [ref=e501]:
+                    - text: "4.8"
+                    - generic [ref=e502]: / 5
+            - generic [ref=e503]:
+              - heading "Z.ai (GLM Coding Plan)" [level=3] [ref=e504]:
+                - link "Z.ai (GLM Coding Plan)" [ref=e505] [cursor=pointer]:
+                  - /url: /en/tools/zai
+                  - text: Z.ai (GLM Coding Plan)
+              - paragraph [ref=e506]: A developer subscription for running GLM models inside Claude Code, Cline, Roo Code, OpenCode, and similar coding tools.
+          - generic [ref=e507]: Read more →
+        - generic [ref=e510]:
+          - generic [ref=e511]:
+            - generic [ref=e512]:
+              - generic [ref=e513]: Writing10% OFF
+              - generic [ref=e514]:
+                - button "Compare" [ref=e515]
+                - generic [ref=e517]:
+                  - img [ref=e518]
+                  - generic [ref=e520]:
+                    - text: "4.8"
+                    - generic [ref=e521]: / 5
+            - generic [ref=e522]:
+              - heading "Google Gemini" [level=3] [ref=e523]:
+                - link "Google Gemini" [ref=e524] [cursor=pointer]:
+                  - /url: /en/tools/gemini
+                  - text: Google Gemini
+              - paragraph [ref=e525]: Google's most capable AI model, built for multimodality.
+          - generic [ref=e526]: Read more →
+        - generic [ref=e529]:
+          - generic [ref=e530]:
+            - generic [ref=e531]:
+              - generic [ref=e532]: LLM
+              - generic [ref=e533]:
+                - button "Compare" [ref=e534]
+                - generic [ref=e536]:
+                  - img [ref=e537]
+                  - generic [ref=e539]:
+                    - text: "4.8"
+                    - generic [ref=e540]: / 5
+            - generic [ref=e541]:
+              - heading "Grok 3" [level=3] [ref=e542]:
+                - link "Grok 3" [ref=e543] [cursor=pointer]:
+                  - /url: /en/tools/grok
+                  - text: Grok 3
+              - paragraph [ref=e544]: xAI's frontier model with real-time access to X and massive compute power.
+          - generic [ref=e545]: Read more →
+        - generic [ref=e548]:
+          - generic [ref=e549]:
+            - generic [ref=e550]:
+              - generic [ref=e551]: Coding Assistant
+              - generic [ref=e552]:
+                - button "Compare" [ref=e553]
+                - generic [ref=e555]:
+                  - img [ref=e556]
+                  - generic [ref=e558]:
+                    - text: "4.7"
+                    - generic [ref=e559]: / 5
+            - generic [ref=e560]:
+              - heading "Alibaba Cloud Model Studio Coding Plan" [level=3] [ref=e561]:
+                - link "Alibaba Cloud Model Studio Coding Plan" [ref=e562] [cursor=pointer]:
+                  - /url: /en/tools/alibaba-coding-plan
+                  - text: Alibaba Cloud Model Studio Coding Plan
+              - paragraph [ref=e563]: Alibaba Cloud's fixed-price Coding Plan for Qwen Code, Claude Code, Cline, Cursor, and other coding workflows in Model Studio.
+          - generic [ref=e564]: Read more →
+    - generic [ref=e565]:
+      - heading "★ Editor's Choice" [level=2] [ref=e566]
+      - generic [ref=e567]:
+        - generic [ref=e570]:
+          - generic [ref=e571]:
+            - generic [ref=e572]:
+              - generic [ref=e573]: Video GenerationFeatured Tool
+              - generic [ref=e574]:
+                - button "Compare" [ref=e575]
+                - generic [ref=e577]:
+                  - img [ref=e578]
+                  - generic [ref=e580]:
+                    - text: "4.5"
+                    - generic [ref=e581]: / 5
+            - generic [ref=e582]:
+              - heading "BasedLabs" [level=3] [ref=e583]:
+                - link "BasedLabs" [ref=e584] [cursor=pointer]:
+                  - /url: /en/tools/basedlabs
+                  - text: BasedLabs
+              - paragraph [ref=e585]: AI video and image generation platform for visual creators.
+          - generic [ref=e586]: Read more →
+        - generic [ref=e589]:
+          - generic [ref=e590]:
+            - generic [ref=e591]:
+              - generic [ref=e592]: CopywritingFeatured Tool
+              - generic [ref=e593]:
+                - button "Compare" [ref=e594]
+                - generic [ref=e596]:
+                  - img [ref=e597]
+                  - generic [ref=e599]:
+                    - text: "4.6"
+                    - generic [ref=e600]: / 5
+            - generic [ref=e601]:
+              - heading "Copy.ai" [level=3] [ref=e602]:
+                - link "Copy.ai" [ref=e603] [cursor=pointer]:
+                  - /url: /en/tools/copy-ai
+                  - text: Copy.ai
+              - paragraph [ref=e604]: AI-powered copywriting tool that generates high-converting marketing copy in seconds.
+          - generic [ref=e605]: Read more →
+        - generic [ref=e608]:
+          - generic [ref=e609]:
+            - generic [ref=e610]:
+              - generic [ref=e611]: Real EstateFeatured Tool
+              - generic [ref=e612]:
+                - button "Compare" [ref=e613]
+                - generic [ref=e615]:
+                  - img [ref=e616]
+                  - generic [ref=e618]:
+                    - text: "4.7"
+                    - generic [ref=e619]: / 5
+            - generic [ref=e620]:
+              - heading "Homesage" [level=3] [ref=e621]:
+                - link "Homesage" [ref=e622] [cursor=pointer]:
+                  - /url: /en/tools/homesage
+                  - text: Homesage
+              - paragraph [ref=e623]: AI platform for real estate intelligence and market analysis.
+          - generic [ref=e624]: Read more →
+        - generic [ref=e627]:
+          - generic [ref=e628]:
+            - generic [ref=e629]:
+              - generic [ref=e630]: Website BuilderFeatured Tool
+              - generic [ref=e631]:
+                - button "Compare" [ref=e632]
+                - generic [ref=e634]:
+                  - img [ref=e635]
+                  - generic [ref=e637]:
+                    - text: "4.7"
+                    - generic [ref=e638]: / 5
+            - generic [ref=e639]:
+              - heading "Mixo" [level=3] [ref=e640]:
+                - link "Mixo" [ref=e641] [cursor=pointer]:
+                  - /url: /en/tools/mixo
+                  - text: Mixo
+              - paragraph [ref=e642]: AI-powered website builder that launches startups in seconds.
+          - generic [ref=e643]: Read more →
+        - generic [ref=e646]:
+          - generic [ref=e647]:
+            - generic [ref=e648]:
+              - generic [ref=e649]: Text-to-SpeechFeatured Tool
+              - generic [ref=e650]:
+                - button "Compare" [ref=e651]
+                - generic [ref=e653]:
+                  - img [ref=e654]
+                  - generic [ref=e656]:
+                    - text: "4.8"
+                    - generic [ref=e657]: / 5
+            - generic [ref=e658]:
+              - heading "Speechify" [level=3] [ref=e659]:
+                - link "Speechify" [ref=e660] [cursor=pointer]:
+                  - /url: /en/tools/speechify
+                  - text: Speechify
+              - paragraph [ref=e661]: Leading AI text-to-speech reader that turns any text into audio.
+          - generic [ref=e662]: Read more →
+    - generic [ref=e663]:
+      - generic [ref=e664]:
+        - generic [ref=e665]:
+          - img [ref=e666]
+          - textbox "Search tools..." [ref=e669]
+        - generic [ref=e670]:
+          - button "All" [ref=e671]
+          - button "Coding Assistant" [ref=e672]
+          - button "Business Automation" [ref=e673]
+          - button "Video Generation" [ref=e674]
+          - button "Coding" [ref=e675]
+          - button "LLM" [ref=e676]
+          - button "Copywriting" [ref=e677]
+          - button "Code" [ref=e678]
+          - button "LLM/Chatbot" [ref=e679]
+          - button "AI Comparisons" [ref=e680]
+          - button "Comparison" [ref=e681]
+          - button "Writing" [ref=e682]
+          - button "Real Estate" [ref=e683]
+          - button "Automation" [ref=e684]
+          - button "Website Builder" [ref=e685]
+          - button "Coding Agent" [ref=e686]
+          - button "Search" [ref=e687]
+          - button "Marketing" [ref=e688]
+          - button "Security" [ref=e689]
+          - button "Text-to-Speech" [ref=e690]
+      - generic [ref=e691]:
+        - generic [ref=e694]:
+          - generic [ref=e695]:
+            - generic [ref=e696]:
+              - generic [ref=e697]: Coding Assistant
+              - generic [ref=e698]:
+                - button "Compare" [ref=e699]
+                - generic [ref=e701]:
+                  - img [ref=e702]
+                  - generic [ref=e704]:
+                    - text: "4.7"
+                    - generic [ref=e705]: / 5
+            - generic [ref=e706]:
+              - heading "Alibaba Cloud Model Studio Coding Plan" [level=3] [ref=e707]:
+                - link "Alibaba Cloud Model Studio Coding Plan" [ref=e708] [cursor=pointer]:
+                  - /url: /en/tools/alibaba-coding-plan
+                  - text: Alibaba Cloud Model Studio Coding Plan
+              - paragraph [ref=e709]: Alibaba Cloud's fixed-price Coding Plan for Qwen Code, Claude Code, Cline, Cursor, and other coding workflows in Model Studio.
+          - generic [ref=e710]: Read more →
+        - generic [ref=e713]:
+          - generic [ref=e714]:
+            - generic [ref=e715]:
+              - generic [ref=e716]: Business Automation
+              - generic [ref=e717]:
+                - button "Compare" [ref=e718]
+                - generic [ref=e720]:
+                  - img [ref=e721]
+                  - generic [ref=e723]:
+                    - text: "4.8"
+                    - generic [ref=e724]: / 5
+            - generic [ref=e725]:
+              - 'heading "Answrr: The AI Receptionist That Never Sleeps" [level=3] [ref=e726]':
+                - 'link "Answrr: The AI Receptionist That Never Sleeps" [ref=e727] [cursor=pointer]':
+                  - /url: /en/tools/answrr
+                  - text: "Answrr: The AI Receptionist That Never Sleeps"
+              - paragraph [ref=e728]: A 24/7 AI receptionist for small businesses. Handles calls, books appointments, and captures leads automatically.
+          - generic [ref=e729]: Read more →
+        - generic [ref=e732]:
+          - generic [ref=e733]:
+            - generic [ref=e734]:
+              - generic [ref=e735]: Video GenerationFeatured Tool
+              - generic [ref=e736]:
+                - button "Compare" [ref=e737]
+                - generic [ref=e739]:
+                  - img [ref=e740]
+                  - generic [ref=e742]:
+                    - text: "4.5"
+                    - generic [ref=e743]: / 5
+            - generic [ref=e744]:
+              - heading "BasedLabs" [level=3] [ref=e745]:
+                - link "BasedLabs" [ref=e746] [cursor=pointer]:
+                  - /url: /en/tools/basedlabs
+                  - text: BasedLabs
+              - paragraph [ref=e747]: AI video and image generation platform for visual creators.
+          - generic [ref=e748]: Read more →
+        - generic [ref=e751]:
+          - generic [ref=e752]:
+            - generic [ref=e753]:
+              - generic [ref=e754]: Coding20% OFF
+              - generic [ref=e755]:
+                - button "Compare" [ref=e756]
+                - generic [ref=e758]:
+                  - img [ref=e759]
+                  - generic [ref=e761]:
+                    - text: "4.9"
+                    - generic [ref=e762]: / 5
+            - generic [ref=e763]:
+              - heading "ChatGPT (GPT-5.3 Codex)" [level=3] [ref=e764]:
+                - link "ChatGPT (GPT-5.3 Codex)" [ref=e765] [cursor=pointer]:
+                  - /url: /en/tools/chatgpt
+                  - text: ChatGPT (GPT-5.3 Codex)
+              - paragraph [ref=e766]: The AI chatbot revolutionizing coding with GPT-5.3 Codex, released February 2026.
+          - generic [ref=e767]: Read more →
+        - generic [ref=e770]:
+          - generic [ref=e771]:
+            - generic [ref=e772]:
+              - generic [ref=e773]: LLM15% OFF
+              - generic [ref=e774]:
+                - button "Compare" [ref=e775]
+                - generic [ref=e777]:
+                  - img [ref=e778]
+                  - generic [ref=e780]:
+                    - text: "4.9"
+                    - generic [ref=e781]: / 5
+            - generic [ref=e782]:
+              - heading "Claude Opus 4.6" [level=3] [ref=e783]:
+                - link "Claude Opus 4.6" [ref=e784] [cursor=pointer]:
+                  - /url: /en/tools/claude
+                  - text: Claude Opus 4.6
+              - paragraph [ref=e785]: Anthropic's most powerful reasoning model, specialized in coding and complex projects.
+          - generic [ref=e786]: Read more →
+        - generic [ref=e789]:
+          - generic [ref=e790]:
+            - generic [ref=e791]:
+              - generic [ref=e792]: CopywritingFeatured Tool
+              - generic [ref=e793]:
+                - button "Compare" [ref=e794]
+                - generic [ref=e796]:
+                  - img [ref=e797]
+                  - generic [ref=e799]:
+                    - text: "4.6"
+                    - generic [ref=e800]: / 5
+            - generic [ref=e801]:
+              - heading "Copy.ai" [level=3] [ref=e802]:
+                - link "Copy.ai" [ref=e803] [cursor=pointer]:
+                  - /url: /en/tools/copy-ai
+                  - text: Copy.ai
+              - paragraph [ref=e804]: AI-powered copywriting tool that generates high-converting marketing copy in seconds.
+          - generic [ref=e805]: Read more →
+        - generic [ref=e808]:
+          - generic [ref=e809]:
+            - generic [ref=e810]:
+              - generic [ref=e811]: Code
+              - generic [ref=e812]:
+                - button "Compare" [ref=e813]
+                - generic [ref=e815]:
+                  - img [ref=e816]
+                  - generic [ref=e818]:
+                    - text: "4.7"
+                    - generic [ref=e819]: / 5
+            - generic [ref=e820]:
+              - heading "Cursor" [level=3] [ref=e821]:
+                - link "Cursor" [ref=e822] [cursor=pointer]:
+                  - /url: /en/tools/cursor
+                  - text: Cursor
+              - paragraph [ref=e823]: The AI-first Code Editor built on VS Code.
+          - generic [ref=e824]: Read more →
+        - generic [ref=e827]:
+          - generic [ref=e828]:
+            - generic [ref=e829]:
+              - generic [ref=e830]: LLM/Chatbot
+              - generic [ref=e831]:
+                - button "Compare" [ref=e832]
+                - generic [ref=e834]:
+                  - img [ref=e835]
+                  - generic [ref=e837]:
+                    - text: "5"
+                    - generic [ref=e838]: / 5
+            - generic [ref=e839]:
+              - heading "DeepSeek V4 (vs Gemini & ChatGPT)" [level=3] [ref=e840]:
+                - link "DeepSeek V4 (vs Gemini & ChatGPT)" [ref=e841] [cursor=pointer]:
+                  - /url: /en/tools/deepseek
+                  - text: DeepSeek V4 (vs Gemini & ChatGPT)
+              - paragraph [ref=e842]: The open-source challenger that shook the AI world in 2026. A detailed comparison with Gemini 3 Pro and ChatGPT.
+          - generic [ref=e843]: Read more →
+        - generic [ref=e846]:
+          - generic [ref=e847]:
+            - generic [ref=e848]:
+              - generic [ref=e849]: AI Comparisons
+              - generic [ref=e850]:
+                - button "Compare" [ref=e851]
+                - generic [ref=e853]:
+                  - img [ref=e854]
+                  - generic [ref=e856]:
+                    - text: "4.9"
+                    - generic [ref=e857]: / 5
+            - generic [ref=e858]:
+              - 'heading "Gemini 3 Pro vs Llama 5 (Avocado): Which AI Will Rule 2026?" [level=3] [ref=e859]':
+                - 'link "Gemini 3 Pro vs Llama 5 (Avocado): Which AI Will Rule 2026?" [ref=e860] [cursor=pointer]':
+                  - /url: /en/tools/gemini-3-pro-vs-llama-5
+                  - text: "Gemini 3 Pro vs Llama 5 (Avocado): Which AI Will Rule 2026?"
+              - paragraph [ref=e861]: A comprehensive comparison between Google's Gemini 3 Pro and Meta's rumored Llama 5 'Avocado'.
+          - generic [ref=e862]: Read more →
+        - generic [ref=e865]:
+          - generic [ref=e866]:
+            - generic [ref=e867]:
+              - generic [ref=e868]: Comparison
+              - generic [ref=e869]:
+                - button "Compare" [ref=e870]
+                - generic [ref=e872]:
+                  - img [ref=e873]
+                  - generic [ref=e875]:
+                    - text: "5"
+                    - generic [ref=e876]: / 5
+            - generic [ref=e877]:
+              - 'heading "Best AI Coding Agent 2026: Gemini 3 Pro vs. OpenAI o3 vs. DeepSeek V4" [level=3] [ref=e878]':
+                - 'link "Best AI Coding Agent 2026: Gemini 3 Pro vs. OpenAI o3 vs. DeepSeek V4" [ref=e879] [cursor=pointer]':
+                  - /url: /en/tools/gemini-3-pro-vs-openai-o3-vs-deepseek-v4
+                  - text: "Best AI Coding Agent 2026: Gemini 3 Pro vs. OpenAI o3 vs. DeepSeek V4"
+              - paragraph [ref=e880]: The definitive 2026 battle for coding supremacy. Comparing Google's Gemini 3 Pro, OpenAI's reasoning o3, and the newly released DeepSeek V4.
+          - generic [ref=e881]: Read more →
+        - generic [ref=e884]:
+          - generic [ref=e885]:
+            - generic [ref=e886]:
+              - generic [ref=e887]: Writing10% OFF
+              - generic [ref=e888]:
+                - button "Compare" [ref=e889]
+                - generic [ref=e891]:
+                  - img [ref=e892]
+                  - generic [ref=e894]:
+                    - text: "4.8"
+                    - generic [ref=e895]: / 5
+            - generic [ref=e896]:
+              - heading "Google Gemini" [level=3] [ref=e897]:
+                - link "Google Gemini" [ref=e898] [cursor=pointer]:
+                  - /url: /en/tools/gemini
+                  - text: Google Gemini
+              - paragraph [ref=e899]: Google's most capable AI model, built for multimodality.
+          - generic [ref=e900]: Read more →
+        - generic [ref=e903]:
+          - generic [ref=e904]:
+            - generic [ref=e905]:
+              - generic [ref=e906]: LLM
+              - generic [ref=e907]:
+                - button "Compare" [ref=e908]
+                - generic [ref=e910]:
+                  - img [ref=e911]
+                  - generic [ref=e913]:
+                    - text: "4.8"
+                    - generic [ref=e914]: / 5
+            - generic [ref=e915]:
+              - heading "Grok 3" [level=3] [ref=e916]:
+                - link "Grok 3" [ref=e917] [cursor=pointer]:
+                  - /url: /en/tools/grok
+                  - text: Grok 3
+              - paragraph [ref=e918]: xAI's frontier model with real-time access to X and massive compute power.
+          - generic [ref=e919]: Read more →
+        - generic [ref=e922]:
+          - generic [ref=e923]:
+            - generic [ref=e924]:
+              - generic [ref=e925]: Real EstateFeatured Tool
+              - generic [ref=e926]:
+                - button "Compare" [ref=e927]
+                - generic [ref=e929]:
+                  - img [ref=e930]
+                  - generic [ref=e932]:
+                    - text: "4.7"
+                    - generic [ref=e933]: / 5
+            - generic [ref=e934]:
+              - heading "Homesage" [level=3] [ref=e935]:
+                - link "Homesage" [ref=e936] [cursor=pointer]:
+                  - /url: /en/tools/homesage
+                  - text: Homesage
+              - paragraph [ref=e937]: AI platform for real estate intelligence and market analysis.
+          - generic [ref=e938]: Read more →
+        - generic [ref=e941]:
+          - generic [ref=e942]:
+            - generic [ref=e943]:
+              - generic [ref=e944]: Video Generation
+              - generic [ref=e945]:
+                - button "Compare" [ref=e946]
+                - generic [ref=e948]:
+                  - img [ref=e949]
+                  - generic [ref=e951]:
+                    - text: "4.7"
+                    - generic [ref=e952]: / 5
+            - generic [ref=e953]:
+              - heading "Kling AI" [level=3] [ref=e954]:
+                - link "Kling AI" [ref=e955] [cursor=pointer]:
+                  - /url: /en/tools/kling-ai
+                  - text: Kling AI
+              - paragraph [ref=e956]: "Review of Kling AI: A powerful video generation model known for producing long, coherent clips with high fidelity."
+          - generic [ref=e957]: Read more →
+        - generic [ref=e960]:
+          - generic [ref=e961]:
+            - generic [ref=e962]:
+              - generic [ref=e963]: Automation
+              - generic [ref=e964]:
+                - button "Compare" [ref=e965]
+                - generic [ref=e967]:
+                  - img [ref=e968]
+                  - generic [ref=e970]:
+                    - text: "4.8"
+                    - generic [ref=e971]: / 5
+            - generic [ref=e972]:
+              - 'heading "Llama 4.5 vs Gemini 3 Pro: The Battle for Local Business Automation" [level=3] [ref=e973]':
+                - 'link "Llama 4.5 vs Gemini 3 Pro: The Battle for Local Business Automation" [ref=e974] [cursor=pointer]':
+                  - /url: /en/tools/llama-4.5-vs-gemini-3-pro-automation
+                  - text: "Llama 4.5 vs Gemini 3 Pro: The Battle for Local Business Automation"
+              - paragraph [ref=e975]: A deep dive into using Llama 4.5 and Gemini 3 Pro for automating local businesses like salons and plumbing services. Featuring insights from Project 'Avocado'.
+          - generic [ref=e976]: Read more →
+        - generic [ref=e979]:
+          - generic [ref=e980]:
+            - generic [ref=e981]:
+              - generic [ref=e982]: Video Generation
+              - generic [ref=e983]:
+                - button "Compare" [ref=e984]
+                - generic [ref=e986]:
+                  - img [ref=e987]
+                  - generic [ref=e989]:
+                    - text: "4.8"
+                    - generic [ref=e990]: / 5
+            - generic [ref=e991]:
+              - heading "Luma Dream Machine" [level=3] [ref=e992]:
+                - link "Luma Dream Machine" [ref=e993] [cursor=pointer]:
+                  - /url: /en/tools/luma-dream-machine
+                  - text: Luma Dream Machine
+              - paragraph [ref=e994]: "Review of Luma Dream Machine: A highly accessible, fast, and realistic AI video generator perfect for rapid prototyping and production."
+          - generic [ref=e995]: Read more →
+        - generic [ref=e998]:
+          - generic [ref=e999]:
+            - generic [ref=e1000]:
+              - generic [ref=e1001]: Website BuilderFeatured Tool
+              - generic [ref=e1002]:
+                - button "Compare" [ref=e1003]
+                - generic [ref=e1005]:
+                  - img [ref=e1006]
+                  - generic [ref=e1008]:
+                    - text: "4.7"
+                    - generic [ref=e1009]: / 5
+            - generic [ref=e1010]:
+              - heading "Mixo" [level=3] [ref=e1011]:
+                - link "Mixo" [ref=e1012] [cursor=pointer]:
+                  - /url: /en/tools/mixo
+                  - text: Mixo
+              - paragraph [ref=e1013]: AI-powered website builder that launches startups in seconds.
+          - generic [ref=e1014]: Read more →
+        - generic [ref=e1017]:
+          - generic [ref=e1018]:
+            - generic [ref=e1019]:
+              - generic [ref=e1020]: Coding Agent
+              - generic [ref=e1021]:
+                - button "Compare" [ref=e1022]
+                - generic [ref=e1024]:
+                  - img [ref=e1025]
+                  - generic [ref=e1027]:
+                    - text: "4.8"
+                    - generic [ref=e1028]: / 5
+            - generic [ref=e1029]:
+              - heading "OpenAI GPT-5.3 Codex" [level=3] [ref=e1030]:
+                - link "OpenAI GPT-5.3 Codex" [ref=e1031] [cursor=pointer]:
+                  - /url: /en/tools/openai-o3
+                  - text: OpenAI GPT-5.3 Codex
+              - paragraph [ref=e1032]: OpenAI's latest specialized model for agentic software engineering, optimized for long-duration coding tasks.
+          - generic [ref=e1033]: Read more →
+        - generic [ref=e1036]:
+          - generic [ref=e1037]:
+            - generic [ref=e1038]:
+              - generic [ref=e1039]: Search
+              - generic [ref=e1040]:
+                - button "Compare" [ref=e1041]
+                - generic [ref=e1043]:
+                  - img [ref=e1044]
+                  - generic [ref=e1046]:
+                    - text: "4.9"
+                    - generic [ref=e1047]: / 5
+            - generic [ref=e1048]:
+              - 'heading "Perplexity AI: The AI Answer Engine" [level=3] [ref=e1049]':
+                - 'link "Perplexity AI: The AI Answer Engine" [ref=e1050] [cursor=pointer]':
+                  - /url: /en/tools/perplexity
+                  - text: "Perplexity AI: The AI Answer Engine"
+              - paragraph [ref=e1051]: Next-generation search engine that provides direct answers with citations, replacing traditional Google search.
+          - generic [ref=e1052]: Read more →
+        - generic [ref=e1055]:
+          - generic [ref=e1056]:
+            - generic [ref=e1057]:
+              - generic [ref=e1058]: Video Generation
+              - generic [ref=e1059]:
+                - button "Compare" [ref=e1060]
+                - generic [ref=e1062]:
+                  - img [ref=e1063]
+                  - generic [ref=e1065]:
+                    - text: "4.6"
+                    - generic [ref=e1066]: / 5
+            - generic [ref=e1067]:
+              - heading "Pika Art" [level=3] [ref=e1068]:
+                - link "Pika Art" [ref=e1069] [cursor=pointer]:
+                  - /url: /en/tools/pika-art
+                  - text: Pika Art
+              - paragraph [ref=e1070]: "Review of Pika Art: A user-friendly AI video generator excelling in animation and quick social media content creation."
+          - generic [ref=e1071]: Read more →
+        - generic [ref=e1074]:
+          - generic [ref=e1075]:
+            - generic [ref=e1076]:
+              - generic [ref=e1077]: Video Generation
+              - generic [ref=e1078]:
+                - button "Compare" [ref=e1079]
+                - generic [ref=e1081]:
+                  - img [ref=e1082]
+                  - generic [ref=e1084]:
+                    - text: "4.8"
+                    - generic [ref=e1085]: / 5
+            - generic [ref=e1086]:
+              - heading "Runway Gen-3 Alpha" [level=3] [ref=e1087]:
+                - link "Runway Gen-3 Alpha" [ref=e1088] [cursor=pointer]:
+                  - /url: /en/tools/runway-gen-3
+                  - text: Runway Gen-3 Alpha
+              - paragraph [ref=e1089]: "Review of Runway Gen-3 Alpha: A powerhouse for cinematic AI video generation with commercial-grade control."
+          - generic [ref=e1090]: Read more →
+        - generic [ref=e1093]:
+          - generic [ref=e1094]:
+            - generic [ref=e1095]:
+              - generic [ref=e1096]: MarketingFeatured Tool
+              - generic [ref=e1097]:
+                - button "Compare" [ref=e1098]
+                - generic [ref=e1100]:
+                  - img [ref=e1101]
+                  - generic [ref=e1103]:
+                    - text: "4.9"
+                    - generic [ref=e1104]: / 5
+            - generic [ref=e1105]:
+              - heading "Semrush" [level=3] [ref=e1106]:
+                - link "Semrush" [ref=e1107] [cursor=pointer]:
+                  - /url: /en/tools/semrush
+                  - text: Semrush
+              - paragraph [ref=e1108]: All-in-one SEO tool for improving online visibility and marketing insights.
+          - generic [ref=e1109]: Read more →
+        - generic [ref=e1112]:
+          - generic [ref=e1113]:
+            - generic [ref=e1114]:
+              - generic [ref=e1115]: Security
+              - generic [ref=e1116]:
+                - button "Compare" [ref=e1117]
+                - generic [ref=e1119]:
+                  - img [ref=e1120]
+                  - generic [ref=e1122]:
+                    - text: "4.8"
+                    - generic [ref=e1123]: / 5
+            - generic [ref=e1124]:
+              - heading "SEON Identity Verification" [level=3] [ref=e1125]:
+                - link "SEON Identity Verification" [ref=e1126] [cursor=pointer]:
+                  - /url: /en/tools/seon-identity-verification
+                  - text: SEON Identity Verification
+              - paragraph [ref=e1127]: AI-powered identity verification and fraud prevention platform for modern businesses.
+          - generic [ref=e1128]: Read more →
+        - generic [ref=e1131]:
+          - generic [ref=e1132]:
+            - generic [ref=e1133]:
+              - generic [ref=e1134]: MarketingFeatured Tool
+              - generic [ref=e1135]:
+                - button "Compare" [ref=e1136]
+                - generic [ref=e1138]:
+                  - img [ref=e1139]
+                  - generic [ref=e1141]:
+                    - text: "4.8"
+                    - generic [ref=e1142]: / 5
+            - generic [ref=e1143]:
+              - heading "Snov.io" [level=3] [ref=e1144]:
+                - link "Snov.io" [ref=e1145] [cursor=pointer]:
+                  - /url: /en/tools/snov-io
+                  - text: Snov.io
+              - paragraph [ref=e1146]: All-in-one cold outreach automation platform for sales and marketing.
+          - generic [ref=e1147]: Read more →
+        - generic [ref=e1150]:
+          - generic [ref=e1151]:
+            - generic [ref=e1152]:
+              - generic [ref=e1153]: Video Generation
+              - generic [ref=e1154]:
+                - button "Compare" [ref=e1155]
+                - generic [ref=e1157]:
+                  - img [ref=e1158]
+                  - generic [ref=e1160]:
+                    - text: "9.9"
+                    - generic [ref=e1161]: / 10
+            - generic [ref=e1162]:
+              - heading "OpenAI Sora 2" [level=3] [ref=e1163]:
+                - link "OpenAI Sora 2" [ref=e1164] [cursor=pointer]:
+                  - /url: /en/tools/sora-2
+                  - text: OpenAI Sora 2
+              - paragraph [ref=e1165]: "Review of OpenAI Sora 2: The groundbreaking AI video model with native audio and flawless physics simulation."
+          - generic [ref=e1166]: Read more →
+        - generic [ref=e1169]:
+          - generic [ref=e1170]:
+            - generic [ref=e1171]:
+              - generic [ref=e1172]: Text-to-SpeechFeatured Tool
+              - generic [ref=e1173]:
+                - button "Compare" [ref=e1174]
+                - generic [ref=e1176]:
+                  - img [ref=e1177]
+                  - generic [ref=e1179]:
+                    - text: "4.8"
+                    - generic [ref=e1180]: / 5
+            - generic [ref=e1181]:
+              - heading "Speechify" [level=3] [ref=e1182]:
+                - link "Speechify" [ref=e1183] [cursor=pointer]:
+                  - /url: /en/tools/speechify
+                  - text: Speechify
+              - paragraph [ref=e1184]: Leading AI text-to-speech reader that turns any text into audio.
+          - generic [ref=e1185]: Read more →
+        - generic [ref=e1188]:
+          - generic [ref=e1189]:
+            - generic [ref=e1190]:
+              - generic [ref=e1191]: Video Generation
+              - generic [ref=e1192]:
+                - button "Compare" [ref=e1193]
+                - generic [ref=e1195]:
+                  - img [ref=e1196]
+                  - generic [ref=e1198]:
+                    - text: "9.8"
+                    - generic [ref=e1199]: / 10
+            - generic [ref=e1200]:
+              - 'heading "Sora 2 vs Luma Dream Machine 3 vs Runway Gen-4: Best AI Video Generators of 2026" [level=3] [ref=e1201]':
+                - 'link "Sora 2 vs Luma Dream Machine 3 vs Runway Gen-4: Best AI Video Generators of 2026" [ref=e1202] [cursor=pointer]':
+                  - /url: /en/tools/video-generation-2026
+                  - text: "Sora 2 vs Luma Dream Machine 3 vs Runway Gen-4: Best AI Video Generators of 2026"
+              - paragraph [ref=e1203]: A deep dive comparison of the top AI video generators in 2026. We test Sora 2, Luma Dream Machine 3, and Runway Gen-4 on quality, speed, and cost.
+          - generic [ref=e1204]: Read more →
+        - generic [ref=e1207]:
+          - generic [ref=e1208]:
+            - generic [ref=e1209]:
+              - generic [ref=e1210]: Coding Assistant10% OFF first payment
+              - generic [ref=e1211]:
+                - button "Compare" [ref=e1212]
+                - generic [ref=e1214]:
+                  - img [ref=e1215]
+                  - generic [ref=e1217]:
+                    - text: "4.8"
+                    - generic [ref=e1218]: / 5
+            - generic [ref=e1219]:
+              - heading "Z.ai (GLM Coding Plan)" [level=3] [ref=e1220]:
+                - link "Z.ai (GLM Coding Plan)" [ref=e1221] [cursor=pointer]:
+                  - /url: /en/tools/zai
+                  - text: Z.ai (GLM Coding Plan)
+              - paragraph [ref=e1222]: A developer subscription for running GLM models inside Claude Code, Cline, Roo Code, OpenCode, and similar coding tools.
+          - generic [ref=e1223]: Read more →
+  - contentinfo [ref=e1224]:
+    - generic [ref=e1225]:
+      - generic [ref=e1226]:
+        - generic [ref=e1228]:
+          - heading "Subscribe to our newsletter" [level=3] [ref=e1229]
+          - paragraph [ref=e1230]: Get the latest AI tools and news delivered to your inbox.
+          - generic [ref=e1231]:
+            - text: Enter your email
+            - textbox "Enter your email" [ref=e1232]
+            - button "Subscribe" [ref=e1233]
+        - generic [ref=e1235]:
+          - generic [ref=e1236]:
+            - link "Twitter" [ref=e1237] [cursor=pointer]:
+              - /url: "#"
+              - text: Twitter
+              - img [ref=e1238]
+            - link "GitHub" [ref=e1240] [cursor=pointer]:
+              - /url: "#"
+              - text: GitHub
+              - img [ref=e1241]
+            - link "LinkedIn" [ref=e1244] [cursor=pointer]:
+              - /url: "#"
+              - text: LinkedIn
+              - img [ref=e1245]
+          - generic [ref=e1249]:
+            - link "Submit Tool" [ref=e1250] [cursor=pointer]:
+              - /url: /en/submit
+            - link "Sponsorship" [ref=e1251] [cursor=pointer]:
+              - /url: /en/sponsor
+            - link "About" [ref=e1252] [cursor=pointer]:
+              - /url: /en/about
+            - link "Privacy" [ref=e1253] [cursor=pointer]:
+              - /url: /en/privacy
+            - link "Terms" [ref=e1254] [cursor=pointer]:
+              - /url: /en/terms
+            - link "Affiliate Disclosure" [ref=e1255] [cursor=pointer]:
+              - /url: /en/affiliate-disclosure
+            - link "Editorial Policy" [ref=e1256] [cursor=pointer]:
+              - /url: /en/editorial-policy
+      - generic [ref=e1257]:
+        - paragraph [ref=e1258]: © 2026 AI Tool Navigator. All rights reserved.
+        - paragraph [ref=e1259]: "Affiliate Disclosure: We may earn a commission when you click on links and make a purchase. This helps support our independent reviews."
+```

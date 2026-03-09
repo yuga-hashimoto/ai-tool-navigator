@@ -18,6 +18,7 @@ import { getCategorySlug } from "@/lib/breadcrumbs";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
+import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { ProductTracker } from "@/components/ProductTracker";
 import { RecommendedTools } from "@/components/RecommendedTools";
@@ -300,6 +301,8 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                 </AffiliateLinkButton>
               </div>
             </div>
+
+            <AffiliateDisclaimer variant="compact" className="mt-6 -mb-2 w-full mx-auto" />
 
             <div className="mt-8 grid gap-4 lg:grid-cols-[1.2fr,0.8fr]">
               {fallbackNotice && (

@@ -115,7 +115,7 @@ export function ToolCard({ tool, priority }: { tool: ToolMetadata; priority?: bo
           </div>
         </div>
         <div className="mt-4 flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">
-          {t('readMore')} <span aria-hidden="true" className="ml-1 transition-transform group-hover:translate-x-1">\u2192</span>
+          {t('readMore')} <span aria-hidden="true" className="ml-1 transition-transform group-hover:translate-x-1">→</span>
         </div>
       </div>
     </div>

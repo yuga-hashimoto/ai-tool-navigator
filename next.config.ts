@@ -6,16 +6,16 @@ const withNextIntl = createNextIntlPlugin();
 
 /**
  * CDN Configuration
- *
+ * 
  * Configure your CDN settings in environment variables:
  * - CDN_ENABLED: Set to 'true' to enable CDN
  * - CDN_PROVIDER: 'cloudflare-r2' | 'cloudfront' | 'local' (default)
  * - CDN_URL: Your CDN base URL (e.g., https://cdn.yourdomain.com)
- *
+ * 
  * For Cloudflare R2:
  * - R2_ACCOUNT_ID: Your Cloudflare account ID
  * - R2_BUCKET_NAME: Your R2 bucket name
- *
+ * 
  * For CloudFront:
  * - CLOUDFRONT_URL: Your CloudFront distribution URL
  */
@@ -28,14 +28,14 @@ const cdnConfig = {
 
 const nextConfig: NextConfig = {
   output: "standalone",
-
+  
   // Enable compression for static assets
   compress: true,
-
+  
   // Configure CDN for static files
   async headers() {
     const headers: Array<{ source: string; headers: Array<{ key: string; value: string }> }> = [];
-
+    
     // Add CDN headers if enabled
     if (cdnConfig.enabled) {
       // CORS headers for CDN
@@ -45,7 +45,7 @@ const nextConfig: NextConfig = {
           { key: 'Access-Control-Allow-Origin', value: '*' },
         ],
       });
-
+      
       // Cache headers for static assets
       headers.push({
         source: '/_next/static/:path*',
@@ -53,7 +53,7 @@ const nextConfig: NextConfig = {
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
         ],
       });
-
+      
       headers.push({
         source: '/icons/:path*',
         headers: [
@@ -61,13 +61,13 @@ const nextConfig: NextConfig = {
         ],
       });
     }
-
+    
     return headers;
   },
-
+  
   // Configure asset prefix for CDN
   assetPrefix: cdnConfig.enabled ? cdnConfig.baseUrl : undefined,
-
+  
   images: {
     remotePatterns: [
       {
@@ -88,7 +88,7 @@ const nextConfig: NextConfig = {
       path: cdnConfig.baseUrl,
     } : {}),
   },
-
+  
   // Webpack configuration for CDN
   webpack: (config, { isServer }) => {
     // Add CDN-related webpack configuration

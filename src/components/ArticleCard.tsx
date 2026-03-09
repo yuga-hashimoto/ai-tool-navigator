@@ -40,7 +40,7 @@ export async function ArticleCard({ post, locale, priority }: ArticleCardProps) 
             </time>
             {post.readingTime > 0 && (
               <>
-                <span>•</span>
+                <span>\u2022</span>
                 <span>{t('readingTime', { minutes: post.readingTime })}</span>
               </>
             )}
@@ -52,7 +52,7 @@ export async function ArticleCard({ post, locale, priority }: ArticleCardProps) 
           )}
           {post.is_fallback && locale === 'ja' && (
             <span className="relative z-10 rounded-full bg-zinc-100 px-3 py-1.5 font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
-              英語ソース
+              \u82F1\u8A9E\u30BD\u30FC\u30B9
             </span>
           )}
         </div>

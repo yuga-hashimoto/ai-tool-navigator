@@ -20,7 +20,7 @@ type TrialStatus = 'ACTIVE' | 'EXPIRED' | 'CANCELLED' | 'CONVERTED';
 // import { updateUserSubscriptionFromWebhook } from './subscription-manager';
 // TODO: Implement updateUserSubscriptionFromWebhook function
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient() as any;
 
 // ================================================================
 // WEBHOOK HANDLER (with enhanced security)

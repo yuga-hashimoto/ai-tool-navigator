@@ -60,22 +60,28 @@ export function ToolOfTheWeek({ tool }: ToolOfTheWeekProps) {
                     {tool.pros && tool.pros.slice(0, 3).map((pro, idx) => (
                     <div key={idx} className="flex items-center gap-2 text-sm font-medium text-zinc-700 dark:text-zinc-300">
                         <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
-                        <span>{pro}</span>
+                        {pro}
                     </div>
                     ))}
                 </div>
 
-                <Link
-                    href={`/tools/${tool.slug}`}
-                    className="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200 shadow-sm"
-                >
-                    {tFeatured('checkItOut')} <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
+                <div className="flex flex-wrap gap-4">
+                    <Link
+                        href={`/tools/${tool.slug}`}
+                        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:from-purple-600 hover:to-pink-600 transition-colors"
+                    >
+                        {tFeatured('viewDetails')}
+                        <ArrowRight className="h-4 w-4" />
+                    </Link>
+                    <span className="inline-flex items-center rounded-xl border border-zinc-200 dark:border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-900 dark:text-white">
+                        {tool.pricing}
+                    </span>
+                </div>
             </div>
 
-            {/* Visual element or large icon on the right for desktop */}
-            <div className="hidden md:flex flex-col items-center justify-center flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 self-center overflow-hidden relative">
-                 {tool.image ? (
+            {/* Image */}
+            {tool.image && (
+                <div className="hidden md:block relative w-48 h-48 rounded-2xl overflow-hidden flex-shrink-0 shadow-md ring-1 ring-zinc-200/50 dark:ring-zinc-700/50">
                     <Image
                         src={tool.image}
                         alt={tool.title}
@@ -84,10 +90,8 @@ export function ToolOfTheWeek({ tool }: ToolOfTheWeekProps) {
                         priority={true}
                         className="object-cover"
                     />
-                 ) : (
-                    <span className="text-4xl font-bold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest">{tool.title.substring(0, 2)}</span>
-                 )}
-            </div>
+                </div>
+            )}
         </div>
       </div>
     </div>

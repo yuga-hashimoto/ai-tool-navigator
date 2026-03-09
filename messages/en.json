@@ -71,7 +71,6 @@
     "comparison": "Comparisons",
     "automation": "Automation",
     "real-estate": "Real Estate",
-    "search": "Search",
     "security": "Security",
     "voice": "Voice",
     "design": "Design"
@@ -90,7 +89,11 @@
       "outOfStock": "Out of Stock",
       "quickView": "Quick View",
       "quickAdd": "Quick Add",
-      "addedToCart": "Added"
+      "addedToCart": "Added",
+      "pricing_free": "Free",
+      "pricing_freemium": "Freemium",
+      "pricing_paid": "Paid",
+      "pricing_contact": "Contact"
   },
   "FeaturedCarousel": {
       "title": "Trending Tools",

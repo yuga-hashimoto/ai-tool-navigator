@@ -14,6 +14,7 @@ import { generateProductSchema, generateToolSchema, generateBreadcrumbSchema } f
 import { ProsConsSection } from "@/components/ProsConsSection";
 import { RatingBreakdown } from "@/components/RatingBreakdown";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
+import { MarkdownImage } from "@/components/MarkdownImage";
 import { getCategorySlug } from "@/lib/breadcrumbs";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
@@ -22,7 +23,6 @@ import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 import { ProductTracker } from "@/components/ProductTracker";
 import { RecommendedTools } from "@/components/RecommendedTools";
-import { MarkdownImage } from "@/components/MarkdownImage";
 import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import type { ComponentProps } from "react";

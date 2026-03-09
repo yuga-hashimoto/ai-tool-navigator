@@ -13,7 +13,7 @@ cons:
   - 'Primarily B2B focused, not for individual users'
   - Requires integration effort for full potential
 affiliate_link: 'https://seon.io'
-last_updated: '2024-05-21'
+last_updated: '2026-03-09'
 verified: false
 ---
 ## SEON Identity Verificationとは？
@@ -32,6 +32,8 @@ AI搭載 本人確認 and 不正対策 platform for modern businesses.。この�
 * Liveness detection to stop deepfakes and spoofing
 * Easy-to-use API for rapid integration
 * Comprehensive risk scoring based on digital footprint
+* 柔軟な料金体系（約$80から利用可能）
+* 新しく追加された「ID Verification」「Liveness Detection」「Proof of Address」などの専用モジュール
 
 ### 注意点
 

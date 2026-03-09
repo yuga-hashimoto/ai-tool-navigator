@@ -13,7 +13,7 @@ cons:
   - "Primarily B2B focused, not for individual users"
   - "Requires integration effort for full potential"
 affiliate_link: "https://seon.io"
-last_updated: "2024-05-21"
+last_updated: "2026-03-09"
 verified: false
 ---
 
@@ -26,6 +26,8 @@ SEON Identity Verification is a comprehensive fraud prevention solution released
 *   **Unified Risk Platform:** Combines identity verification, liveness detection, and proof of address into a single workflow.
 *   **AI-Driven Intelligence:** Analyzes over 900 real-time data signals (email, phone, IP, social media) to build a complete risk profile.
 *   **Deepfake Prevention:** Utilizes advanced liveness detection to spot synthetic media and AI-generated spoofs.
+*   **Pricing:** Pricing starts at approximately $80, offering flexible analysis tiers.
+*   **Dedicated Modules:** Including new dedicated modules for ID Verification, Liveness Detection, and Proof of Address.
 *   **Flexible Integration:** Offers easy-to-use APIs and SDKs that can be embedded directly into onboarding flows.
 
 ### Why Choose SEON?

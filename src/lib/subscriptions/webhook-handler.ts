@@ -16,10 +16,10 @@ import { PrismaClient } from '@prisma/client';
 type SubscriptionStatus = 'ACTIVE' | 'CANCELLED' | 'PAST_DUE' | 'UNPAID' | 'TRIALING' | 'PAUSED' | 'INACTIVE';
 type BillingType = 'MONTHLY' | 'YEARLY' | 'ONE_TIME' | 'TRIAL_CONVERSION' | 'RENEWAL' | 'SUBSCRIPTION' | 'UPGRADE' | 'DOWNGRADE';
 type BillingStatus = 'PAID' | 'UNPAID' | 'PENDING' | 'FAILED' | 'SUCCEEDED';
-type TrialStatus = 'ACTIVE' | 'EXPIRED' | 'CANCELLED' | 'CONVERTED';
 // import { updateUserSubscriptionFromWebhook } from './subscription-manager';
 // TODO: Implement updateUserSubscriptionFromWebhook function
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const prisma = new PrismaClient() as any;
 
 // ================================================================

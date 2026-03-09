@@ -67,6 +67,20 @@ export function ToolCard({ tool, priority }: { tool: ToolMetadata; priority?: bo
                       {tool.discount}
                     </span>
                   )}
+                  {tool.pricing && (
+                    <span className={cn(
+                      "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset",
+                      tool.pricing === 'free'
+                        ? "bg-emerald-50 text-emerald-700 ring-emerald-600/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/30"
+                        : tool.pricing === 'freemium'
+                        ? "bg-violet-50 text-violet-700 ring-violet-600/20 dark:bg-violet-400/10 dark:text-violet-400 dark:ring-violet-400/30"
+                        : tool.pricing === 'paid'
+                        ? "bg-orange-50 text-orange-700 ring-orange-600/20 dark:bg-orange-400/10 dark:text-orange-400 dark:ring-orange-400/30"
+                        : "bg-zinc-50 text-zinc-700 ring-zinc-600/20 dark:bg-zinc-400/10 dark:text-zinc-400 dark:ring-zinc-400/30"
+                    )}>
+                      {t(`pricing_${tool.pricing}`)}
+                    </span>
+                  )}
                   {tool.is_fallback && locale === 'ja' && (
                     <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700 ring-1 ring-inset ring-zinc-300 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-zinc-700">
                       {fallbackLabel}
@@ -101,7 +115,7 @@ export function ToolCard({ tool, priority }: { tool: ToolMetadata; priority?: bo
           </div>
         </div>
         <div className="mt-4 flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">
-          {t('readMore')} <span aria-hidden="true" className="ml-1 transition-transform group-hover:translate-x-1">→</span>
+          {t('readMore')} <span aria-hidden="true" className="ml-1 transition-transform group-hover:translate-x-1">\u2192</span>
         </div>
       </div>
     </div>

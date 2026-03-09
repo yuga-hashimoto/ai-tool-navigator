@@ -58,50 +58,56 @@ export function ToolCard({ tool, priority }: { tool: ToolMetadata; priority?: bo
                     </span>
                   )}
                   {tool.featured && (
-                  <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-500 dark:ring-amber-400/20">
-                      {t('featured')}
+                  <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400 dark:ring-amber-400/30">
+                    {t('featured')}
                   </span>
                   )}
-                  {tool.discount && (
-                    <span className="inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-400/10 dark:text-green-500 dark:ring-green-400/20">
-                      {tool.discount}
-                    </span>
-                  )}
-                  {tool.is_fallback && locale === 'ja' && (
-                    <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700 ring-1 ring-inset ring-zinc-300 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-zinc-700">
-                      {fallbackLabel}
-                    </span>
-                  )}
               </div>
-              <div className="flex items-center gap-3">
-                  <button
-                      onClick={handleCompareClick}
-                      className={cn(
-                          "relative z-20 flex items-center gap-1.5 text-xs font-medium transition-colors rounded px-2 py-1",
-                          isSelected
-                              ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
-                              : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
-                      )}
-                  >
-                      {isSelected ? t('selected') : t('compare')}
-                  </button>
-                  <Rating rating={tool.rating} compact={true} />
-              </div>
+              <button
+                onClick={handleCompareClick}
+                className={cn(
+                  "flex-shrink-0 rounded-full p-1.5 transition-colors",
+                  isSelected
+                    ? "bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-400"
+                    : "bg-zinc-100 text-zinc-400 hover:bg-zinc-200 hover:text-zinc-600 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+                )}
+                title={isSelected ? t('removeFromCompare') : t('addToCompare')}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
           </div>
-          <div className="mt-4">
-              <h3 className="text-lg font-semibold leading-6 text-zinc-900 group-hover:text-blue-600 dark:text-zinc-100 dark:group-hover:text-blue-400">
-                  <Link href={`/tools/${tool.slug}`} onClick={() => trackClick()}>
-                      <span className="absolute inset-0" />
-                      {tool.title}
-                  </Link>
-              </h3>
-              <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-                  {tool.description}
-              </p>
-          </div>
+          <Link href={`/tools/${tool.slug}`} onClick={() => trackClick()} className="block mt-3">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              {tool.title}
+            </h3>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300 line-clamp-2">
+              {tool.description}
+            </p>
+          </Link>
         </div>
-        <div className="mt-4 flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">
-          {t('readMore')} <span aria-hidden="true" className="ml-1 transition-transform group-hover:translate-x-1">→</span>
+        <div className="mt-4 space-y-3">
+          <Rating rating={tool.rating} />
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm font-semibold text-zinc-900 dark:text-white">
+              {tool.pricing}
+            </span>
+            {tool.is_fallback && locale === 'ja' && (
+              <span className="inline-flex items-center rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                {fallbackLabel}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>

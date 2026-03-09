@@ -141,7 +141,7 @@ function RecentToolItem({
   const formatTimeAgo = (timestamp: number): string => {
     const now = Date.now();
     const diff = now - timestamp;
-    
+
     const minutes = Math.floor(diff / (1000 * 60));
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -150,7 +150,7 @@ function RecentToolItem({
     if (minutes < 60) return t('minutesAgo', { count: minutes });
     if (hours < 24) return t('hoursAgo', { count: hours });
     if (days < 7) return t('daysAgo', { count: days });
-    
+
     return new Date(timestamp).toLocaleDateString();
   };
 
@@ -236,7 +236,7 @@ function RecentToolItem({
             </span>
           )}
           <span className="text-xs text-zinc-400 dark:text-zinc-500">
-            •
+            \u2022
           </span>
           <span className="text-xs text-zinc-500 dark:text-zinc-400">
             {formatTimeAgo(tool.viewedAt)}

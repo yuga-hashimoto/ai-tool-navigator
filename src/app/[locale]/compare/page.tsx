@@ -8,6 +8,7 @@ import { generateBreadcrumbSchema } from "@/lib/schema";
 import { filterToolList, sortToolsForEditorialLists } from "@/lib/editorial";
 import { getComparisonHref } from "@/lib/compare-pages";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
+import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 
 export async function generateMetadata({
   params,
@@ -107,6 +108,10 @@ export default async function ComparePage({
           <p className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-50 px-5 py-4 text-sm leading-6 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400">
             {copy.trustNote}
           </p>
+        </div>
+
+        <div className="mx-auto mb-10 max-w-3xl">
+          <AffiliateDisclaimer variant="compact" />
         </div>
 
         <div className="mb-16">

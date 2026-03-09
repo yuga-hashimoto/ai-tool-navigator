@@ -145,9 +145,16 @@ export async function appendPartnerInquiry(data: PartnerInquirySheetData) {
       throw new Error("Google Sheets integration is not configured");
     }
 
-    const credentials = JSON.parse(serviceAccountJson);
+    let credentials;
+    try {
+      credentials = JSON.parse(serviceAccountJson);
+    } catch (parseError) {
+      console.error('Failed to parse GOOGLE_SERVICE_ACCOUNT_JSON:', parseError);
+      throw new Error('Invalid GOOGLE_SERVICE_ACCOUNT_JSON format: JSON parse failed');
+    }
+
     if (!credentials.client_email || !credentials.private_key) {
-      throw new Error("Invalid GOOGLE_SERVICE_ACCOUNT_JSON format");
+      throw new Error("Invalid GOOGLE_SERVICE_ACCOUNT_JSON format: missing required fields");
     }
 
     const auth = new google.auth.GoogleAuth({

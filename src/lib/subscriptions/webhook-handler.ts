@@ -128,35 +128,35 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   console.log(`Subscription created: ${subscription.id} for customer ${customerId}`);
   
   try {
-    const user = await prisma.user.findFirst({
-      where: { stripeCustomerId: customerId }
-    });
-
-    if (!user) {
-      console.error(`No user found for Stripe customer: ${customerId}`);
-      return;
-    }
-
-    const status = mapStripeStatus(subscription.status) as SubscriptionStatus;
-    const priceId = subscription.items.data[0]?.price?.id;
-    
-    await prisma.subscription.upsert({
-      where: { stripeSubscriptionId: subscription.id },
-      update: {
-        status,
-        stripePriceId: priceId,
-        currentPeriodStart: new Date(subscription.current_period_start * 1000),
-        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
-      },
-      create: {
-        userId: user.id,
-        stripeSubscriptionId: subscription.id,
-        stripePriceId: priceId,
-        status,
-        currentPeriodStart: new Date(subscription.current_period_start * 1000),
-        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
-      },
-    });
+    // const user = await prisma.user.findFirst({
+    //   where: { stripeCustomerId: customerId }
+    // });
+    //
+    // if (!user) {
+    //   console.error(`No user found for Stripe customer: ${customerId}`);
+    //   return;
+    // }
+    //
+    // const status = mapStripeStatus(subscription.status) as SubscriptionStatus;
+    // const priceId = subscription.items.data[0]?.price?.id;
+    //
+    // await prisma.subscription.upsert({
+    //   where: { stripeSubscriptionId: subscription.id },
+    //   update: {
+    //     status,
+    //     stripePriceId: priceId,
+    //     currentPeriodStart: new Date(subscription.current_period_start * 1000),
+    //     currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+    //   },
+    //   create: {
+    //     userId: user.id,
+    //     stripeSubscriptionId: subscription.id,
+    //     stripePriceId: priceId,
+    //     status,
+    //     currentPeriodStart: new Date(subscription.current_period_start * 1000),
+    //     currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+    //   },
+    // });
   } catch (error) {
     console.error('Error handling subscription created:', error);
     throw error;
@@ -171,19 +171,19 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   console.log(`Subscription updated: ${subscription.id} for customer ${customerId}`);
   
   try {
-    const status = mapStripeStatus(subscription.status) as SubscriptionStatus;
-    const priceId = subscription.items.data[0]?.price?.id;
-
-    await prisma.subscription.updateMany({
-      where: { stripeSubscriptionId: subscription.id },
-      data: {
-        status,
-        stripePriceId: priceId,
-        currentPeriodStart: new Date(subscription.current_period_start * 1000),
-        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
-        cancelAtPeriodEnd: subscription.cancel_at_period_end,
-      },
-    });
+    // const status = mapStripeStatus(subscription.status) as SubscriptionStatus;
+    // const priceId = subscription.items.data[0]?.price?.id;
+    //
+    // await prisma.subscription.updateMany({
+    //   where: { stripeSubscriptionId: subscription.id },
+    //   data: {
+    //     status,
+    //     stripePriceId: priceId,
+    //     currentPeriodStart: new Date(subscription.current_period_start * 1000),
+    //     currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+    //     cancelAtPeriodEnd: subscription.cancel_at_period_end,
+    //   },
+    // });
   } catch (error) {
     console.error('Error handling subscription updated:', error);
     throw error;
@@ -194,13 +194,13 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   console.log(`Subscription deleted: ${subscription.id}`);
   
   try {
-    await prisma.subscription.updateMany({
-      where: { stripeSubscriptionId: subscription.id },
-      data: {
-        status: 'CANCELLED' as SubscriptionStatus,
-        cancelledAt: new Date(),
-      },
-    });
+    // await prisma.subscription.updateMany({
+    //   where: { stripeSubscriptionId: subscription.id },
+    //   data: {
+    //     status: 'CANCELLED' as SubscriptionStatus,
+    //     cancelledAt: new Date(),
+    //   },
+    // });
   } catch (error) {
     console.error('Error handling subscription deleted:', error);
     throw error;
@@ -232,26 +232,26 @@ async function handleInvoiceCreated(invoice: Stripe.Invoice) {
   try {
     if (!customerId) return;
     
-    const user = await prisma.user.findFirst({
-      where: { stripeCustomerId: customerId }
-    });
-
-    if (!user) {
-      console.error(`No user found for Stripe customer: ${customerId}`);
-      return;
-    }
-
-    await prisma.billingHistory.create({
-      data: {
-        userId: user.id,
-        stripeInvoiceId: invoice.id,
-        amount: invoice.amount_due,
-        currency: invoice.currency,
-        status: 'PENDING' as BillingStatus,
-        type: 'SUBSCRIPTION' as BillingType,
-        description: invoice.description || `Invoice ${invoice.number}`,
-      },
-    });
+    // const user = await prisma.user.findFirst({
+    //   where: { stripeCustomerId: customerId }
+    // });
+    //
+    // if (!user) {
+    //   console.error(`No user found for Stripe customer: ${customerId}`);
+    //   return;
+    // }
+    //
+    // await prisma.billingHistory.create({
+    //   data: {
+    //     userId: user.id,
+    //     stripeInvoiceId: invoice.id,
+    //     amount: invoice.amount_due,
+    //     currency: invoice.currency,
+    //     status: 'PENDING' as BillingStatus,
+    //     type: 'SUBSCRIPTION' as BillingType,
+    //     description: invoice.description || `Invoice ${invoice.number}`,
+    //   },
+    // });
   } catch (error) {
     console.error('Error handling invoice created:', error);
     throw error;
@@ -262,13 +262,13 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
   console.log(`Invoice paid: ${invoice.id}`);
   
   try {
-    await prisma.billingHistory.updateMany({
-      where: { stripeInvoiceId: invoice.id },
-      data: {
-        status: 'PAID' as BillingStatus,
-        paidAt: new Date(),
-      },
-    });
+    // await prisma.billingHistory.updateMany({
+    //   where: { stripeInvoiceId: invoice.id },
+    //   data: {
+    //     status: 'PAID' as BillingStatus,
+    //     paidAt: new Date(),
+    //   },
+    // });
   } catch (error) {
     console.error('Error handling invoice paid:', error);
     throw error;
@@ -283,12 +283,12 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
   console.log(`Invoice payment failed: ${invoice.id} for customer ${customerId}`);
   
   try {
-    await prisma.billingHistory.updateMany({
-      where: { stripeInvoiceId: invoice.id },
-      data: {
-        status: 'FAILED' as BillingStatus,
-      },
-    });
+    // await prisma.billingHistory.updateMany({
+    //   where: { stripeInvoiceId: invoice.id },
+    //   data: {
+    //     status: 'FAILED' as BillingStatus,
+    //   },
+    // });
     
     // TODO: Send payment failure notification email
     // TODO: Implement retry logic or grace period
@@ -312,23 +312,23 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   try {
     if (!customerId) return;
     
-    const user = await prisma.user.findFirst({
-      where: { stripeCustomerId: customerId }
-    });
-
-    if (!user) {
-      console.error(`No user found for Stripe customer: ${customerId}`);
-      return;
-    }
-
-    // Update user's subscription status based on checkout session
-    if (session.subscription) {
-      const subscriptionId = typeof session.subscription === 'string'
-        ? session.subscription
-        : session.subscription.id;
-        
-      console.log(`Checkout created subscription: ${subscriptionId} for user: ${user.id}`);
-    }
+    // const user = await prisma.user.findFirst({
+    //   where: { stripeCustomerId: customerId }
+    // });
+    //
+    // if (!user) {
+    //   console.error(`No user found for Stripe customer: ${customerId}`);
+    //   return;
+    // }
+    //
+    // // Update user's subscription status based on checkout session
+    // if (session.subscription) {
+    //   const subscriptionId = typeof session.subscription === 'string'
+    //     ? session.subscription
+    //     : session.subscription.id;
+    //
+    //   console.log(`Checkout created subscription: ${subscriptionId} for user: ${user.id}`);
+    // }
   } catch (error) {
     console.error('Error handling checkout completed:', error);
     throw error;

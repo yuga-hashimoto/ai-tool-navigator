@@ -297,3 +297,52 @@ model OrderItem {
   @@index([orderId])
   @@index([productId])
 }
+
+model User {
+  id               String         @id @default(cuid())
+  email            String         @unique
+  name             String?
+  stripeCustomerId String?        @unique @map("stripe_customer_id")
+  subscriptions    Subscription[]
+  billingHistory   BillingHistory[]
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Subscription {
+  id                   String    @id @default(cuid())
+  userId               String    @map("user_id")
+  user                 User      @relation(fields: [userId], references: [id])
+  stripeSubscriptionId String    @unique @map("stripe_subscription_id")
+  stripePriceId        String?   @map("stripe_price_id")
+  status               String    // SubscriptionStatus
+  currentPeriodStart   DateTime  @map("current_period_start")
+  currentPeriodEnd     DateTime  @map("current_period_end")
+  cancelAtPeriodEnd    Boolean   @default(false) @map("cancel_at_period_end")
+  cancelledAt          DateTime? @map("cancelled_at")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  @@map("subscriptions")
+  @@index([userId])
+}
+
+model BillingHistory {
+  id              String    @id @default(cuid())
+  userId          String    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id])
+  stripeInvoiceId String    @unique @map("stripe_invoice_id")
+  amount          Float
+  currency        String    @default("USD")
+  status          String    // BillingStatus
+  type            String    // BillingType
+  description     String?
+  paidAt          DateTime? @map("paid_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("billing_history")
+  @@index([userId])
+}

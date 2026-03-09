@@ -19,6 +19,7 @@ import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
+import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 import { ProductTracker } from "@/components/ProductTracker";
 import { RecommendedTools } from "@/components/RecommendedTools";
 import { Link } from "@/i18n/routing";
@@ -248,6 +249,9 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
         <ProductTracker slug={slug} />
         <Breadcrumbs items={breadcrumbItems} />
+        <div className="mb-6">
+          <AffiliateDisclaimer variant="compact" />
+        </div>
 
         <div className="overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-900/5 dark:bg-zinc-900 dark:ring-white/10">
           <div className="px-6 py-8 sm:px-12 sm:py-12 lg:px-16">

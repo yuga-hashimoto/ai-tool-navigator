@@ -141,7 +141,7 @@ function RecentToolItem({
   const formatTimeAgo = (timestamp: number): string => {
     const now = Date.now();
     const diff = now - timestamp;
-    
+
     const minutes = Math.floor(diff / (1000 * 60));
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -150,7 +150,7 @@ function RecentToolItem({
     if (minutes < 60) return t('minutesAgo', { count: minutes });
     if (hours < 24) return t('hoursAgo', { count: hours });
     if (days < 7) return t('daysAgo', { count: days });
-    
+
     return new Date(timestamp).toLocaleDateString();
   };
 
@@ -166,6 +166,7 @@ function RecentToolItem({
               src={tool.image}
               alt={tool.title}
               fill
+              sizes="40px"
               loading="lazy"
               className="object-cover"
             />
@@ -206,6 +207,7 @@ function RecentToolItem({
               src={tool.image}
               alt={tool.title}
               fill
+              sizes="48px"
               loading="lazy"
               className="object-cover"
             />

@@ -9,6 +9,7 @@ import { getAllTools, ToolMetadata } from "@/lib/tools";
 import { generateBreadcrumbSchema, generateFAQSchema } from "@/lib/schema";
 import { getComparePresetBySlug, parseComparisonSlug } from "@/lib/compare-pages";
 import { getEditorialToolStatus, isReviewPendingToolSlug } from "@/lib/editorial";
+import { Link } from "@/i18n/routing";
 
 interface PageParams {
   locale: string;
@@ -271,12 +272,12 @@ export default async function CompareTemplatePage({
                       <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">{formatUpdated(locale, tool.last_updated)}</td>
                       <td className="px-6 py-5">
                         <div className="flex flex-wrap items-center justify-end gap-4">
-                          <a
-                            href={`/${locale}/tools/${tool.slug}`}
+                          <Link
+                            href={`/tools/${tool.slug}`}
                             className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 underline-offset-4 hover:underline py-2"
                           >
                             {copy.review}
-                          </a>
+                          </Link>
                           <AffiliateLinkButton
                             href={tool.affiliate_link}
                             toolSlug={tool.slug}

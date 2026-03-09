@@ -1,44 +1,34 @@
 import { google } from 'googleapis';
 
+async function getAuthenticatedSheets() {
+  const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+  const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+
+  if (!serviceAccountJson) throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is not set. Google Sheets integration is disabled.');
+  if (!spreadsheetId) throw new Error('GOOGLE_SHEET_ID is not set. Google Sheets integration is disabled.');
+
+  let credentials;
+  try {
+    credentials = JSON.parse(serviceAccountJson);
+  } catch {
+    throw new Error('Invalid GOOGLE_SERVICE_ACCOUNT_JSON format: JSON parse failed');
+  }
+
+  if (!credentials.client_email || !credentials.private_key) {
+    throw new Error('Invalid GOOGLE_SERVICE_ACCOUNT_JSON format: missing required fields');
+  }
+
+  const auth = new google.auth.GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+
+  return { sheets: google.sheets({ version: 'v4', auth }), spreadsheetId };
+}
+
 export async function appendSubscriber(email: string) {
   try {
-    const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-
-    if (!serviceAccountJson) {
-      const errorMsg = 'GOOGLE_SERVICE_ACCOUNT_JSON environment variable is not set. Google Sheets integration is disabled.';
-      console.error(errorMsg);
-      throw new Error(errorMsg);
-    }
-
-    if (!spreadsheetId) {
-      const errorMsg = 'GOOGLE_SHEET_ID environment variable is not set. Google Sheets integration is disabled.';
-      console.error(errorMsg);
-      throw new Error(errorMsg);
-    }
-
-    // Parse the service account JSON
-    let credentials;
-    try {
-      credentials = JSON.parse(serviceAccountJson);
-    } catch (parseError) {
-      console.error('Failed to parse GOOGLE_SERVICE_ACCOUNT_JSON:', parseError);
-      throw new Error('Invalid GOOGLE_SERVICE_ACCOUNT_JSON format: JSON parse failed');
-    }
-
-    // Basic validation of credentials structure
-    if (!credentials.client_email || !credentials.private_key) {
-      console.error('GOOGLE_SERVICE_ACCOUNT_JSON is missing client_email or private_key');
-      throw new Error('Invalid GOOGLE_SERVICE_ACCOUNT_JSON format: missing required fields');
-    }
-
-    const auth = new google.auth.GoogleAuth({
-      credentials,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-
-    const sheets = google.sheets({ version: 'v4', auth });
-
+    const { sheets, spreadsheetId } = await getAuthenticatedSheets();
     const date = new Date().toISOString();
 
     await sheets.spreadsheets.values.append({
@@ -52,7 +42,10 @@ export async function appendSubscriber(email: string) {
 
     console.log(`Successfully appended subscriber ${email} to Google Sheet.`);
   } catch (error) {
-    console.error('Error appending subscriber to Google Sheet:', error);
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    if (!errorMsg.includes('not set')) {
+      console.error('Error appending subscriber to Google Sheet:', errorMsg);
+    }
     // Rethrow so the caller knows the operation failed
     throw error;
   }
@@ -81,43 +74,7 @@ export interface PartnerInquirySheetData {
 
 export async function appendToolSubmission(data: ToolSubmissionData) {
   try {
-    const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-
-    if (!serviceAccountJson) {
-      const errorMsg = 'GOOGLE_SERVICE_ACCOUNT_JSON environment variable is not set. Google Sheets integration is disabled.';
-      console.error(errorMsg);
-      throw new Error(errorMsg);
-    }
-
-    if (!spreadsheetId) {
-      const errorMsg = 'GOOGLE_SHEET_ID environment variable is not set. Google Sheets integration is disabled.';
-      console.error(errorMsg);
-      throw new Error(errorMsg);
-    }
-
-    // Parse the service account JSON
-    let credentials;
-    try {
-      credentials = JSON.parse(serviceAccountJson);
-    } catch (parseError) {
-      console.error('Failed to parse GOOGLE_SERVICE_ACCOUNT_JSON:', parseError);
-      throw new Error('Invalid GOOGLE_SERVICE_ACCOUNT_JSON format: JSON parse failed');
-    }
-
-    // Basic validation of credentials structure
-    if (!credentials.client_email || !credentials.private_key) {
-      console.error('GOOGLE_SERVICE_ACCOUNT_JSON is missing client_email or private_key');
-      throw new Error('Invalid GOOGLE_SERVICE_ACCOUNT_JSON format: missing required fields');
-    }
-
-    const auth = new google.auth.GoogleAuth({
-      credentials,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-
-    const sheets = google.sheets({ version: 'v4', auth });
-
+    const { sheets, spreadsheetId } = await getAuthenticatedSheets();
     const date = new Date().toISOString();
 
     await sheets.spreadsheets.values.append({
@@ -131,38 +88,17 @@ export async function appendToolSubmission(data: ToolSubmissionData) {
 
     console.log(`Successfully appended tool submission ${data.name} to Google Sheet.`);
   } catch (error) {
-    console.error('Error appending tool submission to Google Sheet:', error);
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    if (!errorMsg.includes('not set')) {
+      console.error('Error appending tool submission to Google Sheet:', errorMsg);
+    }
     throw error;
   }
 }
 
 export async function appendPartnerInquiry(data: PartnerInquirySheetData) {
   try {
-    const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-
-    if (!serviceAccountJson || !spreadsheetId) {
-      throw new Error("Google Sheets integration is not configured");
-    }
-
-    let credentials;
-    try {
-      credentials = JSON.parse(serviceAccountJson);
-    } catch (parseError) {
-      console.error('Failed to parse GOOGLE_SERVICE_ACCOUNT_JSON:', parseError);
-      throw new Error('Invalid GOOGLE_SERVICE_ACCOUNT_JSON format: JSON parse failed');
-    }
-
-    if (!credentials.client_email || !credentials.private_key) {
-      throw new Error("Invalid GOOGLE_SERVICE_ACCOUNT_JSON format: missing required fields");
-    }
-
-    const auth = new google.auth.GoogleAuth({
-      credentials,
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-    });
-
-    const sheets = google.sheets({ version: "v4", auth });
+    const { sheets, spreadsheetId } = await getAuthenticatedSheets();
     const date = new Date().toISOString();
 
     await sheets.spreadsheets.values.append({
@@ -176,8 +112,8 @@ export async function appendPartnerInquiry(data: PartnerInquirySheetData) {
           data.contactName,
           data.email,
           data.websiteUrl,
-          data.packageInterest || "",
-          data.monthlyBudget || "",
+          data.packageInterest ?? "",
+          data.monthlyBudget ?? "",
           data.message,
           data.locale,
           date,
@@ -185,7 +121,10 @@ export async function appendPartnerInquiry(data: PartnerInquirySheetData) {
       },
     });
   } catch (error) {
-    console.error("Error appending partner inquiry to Google Sheet:", error);
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    if (!errorMsg.includes('not set')) {
+      console.error("Error appending partner inquiry to Google Sheet:", errorMsg);
+    }
     throw error;
   }
 }

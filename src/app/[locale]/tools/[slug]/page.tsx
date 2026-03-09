@@ -96,10 +96,10 @@ function formatPricingLabel(
 
   const labels = locale === "ja"
     ? {
-        free: "無料",
-        freemium: "フリーミアム",
-        paid: "有料",
-        contact: "要問い合わせ",
+        free: "\u7121\u6599",
+        freemium: "\u30D5\u30EA\u30FC\u30DF\u30A2\u30E0",
+        paid: "\u6709\u6599",
+        contact: "\u8981\u554F\u3044\u5408\u308F\u305B",
       }
     : {
         free: "Free",
@@ -108,7 +108,7 @@ function formatPricingLabel(
         contact: "Contact sales",
       };
 
-  return pricing ? labels[pricing] : locale === "ja" ? "未掲載" : "Not listed";
+  return pricing ? labels[pricing] : locale === "ja" ? "\u672A\u63B2\u8F09" : "Not listed";
 }
 
 export default async function ToolPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
@@ -155,35 +155,37 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   const components = {
     "youtube-embed": (props: ComponentProps<typeof YouTubeEmbed>) => <YouTubeEmbed {...props} />,
-    img: ({ src, alt }: { src?: string; alt?: string }) => <MarkdownImage src={src} alt={alt} />,
+    img: ({ src, alt }: { src?: string; alt?: string }) => (
+      <MarkdownImage src={src} alt={alt} />
+    ),
   } as unknown as Components;
 
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems, locale);
   const editorialStatus = getEditorialToolStatus(metadata);
   const copy = isJapanese
     ? {
-        reviewTitle: "編集レビュー情報",
-        reviewedHeadline: "この掲載は確認済みです",
-        reviewedBody: "主要な機能、リンク、更新日を確認したうえで、比較ハブやカテゴリLPから案内しています。",
-        pendingHeadline: "この掲載は確認待ちです",
-        pendingBody: "公開情報を元に掲載しています。価格や機能は公式サイトで必ず再確認してください。",
-        archivedHeadline: "この掲載は索引対象外です",
-        archivedBody: "名称や情報の信頼性に確認課題があるため、主要導線とインデックスからは外しています。参考閲覧のみを想定しています。",
-        pricing: "料金",
-        platform: "対応環境",
-        status: "ステータス",
-        unknown: "未掲載",
-        compareCategory: "このカテゴリを比較",
-        browseCategory: "カテゴリLPを見る",
-        verifiedLabel: "確認済み",
-        pendingLabel: "要確認",
-        archivedLabel: "索引対象外",
-        disclosureLink: "広告開示",
-        policyLink: "編集方針",
-        syncTitle: "公式情報の監視状況",
-        syncLastChecked: "最終確認",
-        syncLastChanged: "差分検知",
-        syncNoData: "まだ自動監視のスナップショットはありません。",
+        reviewTitle: "\u7DE8\u96C6\u30EC\u30D3\u30E5\u30FC\u60C5\u5831",
+        reviewedHeadline: "\u3053\u306E\u63B2\u8F09\u306F\u78BA\u8A8D\u6E08\u307F\u3067\u3059",
+        reviewedBody: "\u4E3B\u8981\u306A\u6A5F\u80FD\u3001\u30EA\u30F3\u30AF\u3001\u66F4\u65B0\u65E5\u3092\u78BA\u8A8D\u3057\u305F\u3046\u3048\u3067\u3001\u6BD4\u8F03\u30CF\u30D6\u3084\u30AB\u30C6\u30B4\u30EALP\u304B\u3089\u6848\u5185\u3057\u3066\u3044\u307E\u3059\u3002",
+        pendingHeadline: "\u3053\u306E\u63B2\u8F09\u306F\u78BA\u8A8D\u5F85\u3061\u3067\u3059",
+        pendingBody: "\u516C\u958B\u60C5\u5831\u3092\u5143\u306B\u63B2\u8F09\u3057\u3066\u3044\u307E\u3059\u3002\u4FA1\u683C\u3084\u6A5F\u80FD\u306F\u516C\u5F0F\u30B5\u30A4\u30C8\u3067\u5FC5\u305A\u518D\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+        archivedHeadline: "\u3053\u306E\u63B2\u8F09\u306F\u7D22\u5F15\u5BFE\u8C61\u5916\u3067\u3059",
+        archivedBody: "\u540D\u79F0\u3084\u60C5\u5831\u306E\u4FE1\u983C\u6027\u306B\u78BA\u8A8D\u8AB2\u984C\u304C\u3042\u308B\u305F\u3081\u3001\u4E3B\u8981\u5C0E\u7DDA\u3068\u30A4\u30F3\u30C7\u30C3\u30AF\u30B9\u304B\u3089\u306F\u5916\u3057\u3066\u3044\u307E\u3059\u3002\u53C2\u8003\u95B2\u89A7\u306E\u307F\u3092\u60F3\u5B9A\u3057\u3066\u3044\u307E\u3059\u3002",
+        pricing: "\u6599\u91D1",
+        platform: "\u5BFE\u5FDC\u74B0\u5883",
+        status: "\u30B9\u30C6\u30FC\u30BF\u30B9",
+        unknown: "\u672A\u63B2\u8F09",
+        compareCategory: "\u3053\u306E\u30AB\u30C6\u30B4\u30EA\u3092\u6BD4\u8F03",
+        browseCategory: "\u30AB\u30C6\u30B4\u30EALP\u3092\u898B\u308B",
+        verifiedLabel: "\u78BA\u8A8D\u6E08\u307F",
+        pendingLabel: "\u8981\u78BA\u8A8D",
+        archivedLabel: "\u7D22\u5F15\u5BFE\u8C61\u5916",
+        disclosureLink: "\u5E83\u544A\u958B\u793A",
+        policyLink: "\u7DE8\u96C6\u65B9\u91DD",
+        syncTitle: "\u516C\u5F0F\u60C5\u5831\u306E\u76E3\u8996\u72B6\u6CC1",
+        syncLastChecked: "\u6700\u7D42\u78BA\u8A8D",
+        syncLastChanged: "\u5DEE\u5206\u691C\u77E5",
+        syncNoData: "\u307E\u3060\u81EA\u52D5\u76E3\u8996\u306E\u30B9\u30CA\u30C3\u30D7\u30B7\u30E7\u30C3\u30C8\u306F\u3042\u308A\u307E\u305B\u3093\u3002",
       }
     : {
         reviewTitle: "Editorial review",
@@ -231,7 +233,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
       ? copy.pendingBody
       : copy.archivedBody;
   const fallbackNotice = isJapanese && metadata.is_fallback
-    ? "このページはまだ日本語版がないため、本文は英語ソースを表示しています。主要UIと導線は日本語化しています。"
+    ? "\u3053\u306E\u30DA\u30FC\u30B8\u306F\u307E\u3060\u65E5\u672C\u8A9E\u7248\u304C\u306A\u3044\u305F\u3081\u3001\u672C\u6587\u306F\u82F1\u8A9E\u30BD\u30FC\u30B9\u3092\u8868\u793A\u3057\u3066\u3044\u307E\u3059\u3002\u4E3B\u8981UI\u3068\u5C0E\u7DDA\u306F\u65E5\u672C\u8A9E\u5316\u3057\u3066\u3044\u307E\u3059\u3002"
     : null;
 
   return (

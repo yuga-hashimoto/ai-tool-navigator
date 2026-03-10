@@ -115,6 +115,23 @@ export function generateProductSchema(tool: Tool) {
       "bestRating": bestRating,
       "worstRating": "1"
     };
+
+    // Add structured editorial review to improve transparency and search trust signals
+    schema.review = {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": metadata.rating,
+        "bestRating": bestRating,
+        "worstRating": "1"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "AI Tool Navigator"
+      },
+      "datePublished": metadata.last_updated || new Date().toISOString(),
+      "reviewBody": metadata.description
+    };
   }
 
   if (metadata.pros && metadata.pros.length > 0) {

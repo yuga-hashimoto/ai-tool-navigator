@@ -118,8 +118,8 @@ export default async function AdvertisePage({ params }: { params: Promise<{ loca
           </h2>
           <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
             {isJapanese
-              ? "掲載したいカテゴリ、比較したい競合、想定予算が決まっていればそのまま記載してください。Google Sheets が未設定でもローカル保存されます。"
-              : "Share the categories, comparison pages, and budget you care about. Inquiries are stored even if Google Sheets is not configured yet."}
+              ? "掲載したいカテゴリ、比較したい競合、想定予算が決まっていればそのまま記載してください。通常1〜2営業日以内に担当者よりご返信いたします。"
+              : "Share the categories, comparison pages, and budget you care about. Our team typically reviews and responds to inquiries within 1-2 business days."}
           </p>
           <div className="mt-8">
             <PartnerInquiryForm inquiryType="advertise" locale={locale} packageOptions={packageOptions} />

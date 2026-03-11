@@ -66,8 +66,13 @@ export async function POST(request: NextRequest) {
           console.log(`[NEWSLETTER LEAD FALLBACK] New subscriber: ${email} at ${new Date().toISOString()}`);
         }
       } catch (sheetError) {
-        console.warn('Google Sheets append failed, falling back to local logging:', sheetError);
-        console.log(`[NEWSLETTER LEAD FALLBACK] New subscriber: ${email} at ${new Date().toISOString()}`);
+        const errorMsg = sheetError instanceof Error ? sheetError.message : String(sheetError);
+        if (errorMsg.includes('not set')) {
+          console.warn(`[NEWSLETTER LEAD FALLBACK] Google Sheets not configured. New subscriber: ${email} at ${new Date().toISOString()}`);
+        } else {
+          console.warn('Google Sheets append failed, falling back to local logging:', sheetError);
+          console.log(`[NEWSLETTER LEAD FALLBACK] New subscriber: ${email} at ${new Date().toISOString()}`);
+        }
       }
       
       await trackRequest(ip, path, 'POST', 200, userAgent);

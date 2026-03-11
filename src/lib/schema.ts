@@ -115,6 +115,22 @@ export function generateProductSchema(tool: Tool) {
       "bestRating": bestRating,
       "worstRating": "1"
     };
+
+    schema.review = {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": metadata.rating,
+        "bestRating": bestRating,
+        "worstRating": "1"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "AI Tool Navigator"
+      },
+      "reviewBody": metadata.description,
+      "datePublished": metadata.last_updated || new Date().toISOString()
+    };
   }
 
   if (metadata.pros && metadata.pros.length > 0) {

@@ -67,7 +67,7 @@ export function CompareView({ tools, locale }: CompareViewProps) {
         pros: "メリット",
         cons: "注意点",
         website: "公式サイト",
-        visitSite: "サイトへ移動",
+        visitSite: "公式サイトへ",
         verified: "確認済み",
         pending: "要確認",
       }
@@ -84,7 +84,7 @@ export function CompareView({ tools, locale }: CompareViewProps) {
         pros: "Pros",
         cons: "Considerations",
         website: "Official site",
-        visitSite: "Visit site",
+        visitSite: "Visit official site",
         verified: "Verified",
         pending: "Needs review",
       };

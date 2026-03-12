@@ -1,13 +1,54 @@
 import { NextRequest, NextResponse } from "next/server";
 import { recordPartnerInquiry } from "@/lib/partner-inquiries";
 import { appendPartnerInquiry } from "@/lib/google-sheets";
+import { securityCheck, createRateLimitHeaders } from "@/lib/security";
+import { getClientIP } from "@/lib/security/bot-detection";
+import { trackRequest } from "@/lib/security/anomaly-detection";
+import { logFormSubmission } from "@/lib/security/audit-log";
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 export async function POST(request: NextRequest) {
+  const ip = getClientIP(request);
+  const userAgent = request.headers.get("user-agent") || "";
+  const path = request.nextUrl.pathname;
+
   try {
+    // Security check
+    const securityResult = await securityCheck(request);
+
+    if (!securityResult.allowed) {
+      if (securityResult.challenge === "block") {
+        return NextResponse.json(
+          { error: "Forbidden", message: securityResult.reason },
+          { status: 403 }
+        );
+      }
+      return NextResponse.json(
+        { error: "Verification Required", message: securityResult.reason, requiresCaptcha: true },
+        { status: 429 }
+      );
+    }
+
+    // Rate Limit Check
+    const submitKey = `partner_inquiry:${ip}`;
+    const { checkRateLimit } = await import("@/lib/security/rate-limiter");
+    const { RATE_LIMITS } = await import("@/lib/security/rate-limit-config");
+    const rateLimit = await checkRateLimit(
+      submitKey,
+      RATE_LIMITS.API.submit.requests,
+      RATE_LIMITS.API.submit.windowSeconds
+    );
+
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: "Too many submission attempts", message: "Please try again later" },
+        { status: 429, headers: createRateLimitHeaders(rateLimit.remaining, rateLimit.resetTime) }
+      );
+    }
+
     const body = (await request.json()) as {
       inquiryType?: "advertise" | "sponsor";
       companyName?: string;
@@ -28,10 +69,12 @@ export async function POST(request: NextRequest) {
       !body.websiteUrl ||
       !body.message
     ) {
+      await trackRequest(ip, path, "POST", 400, userAgent);
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
     if (!isValidEmail(body.email)) {
+      await trackRequest(ip, path, "POST", 400, userAgent);
       return NextResponse.json({ error: "Invalid email" }, { status: 400 });
     }
 
@@ -70,12 +113,22 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({
-      success: true,
-      id: record.id,
-    });
+    await trackRequest(ip, path, "POST", 200, userAgent);
+    await logFormSubmission(ip, path, "partner_inquiry", false, userAgent);
+
+    return NextResponse.json(
+      {
+        success: true,
+        id: record.id,
+      },
+      {
+        status: 200,
+        headers: createRateLimitHeaders(rateLimit.remaining, rateLimit.resetTime),
+      }
+    );
   } catch (error) {
     console.error("[Partner Inquiry API] Failed:", error);
+    await trackRequest(ip, path, "POST", 500, userAgent);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

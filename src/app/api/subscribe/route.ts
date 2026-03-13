@@ -58,16 +58,16 @@ export async function POST(request: NextRequest) {
 
     try {
       try {
-        if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
-          await appendSubscriber(email);
-          console.log(`[NEWSLETTER LEAD] New subscriber appended to Google Sheets: ${email} at ${new Date().toISOString()}`);
+        await appendSubscriber(email);
+        console.log(`[NEWSLETTER LEAD] New subscriber appended to Google Sheets: ${email} at ${new Date().toISOString()}`);
+      } catch (sheetError) {
+        const errorMsg = sheetError instanceof Error ? sheetError.message : String(sheetError);
+        if (errorMsg.includes('not set')) {
+          console.warn(`[NEWSLETTER LEAD FALLBACK] Google Sheets not configured. New subscriber: ${email} at ${new Date().toISOString()}`);
         } else {
-          console.warn('GOOGLE_SERVICE_ACCOUNT_JSON not set, skipping Google Sheets append.');
+          console.warn('Google Sheets append failed, falling back to local logging:', sheetError);
           console.log(`[NEWSLETTER LEAD FALLBACK] New subscriber: ${email} at ${new Date().toISOString()}`);
         }
-      } catch (sheetError) {
-        console.warn('Google Sheets append failed, falling back to local logging:', sheetError);
-        console.log(`[NEWSLETTER LEAD FALLBACK] New subscriber: ${email} at ${new Date().toISOString()}`);
       }
       
       await trackRequest(ip, path, 'POST', 200, userAgent);

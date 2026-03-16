@@ -2,9 +2,9 @@
 
 import { ToolMetadata } from "@/lib/tools";
 import { Link } from "@/i18n/routing";
-import { Check, X } from "lucide-react";
+import { Check, ExternalLink, X } from "lucide-react";
 import { Rating } from "@/components/Rating";
-import { sendGAEvent } from "@/lib/analytics";
+import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 
 interface ComparisonTableProps {
   tools: ToolMetadata[];
@@ -96,19 +96,16 @@ export function ComparisonTable({ tools }: ComparisonTableProps) {
                 </div>
                 {tools.map((tool) => (
                     <div key={`${tool.slug}-link`} className="p-4 bg-white dark:bg-black flex flex-col justify-center items-center gap-2">
-                        <a
+                        <AffiliateLinkButton
                             href={tool.affiliate_link}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            toolSlug={tool.slug}
+                            toolName={tool.title}
+                            position="comparison_table"
                             className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                            onClick={() => sendGAEvent("affiliate_click", {
-                              tool_slug: tool.slug,
-                              tool_name: tool.title,
-                              position: "comparison_table"
-                            })}
                         >
                             Visit Site
-                        </a>
+                            <ExternalLink className="ml-1.5 h-3.5 w-3.5" aria-hidden="true" />
+                        </AffiliateLinkButton>
                         <Link href={`/tools/${tool.slug}`} className="text-xs text-zinc-500 hover:text-zinc-700 underline dark:hover:text-zinc-300">
                             Read Review
                         </Link>

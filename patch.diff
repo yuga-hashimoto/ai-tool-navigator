@@ -1,0 +1,40 @@
+--- src/app/[locale]/compare/[comparisonSlug]/page.tsx
++++ src/app/[locale]/compare/[comparisonSlug]/page.tsx
+@@ -9,6 +9,7 @@
+ import { getComparePresetBySlug, parseComparisonSlug } from "@/lib/compare-pages";
+ import { getEditorialToolStatus, isReviewPendingToolSlug } from "@/lib/editorial";
+ import { Link } from "@/i18n/routing";
++import { ExternalLink } from "lucide-react";
+
+ interface PageParams {
+   locale: string;
+@@ -194,6 +195,7 @@
+                             className="inline-flex items-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-500 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500"
+                           >
+                             {copy.visit}
++                            <ExternalLink className="ml-2 h-4 w-4" />
+                           </AffiliateLinkButton>
+                         </div>
+                       </td>
+--- src/app/[locale]/category/[slug]/page.tsx
++++ src/app/[locale]/category/[slug]/page.tsx
+@@ -12,6 +12,7 @@
+ import { getCategoryLandingContent } from "@/lib/category-landing";
+ import { filterToolList, sortToolsForEditorialLists } from "@/lib/editorial";
+ import { getComparisonHref } from "@/lib/compare-pages";
++import { ExternalLink } from "lucide-react";
+
+ export async function generateStaticParams() {
+   return ["en", "ja"].flatMap((locale) =>
+@@ -231,9 +232,10 @@
+                             toolSlug={tool.slug}
+                             toolName={tool.title}
+                             position="category_compare_table"
+-                            className="text-xs font-semibold text-green-600 hover:text-green-500 dark:text-green-400"
++                            className="inline-flex items-center text-xs font-semibold text-green-600 hover:text-green-500 dark:text-green-400"
+                           >
+                             {copy.visitLabel}
++                            <ExternalLink className="ml-1 h-3 w-3" />
+                           </AffiliateLinkButton>
+                         </div>
+                       </td>

@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
+import { ExternalLink } from "lucide-react";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 import { getAllTools, ToolMetadata } from "@/lib/tools";
 import { generateBreadcrumbSchema, generateFAQSchema } from "@/lib/schema";
@@ -286,6 +287,7 @@ export default async function CompareTemplatePage({
                             className="inline-flex items-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-500 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500"
                           >
                             {copy.visit}
+                            <ExternalLink className="ml-2 h-4 w-4" />
                           </AffiliateLinkButton>
                         </div>
                       </td>

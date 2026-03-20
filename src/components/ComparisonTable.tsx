@@ -2,7 +2,7 @@
 
 import { ToolMetadata } from "@/lib/tools";
 import { Link } from "@/i18n/routing";
-import { Check, X } from "lucide-react";
+import { Check, X, ExternalLink } from "lucide-react";
 import { Rating } from "@/components/Rating";
 import { sendGAEvent } from "@/lib/analytics";
 
@@ -108,6 +108,7 @@ export function ComparisonTable({ tools }: ComparisonTableProps) {
                             })}
                         >
                             Visit Site
+                            <ExternalLink className="ml-2 h-4 w-4" />
                         </a>
                         <Link href={`/tools/${tool.slug}`} className="text-xs text-zinc-500 hover:text-zinc-700 underline dark:hover:text-zinc-300">
                             Read Review

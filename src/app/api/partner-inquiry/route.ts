@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       console.log(`[PARTNER INQUIRY] New inquiry appended to Google Sheets: ${record.companyName} (${record.email})`);
     } catch (sheetError) {
       const errorMsg = sheetError instanceof Error ? sheetError.message : String(sheetError);
-      if (errorMsg.includes('not configured')) {
+      if (errorMsg.includes('not set') || errorMsg.includes('not configured')) {
         console.warn(`[PARTNER INQUIRY FALLBACK] Google Sheets not configured. Inquiry recorded locally: ${record.companyName} (${record.email})`);
       } else {
         console.warn('Google Sheets append failed, falling back to local DB record only:', sheetError);

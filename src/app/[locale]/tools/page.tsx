@@ -9,9 +9,10 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'ToolsPage' });
   return {
-    title: "Browse AI Tools",
-    description: "Browse and discover the best AI tools for your workflow. Filter by category, rating, price, and more.",
+    title: `${t('title')} | AI Tool Navigator`,
+    description: t('description'),
     alternates: {
       canonical: `/${locale}/tools`,
     },

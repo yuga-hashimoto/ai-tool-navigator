@@ -262,11 +262,17 @@
   },
   "AboutPage": {
     "title": "About AI Tool Navigator",
-    "description": "Learn more about our mission to democratize access to artificial intelligence.",
+    "description": "AI Tool Navigator is an independent research publication helping developers, marketers, and business professionals evaluate AI tools. Learn about our editorial standards, testing methodology, and the team behind our reviews.",
     "mission_title": "Our Mission",
-    "mission_text": "We are dedicated to helping users navigate the rapidly evolving landscape of artificial intelligence. Our goal is to provide unbiased, comprehensive reviews and comparisons to empower you to make informed decisions.",
-    "values_title": "Our Values",
-    "values_text": "Transparency, integrity, and community are at the core of everything we do. we believe in providing honest assessments and fostering a collaborative environment for AI enthusiasts."
+    "mission_text": "AI Tool Navigator was founded to solve a specific problem: there are thousands of AI tools launching every month, and finding reliable, unbiased evaluations is genuinely hard. Our mission is to provide hands-on, research-backed reviews that help professionals make confident decisions about which AI tools to adopt — without wading through affiliate-first listicles or vendor marketing copy.",
+    "values_title": "Our Editorial Standards",
+    "values_text": "Every tool we review is evaluated against consistent criteria: real-world capability (not just benchmark scores), pricing transparency, ease of adoption, and quality of ongoing updates. We disclose affiliate relationships clearly — when we link to a tool with a referral code, we say so. Affiliate relationships do not influence our ratings or editorial conclusions. Tools that perform poorly receive critical reviews regardless of commercial relationship.",
+    "team_title": "Research & Testing Approach",
+    "team_text": "Our reviews combine hands-on testing, analysis of independent benchmarks (SWE-Bench, MMLU, AIME, and others), pricing verification from official sources, and community feedback from developer forums, Reddit, and X. We update tool pages when significant changes occur — pricing changes, major feature releases, or new benchmark results — so the information stays current.",
+    "coverage_title": "What We Cover",
+    "coverage_text": "We focus on AI tools across five main categories: Coding & Development (LLMs, IDEs, agents), Writing & Marketing (copywriting, SEO, content automation), Productivity (text-to-speech, workflow automation, research), Sales & Outreach (lead generation, cold email), and Emerging AI (video generation, image synthesis, multimodal tools). Our coverage spans both consumer-facing products and developer APIs.",
+    "contact_title": "Contact & Corrections",
+    "contact_text": "Found an error in one of our reviews? Pricing changed and we haven't updated yet? We take accuracy seriously. Reach out through our contact page and we will review and correct promptly. If you represent a tool and believe our review contains factual errors, we welcome corrections — and will publish them transparently."
   },
   "ToolsPage": {
     "title": "Browse AI Tools",

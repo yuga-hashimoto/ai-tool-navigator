@@ -18,13 +18,27 @@ export async function generateMetadata({
   const { locale } = await params;
   const isJapanese = locale === "ja";
 
+  const title = isJapanese ? "AIツール比較ハブ | AI Tool Navigator" : "Compare AI Tools | AI Tool Navigator";
+  const description = isJapanese
+    ? "主要AIツールを横並びで比較。価格、検証状況、長所短所を確認し、最適なAIソリューションを見つけましょう。"
+    : "Compare leading AI tools side-by-side. Evaluate features, pricing, review status, and pros/cons to find the best AI solution for your workflow.";
+
   return {
-    title: isJapanese ? "AIツール比較ハブ | AI Tool Navigator" : "Compare AI Tools | AI Tool Navigator",
-    description: isJapanese
-      ? "主要AIツールを横並びで比較。価格、検証状況、長所短所を確認し、最適なAIソリューションを見つけましょう。"
-      : "Compare leading AI tools side-by-side. Evaluate features, pricing, review status, and pros/cons to find the best AI solution for your workflow.",
+    title,
+    description,
     alternates: {
       canonical: `/${locale}/compare`,
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: `/${locale}/compare`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
     },
   };
 }

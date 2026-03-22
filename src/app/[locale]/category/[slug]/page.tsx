@@ -16,6 +16,7 @@ import {
 import { getCategoryLandingContent } from "@/lib/category-landing";
 import { filterToolList, sortToolsForEditorialLists } from "@/lib/editorial";
 import { getComparisonHref } from "@/lib/compare-pages";
+import { ExternalLink } from "lucide-react";
 
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_MAPPINGS).map((slug) => ({
@@ -350,6 +351,7 @@ export default async function CategoryPage({
                             className="text-xs font-semibold text-green-600 hover:text-green-500 dark:text-green-400"
                           >
                             {copy.visitLabel}
+                            <ExternalLink className="ml-1 h-3 w-3 inline" />
                           </AffiliateLinkButton>
                         </div>
                       </td>

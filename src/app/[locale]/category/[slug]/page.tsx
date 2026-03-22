@@ -7,6 +7,7 @@ import { CATEGORY_MAPPINGS } from "@/lib/categories";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { HeroSearchBar } from "@/components/HeroSearchBar";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
+import { ExternalLink } from "lucide-react";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import {
   generateBreadcrumbSchema,
@@ -350,6 +351,7 @@ export default async function CategoryPage({
                             className="text-xs font-semibold text-green-600 hover:text-green-500 dark:text-green-400"
                           >
                             {copy.visitLabel}
+                            <ExternalLink className="ml-1 h-3 w-3 inline-block" />
                           </AffiliateLinkButton>
                         </div>
                       </td>

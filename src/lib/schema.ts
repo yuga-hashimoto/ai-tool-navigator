@@ -99,8 +99,10 @@ export function generateProductSchema(tool: Tool) {
     "offers": {
       "@type": "Offer",
       "url": metadata.affiliate_link || `${SITE_URL}/tools/${metadata.slug}`,
-      "priceCurrency": "USD",
-      "price": "0",
+      ...(metadata.pricing === 'free' ? {
+        "priceCurrency": "USD",
+        "price": "0"
+      } : {}),
       "availability": "https://schema.org/InStock",
       "validFrom": metadata.last_updated || new Date().toISOString()
     }
@@ -160,8 +162,10 @@ export function generateToolSchema(tool: Tool) {
     const offer: any = {
       "@type": "Offer",
       "url": metadata.affiliate_link,
-      "price": "0",
-      "priceCurrency": "USD",
+      ...(metadata.pricing === 'free' ? {
+        "priceCurrency": "USD",
+        "price": "0"
+      } : {}),
       "availability": "https://schema.org/InStock"
     };
     if (metadata.discount) {

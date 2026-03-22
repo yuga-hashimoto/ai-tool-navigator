@@ -95,16 +95,26 @@ export function generateProductSchema(tool: Tool) {
     "image": metadata.image ? `${SITE_URL}${metadata.image}` : undefined,
     "url": `${SITE_URL}/tools/${metadata.slug}`,
     "sku": `tool-${metadata.slug}`,
-    "mpn": metadata.slug,
-    "offers": {
+    "mpn": metadata.slug
+  };
+
+  if (metadata.pricing === "free") {
+    schema.offers = {
       "@type": "Offer",
       "url": metadata.affiliate_link || `${SITE_URL}/tools/${metadata.slug}`,
       "priceCurrency": "USD",
       "price": "0",
       "availability": "https://schema.org/InStock",
       "validFrom": metadata.last_updated || new Date().toISOString()
-    }
-  };
+    };
+  } else {
+    schema.offers = {
+      "@type": "Offer",
+      "url": metadata.affiliate_link || `${SITE_URL}/tools/${metadata.slug}`,
+      "availability": "https://schema.org/InStock",
+      "validFrom": metadata.last_updated || new Date().toISOString()
+    };
+  }
 
   if (metadata.rating) {
     const bestRating = metadata.rating > 5 ? "10" : "5";
@@ -160,10 +170,12 @@ export function generateToolSchema(tool: Tool) {
     const offer: any = {
       "@type": "Offer",
       "url": metadata.affiliate_link,
-      "price": "0",
-      "priceCurrency": "USD",
       "availability": "https://schema.org/InStock"
     };
+    if (metadata.pricing === "free") {
+      offer.price = "0";
+      offer.priceCurrency = "USD";
+    }
     if (metadata.discount) {
       offer.description = metadata.discount;
     }

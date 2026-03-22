@@ -43,7 +43,7 @@ export async function appendSubscriber(email: string) {
     console.log(`Successfully appended subscriber ${email} to Google Sheet.`);
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
-    if (!errorMsg.includes('not set')) {
+    if (!errorMsg.includes('is not set')) {
       console.error('Error appending subscriber to Google Sheet:', errorMsg);
     }
     // Rethrow so the caller knows the operation failed
@@ -89,7 +89,7 @@ export async function appendToolSubmission(data: ToolSubmissionData) {
     console.log(`Successfully appended tool submission ${data.name} to Google Sheet.`);
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
-    if (!errorMsg.includes('not set')) {
+    if (!errorMsg.includes('is not set')) {
       console.error('Error appending tool submission to Google Sheet:', errorMsg);
     }
     throw error;
@@ -122,7 +122,7 @@ export async function appendPartnerInquiry(data: PartnerInquirySheetData) {
     });
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
-    if (!errorMsg.includes('not set')) {
+    if (!errorMsg.includes('is not set')) {
       console.error("Error appending partner inquiry to Google Sheet:", errorMsg);
     }
     throw error;

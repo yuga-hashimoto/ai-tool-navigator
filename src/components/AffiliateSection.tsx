@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { AffiliateLinkButton } from './AffiliateLinkButton';
+import { AffiliateDisclaimer } from './AffiliateDisclaimer';
 import affiliates from '../../data/affiliates.json';
 
 type Affiliate = {
@@ -66,8 +67,8 @@ const AffiliateSection = () => {
           ))}
         </div>
         
-        <div className="mt-8 text-center text-sm text-gray-400 dark:text-gray-500">
-          <p>We may earn a commission when you use our links. This supports our research.</p>
+        <div className="mt-8 flex justify-center">
+          <AffiliateDisclaimer variant="compact" />
         </div>
       </div>
     </section>

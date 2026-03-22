@@ -240,7 +240,7 @@ export function CompareView({ tools, locale }: CompareViewProps) {
                 toolSlug={tool.slug}
                 toolName={tool.title}
                 position="compare_table"
-                className="inline-flex items-center justify-center rounded-md bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                className="inline-flex w-full items-center justify-center rounded-full bg-green-600 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-500 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 transition-all transform hover:scale-105"
               >
                 {copy.visitSite}
                 <ExternalLink className="ml-2 h-4 w-4" />

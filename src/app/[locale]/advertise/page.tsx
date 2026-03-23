@@ -91,6 +91,14 @@ export default async function AdvertisePage({ params }: { params: Promise<{ loca
               ? "カテゴリLP、比較ページ、ツール詳細を横断して露出設計できます。単なるバナー掲載ではなく、比較導線と公式サイト送客を前提にした構成です。"
               : "Campaigns can span category hubs, comparison pages, and tool reviews. The focus is not just impressions, but compare-to-review-to-official-site routing."}
           </p>
+          <div className="mt-8 flex justify-center">
+            <a
+              href="#inquiry-form"
+              className="inline-flex items-center rounded-full bg-blue-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors"
+            >
+              {isJapanese ? "問い合わせる" : "Submit inquiry"}
+            </a>
+          </div>
         </div>
 
         <div className="mt-16 grid gap-6 lg:grid-cols-3">
@@ -112,7 +120,7 @@ export default async function AdvertisePage({ params }: { params: Promise<{ loca
           ))}
         </div>
 
-        <div className="mt-16 rounded-3xl border border-zinc-200 bg-zinc-50 p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/60">
+        <div id="inquiry-form" className="mt-16 rounded-3xl border border-zinc-200 bg-zinc-50 p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/60 scroll-mt-24">
           <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
             {isJapanese ? "問い合わせフォーム" : "Campaign inquiry"}
           </h2>

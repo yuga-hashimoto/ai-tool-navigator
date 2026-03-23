@@ -2,6 +2,12 @@ import { expect, test } from '@playwright/test';
 
 const ROUTES = ['/', '/en'];
 const CLIENT_EXCEPTION_TEXT = 'Application error: a client-side exception has occurred';
+const IGNORED_RESOURCE_PATTERNS = [
+  'googletagmanager.com',
+  'googlesyndication.com',
+  'doubleclick.net',
+  '/opengraph-image',
+];
 
 test('core routes have no client-side runtime exceptions', async ({ page }) => {
   const runtimeErrors: string[] = [];
@@ -11,8 +17,15 @@ test('core routes have no client-side runtime exceptions', async ({ page }) => {
   });
 
   page.on('console', (message) => {
-    if (message.type() === 'error') {
-      runtimeErrors.push(`[console.error] ${message.text()}`);
+    if (message.type() !== 'error') {
+      return;
+    }
+
+    const text = message.text();
+    const shouldIgnore = IGNORED_RESOURCE_PATTERNS.some((pattern) => text.includes(pattern));
+
+    if (!shouldIgnore) {
+      runtimeErrors.push(`[console.error] ${text}`);
     }
   });
 

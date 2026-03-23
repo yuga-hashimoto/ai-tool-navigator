@@ -1,6 +1,5 @@
 import { Link } from '@/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
-import { Github, Linkedin, Twitter } from 'lucide-react';
 import FooterNewsletterForm from './FooterNewsletterForm';
 import { ReferralSystem } from '@/components/ReferralSystem';
 
@@ -27,19 +26,15 @@ export function Footer() {
           </div>
           <div className="mt-10 xl:mt-0 xl:col-span-1">
              <div className="flex flex-col items-center xl:items-end space-y-6">
-                <div className="flex space-x-6">
-                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
-                    <span className="sr-only">Twitter</span>
-                    <Twitter className="h-5 w-5" />
-                    </a>
-                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
-                    <span className="sr-only">GitHub</span>
-                    <Github className="h-5 w-5" />
-                    </a>
-                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
-                    <span className="sr-only">LinkedIn</span>
-                    <Linkedin className="h-5 w-5" />
-                    </a>
+                <div className="max-w-md text-center xl:text-right">
+                    <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                      {locale === 'ja' ? '独立系のAIツール比較メディア' : 'Independent AI tool research and comparison'}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                      {locale === 'ja'
+                        ? '編集方針と広告開示を明示し、主要カテゴリ・比較・詳細レビューを横断して調べられる構成にしています。'
+                        : 'Browse category hubs, comparison pages, and detailed reviews with clear editorial standards and affiliate disclosure.'}
+                    </p>
                 </div>
                 <div className="flex flex-wrap justify-center xl:justify-end gap-x-6 gap-y-2">
                     <ReferralSystem

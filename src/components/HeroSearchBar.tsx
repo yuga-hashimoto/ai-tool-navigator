@@ -58,7 +58,7 @@ export function HeroSearchBar() {
             type="submit"
             className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors"
         >
-            Search
+            {t('submitSearch')}
         </button>
       </div>
     </form>

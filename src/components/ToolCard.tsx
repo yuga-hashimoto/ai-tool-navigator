@@ -17,6 +17,7 @@ export function ToolCard({ tool, priority }: { tool: ToolMetadata; priority?: bo
   const t = useTranslations('ToolCard');
   const locale = useLocale();
   const fallbackLabel = locale === 'ja' ? '英語ソース' : 'English source';
+  const bestForLabel = tool.pros?.[0] ?? tool.description;
 
   const handleCompareClick = (e: MouseEvent) => {
     e.preventDefault();
@@ -112,6 +113,10 @@ export function ToolCard({ tool, priority }: { tool: ToolMetadata; priority?: bo
               <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
                   {tool.description}
               </p>
+              <div className="mt-3 rounded-xl bg-zinc-50 px-3 py-2 text-xs text-zinc-600 dark:bg-zinc-800/80 dark:text-zinc-300">
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">{t('bestFor')}:</span>{' '}
+                <span className="line-clamp-2">{bestForLabel}</span>
+              </div>
           </div>
         </div>
         <div className="mt-4 flex items-center text-sm font-medium text-blue-600 dark:text-blue-400">

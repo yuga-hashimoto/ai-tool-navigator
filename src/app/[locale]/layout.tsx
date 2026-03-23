@@ -10,9 +10,7 @@ import { Footer } from "@/components/Footer";
 import { CompareBar } from "@/components/CompareBar";
 import NewsletterPopup from "@/components/NewsletterPopup";
 import ExitIntentWrapper from "@/components/ExitIntentWrapper";
-import { SocialProof } from "@/components/SocialProof";
 import { Navigation } from "@/components/Navigation";
-import StickyNotificationBar from "@/components/StickyNotificationBar";
 import BackToTop from "@/components/BackToTop";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { generateOrganizationSchema, generateSearchBoxSchema } from "@/lib/schema";
@@ -87,14 +85,12 @@ export default async function RootLayout({
             <CompareProvider>
               <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-727KCHJ884"} />
               <GoogleAdsense />
-              <StickyNotificationBar />
               <Navigation />
               {children}
               <Footer />
               <CompareBar />
               <NewsletterPopup />
               <ExitIntentWrapper />
-              <SocialProof />
               <BackToTop />
             </CompareProvider>
           </ThemeProvider>

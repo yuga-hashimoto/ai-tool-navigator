@@ -58,7 +58,7 @@
     "about": "About",
     "submit": "Submit Tool",
     "submit_cta": "Submit Your Tool",
-    "search": "Search",
+    "search": "Search tools",
     "menu": "Menu",
     "close": "Close",
     "categories": "Categories",
@@ -78,12 +78,14 @@
   },
   "ToolGrid": {
       "searchPlaceholder": "Search tools...",
+      "submitSearch": "Search",
       "all": "All"
   },
   "ToolCard": {
       "compare": "Compare",
       "selected": "Selected",
       "readMore": "Read more",
+      "bestFor": "Best for",
       "featured": "Featured Tool",
       "sponsored": "Sponsored",
       "inStock": "In Stock",

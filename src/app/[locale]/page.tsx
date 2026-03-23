@@ -74,9 +74,6 @@ export default async function Home({
       ? rawToolOfTheWeek
       : null;
 
-  const editorsChoiceSlugs = ["speechify", "mixo", "copy-ai", "basedlabs", "homesage"];
-  const editorsChoiceTools = visibleTools.filter((tool) => editorsChoiceSlugs.includes(tool.slug));
-
   const topPicks = [...visibleTools]
     .filter((tool) => !tool.sponsored && !tool.promoted && !tool.featured && tool.slug !== toolOfTheWeek?.slug)
     .sort(sortToolsForEditorialLists)
@@ -98,10 +95,8 @@ export default async function Home({
     toolCount: visibleTools.filter((tool) => CATEGORY_MAPPINGS[slug].includes(tool.category)).length,
   }));
 
-  const comparePresetSlugs = [...visibleTools]
-    .sort(sortToolsForEditorialLists)
-    .slice(0, 3)
-    .map((tool) => tool.slug);
+  const comparisonCandidates = [...visibleTools].sort(sortToolsForEditorialLists).slice(0, 6);
+  const comparePresetSlugs = comparisonCandidates.slice(0, 3).map((tool) => tool.slug);
 
   const compareHref = getComparisonHref(
     comparePresetSlugs.length >= 2 ? comparePresetSlugs : ["chatgpt", "claude", "cursor"]
@@ -118,6 +113,8 @@ export default async function Home({
         categoryTitle: "カテゴリから探す",
         categoryDescription:
           "日本語のカテゴリLPを起点に、比較ページと詳細レビューへ自然につながる構成へ整理しました。",
+        featuredComparisonsTitle: "人気の比較から始める",
+        featuredComparisonsDescription: "定番ツールの比較ページを優先表示して、最短で候補を絞り込めるようにしました。",
         browseAllTools: "すべてのツールを見る",
         toolCountLabel: (count: number) => `${count}件掲載`,
       }
@@ -130,6 +127,8 @@ export default async function Home({
         categoryTitle: "Browse by category",
         categoryDescription:
           "Each category hub links cleanly into comparison pages and detailed reviews, which is better for both SEO and user intent.",
+        featuredComparisonsTitle: "Start with popular comparisons",
+        featuredComparisonsDescription: "We highlight practical head-to-head pages first so visitors can narrow options faster.",
         browseAllTools: "Browse all tools",
         toolCountLabel: (count: number) => `${count} tools`,
       };
@@ -218,11 +217,62 @@ export default async function Home({
               </div>
             </div>
 
+            <div className="mb-16 rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+              <div className="flex items-center justify-between gap-4 mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                    {copy.featuredComparisonsTitle}
+                  </h2>
+                  <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                    {copy.featuredComparisonsDescription}
+                  </p>
+                </div>
+                <Link
+                  href={compareHref}
+                  className="hidden sm:inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                >
+                  {copy.comparePrimaryCta}
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {comparisonCandidates.slice(0, 3).map((tool) => {
+                  const relatedSlugs = comparisonCandidates
+                    .filter((candidate) => candidate.slug !== tool.slug)
+                    .slice(0, 2)
+                    .map((candidate) => candidate.slug);
+                  const href = getComparisonHref([tool.slug, ...relatedSlugs]);
+
+                  return (
+                    <Link
+                      key={tool.slug}
+                      href={href}
+                      className="group rounded-3xl border border-zinc-200 bg-zinc-50 p-6 transition-all hover:-translate-y-0.5 hover:border-zinc-300 hover:bg-white hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-400/10 dark:text-blue-400">
+                          {tool.category}
+                        </span>
+                        <ArrowRight className="h-4 w-4 text-zinc-400 transition-transform group-hover:translate-x-1" />
+                      </div>
+                      <h3 className="mt-4 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                        {tool.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400 line-clamp-3">
+                        {tool.description}
+                      </p>
+                      <p className="mt-4 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                        {isJapanese ? '比較ページへ' : 'Open comparison'}
+                      </p>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
             <DynamicAdUnit
               index={0}
               type="content"
               slot="content"
-              forceShow={true}
               className="mb-16"
             />
 
@@ -270,26 +320,11 @@ export default async function Home({
               </div>
             </div>
 
-            <SponsoredTools tools={visibleTools} />
             <ToolOfTheWeek tool={toolOfTheWeek} />
-            <FeaturedCarousel tools={visibleTools} />
-            <FeaturedTools tools={visibleTools} />
             <TopPicks tools={topPicks} />
-
-            {editorsChoiceTools.length > 0 && (
-              <div className="mb-16">
-                <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mb-6 flex items-center gap-2">
-                  <span className="text-yellow-500">★</span> {t("editorsChoice")}
-                </h2>
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {editorsChoiceTools.map((tool) => (
-                    <div key={tool.slug} className="flex flex-col h-full">
-                      <ToolCard tool={tool} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <FeaturedTools tools={visibleTools} />
+            <FeaturedCarousel tools={visibleTools} />
+            <SponsoredTools tools={visibleTools} />
           </>
         )}
 

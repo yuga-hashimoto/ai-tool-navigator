@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useRouter } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
-import { Menu, X, Search } from 'lucide-react';
+import { ChevronDown, Menu, Search, X } from 'lucide-react';
 import { CATEGORY_MAPPINGS } from '@/lib/categories';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -15,6 +15,7 @@ export function Navigation({ className }: { className?: string }) {
   const router = useRouter();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const categoryEntries = useMemo(() => Object.keys(CATEGORY_MAPPINGS), []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +37,27 @@ export function Navigation({ className }: { className?: string }) {
               <Link href="/" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('home')}
               </Link>
+              <div className="group relative">
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  aria-haspopup="true"
+                >
+                  {t('categories')}
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+                <div className="invisible absolute left-0 top-full z-50 mt-3 grid min-w-[320px] grid-cols-2 gap-2 rounded-2xl border border-zinc-200 bg-white p-4 opacity-0 shadow-xl transition-all group-hover:visible group-hover:opacity-100 dark:border-zinc-800 dark:bg-zinc-950">
+                  {categoryEntries.map((slug) => (
+                    <Link
+                      key={slug}
+                      href={`/category/${slug}`}
+                      className="rounded-xl px-3 py-2 text-sm text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-white"
+                    >
+                      {t(slug)}
+                    </Link>
+                  ))}
+                </div>
+              </div>
               <Link href="/tools" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('tools')}
               </Link>
@@ -48,6 +70,16 @@ export function Navigation({ className }: { className?: string }) {
               <Link href="/blog" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('blog')}
               </Link>
+              <form onSubmit={handleSearch} className="relative hidden lg:block">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+                <input
+                  type="search"
+                  placeholder={t('search')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-48 rounded-full border border-zinc-200 bg-zinc-50 py-2 pl-9 pr-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100"
+                />
+              </form>
               <Link href="/about" className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
                 {t('about')}
               </Link>
@@ -152,7 +184,7 @@ export function Navigation({ className }: { className?: string }) {
                {t('categories')}
              </h3>
              <div className="flex flex-col gap-1">
-               {Object.keys(CATEGORY_MAPPINGS).map((slug) => (
+               {categoryEntries.map((slug) => (
                  <Link
                    key={slug}
                    href={`/category/${slug}`}

@@ -53,6 +53,7 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
 
   const t = useTranslations('ToolGrid');
   const tHome = useTranslations('HomePage');
+  const tToolsPage = useTranslations('ToolsPage');
 
   // Derive categories from tools
   const categories = ['All', ...Array.from(new Set(tools.map((tool) => tool.category)))];
@@ -86,6 +87,17 @@ export function ToolGrid({ tools, hideSearch, priority = false }: ToolGridProps)
                   />
               </div>
             )}
+
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+                {tToolsPage('resultsCount', { count: filteredTools.length })}
+              </p>
+              {searchQuery && (
+                <p className="text-xs text-zinc-500 dark:text-zinc-500">
+                  “{searchQuery}”
+                </p>
+              )}
+            </div>
 
             {/* Categories */}
             <div className="flex flex-wrap gap-2 justify-center sm:justify-start">

@@ -95,25 +95,50 @@ export function generateProductSchema(tool: Tool) {
     "image": metadata.image ? `${SITE_URL}${metadata.image}` : undefined,
     "url": `${SITE_URL}/tools/${metadata.slug}`,
     "sku": `tool-${metadata.slug}`,
-    "mpn": metadata.slug,
-    "offers": {
+    "mpn": metadata.slug
+  };
+
+  if (metadata.pricing === 'free') {
+    schema.offers = {
       "@type": "Offer",
       "url": metadata.affiliate_link || `${SITE_URL}/tools/${metadata.slug}`,
       "priceCurrency": "USD",
       "price": "0",
       "availability": "https://schema.org/InStock",
       "validFrom": metadata.last_updated || new Date().toISOString()
-    }
-  };
+    };
+  }
 
   if (metadata.rating) {
     const bestRating = metadata.rating > 5 ? "10" : "5";
-    schema.aggregateRating = {
-      "@type": "AggregateRating",
-      "ratingValue": metadata.rating,
-      "reviewCount": metadata.rating_breakdown ? Object.values(metadata.rating_breakdown).reduce((a, b) => a + b, 0) : 1,
-      "bestRating": bestRating,
-      "worstRating": "1"
+    const reviewCount = metadata.rating_breakdown
+      ? Object.values(metadata.rating_breakdown).reduce((a, b) => a + b, 0)
+      : 0;
+
+    if (reviewCount > 0) {
+      schema.aggregateRating = {
+        "@type": "AggregateRating",
+        "ratingValue": metadata.rating,
+        "reviewCount": reviewCount,
+        "bestRating": bestRating,
+        "worstRating": "1"
+      };
+    }
+
+    schema.review = {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": metadata.rating,
+        "bestRating": bestRating,
+        "worstRating": "1"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "AI Tool Navigator"
+      },
+      "reviewBody": metadata.description,
+      "datePublished": metadata.last_updated || new Date().toISOString()
     };
   }
 
@@ -155,7 +180,7 @@ export function generateToolSchema(tool: Tool) {
     schema.featureList = metadata.pros.join(", ");
   }
 
-  if (metadata.affiliate_link) {
+  if (metadata.affiliate_link && metadata.pricing === 'free') {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const offer: any = {
       "@type": "Offer",
@@ -172,13 +197,19 @@ export function generateToolSchema(tool: Tool) {
 
   if (metadata.rating) {
     const bestRating = metadata.rating > 5 ? "10" : "5";
-    schema.aggregateRating = {
-      "@type": "AggregateRating",
-      "ratingValue": metadata.rating,
-      "ratingCount": metadata.rating_breakdown ? Object.values(metadata.rating_breakdown).reduce((a, b) => a + b, 0) : 1,
-      "bestRating": bestRating,
-      "worstRating": "1"
-    };
+    const ratingCount = metadata.rating_breakdown
+      ? Object.values(metadata.rating_breakdown).reduce((a, b) => a + b, 0)
+      : 0;
+
+    if (ratingCount > 0) {
+      schema.aggregateRating = {
+        "@type": "AggregateRating",
+        "ratingValue": metadata.rating,
+        "ratingCount": ratingCount,
+        "bestRating": bestRating,
+        "worstRating": "1"
+      };
+    }
 
     schema.review = {
       "@type": "Review",

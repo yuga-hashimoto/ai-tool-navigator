@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { Suspense } from 'react';
 import { generateBreadcrumbSchema } from "@/lib/schema";
+import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 
 export async function generateMetadata({
   params
@@ -54,6 +55,10 @@ export default async function DealsPage({
           <p className="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
             {t('description')}
           </p>
+        </div>
+
+        <div className="mx-auto mb-10 max-w-3xl">
+          <AffiliateDisclaimer variant="compact" />
         </div>
 
         {deals.length > 0 ? (

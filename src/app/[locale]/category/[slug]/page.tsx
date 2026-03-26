@@ -8,6 +8,7 @@ import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { HeroSearchBar } from "@/components/HeroSearchBar";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
+import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 import {
   generateBreadcrumbSchema,
   generateCollectionPageSchema,
@@ -268,6 +269,10 @@ export default async function CategoryPage({
         </section>
 
         <section className="mt-16">
+          <div className="mx-auto mb-10 max-w-3xl">
+            <AffiliateDisclaimer variant="compact" />
+          </div>
+
           <DynamicAdUnit
             index={0}
             type="content"

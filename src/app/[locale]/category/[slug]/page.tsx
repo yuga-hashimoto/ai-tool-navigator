@@ -8,6 +8,7 @@ import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { HeroSearchBar } from "@/components/HeroSearchBar";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
+import { ExternalLink } from "lucide-react";
 import {
   generateBreadcrumbSchema,
   generateCollectionPageSchema,
@@ -347,9 +348,10 @@ export default async function CategoryPage({
                             toolSlug={tool.slug}
                             toolName={tool.title}
                             position="category_compare_table"
-                            className="text-xs font-semibold text-green-600 hover:text-green-500 dark:text-green-400"
+                            className="inline-flex items-center text-xs font-semibold text-green-600 hover:text-green-500 dark:text-green-400"
                           >
                             {copy.visitLabel}
+                            <ExternalLink className="ml-1 h-3 w-3 inline" />
                           </AffiliateLinkButton>
                         </div>
                       </td>

@@ -8,6 +8,7 @@ import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { HeroSearchBar } from "@/components/HeroSearchBar";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
+import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 import {
   generateBreadcrumbSchema,
   generateCollectionPageSchema,
@@ -205,6 +206,9 @@ export default async function CategoryPage({
       />
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
+        <div className="mb-8">
+          <AffiliateDisclaimer variant="compact" />
+        </div>
 
         <section className="rounded-[2rem] border border-zinc-200 bg-zinc-50 p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/60 sm:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.1fr,0.9fr] lg:items-start">

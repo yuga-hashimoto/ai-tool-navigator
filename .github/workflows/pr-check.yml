@@ -8,10 +8,13 @@ jobs:
   # Fast static checks: catch lint/type errors before building
   lint:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 2
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -21,7 +24,7 @@ jobs:
       - name: Lint changed files (ESLint — catches React hook violations, type issues)
         shell: bash
         run: |
-          mapfile -d '' files < <(git diff --name-only -z "origin/${{ github.base_ref }}...HEAD" -- '*.js' '*.jsx' '*.ts' '*.tsx')
+          mapfile -d '' files < <(git diff --name-only -z HEAD^1 HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx')
 
           if [ "${#files[@]}" -eq 0 ]; then
             echo "No JS/TS files changed."
@@ -32,8 +35,12 @@ jobs:
 
   type-check:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -48,8 +55,12 @@ jobs:
   # Full integration smoke test (build → start → Playwright)
   smoke:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '20'

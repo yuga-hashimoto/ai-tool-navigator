@@ -328,16 +328,28 @@ export async function POST(request: NextRequest) {
     leadsStorage.set(leadId, leadRecord);
 
     // Add to Google Sheets if configured
+    let logPrefix = '[EXIT INTENT LEAD] New lead captured';
     try {
       if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
         await appendSubscriber(`lead_${leadId.substring(5)}`);
+        logPrefix = '[EXIT INTENT LEAD] New lead appended to Google Sheets';
+      } else {
+        console.warn('GOOGLE_SERVICE_ACCOUNT_JSON not set, skipping Google Sheets append.');
+        logPrefix = '[EXIT INTENT LEAD FALLBACK] New lead captured locally';
       }
     } catch (sheetsError) {
-      console.error('Failed to append to Google Sheets:', sheetsError);
+      const errorMsg = sheetsError instanceof Error ? sheetsError.message : String(sheetsError);
+      if (errorMsg.includes('not configured') || errorMsg.includes('not set')) {
+        console.warn(`[EXIT INTENT LEAD FALLBACK] Google Sheets not configured. Lead captured locally: ${leadId}`);
+        logPrefix = '[EXIT INTENT LEAD FALLBACK] New lead captured locally';
+      } else {
+        console.warn('Google Sheets append failed, falling back to local DB record only:', sheetsError);
+        logPrefix = '[EXIT INTENT LEAD FALLBACK] New lead captured locally';
+      }
     }
 
     // Log the submission
-    console.log(`[EXIT INTENT LEAD] New lead captured:
+    console.log(`${logPrefix}:
       Lead ID: ${leadId}
       Variant: ${variant}
       Source: ${source}

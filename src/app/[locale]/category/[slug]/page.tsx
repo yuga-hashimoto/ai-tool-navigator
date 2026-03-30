@@ -178,7 +178,7 @@ export default async function CategoryPage({
         compareCta: "Compare this category",
         browseAllCta: "Browse all tools",
         reviewLabel: "Read review",
-        visitLabel: "Visit site",
+        visitLabel: "Visit official site",
         pricing: "Pricing",
         rating: "Rating",
         verification: "Review status",

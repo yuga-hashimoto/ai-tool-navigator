@@ -180,7 +180,7 @@ export default async function CompareTemplatePage({
         status: "Editorial status",
         updated: "Updated",
         review: "Read review",
-        visit: "Visit site",
+        visit: "Visit official site",
         reviewed: "Reviewed",
         pending: "Pending review",
         archived: "Excluded from index",

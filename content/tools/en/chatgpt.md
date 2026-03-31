@@ -4,6 +4,7 @@ slug: "chatgpt"
 category: "Coding"
 description: "OpenAI's flagship AI platform, now powered by GPT-5.3 Codex — the most capable agentic coding model available in 2026."
 rating: 4.9
+pricing: "free"
 pros:
   - "Best-in-class agentic coding with GPT-5.3 Codex"
   - "Can operate a computer end-to-end across editor, terminal, and browser"

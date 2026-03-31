@@ -16,6 +16,7 @@ import {
 import { getCategoryLandingContent } from "@/lib/category-landing";
 import { filterToolList, sortToolsForEditorialLists } from "@/lib/editorial";
 import { getComparisonHref } from "@/lib/compare-pages";
+import { ExternalLink } from "lucide-react";
 
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_MAPPINGS).map((slug) => ({
@@ -347,9 +348,10 @@ export default async function CategoryPage({
                             toolSlug={tool.slug}
                             toolName={tool.title}
                             position="category_compare_table"
-                            className="text-xs font-semibold text-green-600 hover:text-green-500 dark:text-green-400"
+                            className="inline-flex items-center rounded-full bg-green-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-green-500 dark:bg-green-600 dark:text-white dark:hover:bg-green-500"
                           >
                             {copy.visitLabel}
+                            <ExternalLink className="ml-1 h-3 w-3" />
                           </AffiliateLinkButton>
                         </div>
                       </td>

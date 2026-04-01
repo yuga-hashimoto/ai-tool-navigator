@@ -15,7 +15,7 @@ import {
   initializeDemoData,
   getAffiliateBySlug 
 } from "@/lib/affiliate/database";
-import { parseReferrer, parseUserAgent, parseUtmParams, getOrCreateSessionId } from "@/lib/affiliate-tracking";
+import { parseReferrer, parseUserAgent, parseUtmParams } from "@/lib/affiliate-tracking";
 import { checkRateLimit } from "@/lib/security/rate-limiter";
 import { getClientIP } from "@/lib/security/bot-detection";
 import { ENDPOINT_CONFIGS } from "@/lib/security/rate-limit-config-v2";
@@ -98,7 +98,18 @@ export async function POST(request: NextRequest) {
     const utmParams = parseUtmParams(pageUrl || request.url);
     
     // Get or create session ID
-    const sessionId = getOrCreateSessionId();
+    // We cannot access document.cookie directly, but we can access request cookies
+    const cookieStore = await cookies();
+    let sessionId = cookieStore.get("affiliate_session")?.value;
+
+    if (!sessionId) {
+      sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+      cookieStore.set("affiliate_session", sessionId, {
+        path: "/",
+        sameSite: "lax",
+        maxAge: 30 * 60, // 30 minutes
+      });
+    }
     
     // Get IP hash for privacy-preserving identification
     const ipHeader = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "";
@@ -130,7 +141,6 @@ export async function POST(request: NextRequest) {
     });
     
     // Set attribution cookie
-    const cookieStore = await cookies();
     const attributionCookie = JSON.stringify({
       affiliateId: resolvedAffiliateId,
       source: source || referrerInfo.referrerDomain || "direct",

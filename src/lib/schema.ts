@@ -95,16 +95,26 @@ export function generateProductSchema(tool: Tool) {
     "image": metadata.image ? `${SITE_URL}${metadata.image}` : undefined,
     "url": `${SITE_URL}/tools/${metadata.slug}`,
     "sku": `tool-${metadata.slug}`,
-    "mpn": metadata.slug,
-    "offers": {
+    "mpn": metadata.slug
+  };
+
+  if (metadata.pricing === 'free' || metadata.pricing === 'freemium') {
+    schema.offers = {
       "@type": "Offer",
       "url": metadata.affiliate_link || `${SITE_URL}/tools/${metadata.slug}`,
       "priceCurrency": "USD",
       "price": "0",
       "availability": "https://schema.org/InStock",
       "validFrom": metadata.last_updated || new Date().toISOString()
-    }
-  };
+    };
+  } else if (metadata.affiliate_link) {
+    schema.offers = {
+      "@type": "Offer",
+      "url": metadata.affiliate_link,
+      "availability": "https://schema.org/InStock",
+      "validFrom": metadata.last_updated || new Date().toISOString()
+    };
+  }
 
   if (metadata.rating) {
     const bestRating = metadata.rating > 5 ? "10" : "5";
@@ -114,6 +124,22 @@ export function generateProductSchema(tool: Tool) {
       "reviewCount": metadata.rating_breakdown ? Object.values(metadata.rating_breakdown).reduce((a, b) => a + b, 0) : 1,
       "bestRating": bestRating,
       "worstRating": "1"
+    };
+
+    schema.review = {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": metadata.rating,
+        "bestRating": bestRating,
+        "worstRating": "1"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "AI Tool Navigator"
+      },
+      "reviewBody": metadata.description,
+      "datePublished": metadata.last_updated || new Date().toISOString()
     };
   }
 
@@ -155,13 +181,24 @@ export function generateToolSchema(tool: Tool) {
     schema.featureList = metadata.pros.join(", ");
   }
 
-  if (metadata.affiliate_link) {
+  if (metadata.pricing === 'free' || metadata.pricing === 'freemium') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const offer: any = {
+      "@type": "Offer",
+      "url": metadata.affiliate_link || `${SITE_URL}/tools/${metadata.slug}`,
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    };
+    if (metadata.discount) {
+      offer.description = metadata.discount;
+    }
+    schema.offers = offer;
+  } else if (metadata.affiliate_link) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const offer: any = {
       "@type": "Offer",
       "url": metadata.affiliate_link,
-      "price": "0",
-      "priceCurrency": "USD",
       "availability": "https://schema.org/InStock"
     };
     if (metadata.discount) {

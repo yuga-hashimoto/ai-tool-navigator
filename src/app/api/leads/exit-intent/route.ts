@@ -331,9 +331,11 @@ export async function POST(request: NextRequest) {
     try {
       if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
         await appendSubscriber(`lead_${leadId.substring(5)}`);
+      } else {
+        console.warn('[EXIT INTENT LEAD FALLBACK] Google Sheets not configured. Lead recorded locally only.');
       }
     } catch (sheetsError) {
-      console.error('Failed to append to Google Sheets:', sheetsError);
+      console.warn('[EXIT INTENT LEAD FALLBACK] Failed to append to Google Sheets, falling back to local DB:', sheetsError);
     }
 
     // Log the submission

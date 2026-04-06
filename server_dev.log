@@ -1,0 +1,14 @@
+
+> ai-tool-navigator@0.1.0 dev
+> next dev
+
+⚠ Port 3000 is in use by an unknown process, using available port 3001 instead.
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.0.2:3001
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 3.2s
+○ Compiling /[locale]/category/[slug] ...
+ GET /en/category/llm 200 in 7.2s (compile: 5.6s, proxy.ts: 146ms, render: 1433ms)

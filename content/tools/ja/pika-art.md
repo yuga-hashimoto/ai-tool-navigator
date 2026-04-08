@@ -2,12 +2,12 @@
 title: Pika Art
 slug: pika-art
 category: Video Generation
-description: 'Review of Pika Art: A user-friendly AI 動画生成ツール excelling in animation and quick social media content creation.'
+description: 'Review of Pika Art: A user-friendly AI 動画生成ツール featuring the new Pikaformance model for hyper-real expressions and near real-time lip sync.'
 rating: 4.6
 pros:
   - Intuitive web interface and Discord integration
+  - New Pikaformance model for hyper-real expressions and lip sync
   - Strong animation capabilities (anime/cartoon styles)
-  - Built-in lip sync and sound effects generation
 cons:
   - Less photorealistic than Runway Gen-3
   - Duration limits on lower tiers
@@ -27,8 +27,8 @@ Review of Pika Art: A user-friendly AI 動画生成ツール excelling in animat
 ### 強み
 
 * Intuitive web interface and Discord integration
+* New Pikaformance model for hyper-real expressions and lip sync
 * Strong animation capabilities (anime/cartoon styles)
-* Built-in lip sync and sound effects generation
 
 ### 注意点
 

@@ -2,12 +2,12 @@
 title: "Pika Art"
 slug: "pika-art"
 category: "Video Generation"
-description: "Review of Pika Art: A user-friendly AI video generator excelling in animation and quick social media content creation."
+description: "Review of Pika Art: A user-friendly AI video generator featuring the new Pikaformance model for hyper-real expressions and near real-time lip sync."
 rating: 4.6
 pros:
   - "Intuitive web interface and Discord integration"
+  - "New Pikaformance model for hyper-real expressions and lip sync"
   - "Strong animation capabilities (anime/cartoon styles)"
-  - "Built-in lip sync and sound effects generation"
 cons:
   - "Less photorealistic than Runway Gen-3"
   - "Duration limits on lower tiers"
@@ -22,7 +22,7 @@ Pika Art (often referred to simply as Pika) has carved out a niche as the go-to 
 ### Key Features for Commercial Use
 
 *   **Animation Focus:** Pika excels at turning static images into animated sequences, making it perfect for bringing artwork, logos, or character designs to life.
-*   **Lip Sync & Sound Effects:** The platform includes native tools to add voiceovers with lip sync and generate sound effects directly within the video creation workflow. This reduces the need for external audio tools.
+*   **Lip Sync & Sound Effects:** Powered by the new Pikaformance model, the platform includes native tools to add voiceovers with near real-time lip sync, hyper-real expressions, and generate sound effects directly within the video creation workflow. This reduces the need for external audio tools.
 *   **Modify Region:** Allows you to select specific areas of a video to regenerate or modify, giving creators finer control over the final output without re-rolling the entire clip.
 
 ### Monetization Potential

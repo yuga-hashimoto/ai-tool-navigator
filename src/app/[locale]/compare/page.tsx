@@ -9,6 +9,7 @@ import { filterToolList, sortToolsForEditorialLists } from "@/lib/editorial";
 import { getComparisonHref } from "@/lib/compare-pages";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
+import { ArrowRight } from "lucide-react";
 
 export async function generateMetadata({
   params,
@@ -123,12 +124,13 @@ export default async function ComparePage({
               <Link
                 key={preset.title}
                 href={preset.href}
-                className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-700"
+                className="group rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-700"
               >
                 <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">{preset.title}</h3>
                 <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">{preset.description}</p>
-                <div className="mt-5 text-sm font-semibold text-blue-600 dark:text-blue-400">
+                <div className="mt-5 inline-flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400">
                   {copy.presetCta}
+                  <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>
             ))}

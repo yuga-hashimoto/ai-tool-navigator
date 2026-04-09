@@ -118,8 +118,8 @@ export default async function SponsorshipPage({ params }: { params: Promise<{ lo
           </h2>
           <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
             {isJapanese
-              ? "比較したい競合、狙いたいカテゴリ、期間、予算感があればそのまま記載してください。"
-              : "Share your target categories, competitor context, campaign duration, and budget range if you already know them."}
+              ? "比較したい競合、狙いたいカテゴリ、期間、予算感があればそのまま記載してください。通常1〜2営業日以内に担当者よりご返信いたします。"
+              : "Share your target categories, competitor context, campaign duration, and budget range if you already know them. Our team typically reviews and responds to inquiries within 1-2 business days."}
           </p>
           <div className="mt-8">
             <PartnerInquiryForm inquiryType="sponsor" locale={locale} packageOptions={packageOptions} />

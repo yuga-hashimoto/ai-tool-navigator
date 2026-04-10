@@ -46,6 +46,14 @@
       "url": "ウェブサイトURL",
       "description": "説明",
       "category": "カテゴリー",
+      "pricing_model": "料金モデル",
+      "pricing_model_options": {
+        "free": "無料",
+        "freemium": "フリーミアム",
+        "paid": "有料",
+        "contact": "要問い合わせ"
+      },
+      "price": "価格 (例: 月額$10)",
       "submit": "ツールを送信",
       "submitting": "送信中...",
       "success": "ツールが正常に送信されました！",

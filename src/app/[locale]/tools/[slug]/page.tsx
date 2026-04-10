@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkDirective from "remark-directive";
 import { remarkYoutube } from "@/lib/remark-youtube";
-import { ExternalLink, BadgeCheck, Calendar } from "lucide-react";
+import { ExternalLink, BadgeCheck, Calendar, ArrowRight } from "lucide-react";
 import { Metadata } from "next";
 import { Rating } from "@/components/Rating";
 import { ArticleCard } from "@/components/ArticleCard";
@@ -395,9 +395,10 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
                   {compareHref && (
                     <Link
                       href={compareHref}
-                      className="inline-flex items-center rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+                      className="group inline-flex items-center rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
                     >
-                      {copy.compareCategory}
+                      <span>{copy.compareCategory}</span>
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                   )}
                   {categorySlug && (

@@ -6,14 +6,14 @@ description: 'Alibaba Cloud の定額型 Coding Plan。Qwen Code、Claude Code�
 rating: 4.7
 pros:
   - 'Qwen Code の公式導線が強く CLI と拡張機能の両方が揃う'
-  - 'Starter / Pro の月額制で予算管理しやすい'
+  - 'Pro の月額定額制で予算管理しやすい'
   - 'Qwen 系だけでなく複数モデルを使い分けやすい'
 cons:
   - '通常の Model Studio API とはキーと Base URL が別'
   - '汎用 API 自動化より対話型コーディングツール向け'
 affiliate_link: 'https://www.alibabacloud.com/help/ja/model-studio/coding-plan'
 pricing: 'paid'
-price: 'Starter $10 / Pro $50'
+price: 'Pro $50/month'
 platform:
   - 'Web'
   - 'Desktop'
@@ -33,7 +33,7 @@ Alibaba 側が Qwen Code の公式ガイドを用意しており、CLI やエデ
 
 ### 2. 月額制で回しやすい
 
-Starter / Pro のようなプラン課金なので、従量課金の API よりコストを読みやすく、検証や日常開発へ載せやすい設計です。
+Pro プランのような月額課金なので、従量課金の API よりコストを読みやすく、検証や日常開発へ載せやすい設計です。
 
 ### 3. 複数モデルを選べる
 

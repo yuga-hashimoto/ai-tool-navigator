@@ -13,7 +13,7 @@ cons:
   - '汎用 API 自動化より対話型コーディングツール向け'
 affiliate_link: 'https://www.alibabacloud.com/help/ja/model-studio/coding-plan'
 pricing: 'paid'
-price: 'Starter $10 / Pro $50'
+price: 'Pro $50 /month'
 platform:
   - 'Web'
   - 'Desktop'
@@ -33,7 +33,7 @@ Alibaba 側が Qwen Code の公式ガイドを用意しており、CLI やエデ
 
 ### 2. 月額制で回しやすい
 
-Starter / Pro のようなプラン課金なので、従量課金の API よりコストを読みやすく、検証や日常開発へ載せやすい設計です。
+Pro プラン ($50/月) のような月額課金なので、従量課金の API よりコストを読みやすく、検証や日常開発へ載せやすい設計です (Liteプランの新規受付は終了しました)。
 
 ### 3. 複数モデルを選べる
 

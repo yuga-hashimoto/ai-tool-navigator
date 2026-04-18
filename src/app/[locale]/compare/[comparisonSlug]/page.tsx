@@ -10,6 +10,7 @@ import { generateBreadcrumbSchema, generateFAQSchema } from "@/lib/schema";
 import { getComparePresetBySlug, parseComparisonSlug } from "@/lib/compare-pages";
 import { getEditorialToolStatus, isReviewPendingToolSlug } from "@/lib/editorial";
 import { Link } from "@/i18n/routing";
+import { ExternalLink } from "lucide-react";
 
 interface PageParams {
   locale: string;
@@ -286,6 +287,7 @@ export default async function CompareTemplatePage({
                             className="inline-flex items-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-500 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500"
                           >
                             {copy.visit}
+                            <ExternalLink className="-mr-0.5 ml-2 h-4 w-4" aria-hidden="true" />
                           </AffiliateLinkButton>
                         </div>
                       </td>

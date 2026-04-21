@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Link } from "@/i18n/routing";
 import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getTranslations } from "next-intl/server";
+import { ArrowRight } from "lucide-react";
 
 export async function generateMetadata({
   params,
@@ -68,15 +69,17 @@ export default async function ComparePage({
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
               href="/compare"
-              className="inline-flex items-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+              className="group inline-flex items-center gap-2 rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
             >
               {copy.compareCta}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               href="/category/coding"
-              className="inline-flex items-center rounded-full border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:border-zinc-400 hover:bg-white dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-900"
+              className="group inline-flex items-center gap-2 rounded-full border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:border-zinc-400 hover:bg-white dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-900"
             >
               {copy.categoryCta}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>

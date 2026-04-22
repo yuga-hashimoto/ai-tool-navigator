@@ -10,6 +10,7 @@ import { generateBreadcrumbSchema, generateFAQSchema } from "@/lib/schema";
 import { getComparePresetBySlug, parseComparisonSlug } from "@/lib/compare-pages";
 import { getEditorialToolStatus, isReviewPendingToolSlug } from "@/lib/editorial";
 import { Link } from "@/i18n/routing";
+import { ArrowRight, ExternalLink } from "lucide-react";
 
 interface PageParams {
   locale: string;
@@ -274,9 +275,10 @@ export default async function CompareTemplatePage({
                         <div className="flex flex-wrap items-center justify-end gap-4">
                           <Link
                             href={`/tools/${tool.slug}`}
-                            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 underline-offset-4 hover:underline py-2"
+                            className="inline-flex items-center group text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 underline-offset-4 hover:underline py-2"
                           >
                             {copy.review}
+                            <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                           </Link>
                           <AffiliateLinkButton
                             href={tool.affiliate_link}
@@ -286,6 +288,7 @@ export default async function CompareTemplatePage({
                             className="inline-flex items-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-500 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500"
                           >
                             {copy.visit}
+                            <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
                           </AffiliateLinkButton>
                         </div>
                       </td>

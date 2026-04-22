@@ -2,7 +2,7 @@
 title: "Cursor"
 slug: "cursor"
 category: "Code"
-description: "The AI-first code editor built on VS Code, used by 500,000+ developers. Rebuilt from the ground up with AI as a first-class citizen."
+description: "Built to make you extraordinarily productive, Cursor is the best way to code with AI. The AI-first code editor built on VS Code, used by 500,000+ developers."
 rating: 4.7
 promoted: true
 tool_of_the_week: true

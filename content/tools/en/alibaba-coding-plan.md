@@ -13,7 +13,7 @@ cons:
   - "Primarily designed for interactive coding tools rather than generic automation"
 affiliate_link: "https://www.alibabacloud.com/help/en/model-studio/coding-plan"
 pricing: "paid"
-price: "Starter $10 / Pro $50"
+price: "Pro $50/month"
 platform:
   - "Web"
   - "Desktop"
@@ -33,7 +33,7 @@ Alibaba provides an official setup path for Qwen Code, including dedicated CLI a
 
 ### 2. Predictable pricing
 
-The public plan overview lists Starter and Pro tiers, which is easier to budget for than unrestricted API billing when you are testing heavy daily coding usage.
+The public plan overview lists a $50/month Pro tier, which is easier to budget for than unrestricted API billing when you are testing heavy daily coding usage. (Note: The Lite tier was discontinued for new subscriptions in March 2026).
 
 ### 3. Multi-model support
 

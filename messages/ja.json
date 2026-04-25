@@ -49,7 +49,15 @@
       "submit": "ツールを送信",
       "submitting": "送信中...",
       "success": "ツールが正常に送信されました！",
-      "error": "ツールの送信に失敗しました。もう一度お試しください。"
+      "error": "ツールの送信に失敗しました。もう一度お試しください。",
+      "price": "価格（例：$10/月）",
+      "pricing_model": "料金モデル",
+      "pricing_model_options": {
+        "free": "無料",
+        "freemium": "フリーミアム",
+        "paid": "有料",
+        "contact": "お問い合わせ"
+      }
     }
   },
   "Footer": {
@@ -95,38 +103,38 @@
     "design": "デザイン"
   },
   "ToolGrid": {
-      "searchPlaceholder": "ツールを検索...",
-      "all": "すべて"
+    "searchPlaceholder": "ツールを検索...",
+    "all": "すべて"
   },
   "ToolCard": {
-      "compare": "比較",
-      "selected": "選択済み",
-      "readMore": "続きを読む",
-      "featured": "注目ツール",
-      "sponsored": "スポンサー",
-      "inStock": "在庫あり",
-      "outOfStock": "在庫切れ",
-      "quickView": "クイックビュー",
-      "quickAdd": "今すぐ追加",
-      "addedToCart": "追加済み",
-      "pricing_free": "無料",
-      "pricing_freemium": "フリーミアム",
-      "pricing_paid": "有料",
-      "pricing_contact": "要問い合わせ"
+    "compare": "比較",
+    "selected": "選択済み",
+    "readMore": "続きを読む",
+    "featured": "注目ツール",
+    "sponsored": "スポンサー",
+    "inStock": "在庫あり",
+    "outOfStock": "在庫切れ",
+    "quickView": "クイックビュー",
+    "quickAdd": "今すぐ追加",
+    "addedToCart": "追加済み",
+    "pricing_free": "無料",
+    "pricing_freemium": "フリーミアム",
+    "pricing_paid": "有料",
+    "pricing_contact": "要問い合わせ"
   },
   "FeaturedCarousel": {
-      "title": "話題のツール",
-      "viewDeal": "詳細を見る",
-      "learnMore": "もっと詳しく"
+    "title": "話題のツール",
+    "viewDeal": "詳細を見る",
+    "learnMore": "もっと詳しく"
   },
   "SponsoredTools": {
-      "title": "スポンサーツール",
-      "sponsored": "スポンサー"
+    "title": "スポンサーツール",
+    "sponsored": "スポンサー"
   },
   "FeaturedTools": {
-      "title": "注目のツール",
-      "promoted": "注目",
-      "checkItOut": "チェックする"
+    "title": "注目のツール",
+    "promoted": "注目",
+    "checkItOut": "チェックする"
   },
   "TopPicks": {
     "title": "トップピック",
@@ -150,49 +158,49 @@
     "copied": "コピーしました"
   },
   "CompareBar": {
-      "selected": "選択済み",
-      "tools": "ツール",
-      "tool": "ツール",
-      "clearAll": "すべてクリア",
-      "compareNow": "今すぐ比較"
+    "selected": "選択済み",
+    "tools": "ツール",
+    "tool": "ツール",
+    "clearAll": "すべてクリア",
+    "compareNow": "今すぐ比較"
   },
   "NewsletterPopup": {
-      "title": "最新AIツール情報を毎週お届け",
-      "subtitle": "10,000人以上の開発者が購読しています。最新トレンドをチェックしましょう。",
-      "placeholder": "メールアドレスを入力",
-      "button": "無料で購読する",
-      "submitting": "登録中...",
-      "error": "登録に失敗しました。もう一度お試しください。",
-      "spam": "スパムメールは送信しません。いつでも配信停止できます。",
-      "successTitle": "登録が完了しました！",
-      "successSubtitle": "ご登録ありがとうございます。AIの最新情報をお待ちください。"
+    "title": "最新AIツール情報を毎週お届け",
+    "subtitle": "10,000人以上の開発者が購読しています。最新トレンドをチェックしましょう。",
+    "placeholder": "メールアドレスを入力",
+    "button": "無料で購読する",
+    "submitting": "登録中...",
+    "error": "登録に失敗しました。もう一度お試しください。",
+    "spam": "スパムメールは送信しません。いつでも配信停止できます。",
+    "successTitle": "登録が完了しました！",
+    "successSubtitle": "ご登録ありがとうございます。AIの最新情報をお待ちください。"
   },
   "ExitIntentModal": {
-      "title": "ちょっと待って！",
-      "subtitle": "10,000人以上のAI愛好家が購読するニュースレターに登録しませんか？",
-      "placeholder": "メールアドレスを入力",
-      "button": "無料で最新情報を受け取る",
-      "submitting": "送信中...",
-      "error": "エラーが発生しました。もう一度お試しください。",
-      "spam": "スパムメールは送信しません。いつでも配信停止できます。",
-      "privacy": "プライバシーを尊重し、個人情報を保護します。",
-      "successTitle": "登録完了しました！",
-      "successSubtitle": "コミュニティへようこそ。確認メールを受信トレイでご確認ください。",
-      "close": "ポップアップを閉じる",
-      "variants": {
-        "default": {
-          "title": "ちょっと待って！",
-          "subtitle": "10,000人以上のAI愛好家とともに、最先端の情報を手に入れましょう。"
-        },
-        "urgent": {
-          "title": "登録のラストチャンス！",
-          "subtitle": "AIツールの独占情報を今すぐゲットしましょう。"
-        },
-        "bonus": {
-          "title": "無料のAIボーナス特典を獲得",
-          "subtitle": "今すぐ登録して、限定のAIツールガイドを受け取りましょう。"
-        }
+    "title": "ちょっと待って！",
+    "subtitle": "10,000人以上のAI愛好家が購読するニュースレターに登録しませんか？",
+    "placeholder": "メールアドレスを入力",
+    "button": "無料で最新情報を受け取る",
+    "submitting": "送信中...",
+    "error": "エラーが発生しました。もう一度お試しください。",
+    "spam": "スパムメールは送信しません。いつでも配信停止できます。",
+    "privacy": "プライバシーを尊重し、個人情報を保護します。",
+    "successTitle": "登録完了しました！",
+    "successSubtitle": "コミュニティへようこそ。確認メールを受信トレイでご確認ください。",
+    "close": "ポップアップを閉じる",
+    "variants": {
+      "default": {
+        "title": "ちょっと待って！",
+        "subtitle": "10,000人以上のAI愛好家とともに、最先端の情報を手に入れましょう。"
+      },
+      "urgent": {
+        "title": "登録のラストチャンス！",
+        "subtitle": "AIツールの独占情報を今すぐゲットしましょう。"
+      },
+      "bonus": {
+        "title": "無料のAIボーナス特典を獲得",
+        "subtitle": "今すぐ登録して、限定のAIツールガイドを受け取りましょう。"
       }
+    }
   },
   "StickyNotificationBar": {
     "text": "AIアップデートを購読する",
@@ -407,5 +415,16 @@
     "progress": "{count} / {total} 紹介",
     "rewardTitle": "究極のAIガイド",
     "rewardDesc": "AIツールの包括的なガイドをアンロック。"
+  },
+  "admin": {
+    "nav": {
+      "security": "セキュリティ",
+      "performance": "パフォーマンス",
+      "affiliate": "アフィリエイト"
+    },
+    "status": {
+      "rateLimitingEnabled": "レート制限有効",
+      "active": "アクティブ"
+    }
   }
 }

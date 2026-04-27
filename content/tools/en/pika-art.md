@@ -12,7 +12,7 @@ cons:
   - "Less photorealistic than Runway Gen-3"
   - "Duration limits on lower tiers"
 affiliate_link: "https://pika.art"
-last_updated: '2026-02-12'
+last_updated: "2026-02-12"
 ---
 
 ## What is Pika Art?
@@ -21,9 +21,9 @@ Pika Art (often referred to simply as Pika) has carved out a niche as the go-to 
 
 ### Key Features for Commercial Use
 
-*   **Animation Focus:** Pika excels at turning static images into animated sequences, making it perfect for bringing artwork, logos, or character designs to life.
-*   **Lip Sync & Sound Effects:** The platform includes native tools to add voiceovers with lip sync and generate sound effects directly within the video creation workflow. This reduces the need for external audio tools.
-*   **Modify Region:** Allows you to select specific areas of a video to regenerate or modify, giving creators finer control over the final output without re-rolling the entire clip.
+- **Animation Focus:** Pika excels at turning static images into animated sequences, making it perfect for bringing artwork, logos, or character designs to life.
+- **Pikaformance Model:** The new web-available Pikaformance model features hyper-real expressions synced to any sound, allowing images to sing, speak, rap, or bark with near real-time generation speed.
+- **Modify Region:** Allows you to select specific areas of a video to regenerate or modify, giving creators finer control over the final output without re-rolling the entire clip.
 
 ### Monetization Potential
 
@@ -36,8 +36,9 @@ Pika is particularly well-suited for high-volume, short-form content creation:
 ### Pricing & Commercial Rights
 
 To use Pika commercially, you generally need a paid subscription.
-*   **Standard Plan:** Starts around $10/month, removing watermarks and granting commercial usage rights.
-*   **Unlimited Plan:** Available at higher tiers, crucial for businesses needing consistent output without daily limits.
+
+- **Standard Plan:** Starts around $10/month, removing watermarks and granting commercial usage rights.
+- **Unlimited Plan:** Available at higher tiers, crucial for businesses needing consistent output without daily limits.
 
 ### Verdict
 

@@ -10,6 +10,7 @@ pros:
   - "Speed up to 900 words per minute — consume content dramatically faster"
   - "OCR scanning reads physical books and printed documents"
   - "Available on Chrome, iOS, Android, and Mac — listen anywhere"
+  - "Voice Typing Dictation (Write 5x faster)"
 cons:
   - "Free plan limited to 10 basic voices and 1.5x speed cap"
   - "Premium plan at $139/year ($29/month billed monthly) — significant for casual use"
@@ -45,6 +46,7 @@ Speechify's **OCR (Optical Character Recognition)** technology lets you scan phy
 ### Cross-Platform Availability
 
 Speechify works as:
+
 - **Chrome extension** — reads any webpage or imported document
 - **iOS app** — read PDFs, ebooks, and documents on iPhone/iPad
 - **Android app** — full feature parity with iOS
@@ -64,13 +66,13 @@ Speechify Studio is a separate product for professional voiceover creation, usin
 
 ## Pricing (2026)
 
-| Plan | Cost | Key Features |
-|------|------|--------------|
-| Free | $0 | 10 basic voices, 1.5x speed, 5-file library |
-| Premium (Annual) | $139/year ($11.58/mo) | 1000+ voices, 60+ languages, 5x speed, OCR, AI features |
-| Premium (Monthly) | $29/month | Same as annual, no commitment |
-| Studio Starter | $19/month | 7,200 credits (~2 hours voiceover) |
-| Studio Creator | $49/month | 28,800 credits (~8 hours voiceover) |
+| Plan              | Cost                  | Key Features                                            |
+| ----------------- | --------------------- | ------------------------------------------------------- |
+| Free              | $0                    | 10 basic voices, 1.5x speed, 5-file library             |
+| Premium (Annual)  | $139/year ($11.58/mo) | 1000+ voices, 60+ languages, 5x speed, OCR, AI features |
+| Premium (Monthly) | $29/month             | Same as annual, no commitment                           |
+| Studio Starter    | $19/month             | 7,200 credits (~2 hours voiceover)                      |
+| Studio Creator    | $49/month             | 28,800 credits (~8 hours voiceover)                     |
 
 Annual billing saves 60% compared to monthly, making the annual Premium plan the best value for regular users.
 
@@ -79,12 +81,14 @@ Annual billing saves 60% compared to monthly, making the annual Premium plan the
 ## Who Should Use Speechify?
 
 **Best for:**
+
 - Students with dyslexia, ADHD, or other reading difficulties who benefit from audio learning
 - Professionals who want to consume reports, emails, or articles while commuting or exercising
 - Researchers and content creators who need to process large volumes of text efficiently
 - Anyone producing voiceover content who needs high-quality AI voices
 
 **Consider alternatives if:**
+
 - Your needs are simple — free text-to-speech tools built into browsers or operating systems may suffice
 - You primarily need voiceover for professional video production and want more control over voice customization
 

@@ -6,7 +6,7 @@ rating: 9.8
 pros:
   - 'Sora 2: Unmatched physics & native audio'
   - 'Runway Gen-4: Best controls (Motion Brushes)'
-  - 'Luma Ray3: Best value & photorealism'
+  - 'Luma Ray3.14: Best value & photorealism'
 cons:
   - 'Sora 2: Expensive Pro plan ($200/mo)'
   - 'Runway: Credit burn rate is high'
@@ -31,7 +31,7 @@ A deep dive 比較 of the top AI 動画生成ツールs in 2026. We test Sora 2,
 
 * Sora 2: Unmatched physics & native audio
 * Runway Gen-4: Best controls (Motion Brushes)
-* Luma Ray3: Best value & photorealism
+* Luma Ray3.14: Best value & photorealism
 
 ### 注意点
 

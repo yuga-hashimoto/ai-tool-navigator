@@ -16,6 +16,7 @@ import {
 import { getCategoryLandingContent } from "@/lib/category-landing";
 import { filterToolList, sortToolsForEditorialLists } from "@/lib/editorial";
 import { getComparisonHref } from "@/lib/compare-pages";
+import { ArrowRight } from "lucide-react";
 
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_MAPPINGS).map((slug) => ({
@@ -233,9 +234,10 @@ export default async function CategoryPage({
                 {compareHref && (
                   <Link
                     href={compareHref}
-                    className="inline-flex items-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+                    className="group inline-flex items-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
                   >
                     {copy.compareCta}
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 )}
                 <Link

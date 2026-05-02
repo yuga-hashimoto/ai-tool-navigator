@@ -7,6 +7,7 @@ import { useAvailability } from '@/hooks/useAvailability';
 import { sendGAEvent } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 import { X, Check, Star, ArrowRight, ArrowLeft, Loader2, Zap } from 'lucide-react';
+import { AffiliateLinkButton } from '@/components/AffiliateLinkButton';
 
 interface CompareViewProps {
   tools: ToolMetadata[];
@@ -267,19 +268,15 @@ export function CompareView({ tools }: CompareViewProps) {
               </div>
 
               {/* Action */}
-              <a
+              <AffiliateLinkButton
                 href={tool.affiliate_link}
-                target="_blank"
-                rel="noopener noreferrer"
+                toolSlug={tool.slug}
+                toolName={tool.title}
+                position="compare_grid"
                 className="mt-4 block w-full text-center py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors"
-                onClick={() => sendGAEvent('affiliate_click', {
-                  tool_slug: tool.slug,
-                  tool_name: tool.title,
-                  position: 'compare_grid',
-                })}
               >
                 Visit Site
-              </a>
+              </AffiliateLinkButton>
             </div>
           ))}
         </div>
@@ -347,19 +344,15 @@ export function CompareView({ tools }: CompareViewProps) {
                 <td className="py-3 px-4"></td>
                 {selectedTools.map((tool) => (
                   <td key={tool.slug} className="text-center py-3 px-4">
-                    <a
+                    <AffiliateLinkButton
                       href={tool.affiliate_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      toolSlug={tool.slug}
+                      toolName={tool.title}
+                      position="compare_list"
                       className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors"
-                      onClick={() => sendGAEvent('affiliate_click', {
-                        tool_slug: tool.slug,
-                        tool_name: tool.title,
-                        position: 'compare_list',
-                      })}
                     >
                       Visit Site
-                    </a>
+                    </AffiliateLinkButton>
                   </td>
                 ))}
               </tr>
@@ -419,19 +412,15 @@ export function CompareView({ tools }: CompareViewProps) {
                 <X className="w-4 h-4" />
               </button>
               
-              <a
+              <AffiliateLinkButton
                 href={tool.affiliate_link}
-                target="_blank"
-                rel="noopener noreferrer"
+                toolSlug={tool.slug}
+                toolName={tool.title}
+                position="compare_compact"
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors whitespace-nowrap"
-                onClick={() => sendGAEvent('affiliate_click', {
-                  tool_slug: tool.slug,
-                  tool_name: tool.title,
-                  position: 'compare_compact',
-                })}
               >
                 Visit
-              </a>
+              </AffiliateLinkButton>
             </div>
           ))}
         </div>

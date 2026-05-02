@@ -3,7 +3,7 @@
 import { Link } from "@/i18n/routing";
 import { ToolMetadata } from "@/lib/tools";
 import { useCompare } from "@/context/CompareContext";
-import { AlertTriangle, BadgeCheck, Check, ExternalLink, X } from "lucide-react";
+import { AlertTriangle, ArrowRight, BadgeCheck, Check, ExternalLink, X } from "lucide-react";
 import { Rating } from "@/components/Rating";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 
@@ -104,9 +104,10 @@ export function CompareView({ tools, locale }: CompareViewProps) {
         </p>
         <Link
           href="/"
-          className="mt-8 rounded-full bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+          className="mt-8 inline-flex items-center rounded-full bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
         >
           {copy.browseTools}
+          <ArrowRight className="ml-2 h-4 w-4" />
         </Link>
       </div>
     );
@@ -136,8 +137,9 @@ export function CompareView({ tools, locale }: CompareViewProps) {
                 {tool.category}
               </div>
               <div className="mt-4">
-                <Link href={`/tools/${tool.slug}`} className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-400">
+                <Link href={`/tools/${tool.slug}`} className="group inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-400">
                   {copy.viewDetails}
+                  <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -240,7 +242,7 @@ export function CompareView({ tools, locale }: CompareViewProps) {
                 toolSlug={tool.slug}
                 toolName={tool.title}
                 position="compare_table"
-                className="inline-flex items-center justify-center rounded-md bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                className="inline-flex w-full items-center justify-center rounded-md bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
               >
                 {copy.visitSite}
                 <ExternalLink className="ml-2 h-4 w-4" />

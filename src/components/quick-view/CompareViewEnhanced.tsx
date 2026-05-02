@@ -6,8 +6,9 @@ import { useCompare } from '@/context/CompareContext';
 import { useAvailability } from '@/hooks/useAvailability';
 import { sendGAEvent } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
-import { X, Check, Star, ArrowRight, ArrowLeft, Loader2, Zap } from 'lucide-react';
+import { X, Star, ArrowRight, Loader2, Zap } from 'lucide-react';
 import { AffiliateLinkButton } from '@/components/AffiliateLinkButton';
+import { Link } from '@/i18n/routing';
 
 interface CompareViewProps {
   tools: ToolMetadata[];
@@ -27,7 +28,7 @@ export function CompareView({ tools }: CompareViewProps) {
 
   // Filter and sort tools based on selection
   const selectedTools = useMemo(() => {
-    let filtered = tools.filter((tool) => selectedSlugs.includes(tool.slug));
+    const filtered = tools.filter((tool) => selectedSlugs.includes(tool.slug));
     
     // Sort tools
     switch (sortBy) {
@@ -435,13 +436,13 @@ export function CompareView({ tools }: CompareViewProps) {
           <p className="text-blue-100 mb-4">
             Compare {selectedTools.length} tools side by side with detailed analysis
           </p>
-          <a
+          <Link
             href="/compare"
             className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-colors"
           >
             Full Comparison
             <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
       )}
     </div>

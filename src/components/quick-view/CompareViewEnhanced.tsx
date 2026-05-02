@@ -6,7 +6,9 @@ import { useCompare } from '@/context/CompareContext';
 import { useAvailability } from '@/hooks/useAvailability';
 import { sendGAEvent } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
-import { X, Check, Star, ArrowRight, ArrowLeft, Loader2, Zap } from 'lucide-react';
+import { X, Star, ArrowRight, Loader2, Zap } from 'lucide-react';
+import { AffiliateLinkButton } from '@/components/AffiliateLinkButton';
+import { Link } from '@/i18n/routing';
 
 interface CompareViewProps {
   tools: ToolMetadata[];
@@ -26,7 +28,7 @@ export function CompareView({ tools }: CompareViewProps) {
 
   // Filter and sort tools based on selection
   const selectedTools = useMemo(() => {
-    let filtered = tools.filter((tool) => selectedSlugs.includes(tool.slug));
+    const filtered = tools.filter((tool) => selectedSlugs.includes(tool.slug));
     
     // Sort tools
     switch (sortBy) {
@@ -267,19 +269,15 @@ export function CompareView({ tools }: CompareViewProps) {
               </div>
 
               {/* Action */}
-              <a
+              <AffiliateLinkButton
                 href={tool.affiliate_link}
-                target="_blank"
-                rel="noopener noreferrer"
+                toolSlug={tool.slug}
+                toolName={tool.title}
+                position="compare_grid"
                 className="mt-4 block w-full text-center py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors"
-                onClick={() => sendGAEvent('affiliate_click', {
-                  tool_slug: tool.slug,
-                  tool_name: tool.title,
-                  position: 'compare_grid',
-                })}
               >
                 Visit Site
-              </a>
+              </AffiliateLinkButton>
             </div>
           ))}
         </div>
@@ -347,19 +345,15 @@ export function CompareView({ tools }: CompareViewProps) {
                 <td className="py-3 px-4"></td>
                 {selectedTools.map((tool) => (
                   <td key={tool.slug} className="text-center py-3 px-4">
-                    <a
+                    <AffiliateLinkButton
                       href={tool.affiliate_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      toolSlug={tool.slug}
+                      toolName={tool.title}
+                      position="compare_list"
                       className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors"
-                      onClick={() => sendGAEvent('affiliate_click', {
-                        tool_slug: tool.slug,
-                        tool_name: tool.title,
-                        position: 'compare_list',
-                      })}
                     >
                       Visit Site
-                    </a>
+                    </AffiliateLinkButton>
                   </td>
                 ))}
               </tr>
@@ -419,19 +413,15 @@ export function CompareView({ tools }: CompareViewProps) {
                 <X className="w-4 h-4" />
               </button>
               
-              <a
+              <AffiliateLinkButton
                 href={tool.affiliate_link}
-                target="_blank"
-                rel="noopener noreferrer"
+                toolSlug={tool.slug}
+                toolName={tool.title}
+                position="compare_compact"
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors whitespace-nowrap"
-                onClick={() => sendGAEvent('affiliate_click', {
-                  tool_slug: tool.slug,
-                  tool_name: tool.title,
-                  position: 'compare_compact',
-                })}
               >
                 Visit
-              </a>
+              </AffiliateLinkButton>
             </div>
           ))}
         </div>
@@ -446,13 +436,13 @@ export function CompareView({ tools }: CompareViewProps) {
           <p className="text-blue-100 mb-4">
             Compare {selectedTools.length} tools side by side with detailed analysis
           </p>
-          <a
+          <Link
             href="/compare"
             className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-colors"
           >
             Full Comparison
             <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
       )}
     </div>

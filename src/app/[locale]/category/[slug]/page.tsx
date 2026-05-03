@@ -8,6 +8,7 @@ import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { HeroSearchBar } from "@/components/HeroSearchBar";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
+import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 import {
   generateBreadcrumbSchema,
   generateCollectionPageSchema,
@@ -275,6 +276,11 @@ export default async function CategoryPage({
             forceShow={true}
             className="mb-10"
           />
+
+          <div className="mb-10 max-w-3xl">
+            <AffiliateDisclaimer variant="compact" />
+          </div>
+
           <div className="max-w-3xl">
             <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
               {copy.compareTableTitle}

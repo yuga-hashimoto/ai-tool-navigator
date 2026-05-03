@@ -331,9 +331,12 @@ export async function POST(request: NextRequest) {
     try {
       if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
         await appendSubscriber(`lead_${leadId.substring(5)}`);
+        console.log(`[EXIT INTENT LEAD] Appended lead to Google Sheets: ${leadId}`);
+      } else {
+        console.warn('[EXIT INTENT LEAD FALLBACK] GOOGLE_SERVICE_ACCOUNT_JSON not set, skipping Google Sheets append.');
       }
     } catch (sheetsError) {
-      console.error('Failed to append to Google Sheets:', sheetsError);
+      console.warn('[EXIT INTENT LEAD FALLBACK] Failed to append to Google Sheets, falling back to local logging:', sheetsError);
     }
 
     // Log the submission

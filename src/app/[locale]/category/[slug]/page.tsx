@@ -8,6 +8,7 @@ import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { HeroSearchBar } from "@/components/HeroSearchBar";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
+import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 import {
   generateBreadcrumbSchema,
   generateCollectionPageSchema,
@@ -23,7 +24,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: string }>;
+}) {
   const { slug, locale } = await params;
 
   if (!Object.keys(CATEGORY_MAPPINGS).includes(slug)) {
@@ -77,25 +82,26 @@ function formatUpdatedDate(value: string | undefined, locale: string): string {
 function formatPricingLabel(
   locale: string,
   price: string | undefined,
-  pricing: "free" | "freemium" | "paid" | "contact" | undefined
+  pricing: "free" | "freemium" | "paid" | "contact" | undefined,
 ): string {
   if (price) {
     return price;
   }
 
-  const labels = locale === "ja"
-    ? {
-        free: "無料",
-        freemium: "フリーミアム",
-        paid: "有料",
-        contact: "要問い合わせ",
-      }
-    : {
-        free: "Free",
-        freemium: "Freemium",
-        paid: "Paid",
-        contact: "Contact sales",
-      };
+  const labels =
+    locale === "ja"
+      ? {
+          free: "無料",
+          freemium: "フリーミアム",
+          paid: "有料",
+          contact: "要問い合わせ",
+        }
+      : {
+          free: "Free",
+          freemium: "Freemium",
+          paid: "Paid",
+          contact: "Contact sales",
+        };
 
   return pricing ? labels[pricing] : locale === "ja" ? "未掲載" : "Not listed";
 }
@@ -115,18 +121,24 @@ export default async function CategoryPage({
   const t = await getTranslations("CategoryPage");
   const tBreadcrumbs = await getTranslations("Breadcrumbs");
 
-  const targetCategories = CATEGORY_MAPPINGS[slug as keyof typeof CATEGORY_MAPPINGS];
+  const targetCategories =
+    CATEGORY_MAPPINGS[slug as keyof typeof CATEGORY_MAPPINGS];
   const tools = await getAllTools(locale);
   const filteredTools = filterToolList(
-    tools.filter((tool) => targetCategories.includes(tool.category))
+    tools.filter((tool) => targetCategories.includes(tool.category)),
   ).sort(sortToolsForEditorialLists);
 
   const title = t(`${slug}_title` as never);
   const description = t(`${slug}_description` as never);
-  const landing = getCategoryLandingContent(slug, isJapanese ? "ja" : "en", title);
+  const landing = getCategoryLandingContent(
+    slug,
+    isJapanese ? "ja" : "en",
+    title,
+  );
   const featuredTools = filteredTools.slice(0, 5);
   const compareSlugs = featuredTools.slice(0, 3).map((tool) => tool.slug);
-  const compareHref = compareSlugs.length >= 2 ? getComparisonHref(compareSlugs) : null;
+  const compareHref =
+    compareSlugs.length >= 2 ? getComparisonHref(compareSlugs) : null;
   const verifiedCount = filteredTools.filter((tool) => tool.verified).length;
 
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -205,6 +217,9 @@ export default async function CategoryPage({
       />
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <Breadcrumbs items={breadcrumbItems} />
+        <div className="mb-6">
+          <AffiliateDisclaimer variant="compact" />
+        </div>
 
         <section className="rounded-[2rem] border border-zinc-200 bg-zinc-50 p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/60 sm:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.1fr,0.9fr] lg:items-start">
@@ -253,7 +268,10 @@ export default async function CategoryPage({
               </h2>
               <ul className="mt-5 space-y-4">
                 {landing.selectionPoints.map((point) => (
-                  <li key={point} className="flex gap-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                  <li
+                    key={point}
+                    className="flex gap-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400"
+                  >
                     <span className="mt-2 h-2.5 w-2.5 flex-none rounded-full bg-blue-600 dark:bg-blue-400" />
                     <span>{point}</span>
                   </li>
@@ -313,10 +331,16 @@ export default async function CategoryPage({
                   {featuredTools.map((tool) => (
                     <tr key={tool.slug} className="align-top">
                       <td className="px-6 py-4">
-                        <div className="font-semibold text-zinc-900 dark:text-zinc-100">{tool.title}</div>
-                        <div className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{tool.description}</div>
+                        <div className="font-semibold text-zinc-900 dark:text-zinc-100">
+                          {tool.title}
+                        </div>
+                        <div className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                          {tool.description}
+                        </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-zinc-700 dark:text-zinc-300">{tool.rating ?? "-"}</td>
+                      <td className="px-6 py-4 text-sm text-zinc-700 dark:text-zinc-300">
+                        {tool.rating ?? "-"}
+                      </td>
                       <td className="px-6 py-4 text-sm text-zinc-700 dark:text-zinc-300">
                         {formatPricingLabel(locale, tool.price, tool.pricing)}
                       </td>
@@ -328,7 +352,9 @@ export default async function CategoryPage({
                               : "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-500/10 dark:text-amber-400 dark:ring-amber-500/30"
                           }`}
                         >
-                          {tool.verified ? copy.statusVerified : copy.statusPending}
+                          {tool.verified
+                            ? copy.statusVerified
+                            : copy.statusPending}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-zinc-700 dark:text-zinc-300">

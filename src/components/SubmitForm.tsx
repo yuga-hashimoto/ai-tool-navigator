@@ -125,7 +125,7 @@ export function SubmitForm() {
             {...register('pricing_model')}
             className="block w-full rounded-md border-0 py-1.5 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-zinc-800 dark:text-white dark:ring-zinc-700"
           >
-            <option value="">Select a pricing model</option>
+            <option value="">{t('form.pricing_model_placeholder')}</option>
             <option value="free">{t('form.pricing_model_options.free')}</option>
             <option value="freemium">{t('form.pricing_model_options.freemium')}</option>
             <option value="paid">{t('form.pricing_model_options.paid')}</option>

@@ -20,6 +20,7 @@
       "description": "Description",
       "category": "Category",
       "pricing_model": "Pricing Model",
+      "pricing_model_placeholder": "Select a pricing model",
       "pricing_model_options": {
         "free": "Free",
         "freemium": "Freemium",

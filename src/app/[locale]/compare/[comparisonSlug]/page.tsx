@@ -6,9 +6,16 @@ import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
 import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 import { getAllTools, ToolMetadata } from "@/lib/tools";
+import { ExternalLink } from "lucide-react";
 import { generateBreadcrumbSchema, generateFAQSchema } from "@/lib/schema";
-import { getComparePresetBySlug, parseComparisonSlug } from "@/lib/compare-pages";
-import { getEditorialToolStatus, isReviewPendingToolSlug } from "@/lib/editorial";
+import {
+  getComparePresetBySlug,
+  parseComparisonSlug,
+} from "@/lib/compare-pages";
+import {
+  getEditorialToolStatus,
+  isReviewPendingToolSlug,
+} from "@/lib/editorial";
 import { Link } from "@/i18n/routing";
 
 interface PageParams {
@@ -18,27 +25,32 @@ interface PageParams {
 
 function formatPricing(
   locale: string,
-  tool: Pick<ToolMetadata, "price" | "pricing">
+  tool: Pick<ToolMetadata, "price" | "pricing">,
 ): string {
   if (tool.price) {
     return tool.price;
   }
 
-  const labels = locale === "ja"
-    ? {
-        free: "無料",
-        freemium: "フリーミアム",
-        paid: "有料",
-        contact: "要問い合わせ",
-      }
-    : {
-        free: "Free",
-        freemium: "Freemium",
-        paid: "Paid",
-        contact: "Contact sales",
-      };
+  const labels =
+    locale === "ja"
+      ? {
+          free: "無料",
+          freemium: "フリーミアム",
+          paid: "有料",
+          contact: "要問い合わせ",
+        }
+      : {
+          free: "Free",
+          freemium: "Freemium",
+          paid: "Paid",
+          contact: "Contact sales",
+        };
 
-  return tool.pricing ? labels[tool.pricing] : locale === "ja" ? "Not listed" : "Not listed";
+  return tool.pricing
+    ? labels[tool.pricing]
+    : locale === "ja"
+      ? "Not listed"
+      : "Not listed";
 }
 
 function formatUpdated(locale: string, value?: string): string {
@@ -58,7 +70,10 @@ function formatUpdated(locale: string, value?: string): string {
   });
 }
 
-async function resolveTools(locale: string, comparisonSlug: string): Promise<ToolMetadata[]> {
+async function resolveTools(
+  locale: string,
+  comparisonSlug: string,
+): Promise<ToolMetadata[]> {
   const allTools = await getAllTools(locale);
   const slugs = parseComparisonSlug(comparisonSlug);
   const tools = slugs
@@ -74,7 +89,7 @@ export async function generateStaticParams() {
     COMPARE_PRESETS.map((preset) => ({
       locale,
       comparisonSlug: preset.slug,
-    }))
+    })),
   );
 }
 
@@ -257,19 +272,31 @@ export default async function CompareTemplatePage({
                     status === "reviewed"
                       ? copy.reviewed
                       : status === "pending_review"
-                      ? copy.pending
-                      : copy.archived;
+                        ? copy.pending
+                        : copy.archived;
 
                   return (
                     <tr key={tool.slug}>
                       <td className="px-6 py-5">
-                        <div className="font-semibold text-zinc-900 dark:text-zinc-100">{tool.title}</div>
-                        <div className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{tool.description}</div>
+                        <div className="font-semibold text-zinc-900 dark:text-zinc-100">
+                          {tool.title}
+                        </div>
+                        <div className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                          {tool.description}
+                        </div>
                       </td>
-                      <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">{tool.rating}</td>
-                      <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">{formatPricing(locale, tool)}</td>
-                      <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">{statusLabel}</td>
-                      <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">{formatUpdated(locale, tool.last_updated)}</td>
+                      <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">
+                        {tool.rating}
+                      </td>
+                      <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">
+                        {formatPricing(locale, tool)}
+                      </td>
+                      <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">
+                        {statusLabel}
+                      </td>
+                      <td className="px-6 py-5 text-sm text-zinc-700 dark:text-zinc-300">
+                        {formatUpdated(locale, tool.last_updated)}
+                      </td>
                       <td className="px-6 py-5">
                         <div className="flex flex-wrap items-center justify-end gap-4">
                           <Link
@@ -286,6 +313,7 @@ export default async function CompareTemplatePage({
                             className="inline-flex items-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-500 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500"
                           >
                             {copy.visit}
+                            <ExternalLink className="ml-2 h-4 w-4" />
                           </AffiliateLinkButton>
                         </div>
                       </td>
@@ -308,8 +336,12 @@ export default async function CompareTemplatePage({
                   key={faq.question}
                   className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950"
                 >
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">{faq.question}</h3>
-                  <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{faq.answer}</p>
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                    {faq.question}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                    {faq.answer}
+                  </p>
                 </div>
               ))}
             </div>

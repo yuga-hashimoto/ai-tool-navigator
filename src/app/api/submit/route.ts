@@ -76,8 +76,14 @@ export async function POST(request: NextRequest) {
 
     try {
       try {
-        await appendToolSubmission({ name, url, description, category, pricing_model, price: price || '' });
-        console.log(`[TOOL SUBMISSION] New submission appended to Google Sheets: ${name} (${url}) at ${new Date().toISOString()}`);
+        if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+          await appendToolSubmission({ name, url, description, category, pricing_model, price: price || '' });
+          console.log(`[TOOL SUBMISSION] New submission appended to Google Sheets: ${name} (${url}) at ${new Date().toISOString()}`);
+        } else {
+          console.warn('GOOGLE_SERVICE_ACCOUNT_JSON not set, skipping Google Sheets append.');
+          console.log(`[TOOL SUBMISSION FALLBACK] New submission: ${name} (${url}) at ${new Date().toISOString()}`);
+          console.log('Submission data:', { name, url, description, category, pricing_model, price });
+        }
       } catch (sheetError) {
         console.warn('Google Sheets append failed or not configured, falling back to local logging:', sheetError);
         console.log(`[TOOL SUBMISSION FALLBACK] New submission: ${name} (${url}) at ${new Date().toISOString()}`);

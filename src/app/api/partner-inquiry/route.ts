@@ -48,18 +48,23 @@ export async function POST(request: NextRequest) {
     });
 
     try {
-      await appendPartnerInquiry({
-        inquiryType: record.inquiryType,
-        companyName: record.companyName,
-        contactName: record.contactName,
-        email: record.email,
-        websiteUrl: record.websiteUrl,
-        packageInterest: record.packageInterest,
-        monthlyBudget: record.monthlyBudget,
-        message: record.message,
-        locale: record.locale,
-      });
-      console.log(`[PARTNER INQUIRY] New inquiry appended to Google Sheets: ${record.companyName} (${record.email})`);
+      if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+        await appendPartnerInquiry({
+          inquiryType: record.inquiryType,
+          companyName: record.companyName,
+          contactName: record.contactName,
+          email: record.email,
+          websiteUrl: record.websiteUrl,
+          packageInterest: record.packageInterest,
+          monthlyBudget: record.monthlyBudget,
+          message: record.message,
+          locale: record.locale,
+        });
+        console.log(`[PARTNER INQUIRY] New inquiry appended to Google Sheets: ${record.companyName} (${record.email})`);
+      } else {
+        console.warn('GOOGLE_SERVICE_ACCOUNT_JSON not set, skipping Google Sheets append.');
+        console.log(`[PARTNER INQUIRY FALLBACK] New inquiry recorded locally: ${record.companyName} (${record.email})`);
+      }
     } catch (sheetError) {
       const errorMsg = sheetError instanceof Error ? sheetError.message : String(sheetError);
       if (errorMsg.includes('not configured')) {

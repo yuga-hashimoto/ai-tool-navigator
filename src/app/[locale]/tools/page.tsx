@@ -1,17 +1,19 @@
 import { getAllTools } from "@/lib/tools";
 import { ToolsPageContent } from "@/components/ToolsPageContent";
-import { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 
 export async function generateMetadata({
-  params
+  params,
 }: {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
   return {
     title: "Browse AI Tools",
-    description: "Browse and discover the best AI tools for your workflow. Filter by category, rating, price, and more.",
+    description:
+      "Browse and discover the best AI tools for your workflow. Filter by category, rating, price, and more.",
     alternates: {
       canonical: `/${locale}/tools`,
     },
@@ -21,22 +23,26 @@ export async function generateMetadata({
 export default async function ToolsPage({
   params,
 }: {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
   const tools = await getAllTools(locale);
-  const t = await getTranslations('ToolsPage');
+  const t = await getTranslations("ToolsPage");
 
   return (
     <div className="bg-white dark:bg-black min-h-screen transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl text-center mb-12">
           <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
-            {t('title')}
+            {t("title")}
           </h1>
           <p className="mt-4 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            {t('description')}
+            {t("description")}
           </p>
+        </div>
+
+        <div className="mx-auto mb-10 max-w-3xl">
+          <AffiliateDisclaimer variant="compact" />
         </div>
 
         <ToolsPageContent tools={tools} />

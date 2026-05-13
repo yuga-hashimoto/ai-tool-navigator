@@ -8,6 +8,7 @@ import { Breadcrumbs, BreadcrumbItem } from "@/components/Breadcrumbs";
 import { HeroSearchBar } from "@/components/HeroSearchBar";
 import { DynamicAdUnit } from "@/components/DynamicAdUnit";
 import { AffiliateLinkButton } from "@/components/AffiliateLinkButton";
+import { AffiliateDisclaimer } from "@/components/AffiliateDisclaimer";
 import {
   generateBreadcrumbSchema,
   generateCollectionPageSchema,
@@ -282,6 +283,9 @@ export default async function CategoryPage({
             <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
               {copy.compareTableDescription}
             </p>
+            <div className="mt-4">
+              <AffiliateDisclaimer variant="compact" />
+            </div>
           </div>
 
           <div className="mt-8 overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
